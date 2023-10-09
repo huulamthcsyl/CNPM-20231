@@ -12,6 +12,9 @@ import { FontDownload } from "@mui/icons-material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import Item from "./Item";
+import { Car } from "../../Icons/Car.js";
+import { HoKhauIcon } from "../../Icons/HoKhauIcon.js";
+import { ThuPhiIcon } from "../../Icons/ThuPhiIcon";
 
 const cx = classNames.bind(styles);
 
@@ -25,7 +28,7 @@ function Sidebar() {
           <h1>quản lý chung cư</h1>
         </div>
         <div className={cx("menu")}>
-          <ButtonMenu title="Thu phí" iconRight="">
+          <ButtonMenu iconLeft={<ThuPhiIcon />} title="Thu phí" iconRight="">
             <NavLink
               to="/danhsachthuphi"
               className={(nav) => {
@@ -45,6 +48,7 @@ function Sidebar() {
           </ButtonMenu>
           <ButtonMenu
             // iconLeft={''}
+            iconLeft={<HoKhauIcon />}
             title="Cư dân"
             iconRight=""
           >
@@ -76,6 +80,7 @@ function Sidebar() {
           <ButtonMenu
             //     iconLeft={<FontAwesomeIcon icon={Car} />}
             title="Phương tiện"
+            iconLeft={<Car />}
           ></ButtonMenu>
         </div>
         <div className={cx("hr")}></div>
