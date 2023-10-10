@@ -1,15 +1,16 @@
 .sidebar {
-  width: 280px;
-  height: 100%;
+  height: 100vh;
   background-color: #fafafa;
   display: flex;
   flex-direction: column;
+  width: 280px;
+  padding-left: 3px;
 }
 .title {
   text-align: center;
   padding: 5px;
   padding-top: 10px;
-  margin-bottom: 40px;
+  height: 20vh;
 }
 .btn {
   width: 100%;
@@ -20,7 +21,7 @@
 }
 
 .menu {
-  height: 470px;
+  height: 62vh;
   overflow-y: auto;
 }
 .hr {
@@ -56,7 +57,7 @@
   background-color: #793737;
 }
 .user {
-  height: 153px;
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-around;

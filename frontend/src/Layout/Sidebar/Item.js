@@ -7,7 +7,7 @@ function Item({ title, startIcon }) {
     <Button
       className={cx("btn")}
       style={{
-        fontSize: "25px",
+        fontSize: "24px",
         color: "black",
         fontWeight: "400",
         textTransform: "none",
