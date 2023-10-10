@@ -20,6 +20,8 @@
 }
 .btn-left {
   margin-right: 15px;
+
+  justify-content: center;
 }
 .btn-right {
   float: right;
@@ -28,5 +30,6 @@
 }
 .left-title {
   float: left;
-  padding-top: 3px;
+  display: flex;
+  padding-top: 5px;
 }
