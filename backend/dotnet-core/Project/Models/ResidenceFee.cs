@@ -2,10 +2,15 @@
 {
     public class ResidenceFee
     {
-        public Guid ResidenceFeeI { get; set; }
+        // Primary key
+        public Guid ResidenceFeeId { get; set; }
+
+        // Properties
         public string Name { get; set; }
         public bool IsObligatory { get; set; }
-        public int Cost { get; set; }
+        public int? Cost { get; set; }
+
+        // Navigation properties
         public virtual ICollection<ResidencePayment> ResidencePayments { get; set; } = new List<ResidencePayment>();
     }
 }
