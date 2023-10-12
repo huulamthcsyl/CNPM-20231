@@ -4,18 +4,18 @@ import { FormControl, FormGroup, TextField } from "@mui/material";
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableRow, TableHead, TableContainer } from "@mui/material";
 import { Paper, Link } from "@mui/material";
-import { useLocation } from "react-router-dom"
+import { useLocation } from "react-router-dom";
+import { DatePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { styled } from "@mui/system";
+
 import PlusCircle from "../../Icons/PlusCircle.png";
 
 export default function DanhSachThu() {
   const pathArr = useLocation().pathname.split("/");
   const path = pathArr.slice(0, -1).join("/");
-  const fields = [
-    { label: "Tên" },
-    { label: "Địa chỉ" },
-    { label: "Từ ngày" },
-    { label: "Đến ngày" },
-  ];
+  const fields = [{ label: "Tên" }, { label: "Địa chỉ" }];
   const tableHead = [
     { name: "Số thứ tự" },
     { name: "Họ và tên" },
@@ -24,14 +24,28 @@ export default function DanhSachThu() {
     { name: "Thời gian" },
     { name: "Ghi chú" },
   ];
+  const CustomizedDatePicker = styled(DatePicker)`
+  & .MuiInputBase-input {
+    font-size: 18px; 
+    width: 150px;
+  }
+    .MuiInputLabel-root {
+    font-size: 20px; 
+  }
+`;
   return (
-    <container>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={2} style={{ padding: "50px" }}>
         <Grid item xs={12}>
           <h1 style={{ fontSize: "48px" }}> Danh sách thu phí </h1>
         </Grid>
         <Grid item xs={6}>
-          <Button variant="contained" component={Link} href={`${path}/taophieuthu`}>
+          <Button
+            variant="contained"
+            style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+            component={Link}
+            href={`${path}/taophieuthu`}
+          >
             <Typography style={{ marginRight: "8px" }}>
               <img
                 src={PlusCircle}
@@ -53,15 +67,21 @@ export default function DanhSachThu() {
                   label={field.label}
                   variant="outlined"
                   style={{ marginRight: "35px" }}
-                  inputProps={{ style: { fontSize: "16px" } }}
+                  inputProps={{ style: { fontSize: "18px" } }}
                   InputLabelProps={{ style: { fontSize: "20px" } }}
                 />
               ))}
+                <CustomizedDatePicker
+                  label="Thời gian"
+                />
             </FormGroup>
           </FormControl>
         </Grid>
         <Grid item>
-          <Button variant="contained">
+          <Button
+            variant="contained"
+            style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+          >
             <Typography variant="h4" style={{ color: "black" }}>
               Tìm kiếm
             </Typography>
@@ -101,6 +121,6 @@ export default function DanhSachThu() {
           </TableContainer>
         </Grid>
       </Grid>
-    </container>
+    </LocalizationProvider>
   );
 }
