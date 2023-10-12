@@ -15,6 +15,9 @@ import Item from "./Item";
 import { Car } from "../../Icons/Car.js";
 import { HoKhauIcon } from "../../Icons/HoKhauIcon.js";
 import { ThuPhiIcon } from "../../Icons/ThuPhiIcon";
+import { HoSoIcon } from "../../Icons/HoSoIcom";
+import { LogoutIcon } from "../../Icons/LogoutIcon";
+import { LoginIcon } from "../../Icons/LoginIcon";
 
 const cx = classNames.bind(styles);
 
@@ -88,33 +91,26 @@ function Sidebar() {
       </div>
       <div className={cx("hr")}></div>
       <div className={cx("user")}>
-        <Button
-          style={{
-            padding: "10px 0px",
-            fontSize: "30px",
-            color: "black",
-            fontWeight: "400",
-            textTransform: "none",
-            justifyContent: "flex-start",
-            paddingLeft: "50px",
-            borderRadius: "10px",
+        <NavLink to="/hosoadmin">
+          <Button
+            style={{
+              padding: "10px 0px",
+              fontSize: "30px",
+              color: "black",
+              fontWeight: "400",
+              textTransform: "none",
+              justifyContent: "flex-start",
+              paddingLeft: "50px",
+              borderRadius: "10px",
 
-            paddingBottom: "4px",
-          }}
-          className={cx("btn")}
-          startIcon={
-            <AccountCircleOutlinedIcon
-              style={{
-                width: "44px",
-                height: "44px",
-                marginRight: "12px",
-              }}
-            />
-          }
-        >
-          Hồ sơ
-        </Button>
-
+              paddingBottom: "4px",
+            }}
+            className={cx("btn")}
+            startIcon={<HoSoIcon />}
+          >
+            Hồ sơ
+          </Button>
+        </NavLink>
         {user ? (
           <Button
             style={{
@@ -130,9 +126,7 @@ function Sidebar() {
             onClick={() => {
               setUser("");
             }}
-            startIcon={
-              <FontAwesomeIcon icon={faArrowRightFromBracket} rotation={180} />
-            }
+            startIcon={<LogoutIcon />}
           >
             Đăng xuất
           </Button>
@@ -149,7 +143,7 @@ function Sidebar() {
               color: "black",
             }}
             onClick={handleLogin}
-            startIcon={<FontAwesomeIcon icon={faArrowRightFromBracket} />}
+            startIcon={<LoginIcon />}
           >
             Đăng nhập
           </Button>

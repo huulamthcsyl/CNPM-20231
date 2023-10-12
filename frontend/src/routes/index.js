@@ -10,6 +10,7 @@ import ThemCuDan from "../Pages/ThemCuDan";
 import TamVang from "../Pages/TamVang/TamVangPage.js";
 import DangNhapPage from "../Pages/Home/DangNhapPage.js";
 import NoneLayout from "../Layout/NoneLayout.js";
+import HoSoPage from "../Pages/HoSo";
 const publicRoutes = [
   { path: "/", component: DangNhapPage, layout: NoneLayout },
   { path: "/danhmucthu", component: DanhMucThu },
@@ -22,6 +23,7 @@ const publicRoutes = [
   { path: "/themcudan", component: ThemCuDan },
   { path: "/tamvang", component: TamVang },
   { path: "/home", component: Home },
+  { path: "/hosoadmin", component: HoSoPage },
 ];
 
 export { publicRoutes };
