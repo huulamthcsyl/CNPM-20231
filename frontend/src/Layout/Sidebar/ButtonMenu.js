@@ -18,7 +18,7 @@ const ButtonMenu = ({ iconLeft, iconRight, children, title }) => {
           fontSize: "25px",
           color: "#707070",
           justifyContent: "space-between",
-          paddingRight: "20px",
+          paddingRight: "10px",
         }}
         endIcon={
           iconRight == null ? (

@@ -1,5 +1,5 @@
 .menu {
-  width: 95%;
+  width: 98%;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -12,8 +12,15 @@
   padding: 12px 20px;
   padding-top: 15px;
   background-color: transparent;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-top-right-radius: 17px;
+  border-bottom-right-radius: 17px;
+}
+::-webkit-scrollbar {
+  width: 4px;
+  background: #fff;
+}
+::-webkit-scrollbar-thumb {
+  background: #dadcdd;
 }
 .isclick {
   background-color: #ccc;

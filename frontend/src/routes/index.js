@@ -11,6 +11,8 @@ import TamVang from "../Pages/TamVang/TamVangPage.js";
 import DangNhapPage from "../Pages/Home/DangNhapPage.js";
 import NoneLayout from "../Layout/NoneLayout.js";
 import HoSoPage from "../Pages/HoSo";
+import QuanLyPTPage from "../Pages/PhuongTien/QuanLyPTPage";
+import ThuPhiPTPage from "../Pages/PhuongTien/ThuPhiPTPage";
 const publicRoutes = [
   { path: "/", component: DangNhapPage, layout: NoneLayout },
   { path: "/danhmucthu", component: DanhMucThu },
@@ -24,6 +26,8 @@ const publicRoutes = [
   { path: "/tamvang", component: TamVang },
   { path: "/home", component: Home },
   { path: "/hosoadmin", component: HoSoPage },
+  { path: "/quanlyphuongtien", component: QuanLyPTPage },
+  { path: "/thuphiphuongtien", component: ThuPhiPTPage },
 ];
 
 export { publicRoutes };

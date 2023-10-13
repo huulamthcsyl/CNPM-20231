@@ -4,13 +4,7 @@ import ButtonMenu from "./ButtonMenu";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
-import {
-  faArrowRightFromBracket,
-  faChevronRight,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontDownload } from "@mui/icons-material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+
 import Item from "./Item";
 import { Car } from "../../Icons/Car.js";
 import { HoKhauIcon } from "../../Icons/HoKhauIcon.js";
@@ -87,7 +81,25 @@ function Sidebar() {
           //     iconLeft={<FontAwesomeIcon icon={Car} />}
           title="Phương tiện"
           iconLeft={<Car />}
-        ></ButtonMenu>
+          iconRight=""
+        >
+          <NavLink
+            to="/quanlyphuongtien"
+            className={(nav) => {
+              cx({ active: nav.isActive });
+            }}
+          >
+            <Item title="Quản lý" />
+          </NavLink>
+          <NavLink
+            to="/thuphiphuongtien"
+            className={(nav) => {
+              cx({ active: nav.isActive });
+            }}
+          >
+            <Item title="Thu phí" />
+          </NavLink>
+        </ButtonMenu>
       </div>
       <div className={cx("hr")}></div>
       <div className={cx("user")}>
