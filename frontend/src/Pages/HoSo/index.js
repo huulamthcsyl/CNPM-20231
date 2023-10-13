@@ -242,23 +242,23 @@ function HoSoPage() {
                     <TextField></TextField>
                   </Grid>
                 </Grid>
+                <NavLink to="./">
+                  <Button
+                    variant="contained"
+                    style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+                  >
+                    <Typography
+                      variant="h5"
+                      fontWeight={500}
+                      style={{ color: "black" }}
+                    >
+                      Xác nhận
+                    </Typography>
+                  </Button>
+                </NavLink>
               </FormGroup>
             </FormControl>
           </ThemeProvider>
-          <NavLink to="./">
-            <Button
-              variant="contained"
-              style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
-            >
-              <Typography
-                variant="h5"
-                fontWeight={500}
-                style={{ color: "black" }}
-              >
-                Xác nhận
-              </Typography>
-            </Button>
-          </NavLink>
         </Grid>
       </Grid>
     </LocalizationProvider>
