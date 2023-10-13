@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Project.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,11 +14,17 @@ builder.Services.AddCors(c =>
 });
 
 builder.Services.AddControllers();
+
+string connectionString = builder.Configuration.GetConnectionString("ProjectDB");
+builder.Services.AddDbContext<ProjectContext>(options =>
+{
+    options.UseSqlServer(connectionString);
+    options.UseLazyLoadingProxies();
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-string connectionString = builder.Configuration.GetConnectionString("ProjectDB")!;
 
 var app = builder.Build();
 
