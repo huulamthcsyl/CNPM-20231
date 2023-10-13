@@ -2,18 +2,15 @@
 
 namespace Project.Models
 {
-    public class AbsentPerson
+    public class Absence
     {
-        // Primary key | Foreign key
+        public Guid AbsenceId { get; set; }
         public Guid PersonId { get; set; }
-
-        // Properties
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set;}
         public string Reason { get; set; }
         public string TemporaryStay { get; set; }
-
-        // Navigation properties
+        [JsonIgnore]
         public virtual Person Person { get; set; }
     }
 }

@@ -1,20 +1,12 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Project.Models
+﻿namespace Project.Models
 {
     public class VehiclePayment
     {
-        // Primary key
+        public Guid VehiclePaymentId { get; set; }
         public Guid VehicleFeeId { get; set; }
-        public Guid VehicleReceiptId { get; set; }
-
-        // Properties
-        public int Amount { get; set; }
-
-        // Navigation properties
-        [JsonIgnore]
-        public virtual VehicleReceipt VehicleReceipt { get; set; }
-        [JsonIgnore]
-        public virtual VehicleFee VehicleFee { get; set; }
+        public Guid VehicleId { get; set; }
+        public DateTime? Date { get; set; }
+        public int Amount { get; set;}
+        public string Note { get; set;}
     }
 }

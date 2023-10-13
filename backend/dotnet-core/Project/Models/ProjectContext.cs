@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 using System.Security.Cryptography;
 
 namespace Project.Models
@@ -7,12 +6,11 @@ namespace Project.Models
     public partial class ProjectContext : DbContext
     {
         public ProjectContext() { }
-
         public ProjectContext(DbContextOptions<ProjectContext> options) : base(options) { }
 
-        public virtual DbSet<AbsentPerson> AbsentPeople { get; set; }
+        public virtual DbSet<Absence> Absences { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Person> People { get; set; }
+        public virtual DbSet<Person> Persons { get; set; }
         public virtual DbSet<Record> Records { get; set; }
         public virtual DbSet<Residence> Residences { get; set; }
         public virtual DbSet<ResidenceFee> ResidenceFees { get; set; }
@@ -31,58 +29,44 @@ namespace Project.Models
 
                 e.ToTable("User");
 
-                e.Property(e => e.UserId).UseIdentityColumn(seed: 0, increment: 1);
+                e.Property(e => e.UserId).UseIdentityColumn(seed: -1, increment: 1);
 
                 e.Property(e => e.Name).IsUnicode(true);
-
-                e.Property(e => e.Address).IsUnicode(true);
             });
 
             modelBuilder.Entity<Person>(e =>
             {
-                e.HasKey(e => e.PersonId).HasName("Pk_Persons_PersonId");
+                e.HasKey(e => e.PersonId).HasName("Pk_People_PersonId");
 
                 e.ToTable("Person");
-
-                e.Property(e => e.PersonId).ValueGeneratedNever();
 
                 e.Property(e => e.Name).IsUnicode(true);
 
                 e.Property(e => e.HomeTown).IsUnicode(true);
 
-                e.HasOne(p => p.Residence)
-                    .WithMany(r => r.People)
+                e.HasOne(p => p.Residence).WithMany(r => r.Persons)
                     .HasForeignKey(p => p.ResidenceId)
                     .HasConstraintName("Fk_Person_ResidenceId")
-                    .OnDelete(DeleteBehavior.SetNull);
-
-                e.HasOne(p => p.AbsentPerson)
-                    .WithOne(a => a.Person)
-                    .HasForeignKey<AbsentPerson>(p => p.PersonId)
-                    .HasConstraintName("Fk_Person_PersonId")
                     .OnDelete(DeleteBehavior.NoAction);
             });
 
-            modelBuilder.Entity<AbsentPerson>(e =>
+            modelBuilder.Entity<Absence>(e => 
             {
-                e.HasKey(e => e.PersonId).HasName("Pk_AbsentPerson_PersonId");
+                e.HasKey(e => e.AbsenceId).HasName("Pk_Absence_AbsenceId");
 
-                e.ToTable("AbsentPerson");
-
-                e.Property(e => e.PersonId).ValueGeneratedNever();
+                e.ToTable("Absence");
 
                 e.Property(e => e.Reason).IsUnicode(true);
 
-                e.Property(e => e.TemporaryStay).IsUnicode(true);
+                e.HasOne(e => e.Person).WithOne(p => p.Absence)
+                    .HasForeignKey<Person>(e => e.PersonId)
+                    .HasConstraintName("Fk_Absence_PersonId")
+                    .OnDelete(DeleteBehavior.SetNull);
             });
 
             modelBuilder.Entity<Residence>(e => 
             {
                 e.HasKey(e => e.ResidenceId).HasName("PK_Residence_ResidenceId");
-
-                e.ToTable("Residence");
-
-                e.Property(e => e.ResidenceId).ValueGeneratedNever();
 
                 e.Property(e => e.OwnerName).IsUnicode(true);
 
@@ -95,136 +79,16 @@ namespace Project.Models
 
                 e.ToTable("Record");
 
-                e.Property(e => e.RecordId).ValueGeneratedNever();
-
                 e.Property(e => e.Action).IsUnicode(true);
 
-                e.HasOne(e => e.Person)
-                    .WithMany(p => p.Records)
+                e.HasOne(e => e.Person).WithMany(p => p.Records)
                     .HasForeignKey(e => e.PersonId)
-                    .HasConstraintName("Fk_Record_PersonId")
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .HasConstraintName("Fk_Record_PersonId");
 
-                e.HasOne(e => e.Residence)
-                    .WithMany(p => p.Records)
+                e.HasOne(e => e.Residence).WithMany(p => p.Records)
                     .HasForeignKey(e => e.ResidenceId)
-                    .HasConstraintName("Fk_Record_ResidenceId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .HasConstraintName("Fk_Record_ResidenceId");
             });
-
-            modelBuilder.Entity<ResidenceFee>(e =>
-            {
-                e.HasKey(e => e.ResidenceFeeId).HasName("Pk_ResidenceFee_ResidenceFeeId");
-
-                e.ToTable("ResidenceFee");
-
-                e.Property(e => e.ResidenceFeeId).ValueGeneratedNever();
-
-                e.Property(e => e.Name).IsUnicode(true);
-            });
-
-            modelBuilder.Entity<ResidencePayment>(e =>
-            {
-                e.HasKey(e => new { e.ResidenceReceiptId, e.ResidenceFeeId });
-
-                e.ToTable("ResidencePayment");
-
-                e.HasOne(e => e.ResidenceFee)
-                    .WithMany(r => r.ResidencePayments)
-                    .HasForeignKey(e => e.ResidenceFeeId)
-                    .HasConstraintName("Fk_ResidencePayment_ResidenceFeeId")
-                    .OnDelete(DeleteBehavior.NoAction);
-
-                e.HasOne(e => e.ResidenceReceipt)
-                    .WithMany(r => r.ResidencePayments)
-                    .HasForeignKey(e => e.ResidenceReceiptId)
-                    .HasConstraintName("Fk_ResidenceReceipt_ResidenceReceiptId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity<ResidenceReceipt>(e =>
-            {
-                e.HasKey(e => e.ResidenceReceiptId).HasName("Pk_ResidenceReceipt_ResidenceReceiptId");
-
-                e.ToTable("ResidenceReceipt");
-
-                e.Property(e => e.ResidenceReceiptId).ValueGeneratedNever();
-
-                e.Property(e => e.Description).IsUnicode(true);
-
-                e.HasOne(e => e.Person)
-                    .WithMany(p => p.ResidenceReceipts)
-                    .HasForeignKey(e => e.PersonId)
-                    .HasConstraintName("Fk_ResidenceReceipt_PersonId")
-                    .OnDelete(DeleteBehavior.NoAction);
-            });
-
-            modelBuilder.Entity<Vehicle>(e => 
-            {
-                e.HasKey(e => e.VehicleId);
-
-                e.ToTable("Vehicle");
-
-                e.Property(e => e.VehicleId).ValueGeneratedNever();
-
-                e.Property(e => e.Category).IsUnicode(true);
-
-                e.Property(e => e.Name).IsUnicode(true);
-
-                e.HasOne(e => e.Person)
-                    .WithMany(p => p.Vehicles)
-                    .HasForeignKey(e => e.PersonId)
-                    .HasConstraintName("Fk_Vehicle_PersonId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity<VehicleReceipt>(e => 
-            {
-                e.HasKey(e => e.VehicleReceiptId);
-
-                e.ToTable("VehicleReceipt");
-
-                e.Property(e => e.VehicleReceiptId).ValueGeneratedNever();
-
-                e.Property(e => e.Description).IsUnicode(true);
-
-                e.HasOne(e => e.Vehicle)
-                    .WithMany(v => v.VehicleReceipts)
-                    .HasForeignKey(e => e.VehicleId)
-                    .HasConstraintName("Fk_VehicleReceipt_VehicleId")
-                    .OnDelete(DeleteBehavior.NoAction);
-            });
-
-            modelBuilder.Entity<VehiclePayment>(e =>
-            {
-                e.HasKey(e => new {e.VehicleReceiptId, e.VehicleFeeId});
-
-                e.ToTable("VehiclePayment");
-
-                e.HasOne(e => e.VehicleFee)
-                    .WithMany(v => v.VehiclePayments)
-                    .HasForeignKey(e => e.VehicleFeeId)
-                    .HasConstraintName("Fk_VehiclePayment_VehicleFeeId")
-                    .OnDelete(DeleteBehavior.NoAction);
-
-                e.HasOne(e => e.VehicleReceipt)
-                    .WithMany(v => v.VehiclePayments)
-                    .HasForeignKey(e => e.VehicleReceiptId)
-                    .HasConstraintName("Fk_VehiclePayment_VehicleReceiptId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity<VehicleFee>(e =>
-            {
-                e.HasKey(e => e.VehicleFeeId).HasName("Pk_VehicleFee_VehicleFeeId");
-
-                e.ToTable("VehicleFee");
-
-                e.Property(e => e.VehicleFeeId).ValueGeneratedNever();
-
-                e.Property(e => e.Name).IsUnicode(true);
-            });
-
         }
     }
 }

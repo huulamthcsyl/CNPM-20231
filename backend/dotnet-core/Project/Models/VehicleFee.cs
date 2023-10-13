@@ -2,14 +2,9 @@
 {
     public class VehicleFee
     {
-        // Primary key
-        public Guid VehicleFeeId { get; set; }
-
-        // Properties
+        public Guid VehicleFeeId { get; set; }  
         public string Name { get;}
-        public int? Cost { get; set; }
-
-        // Navigation property
+        public int Cost { get; set; }
         public virtual ICollection<VehiclePayment> VehiclePayments { get; set; } = new List<VehiclePayment>();  
     }
 }
