@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\CNPM20231\\backend\\dotnet-core\\Project\\Project.csproj": {}
+    "D:\\k1n3\\React\\F8\\projectcnpm\\backend\\dotnet-core\\Project\\Project.csproj": {}
   },
   "projects": {
-    "D:\\CNPM20231\\backend\\dotnet-core\\Project\\Project.csproj": {
+    "D:\\k1n3\\React\\F8\\projectcnpm\\backend\\dotnet-core\\Project\\Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\CNPM20231\\backend\\dotnet-core\\Project\\Project.csproj",
+        "projectUniqueName": "D:\\k1n3\\React\\F8\\projectcnpm\\backend\\dotnet-core\\Project\\Project.csproj",
         "projectName": "Project",
-        "projectPath": "D:\\CNPM20231\\backend\\dotnet-core\\Project\\Project.csproj",
-        "packagesPath": "C:\\Users\\huula\\.nuget\\packages\\",
-        "outputPath": "D:\\CNPM20231\\backend\\dotnet-core\\Project\\obj\\",
+        "projectPath": "D:\\k1n3\\React\\F8\\projectcnpm\\backend\\dotnet-core\\Project\\Project.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "D:\\k1n3\\React\\F8\\projectcnpm\\backend\\dotnet-core\\Project\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\huula\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -47,6 +52,10 @@
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.12, )"
+            },
+            "Microsoft.EntityFrameworkCore.Proxies": {
               "target": "Package",
               "version": "[7.0.12, )"
             },

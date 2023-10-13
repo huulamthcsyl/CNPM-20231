@@ -3,13 +3,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Project.Models
 {
-    [Table("Residence")]
     public class Residence
     {
-        [Key]
-        public Guid ResidenceId;
-        public int MenberNumber;
-        public string Address;
-        public string OwnerName;
+        // Primary key
+        public Guid ResidenceId { get; set; }
+
+        // Properties
+        public int MenberNumber { get; set; }
+        public string Address { get; set; }
+        public string OwnerName { get; set; }
+
+        // Navigation properties
+        public virtual ICollection<Record> Records { get; set; } = new List<Record>();
+        public virtual ICollection<Person> People { get; set; } = new List<Person>();
     }
 }
