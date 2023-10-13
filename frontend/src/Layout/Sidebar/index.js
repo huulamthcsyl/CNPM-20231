@@ -22,144 +22,146 @@ function Sidebar() {
     navigate("/");
   };
   return (
-    <div className={cx("sidebar")}>
-      <div className={cx("title")}>
-        <h1>Phần mềm</h1>
-        <h1>quản lý chung cư</h1>
-      </div>
-      <div className={cx("menu")}>
-        <ButtonMenu iconLeft={<ThuPhiIcon />} title="Thu phí" iconRight="">
-          <NavLink
-            to="/danhsachthuphi"
-            className={(nav) => {
-              cx({ active: nav.isActive });
-            }}
+    <div className={cx("wrapperparent")}>
+      <div className={cx("sidebar")}>
+        <div className={cx("title")}>
+          <h1>Phần mềm</h1>
+          <h1>quản lý chung cư</h1>
+        </div>
+        <div className={cx("menu")}>
+          <ButtonMenu iconLeft={<ThuPhiIcon />} title="Thu phí" iconRight="">
+            <NavLink
+              to="/danhsachthuphi"
+              className={(nav) => {
+                cx({ active: nav.isActive });
+              }}
+            >
+              <Item title="Quản lý thu" />
+            </NavLink>
+            <NavLink
+              to="/danhmucthu"
+              className={(nav) => {
+                cx({ active: nav.isActive });
+              }}
+            >
+              <Item title="Danh mục thu" />
+            </NavLink>
+          </ButtonMenu>
+          <ButtonMenu
+            // iconLeft={''}
+            iconLeft={<HoKhauIcon />}
+            title="Cư dân"
+            iconRight=""
           >
-            <Item title="Quản lý thu" />
-          </NavLink>
-          <NavLink
-            to="/danhmucthu"
-            className={(nav) => {
-              cx({ active: nav.isActive });
-            }}
+            <NavLink
+              to="/hokhau"
+              className={(nav) => {
+                cx({ active: nav.isActive });
+              }}
+            >
+              <Item title="Hộ khẩu" />
+            </NavLink>
+            <NavLink
+              to="/nhankhau"
+              className={(nav) => {
+                cx({ active: nav.isActive });
+              }}
+            >
+              <Item title="Nhân khẩu" />
+            </NavLink>
+            <NavLink
+              to="/tamvang"
+              className={(nav) => {
+                cx({ active: nav.isActive });
+              }}
+            >
+              <Item title="Tạm vắng" />
+            </NavLink>
+          </ButtonMenu>
+          <ButtonMenu
+            //     iconLeft={<FontAwesomeIcon icon={Car} />}
+            title="Phương tiện"
+            iconLeft={<Car />}
+            iconRight=""
           >
-            <Item title="Danh mục thu" />
-          </NavLink>
-        </ButtonMenu>
-        <ButtonMenu
-          // iconLeft={''}
-          iconLeft={<HoKhauIcon />}
-          title="Cư dân"
-          iconRight=""
-        >
-          <NavLink
-            to="/hokhau"
-            className={(nav) => {
-              cx({ active: nav.isActive });
-            }}
-          >
-            <Item title="Hộ khẩu" />
-          </NavLink>
-          <NavLink
-            to="/nhankhau"
-            className={(nav) => {
-              cx({ active: nav.isActive });
-            }}
-          >
-            <Item title="Nhân khẩu" />
-          </NavLink>
-          <NavLink
-            to="/tamvang"
-            className={(nav) => {
-              cx({ active: nav.isActive });
-            }}
-          >
-            <Item title="Tạm vắng" />
-          </NavLink>
-        </ButtonMenu>
-        <ButtonMenu
-          //     iconLeft={<FontAwesomeIcon icon={Car} />}
-          title="Phương tiện"
-          iconLeft={<Car />}
-          iconRight=""
-        >
-          <NavLink
-            to="/quanlyphuongtien"
-            className={(nav) => {
-              cx({ active: nav.isActive });
-            }}
-          >
-            <Item title="Quản lý" />
-          </NavLink>
-          <NavLink
-            to="/thuphiphuongtien"
-            className={(nav) => {
-              cx({ active: nav.isActive });
-            }}
-          >
-            <Item title="Thu phí" />
-          </NavLink>
-        </ButtonMenu>
-      </div>
-      <div className={cx("hr")}></div>
-      <div className={cx("user")}>
-        <NavLink to="/hosoadmin">
-          <Button
-            style={{
-              padding: "10px 0px",
-              fontSize: "30px",
-              color: "black",
-              fontWeight: "400",
-              textTransform: "none",
-              justifyContent: "flex-start",
-              paddingLeft: "50px",
-              borderRadius: "10px",
+            <NavLink
+              to="/quanlyphuongtien"
+              className={(nav) => {
+                cx({ active: nav.isActive });
+              }}
+            >
+              <Item title="Quản lý" />
+            </NavLink>
+            <NavLink
+              to="/thuphiphuongtien"
+              className={(nav) => {
+                cx({ active: nav.isActive });
+              }}
+            >
+              <Item title="Thu phí" />
+            </NavLink>
+          </ButtonMenu>
+        </div>
+        <div className={cx("hr")}></div>
+        <div className={cx("user")}>
+          <NavLink to="/hosoadmin">
+            <Button
+              style={{
+                padding: "10px 0px",
+                fontSize: "30px",
+                color: "black",
+                fontWeight: "400",
+                textTransform: "none",
+                justifyContent: "flex-start",
+                paddingLeft: "50px",
+                borderRadius: "10px",
 
-              paddingBottom: "4px",
-            }}
-            className={cx("btn")}
-            startIcon={<HoSoIcon />}
-          >
-            Hồ sơ
-          </Button>
-        </NavLink>
-        {user ? (
-          <Button
-            style={{
-              backgroundColor: "#f9bf89",
-              width: "80%",
-              marginLeft: "10px",
-              borderRadius: "10px",
-              fontSize: "25px",
-              padding: "0px 5px",
-              textAlign: "center",
-              color: "black",
-            }}
-            onClick={() => {
-              setUser("");
-            }}
-            startIcon={<LogoutIcon />}
-          >
-            Đăng xuất
-          </Button>
-        ) : (
-          <Button
-            style={{
-              backgroundColor: "#f9bf89",
-              width: "80%",
-              marginLeft: "10px",
-              borderRadius: "10px",
-              fontSize: "25px",
-              padding: "0px 5px",
-              textAlign: "center",
-              color: "black",
-            }}
-            onClick={handleLogin}
-            startIcon={<LoginIcon />}
-          >
-            Đăng nhập
-          </Button>
-        )}
+                paddingBottom: "4px",
+              }}
+              className={cx("btn")}
+              startIcon={<HoSoIcon />}
+            >
+              Hồ sơ
+            </Button>
+          </NavLink>
+          {user ? (
+            <Button
+              style={{
+                backgroundColor: "#f9bf89",
+                width: "80%",
+                marginLeft: "10px",
+                borderRadius: "10px",
+                fontSize: "25px",
+                padding: "0px 5px",
+                textAlign: "center",
+                color: "black",
+              }}
+              onClick={() => {
+                setUser("");
+              }}
+              startIcon={<LogoutIcon />}
+            >
+              Đăng xuất
+            </Button>
+          ) : (
+            <Button
+              style={{
+                backgroundColor: "#f9bf89",
+                width: "80%",
+                marginLeft: "10px",
+                borderRadius: "10px",
+                fontSize: "25px",
+                padding: "0px 5px",
+                textAlign: "center",
+                color: "black",
+              }}
+              onClick={handleLogin}
+              startIcon={<LoginIcon />}
+            >
+              Đăng nhập
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );

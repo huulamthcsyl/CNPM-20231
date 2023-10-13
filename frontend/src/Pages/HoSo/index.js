@@ -51,6 +51,7 @@ const theme2 = createTheme({
     },
   },
 });
+
 function HoSoPage() {
   const [value, setValue] = useState("Nam");
 
@@ -233,13 +234,25 @@ function HoSoPage() {
                   <Grid item>
                     <TextField></TextField>
                   </Grid>
+
                   <Grid item>
-                    <Typography variant="h4" fontWeight={400}>
-                      Xác nhận mật khẩu mới
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <TextField></TextField>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography
+                        variant="h4"
+                        fontWeight={400}
+                        marginRight="30px"
+                      >
+                        Xác nhận mật khẩu mới
+                      </Typography>
+
+                      <TextField></TextField>
+                    </div>
                   </Grid>
                 </Grid>
                 <NavLink to="./">
