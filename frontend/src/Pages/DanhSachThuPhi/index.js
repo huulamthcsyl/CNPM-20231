@@ -4,17 +4,14 @@ import { FormControl, FormGroup, TextField } from "@mui/material";
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableRow, TableHead, TableContainer } from "@mui/material";
 import { Paper, Link } from "@mui/material";
-import { useLocation } from "react-router-dom";
 import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { styled } from "@mui/system";
-
+import { NavLink } from "react-router-dom";
 import PlusCircle from "../../Icons/PlusCircle.png";
 
 export default function DanhSachThu() {
-  const pathArr = useLocation().pathname.split("/");
-  const path = pathArr.slice(0, -1).join("/");
   const fields = [{ label: "Tên" }, { label: "Địa chỉ" }];
   const tableHead = [
     { name: "Số thứ tự" },
@@ -25,14 +22,14 @@ export default function DanhSachThu() {
     { name: "Ghi chú" },
   ];
   const CustomizedDatePicker = styled(DatePicker)`
-  & .MuiInputBase-input {
-    font-size: 18px; 
-    width: 150px;
-  }
+    & .MuiInputBase-input {
+      font-size: 18px;
+      width: 150px;
+    }
     .MuiInputLabel-root {
-    font-size: 20px; 
-  }
-`;
+      font-size: 20px;
+    }
+  `;
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={2} style={{ padding: "50px" }}>
@@ -40,23 +37,23 @@ export default function DanhSachThu() {
           <h1 style={{ fontSize: "48px" }}> Danh sách thu phí </h1>
         </Grid>
         <Grid item xs={6}>
-          <Button
-            variant="contained"
-            style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
-            component={Link}
-            href={`${path}/taophieuthu`}
-          >
-            <Typography style={{ marginRight: "8px" }}>
-              <img
-                src={PlusCircle}
-                style={{ width: "26px", height: "26px" }}
-                alt=""
-              />
-            </Typography>
-            <Typography variant="h4" style={{ color: "black" }}>
-              Tạo phiếu thu
-            </Typography>
-          </Button>
+          <NavLink to="/taophieuthu">
+            <Button
+              variant="contained"
+              style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+            >
+              <Typography style={{ marginRight: "8px" }}>
+                <img
+                  src={PlusCircle}
+                  style={{ width: "26px", height: "26px" }}
+                  alt=""
+                />
+              </Typography>
+              <Typography variant="h4" style={{ color: "black" }}>
+                Tạo phiếu thu
+              </Typography>
+            </Button>
+          </NavLink>
         </Grid>
         <Grid item xs={12}>
           <FormControl>
@@ -71,9 +68,8 @@ export default function DanhSachThu() {
                   InputLabelProps={{ style: { fontSize: "20px" } }}
                 />
               ))}
-                <CustomizedDatePicker
-                  label="Thời gian"
-                />
+              <CustomizedDatePicker label="Từ ngày" />
+              <CustomizedDatePicker label="Đến ngày" />
             </FormGroup>
           </FormControl>
         </Grid>
@@ -83,7 +79,7 @@ export default function DanhSachThu() {
             style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
           >
             <Typography variant="h4" style={{ color: "black" }}>
-              Tìm kiếm
+              Tìm kiếm phiếu thu
             </Typography>
           </Button>
         </Grid>
