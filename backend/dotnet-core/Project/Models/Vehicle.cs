@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Text.Json.Serialization;
 
 namespace Project.Models
 {
@@ -11,12 +11,13 @@ namespace Project.Models
         public Guid PersonId { get; set; }
 
         // Properties
-        public string Name { get; set; }
         public string Category { get; set; }
         public string LicensePlate { get; set; }
 
         // Navigation properties
+        [JsonIgnore]
         public virtual Person Person { get; set; }
+        [JsonIgnore]
         public virtual ICollection<VehicleReceipt> VehicleReceipts { get; set; } = new List<VehicleReceipt>(); 
     }
 }

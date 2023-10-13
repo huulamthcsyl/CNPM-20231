@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Text.Json.Serialization;
 
 namespace Project.Models
 {
@@ -14,6 +13,7 @@ namespace Project.Models
         public string OwnerName { get; set; }
 
         // Navigation properties
+        [JsonIgnore]
         public virtual ICollection<Record> Records { get; set; } = new List<Record>();
         public virtual ICollection<Person> People { get; set; } = new List<Person>();
     }

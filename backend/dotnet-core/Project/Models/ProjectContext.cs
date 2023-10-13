@@ -27,7 +27,7 @@ namespace Project.Models
         {
             modelBuilder.Entity<User>(e =>
             {
-                e.HasKey(e => e.UserId).HasName("Pk_Users_UserId");
+                e.HasKey(e => e.UserId).HasName("Pk_User_UserId");
 
                 e.ToTable("User");
 
@@ -36,11 +36,13 @@ namespace Project.Models
                 e.Property(e => e.Name).IsUnicode(true);
 
                 e.Property(e => e.Address).IsUnicode(true);
+
+                e.Property(e => e.DateOfBirth).HasColumnType("date");
             });
 
             modelBuilder.Entity<Person>(e =>
             {
-                e.HasKey(e => e.PersonId).HasName("Pk_Persons_PersonId");
+                e.HasKey(e => e.PersonId).HasName("Pk_Person_PersonId");
 
                 e.ToTable("Person");
 
@@ -54,12 +56,6 @@ namespace Project.Models
                     .WithMany(r => r.People)
                     .HasForeignKey(p => p.ResidenceId)
                     .HasConstraintName("Fk_Person_ResidenceId")
-                    .OnDelete(DeleteBehavior.SetNull);
-
-                e.HasOne(p => p.AbsentPerson)
-                    .WithOne(a => a.Person)
-                    .HasForeignKey<AbsentPerson>(p => p.PersonId)
-                    .HasConstraintName("Fk_Person_PersonId")
                     .OnDelete(DeleteBehavior.NoAction);
             });
 
@@ -73,7 +69,15 @@ namespace Project.Models
 
                 e.Property(e => e.Reason).IsUnicode(true);
 
-                e.Property(e => e.TemporaryStay).IsUnicode(true);
+                e.Property(e => e.StartTime).HasColumnType("date");
+
+                e.Property(e => e.EndTime).HasColumnType("date");
+
+                e.HasOne(e => e.Person)
+                    .WithOne(p => p.AbsentPerson)
+                    .HasForeignKey<AbsentPerson>(e => e.PersonId)
+                    .HasConstraintName("Fk_AbsentPerson_PersonId")
+                    .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<Residence>(e => 
@@ -99,11 +103,13 @@ namespace Project.Models
 
                 e.Property(e => e.Action).IsUnicode(true);
 
+                e.Property(e => e.DateCreated).HasColumnType("date");
+
                 e.HasOne(e => e.Person)
                     .WithMany(p => p.Records)
                     .HasForeignKey(e => e.PersonId)
                     .HasConstraintName("Fk_Record_PersonId")
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 e.HasOne(e => e.Residence)
                     .WithMany(p => p.Records)
@@ -133,7 +139,7 @@ namespace Project.Models
                     .WithMany(r => r.ResidencePayments)
                     .HasForeignKey(e => e.ResidenceFeeId)
                     .HasConstraintName("Fk_ResidencePayment_ResidenceFeeId")
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 e.HasOne(e => e.ResidenceReceipt)
                     .WithMany(r => r.ResidencePayments)
@@ -152,6 +158,8 @@ namespace Project.Models
 
                 e.Property(e => e.Description).IsUnicode(true);
 
+                e.Property(e => e.DateCreated).HasColumnType("date");
+
                 e.HasOne(e => e.Person)
                     .WithMany(p => p.ResidenceReceipts)
                     .HasForeignKey(e => e.PersonId)
@@ -168,8 +176,6 @@ namespace Project.Models
                 e.Property(e => e.VehicleId).ValueGeneratedNever();
 
                 e.Property(e => e.Category).IsUnicode(true);
-
-                e.Property(e => e.Name).IsUnicode(true);
 
                 e.HasOne(e => e.Person)
                     .WithMany(p => p.Vehicles)
@@ -188,6 +194,8 @@ namespace Project.Models
 
                 e.Property(e => e.Description).IsUnicode(true);
 
+                e.Property(e => e.DateCreated).HasColumnType("date");
+
                 e.HasOne(e => e.Vehicle)
                     .WithMany(v => v.VehicleReceipts)
                     .HasForeignKey(e => e.VehicleId)
@@ -205,7 +213,7 @@ namespace Project.Models
                     .WithMany(v => v.VehiclePayments)
                     .HasForeignKey(e => e.VehicleFeeId)
                     .HasConstraintName("Fk_VehiclePayment_VehicleFeeId")
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 e.HasOne(e => e.VehicleReceipt)
                     .WithMany(v => v.VehiclePayments)

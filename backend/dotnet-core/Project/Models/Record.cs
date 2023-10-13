@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Text.Json.Serialization;
 
 namespace Project.Models
 {
@@ -14,10 +13,12 @@ namespace Project.Models
 
         // Properties
         public string Action { get; set; }
-        public DateTime? Date { get; set; }
+        public DateTime DateCreated { get; set; }
 
         // Navigation properties
+        [JsonIgnore]
         public virtual Person Person { get; set; }
+        [JsonIgnore]
         public virtual Residence Residence { get; set; }    
     }
 }

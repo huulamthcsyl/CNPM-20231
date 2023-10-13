@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Project.Migrations
 {
     /// <inheritdoc />
-    public partial class Db_V1 : Migration
+    public partial class V0 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -50,13 +50,13 @@ namespace Project.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdentityCardNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "date", nullable: false),
                     Gender = table.Column<bool>(type: "bit", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("Pk_Users_UserId", x => x.UserId);
+                    table.PrimaryKey("Pk_User_UserId", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,18 +78,24 @@ namespace Project.Migrations
                 {
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ResidenceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IdentityCardNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Gender = table.Column<bool>(type: "bit", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HomeTown = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    OwnerRelationship = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("Pk_Persons_PersonId", x => x.PersonId);
+                    table.PrimaryKey("Pk_Person_PersonId", x => x.PersonId);
                     table.ForeignKey(
                         name: "Fk_Person_ResidenceId",
                         column: x => x.ResidenceId,
                         principalTable: "Residence",
-                        principalColumn: "ResidenceId",
-                        onDelete: ReferentialAction.SetNull);
+                        principalColumn: "ResidenceId");
                 });
 
             migrationBuilder.CreateTable(
@@ -97,16 +103,15 @@ namespace Project.Migrations
                 columns: table => new
                 {
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TemporaryStay = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    StartTime = table.Column<DateTime>(type: "date", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "date", nullable: false),
+                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("Pk_AbsentPerson_PersonId", x => x.PersonId);
                     table.ForeignKey(
-                        name: "Fk_Person_PersonId",
+                        name: "Fk_AbsentPerson_PersonId",
                         column: x => x.PersonId,
                         principalTable: "Person",
                         principalColumn: "PersonId");
@@ -120,7 +125,7 @@ namespace Project.Migrations
                     ResidenceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Action = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    DateCreated = table.Column<DateTime>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -129,7 +134,8 @@ namespace Project.Migrations
                         name: "Fk_Record_PersonId",
                         column: x => x.PersonId,
                         principalTable: "Person",
-                        principalColumn: "PersonId");
+                        principalColumn: "PersonId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "Fk_Record_ResidenceId",
                         column: x => x.ResidenceId,
@@ -144,7 +150,7 @@ namespace Project.Migrations
                 {
                     ResidenceReceiptId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "date", nullable: false),
                     Amount = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -164,7 +170,6 @@ namespace Project.Migrations
                 {
                     VehicleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LicensePlate = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -194,7 +199,8 @@ namespace Project.Migrations
                         name: "Fk_ResidencePayment_ResidenceFeeId",
                         column: x => x.ResidenceFeeId,
                         principalTable: "ResidenceFee",
-                        principalColumn: "ResidenceFeeId");
+                        principalColumn: "ResidenceFeeId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "Fk_ResidenceReceipt_ResidenceReceiptId",
                         column: x => x.ResidenceReceiptId,
@@ -210,7 +216,7 @@ namespace Project.Migrations
                     VehicleReceiptId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     VehicleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     VehicleFeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "date", nullable: false),
                     Amount = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -239,7 +245,8 @@ namespace Project.Migrations
                         name: "Fk_VehiclePayment_VehicleFeeId",
                         column: x => x.VehicleFeeId,
                         principalTable: "VehicleFee",
-                        principalColumn: "VehicleFeeId");
+                        principalColumn: "VehicleFeeId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "Fk_VehiclePayment_VehicleReceiptId",
                         column: x => x.VehicleReceiptId,

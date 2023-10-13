@@ -12,8 +12,8 @@ using Project.Models;
 namespace Project.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20231012162021_Db_V1")]
-    partial class Db_V1
+    [Migration("20231013131751_V0")]
+    partial class V0
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,21 +33,15 @@ namespace Project.Migrations
                     b.Property<Guid>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("EndTime")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("date");
 
                     b.Property<string>("Reason")
-                        .IsRequired()
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TemporaryStay")
-                        .IsRequired()
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("date");
 
                     b.HasKey("PersonId")
                         .HasName("Pk_AbsentPerson_PersonId");
@@ -60,9 +54,18 @@ namespace Project.Migrations
                     b.Property<Guid>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Gender")
+                        .HasColumnType("bit");
+
                     b.Property<string>("HomeTown")
                         .IsRequired()
                         .IsUnicode(true)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdentityCardNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -70,11 +73,24 @@ namespace Project.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("OwnerRelationship")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("ResidenceId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("PersonId")
-                        .HasName("Pk_Persons_PersonId");
+                        .HasName("Pk_Person_PersonId");
 
                     b.HasIndex("ResidenceId");
 
@@ -91,8 +107,8 @@ namespace Project.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("Date")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("date");
 
                     b.Property<Guid>("PersonId")
                         .HasColumnType("uniqueidentifier");
@@ -183,7 +199,7 @@ namespace Project.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<string>("Description")
                         .IsUnicode(true)
@@ -218,7 +234,7 @@ namespace Project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<bool>("Gender")
                         .HasColumnType("bit");
@@ -239,7 +255,7 @@ namespace Project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId")
-                        .HasName("Pk_Users_UserId");
+                        .HasName("Pk_User_UserId");
 
                     b.ToTable("User", (string)null);
                 });
@@ -256,11 +272,6 @@ namespace Project.Migrations
 
                     b.Property<string>("LicensePlate")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("PersonId")
@@ -319,7 +330,7 @@ namespace Project.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<string>("Description")
                         .IsUnicode(true)
@@ -345,7 +356,7 @@ namespace Project.Migrations
                         .HasForeignKey("Project.Models.AbsentPerson", "PersonId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
-                        .HasConstraintName("Fk_Person_PersonId");
+                        .HasConstraintName("Fk_AbsentPerson_PersonId");
 
                     b.Navigation("Person");
                 });
@@ -355,7 +366,7 @@ namespace Project.Migrations
                     b.HasOne("Project.Models.Residence", "Residence")
                         .WithMany("People")
                         .HasForeignKey("ResidenceId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .HasConstraintName("Fk_Person_ResidenceId");
 
                     b.Navigation("Residence");
@@ -366,7 +377,7 @@ namespace Project.Migrations
                     b.HasOne("Project.Models.Person", "Person")
                         .WithMany("Records")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("Fk_Record_PersonId");
 
@@ -387,7 +398,7 @@ namespace Project.Migrations
                     b.HasOne("Project.Models.ResidenceFee", "ResidenceFee")
                         .WithMany("ResidencePayments")
                         .HasForeignKey("ResidenceFeeId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("Fk_ResidencePayment_ResidenceFeeId");
 
@@ -432,7 +443,7 @@ namespace Project.Migrations
                     b.HasOne("Project.Models.VehicleFee", "VehicleFee")
                         .WithMany("VehiclePayments")
                         .HasForeignKey("VehicleFeeId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("Fk_VehiclePayment_VehicleFeeId");
 

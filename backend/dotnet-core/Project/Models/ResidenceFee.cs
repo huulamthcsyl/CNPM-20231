@@ -1,4 +1,6 @@
-﻿namespace Project.Models
+﻿using System.Text.Json.Serialization;
+
+namespace Project.Models
 {
     public class ResidenceFee
     {
@@ -11,6 +13,7 @@
         public int? Cost { get; set; }
 
         // Navigation properties
+        [JsonIgnore]
         public virtual ICollection<ResidencePayment> ResidencePayments { get; set; } = new List<ResidencePayment>();
     }
 }
