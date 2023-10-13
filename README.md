@@ -2,6 +2,6 @@
 ## Chủ đề: xây dựng phần mềm quản lý chung cư
 
 ## Công nghệ, Framework:
-- Front end: React, Matetial UI
+- Front end: React, Material UI
 - Back end: ASP .NET Core
 - Database: SQL Server
