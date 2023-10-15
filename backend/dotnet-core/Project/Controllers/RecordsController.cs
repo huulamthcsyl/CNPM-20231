@@ -31,7 +31,7 @@ namespace Project.Controllers
             return await _context.Records.ToListAsync();
         }
 
-        // GET: api/Records/residence/{id}
+        // GET: api/Records/residence/[:id]
         [HttpGet("residence")]
         public async Task<ActionResult<IEnumerable<Record>>> GetRecord(Guid id)
         {
@@ -49,7 +49,6 @@ namespace Project.Controllers
         }
 
         // PUT: api/Records/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 //        [HttpPut("{id}")]
 //        public async Task<IActionResult> PutRecord(Guid id, Record @record)
 //        {

@@ -23,7 +23,7 @@ namespace Project.Controllers
         }
 
         // GET: api/Residences
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<Residence>>> GetResidences()
         {
           if (_context.Residences == null)
@@ -33,7 +33,7 @@ namespace Project.Controllers
             return await _context.Residences.ToListAsync();
         }
 
-        // GET: api/Residences/5
+        // GET: api/Residences/[:id]
         [HttpGet("{id}")]
         public async Task<ActionResult<Residence>> GetResidence(Guid id)
         {
@@ -51,8 +51,24 @@ namespace Project.Controllers
             return residence;
         }
 
-        // PUT: api/Residences/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // GET: api/Residences?name=
+        [HttpGet()]
+        public async Task<ActionResult<IEnumerable<Residence>>> GetResidences(string name)
+        {
+            if (_context.Residences == null)
+            {
+                return NotFound();
+            }
+
+            var residences = await _context.Residences.ToListAsync();
+            var r = residences
+                .Where(p => (p.OwnerName == name))
+                .ToList();
+        
+            return r;
+        }
+
+        // PUT: api/Residences/[:id]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutResidence(Guid id, Residence newResidence)
         {
@@ -60,10 +76,9 @@ namespace Project.Controllers
             {
                 return BadRequest();
             }
-
+            // Check wheather person is in another residence ??
             var people = newResidence.People.ToList();
             bool check = false;
-
             foreach (var person in people)
             {
                 if (person.ResidenceId != null && person.ResidenceId != id)
@@ -72,19 +87,19 @@ namespace Project.Controllers
                     break;
                 }
             }
-
             if (check == true)
             {
                 return Problem("Cannot create residence. Person is currently in another residence!");
             }
 
+            // Update new residence
             var currentResidence = await _context.Residences.FindAsync(id);
-            //_context.Entry(updateResidence).State = EntityState.Modified;
             currentResidence.MenberNumber = newResidence.MenberNumber;
             currentResidence.Address = newResidence.Address;
             currentResidence.OwnerName = newResidence.OwnerName;
 
-            var removePerson = currentResidence.People
+            // Find removed person, added person 
+            var removedPerson = currentResidence.People
                 .Where(p => !newResidence.People.Any(newPerson => newPerson.PersonId == p.PersonId))
                 .ToList();
 
@@ -92,14 +107,14 @@ namespace Project.Controllers
                 .Where(p => !currentResidence.People.Any(oldPerson => oldPerson.PersonId == p.PersonId))
                 .ToList();
             
-            foreach (var p in removePerson)
+            foreach (var p in removedPerson)
             {
-                // update remove person
+                // Update residence of removed person
                 var person = await _context.People.FindAsync(p.PersonId);
                 person.ResidenceId = null;
                 person.OwnerRelationship = null;
 
-                // Add record
+                // Insert remove action to Records
                 _context.Records.Add(new Record
                 {
                     RecordId = Guid.NewGuid(),
@@ -112,12 +127,12 @@ namespace Project.Controllers
 
             foreach (var p in addedPerson)
             {
-                // update added person
+                // Update residence of added person
                 var person = await _context.People.FindAsync(p.PersonId);
                 person.ResidenceId = id;
                 person.OwnerRelationship = p.OwnerRelationship;
 
-                // add new record
+                // Insert add action to Records
                 _context.Records.Add(new Record
                 {
                     RecordId = Guid.NewGuid(),
@@ -127,10 +142,10 @@ namespace Project.Controllers
                     Action = "Nhập khẩu"
                 });
             }
- 
+
+            // Save DB_Context
             try
             {
-                // Save change
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -149,7 +164,6 @@ namespace Project.Controllers
         }
 
         // POST: api/Residences
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Residence>> PostResidence(Residence residence)
         {
@@ -157,9 +171,9 @@ namespace Project.Controllers
           {
               return Problem("Entity set 'ProjectContext.Residences'  is null.");
           }
+            // Check wheather person is in another residence ??
             var people = residence.People.ToList();
             bool check = false;
-
             foreach (var person in people)
             {
                 if (person.ResidenceId != null)
@@ -168,12 +182,12 @@ namespace Project.Controllers
                     break;
                 }
             }
-
             if (check == true) 
             {
                 return Problem("Cannot create residence. Person is currently in another residence!");
             }
 
+            // Insert residence
             residence.ResidenceId = Guid.NewGuid();
             residence.People.Clear();
             _context.Residences.Add(residence);
@@ -195,12 +209,12 @@ namespace Project.Controllers
 
             foreach (var p in people)
             {
-                // Update person
+                // Update residence of person
                 var person = await _context.People.FindAsync(p.PersonId);
                 person.ResidenceId = residence.ResidenceId;
                 person.OwnerRelationship = p.OwnerRelationship;
 
-                // Add new record
+                // Insert add action to Records
                 _context.Records.Add(new Record
                 {
                     RecordId = Guid.NewGuid(),
@@ -211,6 +225,7 @@ namespace Project.Controllers
                     Person = p
                 });
             }
+            // Save Db_Context
             try
             {
                 await _context.SaveChangesAsync();
@@ -223,7 +238,7 @@ namespace Project.Controllers
             return CreatedAtAction("GetResidence", new { id = residence.ResidenceId }, residence);
         }
 
-        // DELETE: api/Residences/5
+        // DELETE: api/Residences/[:id]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteResidence(Guid id)
         {

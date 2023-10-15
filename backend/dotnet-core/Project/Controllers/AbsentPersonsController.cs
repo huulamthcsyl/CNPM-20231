@@ -21,7 +21,7 @@ namespace Project.Controllers
         }
 
         // GET: api/AbsentPersons
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<AbsentPerson>>> GetAbsentPeople()
         {
             if (_context.AbsentPeople == null)
@@ -29,11 +29,10 @@ namespace Project.Controllers
                 return NotFound();
             }
 
-
             return await _context.AbsentPeople.ToListAsync();
         }
 
-        // GET: api/AbsentPersons/5
+        // GET: api/AbsentPersons/[:id]
         [HttpGet("{id}")]
         public async Task<ActionResult<AbsentPerson>> GetAbsentPerson(Guid id)
         {
@@ -43,54 +42,33 @@ namespace Project.Controllers
             }
             var absentPerson = await _context.AbsentPeople.FindAsync(id);
 
-            if (absentPerson == null)
-            {
-                return NotFound();
-            }
-
             return absentPerson;
         }
 
-        // PUT: api/AbsentPersons/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAbsentPerson(Guid id, AbsentPerson absentPerson)
+        // GET: api/AbsentPersons/?name=
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AbsentPerson>>> GetAbsentPeople(string name)
         {
-            if (id != absentPerson.PersonId)
+            if (_context.AbsentPeople == null)
             {
-                return BadRequest();
+                return NotFound();
             }
+            var absentPeople = await _context.AbsentPeople.ToListAsync();
 
-            _context.Entry(absentPerson).State = EntityState.Modified;
+            var p = absentPeople
+                .Where(p => (p.Person.Name == name)).ToList();
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AbsentPersonExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return p;
         }
 
         // POST: api/AbsentPersons
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<AbsentPerson>> PostAbsentPerson(AbsentPerson absentPerson)
         {
-          if (_context.AbsentPeople == null)
-          {
-              return Problem("Entity set 'ProjectContext.AbsentPeople'  is null.");
-          }
+            if (_context.AbsentPeople == null)
+            {
+                return Problem("Entity set 'ProjectContext.AbsentPeople'  is null.");
+            }
             absentPerson.Person = null;
             var person = await _context.People.FindAsync(absentPerson.PersonId);
             person.Status = "Tạm vắng";
@@ -121,6 +99,36 @@ namespace Project.Controllers
             }
 
             return CreatedAtAction("GetAbsentPerson", new { id = absentPerson.PersonId }, absentPerson);
+        }
+
+        //PUT: api/AbsentPersons/[:id]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAbsentPerson(Guid id, AbsentPerson absentPerson)
+        {
+            if (id != absentPerson.PersonId)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(absentPerson).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AbsentPersonExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
         // DELETE: api/AbsentPersons/5

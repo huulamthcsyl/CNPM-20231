@@ -20,8 +20,8 @@ namespace Project.Controllers
             _context = context;
         }
 
-        // GET: api/People
-        [HttpGet]
+        // GET: api/People/all
+        [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<Person>>> GetPeople()
         {
             if (_context.People == null)
@@ -31,7 +31,7 @@ namespace Project.Controllers
             return await _context.People.ToListAsync();
         }
 
-        // GET: api/People/5
+        // GET: api/People/[:id]
         [HttpGet("{id}")]
         public async Task<ActionResult<Person>> GetPerson(Guid id)
         {
@@ -49,8 +49,23 @@ namespace Project.Controllers
             return person;
         }
 
-        // PUT: api/People/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // GET:api/People?Name=
+        [HttpGet()]
+        public async Task<ActionResult<IEnumerable<Person>>> GetPeople(string name)
+        {
+            if (_context.People == null)
+            {
+                return NotFound();
+            }
+
+            var people = await _context.People.ToListAsync();
+
+            var p = people.Where(p =>  p.Name == name).ToList();
+
+            return p;
+        }
+
+        // PUT: api/People/[:id]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPerson(Guid id, Person person)
         {
@@ -81,7 +96,6 @@ namespace Project.Controllers
         }
 
         // POST: api/People
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Person>> PostPerson(Person person)
         {
@@ -110,7 +124,7 @@ namespace Project.Controllers
             return CreatedAtAction("GetPerson", new { id = person.PersonId }, person);
         }
 
-        // DELETE: api/People/5
+        // DELETE: api/People/[:id]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePerson(Guid id)
         {
