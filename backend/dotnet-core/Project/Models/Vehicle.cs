@@ -16,8 +16,8 @@ namespace Project.Models
 
         // Navigation properties
         [JsonIgnore]
-        public virtual Person Person { get; set; }
+        public virtual Person? Person { get; set; }
         [JsonIgnore]
-        public virtual ICollection<VehicleReceipt> VehicleReceipts { get; set; } = new List<VehicleReceipt>(); 
+        public virtual ICollection<VehicleReceipt>? VehicleReceipts { get; set; } = new List<VehicleReceipt>(); 
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project.Models;
 
@@ -11,9 +12,11 @@ using Project.Models;
 namespace Project.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20231015093715_V2")]
+    partial class V2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -343,25 +346,22 @@ namespace Project.Migrations
                     b.ToTable("VehicleReceipt", (string)null);
                 });
 
-            modelBuilder.Entity("Project.Models.AbsentPerson", b =>
-                {
-                    b.HasOne("Project.Models.Person", "Person")
-                        .WithOne("AbsentPerson")
-                        .HasForeignKey("Project.Models.AbsentPerson", "PersonId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired()
-                        .HasConstraintName("Fk_Person_PersonId");
-
-                    b.Navigation("Person");
-                });
-
             modelBuilder.Entity("Project.Models.Person", b =>
                 {
+                    b.HasOne("Project.Models.AbsentPerson", "AbsentPerson")
+                        .WithOne("Person")
+                        .HasForeignKey("Project.Models.Person", "PersonId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired()
+                        .HasConstraintName("Fk_AbsentPerson_PersonId");
+
                     b.HasOne("Project.Models.Residence", "Residence")
                         .WithMany("People")
                         .HasForeignKey("ResidenceId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .HasConstraintName("Fk_Person_ResidenceId");
+
+                    b.Navigation("AbsentPerson");
 
                     b.Navigation("Residence");
                 });
@@ -465,10 +465,14 @@ namespace Project.Migrations
                     b.Navigation("Vehicle");
                 });
 
+            modelBuilder.Entity("Project.Models.AbsentPerson", b =>
+                {
+                    b.Navigation("Person")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Project.Models.Person", b =>
                 {
-                    b.Navigation("AbsentPerson");
-
                     b.Navigation("Records");
 
                     b.Navigation("ResidenceReceipts");

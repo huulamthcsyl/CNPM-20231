@@ -9,7 +9,6 @@ namespace Project.Models
 
         // Foreign key
         public Guid? ResidenceId { get; set; }
-        public Guid? OwnerId { get; set; }
 
         // Properties
         public string Name { get; set; }

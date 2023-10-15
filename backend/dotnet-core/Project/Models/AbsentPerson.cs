@@ -13,6 +13,6 @@ namespace Project.Models
         public string? Reason { get; set; }
 
         // Navigation properties
-        public virtual Person Person { get; set; }
+        public virtual Person? Person { get; set; }
     }
 }
