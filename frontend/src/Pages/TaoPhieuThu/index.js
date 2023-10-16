@@ -18,7 +18,7 @@ export default function TaoPhieuThu() {
       font-size: 20px;
     }
   `;
-  const tableHead = [
+  const tableHeadName = [
     { name: "Số thứ tự" },
     { name: "Tên khoản thu" },
     { name: "Số tiền" },
@@ -62,7 +62,7 @@ export default function TaoPhieuThu() {
             <Table sx={{ minWidth: 650 }}>
               <TableHead>
                 <TableRow>
-                  {tableHead.map((column, index) => (
+                  {tableHeadName.map((column, index) => (
                     <TableCell key={index}>
                       <Typography variant="h4" style={{ fontWeight: "bold" }}>
                         {column.name}

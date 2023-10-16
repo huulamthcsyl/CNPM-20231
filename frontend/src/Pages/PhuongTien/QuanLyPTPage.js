@@ -11,7 +11,7 @@ import PlusCircle from "../../Icons/PlusCircle.png";
 
 function QuanLyPTPage() {
   const fields = [{ label: "Biển kiểm soát" }, { label: "Chủ sở hữu" }, { label: "Loại xe" }];
-  const tableHead = [
+  const tableHeadName = [
     { name: "Số thứ tự" },
     { name: "Biển kiểm soát" },
     { name: "Loại xe" },
@@ -50,7 +50,7 @@ function QuanLyPTPage() {
                 <TextField
                   key={index}
                   label={field.label}
-                  variant="outlined"
+                  variant="filled"
                   style={{ marginRight: "35px" }}
                   inputProps={{ style: { fontSize: "18px" } }}
                   InputLabelProps={{ style: { fontSize: "20px" } }}
@@ -75,7 +75,7 @@ function QuanLyPTPage() {
             <Table sx={{ minWidth: 650 }}>
               <TableHead>
                 <TableRow>
-                  {tableHead.map((column, index) => (
+                  {tableHeadName.map((column, index) => (
                     <TableCell key={index}>
                       <Typography variant="h4" style={{ fontWeight: "bold" }}>
                         {column.name}

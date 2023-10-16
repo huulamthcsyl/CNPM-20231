@@ -21,7 +21,7 @@ function TaoPhuongTienPage() {
           ></TextField>
         </Grid>
         <Grid item container direction="row" alignItems="center">
-          <Typography style={{ fontSize: "24px", marginRight: "54px" }}>
+          <Typography style={{ fontSize: "24px", marginRight: "110px" }}>
             Loại xe
           </Typography>
           <TextField

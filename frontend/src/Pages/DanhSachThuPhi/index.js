@@ -13,7 +13,7 @@ import PlusCircle from "../../Icons/PlusCircle.png";
 
 export default function DanhSachThu() {
   const fields = [{ label: "Tên" }, { label: "Địa chỉ" }];
-  const tableHead = [
+  const tableHeadName = [
     { name: "Số thứ tự" },
     { name: "Họ và tên" },
     { name: "Địa chỉ" },
@@ -21,6 +21,7 @@ export default function DanhSachThu() {
     { name: "Thời gian" },
     { name: "Ghi chú" },
   ];
+
   const CustomizedDatePicker = styled(DatePicker)`
     & .MuiInputBase-input {
       font-size: 18px;
@@ -34,7 +35,7 @@ export default function DanhSachThu() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={2} style={{ padding: "50px" }}>
         <Grid item xs={12}>
-          <h1 style={{ fontSize: "48px" }}> Danh sách thu phí </h1>
+          <div style={{ fontSize: "48px" }}> Danh sách thu phí </div>
         </Grid>
         <Grid item xs={6}>
           <NavLink to="/taophieuthu">
@@ -62,14 +63,22 @@ export default function DanhSachThu() {
                 <TextField
                   key={index}
                   label={field.label}
-                  variant="outlined"
+                  variant="filled"
                   style={{ marginRight: "35px" }}
                   inputProps={{ style: { fontSize: "18px" } }}
                   InputLabelProps={{ style: { fontSize: "20px" } }}
                 />
               ))}
-              <CustomizedDatePicker label="Từ ngày" />
-              <CustomizedDatePicker label="Đến ngày" />
+
+              <CustomizedDatePicker
+                label="Từ ngày"
+                slotProps={{ textField: { variant: "filled" } }}
+                sx={{marginRight: "35px"}}
+              />
+              <CustomizedDatePicker
+                label="Đến ngày"
+                slotProps={{ textField: { variant: "filled" } }}
+              />
             </FormGroup>
           </FormControl>
         </Grid>
@@ -88,7 +97,7 @@ export default function DanhSachThu() {
             <Table sx={{ minWidth: 650 }}>
               <TableHead>
                 <TableRow>
-                  {tableHead.map((column, index) => (
+                  {tableHeadName.map((column, index) => (
                     <TableCell key={index}>
                       <Typography variant="h4" style={{ fontWeight: "bold" }}>
                         {column.name}
