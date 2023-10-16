@@ -9,7 +9,7 @@ using Project.Models;
 
 namespace Project.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/absent")]
     [ApiController]
     public class AbsentPersonsController : ControllerBase
     {
@@ -20,68 +20,56 @@ namespace Project.Controllers
             _context = context;
         }
 
-        // GET: api/AbsentPersons
+        // GET: api/absent
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<AbsentPerson>>> GetAbsentPeople()
         {
-            if (_context.AbsentPeople == null)
-            {
-                return NotFound();
-            }
-
+          if (_context.AbsentPeople == null)
+          {
+              return NotFound();
+          }
             return await _context.AbsentPeople.ToListAsync();
         }
 
-        // GET: api/AbsentPersons/[:id]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<AbsentPerson>> GetAbsentPerson(Guid id)
+        // GET: api/absent/[:personId]
+        [HttpGet("id")]
+        public async Task<ActionResult<IEnumerable<AbsentPerson>>> GetAbsentPerson(Guid personId)
         {
             if (_context.AbsentPeople == null)
             {
                 return NotFound();
             }
-            var absentPerson = await _context.AbsentPeople.FindAsync(id);
+            var absentPeople = await _context.AbsentPeople.Where(p => (p.PersonId == personId)).ToListAsync();
 
-            return absentPerson;
+            return absentPeople;
         }
 
-        // GET: api/AbsentPersons/?name=
-        [HttpGet]
+        //GET: api/absent/?name=
+        [HttpGet("name")]
         public async Task<ActionResult<IEnumerable<AbsentPerson>>> GetAbsentPeople(string name)
         {
             if (_context.AbsentPeople == null)
             {
                 return NotFound();
             }
-            var absentPeople = await _context.AbsentPeople.ToListAsync();
+            var absentPeople = await _context.AbsentPeople.Where(ap => (ap.Person.Name == name)).ToListAsync();
 
-            var p = absentPeople
-                .Where(p => (p.Person.Name == name)).ToList();
-
-            return p;
+            return absentPeople;
         }
 
-        // POST: api/AbsentPersons
+
+        // POST: api/absent
         [HttpPost]
         public async Task<ActionResult<AbsentPerson>> PostAbsentPerson(AbsentPerson absentPerson)
         {
-            if (_context.AbsentPeople == null)
-            {
-                return Problem("Entity set 'ProjectContext.AbsentPeople'  is null.");
-            }
-            absentPerson.Person = null;
-            var person = await _context.People.FindAsync(absentPerson.PersonId);
-            person.Status = "Tạm vắng";
-            try
-            {
-                await _context.SaveChangesAsync();
-
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(400, ex.Message);
-            }
+          if (_context.AbsentPeople == null)
+          {
+              return Problem("Entity set 'ProjectContext.AbsentPeople'  is null.");
+          }
+            absentPerson.AbsentPersonId = Guid.NewGuid();
             _context.AbsentPeople.Add(absentPerson);
+            var person = await _context.People.FindAsync(absentPerson.PersonId);
+            person.Status = "Tạm Vắng";
             try
             {
                 await _context.SaveChangesAsync();
@@ -101,7 +89,8 @@ namespace Project.Controllers
             return CreatedAtAction("GetAbsentPerson", new { id = absentPerson.PersonId }, absentPerson);
         }
 
-        //PUT: api/AbsentPersons/[:id]
+
+        // PUT: api/absent/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAbsentPerson(Guid id, AbsentPerson absentPerson)
         {
@@ -131,7 +120,8 @@ namespace Project.Controllers
             return NoContent();
         }
 
-        // DELETE: api/AbsentPersons/5
+
+        // DELETE: api/absent/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAbsentPerson(Guid id)
         {

@@ -9,7 +9,7 @@ using Project.Models;
 
 namespace Project.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/person")]
     [ApiController]
     public class PeopleController : ControllerBase
     {
@@ -20,7 +20,8 @@ namespace Project.Controllers
             _context = context;
         }
 
-        // GET: api/People/all
+
+        // GET: api/person/all
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<Person>>> GetPeople()
         {
@@ -31,7 +32,8 @@ namespace Project.Controllers
             return await _context.People.ToListAsync();
         }
 
-        // GET: api/People/[:id]
+
+        // GET: api/person/[:id]
         [HttpGet("{id}")]
         public async Task<ActionResult<Person>> GetPerson(Guid id)
         {
@@ -49,7 +51,8 @@ namespace Project.Controllers
             return person;
         }
 
-        // GET:api/People?Name=
+
+        // GET:api/person?name=
         [HttpGet()]
         public async Task<ActionResult<IEnumerable<Person>>> GetPeople(string name)
         {
@@ -58,14 +61,13 @@ namespace Project.Controllers
                 return NotFound();
             }
 
-            var people = await _context.People.ToListAsync();
+            var people = await _context.People.Where(p => p.Name == name).ToListAsync();
 
-            var p = people.Where(p =>  p.Name == name).ToList();
-
-            return p;
+            return people;
         }
 
-        // PUT: api/People/[:id]
+
+        // PUT: api/person/[:id]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPerson(Guid id, Person person)
         {
@@ -95,7 +97,8 @@ namespace Project.Controllers
             return NoContent();
         }
 
-        // POST: api/People
+
+        // POST: api/person
         [HttpPost]
         public async Task<ActionResult<Person>> PostPerson(Person person)
         {
@@ -124,7 +127,8 @@ namespace Project.Controllers
             return CreatedAtAction("GetPerson", new { id = person.PersonId }, person);
         }
 
-        // DELETE: api/People/[:id]
+
+        // DELETE: api/person/[:id]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePerson(Guid id)
         {

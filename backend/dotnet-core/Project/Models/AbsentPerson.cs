@@ -4,7 +4,9 @@ namespace Project.Models
 {
     public class AbsentPerson
     {
-        // Primary key | Foreign key
+        // Primary key
+        public Guid AbsentPersonId { get; set; }
+        // Foreign key
         public Guid PersonId { get; set; }
 
         // Properties

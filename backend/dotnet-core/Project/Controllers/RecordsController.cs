@@ -9,7 +9,7 @@ using Project.Models;
 
 namespace Project.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/record")]
     [ApiController]
     public class RecordsController : ControllerBase
     {
@@ -20,7 +20,8 @@ namespace Project.Controllers
             _context = context;
         }
 
-        // GET: api/Records
+
+        // GET: api/record
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Record>>> GetRecords()
         {
@@ -31,7 +32,8 @@ namespace Project.Controllers
             return await _context.Records.ToListAsync();
         }
 
-        // GET: api/Records/residence/[:id]
+
+        // GET: api/record/residence/[:residenceId]
         [HttpGet("residence")]
         public async Task<ActionResult<IEnumerable<Record>>> GetRecord(Guid id)
         {
@@ -39,13 +41,9 @@ namespace Project.Controllers
           {
               return NotFound();
           }
-            var @record = await _context.Records.ToListAsync();
+            var @record = await _context.Records.Where(r => r.ResidenceId == id).ToListAsync();
 
-            var residenceRecord = @record
-                .Where(r => r.ResidenceId == id)
-                .ToList();
-
-            return residenceRecord;
+            return @record;
         }
 
         // PUT: api/Records/5

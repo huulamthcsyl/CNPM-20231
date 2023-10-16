@@ -9,7 +9,7 @@ using Project.Models;
 
 namespace Project.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/vehicle")]
     [ApiController]
     public class VehiclesController : ControllerBase
     {
@@ -20,8 +20,8 @@ namespace Project.Controllers
             _context = context;
         }
 
-        // GET: api/Vehicles
-        [HttpGet("All")]
+        // GET: api/vehicle/all
+        [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicles()
         {
             if (_context.Vehicles == null)
@@ -31,29 +31,22 @@ namespace Project.Controllers
             return await _context.Vehicles.ToListAsync();
         }
 
-        // GET: api/Vehicles/5
+
+        // GET: api/vehicle?licenseplate=
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicle(string LicensePlate)
+        public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicle(string licenseplate)
         {
           if (_context.Vehicles == null)
           {
               return NotFound();
           }
-            var vehicles = await _context.Vehicles.ToListAsync();
+            var vehicles = await _context.Vehicles.Where(p => p.LicensePlate == licenseplate).ToListAsync();
 
-            if (vehicles == null)
-            {
-                return NotFound();
-            }
-
-            var listVehicle = vehicles
-                .Where(p =>  p.LicensePlate == LicensePlate) 
-                .ToList();
-
-            return listVehicle;
+            return vehicles;
         }
 
-        // PUT: api/Vehicles/5
+
+        // PUT: api/vehicle/[_id]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutVehicle(Guid id, Vehicle vehicle)
         {
@@ -83,8 +76,8 @@ namespace Project.Controllers
             return NoContent();
         }
 
-        // POST: api/Vehicles
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
+        // POST: api/vehicle
         [HttpPost]
         public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle vehicle)
         {
@@ -113,7 +106,8 @@ namespace Project.Controllers
             return CreatedAtAction("GetVehicle", new { id = vehicle.VehicleId }, vehicle);
         }
 
-        // DELETE: api/Vehicles/5
+
+        // DELETE: api/vehicle/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVehicle(Guid id)
         {

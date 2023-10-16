@@ -11,7 +11,7 @@ using Project.Models;
 
 namespace Project.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/residence")]
     [ApiController]
     public class ResidencesController : ControllerBase
     {
@@ -22,7 +22,7 @@ namespace Project.Controllers
             _context = context;
         }
 
-        // GET: api/Residences
+        // GET: api/residence/all
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<Residence>>> GetResidences()
         {
@@ -33,7 +33,8 @@ namespace Project.Controllers
             return await _context.Residences.ToListAsync();
         }
 
-        // GET: api/Residences/[:id]
+
+        // GET: api/residence/[:id]
         [HttpGet("{id}")]
         public async Task<ActionResult<Residence>> GetResidence(Guid id)
         {
@@ -51,7 +52,8 @@ namespace Project.Controllers
             return residence;
         }
 
-        // GET: api/Residences?name=
+
+        // GET: api/residence?name=
         [HttpGet()]
         public async Task<ActionResult<IEnumerable<Residence>>> GetResidences(string name)
         {
@@ -60,15 +62,13 @@ namespace Project.Controllers
                 return NotFound();
             }
 
-            var residences = await _context.Residences.ToListAsync();
-            var r = residences
-                .Where(p => (p.OwnerName == name))
-                .ToList();
+            var residences = await _context.Residences.Where(p => (p.OwnerName == name)).ToListAsync();
         
-            return r;
+            return residences;
         }
 
-        // PUT: api/Residences/[:id]
+
+        // PUT: api/residence/[:id]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutResidence(Guid id, Residence newResidence)
         {
@@ -119,7 +119,7 @@ namespace Project.Controllers
                 {
                     RecordId = Guid.NewGuid(),
                     ResidenceId = id,
-                    PersonId = person.PersonId,
+                    PersonId = p.PersonId,
                     DateCreated = DateTime.Now,
                     Action = "Tách Khẩu"
                 });
@@ -137,7 +137,7 @@ namespace Project.Controllers
                 {
                     RecordId = Guid.NewGuid(),
                     ResidenceId = id,
-                    PersonId = person.PersonId,
+                    PersonId = p.PersonId,
                     DateCreated = DateTime.Now,
                     Action = "Nhập khẩu"
                 });
@@ -163,7 +163,8 @@ namespace Project.Controllers
             return NoContent();
         }
 
-        // POST: api/Residences
+
+        // POST: api/residence
         [HttpPost]
         public async Task<ActionResult<Residence>> PostResidence(Residence residence)
         {
@@ -207,22 +208,33 @@ namespace Project.Controllers
                 }
             }
 
+            // Update residence of person
             foreach (var p in people)
             {
-                // Update residence of person
                 var person = await _context.People.FindAsync(p.PersonId);
                 person.ResidenceId = residence.ResidenceId;
                 person.OwnerRelationship = p.OwnerRelationship;
+            }
+            // Save Db_Context
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
 
-                // Insert add action to Records
+            // Insert add action to Records
+            foreach (var p in people)
+            {
                 _context.Records.Add(new Record
                 {
                     RecordId = Guid.NewGuid(),
                     ResidenceId = residence.ResidenceId,
                     PersonId = p.PersonId,
                     DateCreated = DateTime.Now,
-                    Action = "Nhập khẩu",
-                    Person = p
+                    Action = "Nhập khẩu"
                 });
             }
             // Save Db_Context
@@ -238,7 +250,8 @@ namespace Project.Controllers
             return CreatedAtAction("GetResidence", new { id = residence.ResidenceId }, residence);
         }
 
-        // DELETE: api/Residences/[:id]
+
+        // DELETE: api/residence/[:id]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteResidence(Guid id)
         {

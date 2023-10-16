@@ -8,7 +8,7 @@ namespace Project.Models
         public Guid VehicleFeeId { get; set; }
 
         // Properties
-        public string Name { get;}
+        public string Name { get; set; }
         public int? Cost { get; set; }
 
         // Navigation property

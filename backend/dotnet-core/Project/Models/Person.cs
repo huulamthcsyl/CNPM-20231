@@ -26,7 +26,7 @@ namespace Project.Models
         [JsonIgnore]
         public virtual Residence? Residence { get; set; }
         [JsonIgnore]
-        public virtual AbsentPerson? AbsentPerson { get; set; }
+        public virtual ICollection<AbsentPerson>? AbsentPepple { get; set; } = new List<AbsentPerson>();
         [JsonIgnore]
         public virtual ICollection<ResidenceReceipt>? ResidenceReceipts { get; set; } = new List<ResidenceReceipt>();
         [JsonIgnore]

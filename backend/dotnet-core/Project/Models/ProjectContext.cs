@@ -57,17 +57,11 @@ namespace Project.Models
                     .HasForeignKey(p => p.ResidenceId)
                     .HasConstraintName("Fk_Person_ResidenceId")
                     .OnDelete(DeleteBehavior.NoAction);
-
-                e.HasOne(e => e.AbsentPerson)
-                    .WithOne(p => p.Person)
-                    .HasForeignKey<AbsentPerson>(e => e.PersonId)
-                    .HasConstraintName("Fk_Person_PersonId")
-                    .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<AbsentPerson>(e =>
             {
-                e.HasKey(e => e.PersonId).HasName("Pk_AbsentPerson_PersonId");
+                e.HasKey(e => e.AbsentPersonId).HasName("Pk_AbsentPersonId_AbsentIdId");
 
                 e.ToTable("AbsentPerson");
 
@@ -78,6 +72,12 @@ namespace Project.Models
                 e.Property(e => e.StartTime).HasColumnType("date");
 
                 e.Property(e => e.EndTime).HasColumnType("date");
+
+                e.HasOne(e => e.Person)
+                    .WithMany(p => p.AbsentPepple)
+                    .HasForeignKey(e => e.PersonId)
+                    .HasConstraintName("Fk_AbsentPerson_PersonId")
+                    .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<Residence>(e => 

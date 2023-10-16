@@ -16,7 +16,7 @@ namespace Project.Models
         public DateTime DateCreated { get; set; }
 
         // Navigation properties
-        public virtual Person Person { get; set; }
+        public virtual Person? Person { get; set; }
         [JsonIgnore]
         public virtual Residence Residence { get; set; }    
     }
