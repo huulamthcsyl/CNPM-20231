@@ -13,6 +13,7 @@ import NoneLayout from "../Layout/NoneLayout.js";
 import HoSoPage from "../Pages/HoSo";
 import QuanLyPTPage from "../Pages/PhuongTien/QuanLyPTPage";
 import ThuPhiPTPage from "../Pages/PhuongTien/ThuPhiPTPage";
+import TaoPhuongTienPage from "../Pages/PhuongTien/TaoPhuongTienPage";
 const publicRoutes = [
   { path: "/", component: DangNhapPage, layout: NoneLayout },
   { path: "/danhmucthu", component: DanhMucThu },
@@ -28,6 +29,7 @@ const publicRoutes = [
   { path: "/hosoadmin", component: HoSoPage },
   { path: "/quanlyphuongtien", component: QuanLyPTPage },
   { path: "/thuphiphuongtien", component: ThuPhiPTPage },
+  { path: "/taophuongtien", component: TaoPhuongTienPage}
 ];
 
 export { publicRoutes };
