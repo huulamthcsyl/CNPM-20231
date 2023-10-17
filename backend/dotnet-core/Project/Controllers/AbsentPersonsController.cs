@@ -31,6 +31,7 @@ namespace Project.Controllers
             return await _context.AbsentPeople.ToListAsync();
         }
 
+
         // GET: api/absent/[:personId]
         [HttpGet("id")]
         public async Task<ActionResult<IEnumerable<AbsentPerson>>> GetAbsentPerson(Guid personId)
@@ -44,6 +45,7 @@ namespace Project.Controllers
             return absentPeople;
         }
 
+
         //GET: api/absent/?name=
         [HttpGet("name")]
         public async Task<ActionResult<IEnumerable<AbsentPerson>>> GetAbsentPeople(string name)
@@ -55,6 +57,22 @@ namespace Project.Controllers
             var absentPeople = await _context.AbsentPeople.Where(ap => (ap.Person.Name == name)).ToListAsync();
 
             return absentPeople;
+        }
+
+
+        //GET: api/absent/person
+        [HttpGet("person")]
+        public async Task<ActionResult<IEnumerable<Person>>> GetPeople()
+        {
+            if (_context.AbsentPeople == null)
+            {
+                return NotFound();
+            }
+
+            var people = await _context.AbsentPeople.Select(p => p.Person).Distinct().ToListAsync();
+
+            return people;
+
         }
 
 

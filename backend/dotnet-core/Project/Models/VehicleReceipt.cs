@@ -9,6 +9,7 @@ namespace Project.Models
 
         // Foreign keys
         public Guid VehicleId { get; set; }
+        [JsonIgnore]
         public Guid VehicleFeeId { get; set; }
 
         // Properties
@@ -17,8 +18,7 @@ namespace Project.Models
         public string? Description { get; set; }
 
         // Navigation properties
-        [JsonIgnore]
-        public virtual Vehicle Vehicle { get; set; }    
-        public virtual ICollection<VehiclePayment> VehiclePayments { get; set; }
+        public virtual Vehicle? Vehicle { get; set; }    
+        public virtual ICollection<VehiclePayment>? VehiclePayments { get; set; } = new List<VehiclePayment>();
     }
 }

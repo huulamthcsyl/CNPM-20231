@@ -46,7 +46,7 @@ namespace Project.Controllers
         }
 
 
-        // PUT: api/vehicle/[_id]
+        // PUT: api/vehicle/[:id]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutVehicle(Guid id, Vehicle vehicle)
         {

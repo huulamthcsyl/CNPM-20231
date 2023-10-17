@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Validations;
 using Project.Models;
 
 namespace Project.Controllers
 {
-    [Route("api/receipt")]
+    [Route("api/residencereceipt")]
     [ApiController]
     public class ResidenceReceiptsController : ControllerBase
     {
@@ -20,7 +21,7 @@ namespace Project.Controllers
             _context = context;
         }
 
-        // GET: api/receipt/all
+        // GET: api/residencereceipt/all
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<ResidenceReceipt>>> GetResidenceReceipts()
         {
@@ -32,7 +33,7 @@ namespace Project.Controllers
         }
 
 
-        // GET: api/receipt/[:id]
+        // GET: api/residencereceipt/[:id]
         [HttpGet("{id}")]
         public async Task<ActionResult<ResidenceReceipt>> GetResidenceReceipt(Guid id)
         {
@@ -50,39 +51,78 @@ namespace Project.Controllers
             return residenceReceipt;
         }
 
+        // GET: api/residencereceipt?name={}&address={}&starttime={}&endtime={}
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ResidenceReceipt>>> GetResidenceReceipts(string name, string adress, DateTime starttime, DateTime endtime )
+        {
+            if (_context.ResidenceReceipts == null)
+            {
+                return NotFound();
+            }
 
-        //// PUT: api/receipt/5
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutResidenceReceipt(Guid id, ResidenceReceipt residenceReceipt)
-        //{
-        //    if (id != residenceReceipt.ResidenceReceiptId)
-        //    {
-        //        return BadRequest();
-        //    }
+            var residenceReceipts = await _context.ResidenceReceipts
+                                        .Where(p => (p.Person.Name == name && p.Person.Residence.Address == adress
+                                               && starttime <= p.DateCreated && p.DateCreated <= endtime))
+                                        .ToListAsync();
 
-        //    _context.Entry(residenceReceipt).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!ResidenceReceiptExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
+            return residenceReceipts;
+        }
 
 
-        // POST: api/receipt
+        //PUT: api/residencereceipt/[:id]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutResidenceReceipt(Guid id, ResidenceReceipt newReceipt)
+        {
+            if (id != newReceipt.ResidenceReceiptId)
+            {
+                return BadRequest();
+            }
+
+            var currentReceipt = await _context.ResidenceReceipts.FindAsync(id);
+
+            if (currentReceipt == null)
+            {
+                return NotFound();
+            }
+
+            // Update new receipt
+            currentReceipt.Amount = newReceipt.Amount;
+            currentReceipt.DateCreated = newReceipt.DateCreated;
+            currentReceipt.Description = newReceipt.Description;
+
+            var removedPayments = currentReceipt.ResidencePayments
+                                    .Where(oldR => newReceipt.ResidencePayments
+                                    .Any(newR => (newR.ResidenceFeeId != oldR.ResidenceFeeId && newR.Amount != oldR.Amount)))
+                                    .ToList();
+            var addedPayments = newReceipt.ResidencePayments
+                                    .Where(newR => currentReceipt.ResidencePayments
+                                    .Any(oldR => (oldR.ResidenceFeeId != newR.ResidenceFeeId && oldR.Amount != newR.Amount)))
+                                    .ToList();
+
+            _context.ResidencePayments.RemoveRange(removedPayments);
+            _context.ResidencePayments.AddRange(addedPayments);
+                
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ResidenceReceiptExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+
+        // POST: api/residencereceipt
         [HttpPost()]
         public async Task<ActionResult<ResidenceReceipt>> PostResidenceReceipt(ResidenceReceipt residenceReceipt)
         {
@@ -134,7 +174,7 @@ namespace Project.Controllers
         }
 
 
-        // DELETE: api/receipt/5
+        // DELETE: api/residencereceipt/[:id]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteResidenceReceipt(Guid id)
         {

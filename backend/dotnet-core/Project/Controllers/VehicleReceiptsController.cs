@@ -9,7 +9,7 @@ using Project.Models;
 
 namespace Project.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/vehiclereceipt")]
     [ApiController]
     public class VehicleReceiptsController : ControllerBase
     {
@@ -20,8 +20,9 @@ namespace Project.Controllers
             _context = context;
         }
 
-        // GET: api/VehicleReceipts
-        [HttpGet]
+
+        // GET: api/vehiclereceipt/all
+        [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<VehicleReceipt>>> GetVehicleReceipts()
         {
           if (_context.VehicleReceipts == null)
@@ -31,7 +32,8 @@ namespace Project.Controllers
             return await _context.VehicleReceipts.ToListAsync();
         }
 
-        // GET: api/VehicleReceipts/5
+
+        // GET: api/vehiclereceipt/[:id]
         [HttpGet("{id}")]
         public async Task<ActionResult<VehicleReceipt>> GetVehicleReceipt(Guid id)
         {
@@ -49,7 +51,8 @@ namespace Project.Controllers
             return vehicleReceipt;
         }
 
-        // PUT: api/VehicleReceipts/5
+
+        // PUT: api/vehiclereceipt/[_id]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutVehicleReceipt(Guid id, VehicleReceipt vehicleReceipt)
         {
@@ -79,7 +82,8 @@ namespace Project.Controllers
             return NoContent();
         }
 
-        // POST: api/VehicleReceipts
+
+        // POST: api/vehiclereceipt
         [HttpPost]
         public async Task<ActionResult<VehicleReceipt>> PostVehicleReceipt(VehicleReceipt vehicleReceipt)
         {
@@ -87,9 +91,13 @@ namespace Project.Controllers
           {
               return Problem("Entity set 'ProjectContext.VehicleReceipts'  is null.");
           }
+
             var paymentList = vehicleReceipt.VehiclePayments.ToList();
+            vehicleReceipt.VehicleReceiptId = Guid.NewGuid();
+
             vehicleReceipt.VehiclePayments.Clear();
             _context.VehicleReceipts.Add(vehicleReceipt);
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -111,7 +119,7 @@ namespace Project.Controllers
                 _context.VehiclePayments.Add(new VehiclePayment
                 {
                     VehicleFeeId = payment.VehicleFeeId,
-                    VehicleReceiptId = payment.VehicleReceiptId,
+                    VehicleReceiptId = vehicleReceipt.VehicleReceiptId,
                     Amount = payment.Amount,
                 });
             }
@@ -124,7 +132,8 @@ namespace Project.Controllers
                 return StatusCode(400, ex.Message);
             }
 
-            return Ok(200);
+            return CreatedAtAction("GetVehicleReceipt", new { id = vehicleReceipt.VehicleReceiptId }, vehicleReceipt);
+            ;
         }
 
         // DELETE: api/VehicleReceipts/5

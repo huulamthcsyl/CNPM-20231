@@ -2,7 +2,7 @@
 {
     public class VehicleFeeInfor : VehicleFee
     {
-        public int Quantity { get; set; }
-        public int Sum { get; set; }
+        public int PaidQuantity { get; set; }
+        public int Total { get; set; }
     }
 }

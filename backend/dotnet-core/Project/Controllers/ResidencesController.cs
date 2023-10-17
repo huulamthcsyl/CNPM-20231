@@ -99,15 +99,15 @@ namespace Project.Controllers
             currentResidence.OwnerName = newResidence.OwnerName;
 
             // Find removed person, added person 
-            var removedPerson = currentResidence.People
+            var removedPeople = currentResidence.People
                 .Where(p => !newResidence.People.Any(newPerson => newPerson.PersonId == p.PersonId))
                 .ToList();
 
-            var addedPerson = newResidence.People
+            var addedPeople = newResidence.People
                 .Where(p => !currentResidence.People.Any(oldPerson => oldPerson.PersonId == p.PersonId))
                 .ToList();
             
-            foreach (var p in removedPerson)
+            foreach (var p in removedPeople)
             {
                 // Update residence of removed person
                 var person = await _context.People.FindAsync(p.PersonId);
@@ -125,7 +125,7 @@ namespace Project.Controllers
                 });
             }
 
-            foreach (var p in addedPerson)
+            foreach (var p in addedPeople)
             {
                 // Update residence of added person
                 var person = await _context.People.FindAsync(p.PersonId);
@@ -208,26 +208,14 @@ namespace Project.Controllers
                 }
             }
 
-            // Update residence of person
             foreach (var p in people)
             {
+                // Update residence of person
                 var person = await _context.People.FindAsync(p.PersonId);
                 person.ResidenceId = residence.ResidenceId;
                 person.OwnerRelationship = p.OwnerRelationship;
-            }
-            // Save Db_Context
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(400, ex.Message);
-            }
 
-            // Insert add action to Records
-            foreach (var p in people)
-            {
+                // Insert add action to Records
                 _context.Records.Add(new Record
                 {
                     RecordId = Guid.NewGuid(),
@@ -247,6 +235,7 @@ namespace Project.Controllers
                 return StatusCode(400, ex.Message);
             }
 
+           
             return CreatedAtAction("GetResidence", new { id = residence.ResidenceId }, residence);
         }
 

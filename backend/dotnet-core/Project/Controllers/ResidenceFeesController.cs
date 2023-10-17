@@ -40,8 +40,8 @@ namespace Project.Controllers
                     Name = fee.Name,
                     IsObligatory = fee.IsObligatory,
                     Cost = fee.Cost,
-                    Quantity = paymentList.Where(p => (p.ResidenceFeeId == fee.ResidenceFeeId)).Count(),
-                    Sum = paymentList.Where(p => (p.ResidenceFeeId == fee.ResidenceFeeId)).Select(p => p.Amount).Sum()
+                    PaidQuantity = paymentList.Where(p => (p.ResidenceFeeId == fee.ResidenceFeeId)).Count(),
+                    Total = paymentList.Where(p => (p.ResidenceFeeId == fee.ResidenceFeeId)).Select(p => p.Amount).Sum()
                 });
             }
             return feesInfor;
@@ -69,8 +69,8 @@ namespace Project.Controllers
                     Name = fee.Name,
                     IsObligatory = fee.IsObligatory,
                     Cost = fee.Cost,
-                    Quantity = paymentList.Where(p => (p.ResidenceFeeId == fee.ResidenceFeeId)).Count(),
-                    Sum = paymentList.Where(p => (p.ResidenceFeeId == fee.ResidenceFeeId)).Select(p => p.Amount).Sum()
+                    PaidQuantity = paymentList.Where(p => (p.ResidenceFeeId == fee.ResidenceFeeId)).Count(),
+                    Total = paymentList.Where(p => (p.ResidenceFeeId == fee.ResidenceFeeId)).Select(p => p.Amount).Sum()
                 });
             }
             return feesInfor;

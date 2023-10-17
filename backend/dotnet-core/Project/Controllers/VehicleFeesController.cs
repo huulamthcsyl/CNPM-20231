@@ -9,7 +9,7 @@ using Project.Models;
 
 namespace Project.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/vehiclefee")]
     [ApiController]
     public class VehicleFeesController : ControllerBase
     {
@@ -20,7 +20,7 @@ namespace Project.Controllers
             _context = context;
         }
 
-        // GET: api/VehicleFees
+        // GET: api/vehiclefee/all
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<VehicleFeeInfor>>> GetVehicleFees()
         {
@@ -39,15 +39,16 @@ namespace Project.Controllers
                     VehicleFeeId = vehicleFee.VehicleFeeId,
                     Name = vehicleFee.Name,
                     Cost = vehicleFee.Cost,
-                    Quantity = vehiclePayments.Count(),
-                    Sum = vehiclePayments.Select(p => p.Amount).Sum()
+                    PaidQuantity = vehiclePayments.Where(p => (p.VehicleFeeId == vehicleFee.VehicleFeeId)).Count(),
+                    Total = vehiclePayments.Where(p => (p.VehicleFeeId == vehicleFee.VehicleFeeId)).Select(p => p.Amount).Sum()
                 });
             }
 
             return vehicleFeesInfor;
         }
 
-        // GET: api/VehicleFees/5
+
+        // GET: api/vehiclefee/[:id]
         [HttpGet("{id}")]
         public async Task<ActionResult<VehicleFee>> GetVehicleFee(Guid id)
         {
@@ -65,7 +66,8 @@ namespace Project.Controllers
             return vehicleFee;
         }
 
-        // GET: api/VehicleFees?name=
+
+        // GET: api/vehiclefee?name=
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VehicleFeeInfor>>> GetVehicleFee(string name)
         {
@@ -84,15 +86,16 @@ namespace Project.Controllers
                     VehicleFeeId = vehicleFee.VehicleFeeId,
                     Name = vehicleFee.Name,
                     Cost = vehicleFee.Cost,
-                    Quantity = vehiclePayments.Where(p => (p.VehicleFeeId == vehicleFee.VehicleFeeId)).Count(),
-                    Sum = vehiclePayments.Where(p => (p.VehicleFeeId == vehicleFee.VehicleFeeId)).Select(p => p.Amount).Sum()
+                    PaidQuantity = vehiclePayments.Where(p => (p.VehicleFeeId == vehicleFee.VehicleFeeId)).Count(),
+                    Total = vehiclePayments.Where(p => (p.VehicleFeeId == vehicleFee.VehicleFeeId)).Select(p => p.Amount).Sum()
                 });
             }
 
             return vehicleFeesInfor;
         }
 
-        // PUT: api/VehicleFees/5
+
+        // PUT: api/vehiclefee/[:id]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutVehicleFee(Guid id, VehicleFee vehicleFee)
         {
@@ -122,14 +125,18 @@ namespace Project.Controllers
             return NoContent();
         }
 
-        // POST: api/VehicleFees
+
+        // POST: api/vehiclefee
         [HttpPost]
         public async Task<ActionResult<VehicleFee>> PostVehicleFee(VehicleFee vehicleFee)
         {
-          if (_context.VehicleFees == null)
-          {
-              return Problem("Entity set 'ProjectContext.VehicleFees'  is null.");
-          }
+            if (_context.VehicleFees == null)
+            {
+                return Problem("Entity set 'ProjectContext.VehicleFees'  is null.");
+            }
+
+            vehicleFee.VehicleFeeId = Guid.NewGuid();
+
             _context.VehicleFees.Add(vehicleFee);
             try
             {
@@ -150,7 +157,8 @@ namespace Project.Controllers
             return CreatedAtAction("GetVehicleFee", new { id = vehicleFee.VehicleFeeId }, vehicleFee);
         }
 
-        // DELETE: api/VehicleFees/5
+
+        // DELETE: api/vehiclefee/[:id]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVehicleFee(Guid id)
         {

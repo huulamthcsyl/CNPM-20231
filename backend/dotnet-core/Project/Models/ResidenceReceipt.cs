@@ -16,7 +16,6 @@ namespace Project.Models
         public string? Description { get; set; }
 
         // Navigation properties
-        [JsonIgnore]
         public virtual Person? Person { get; set; }  
         public virtual ICollection<ResidencePayment>? ResidencePayments { get; set; } = new List<ResidencePayment>();
     }
