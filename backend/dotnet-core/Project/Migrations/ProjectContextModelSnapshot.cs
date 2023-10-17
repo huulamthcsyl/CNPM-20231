@@ -174,7 +174,7 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.ResidencePayment", b =>
                 {
-                    b.Property<Guid>("ResidenceReceiptId")
+                    b.Property<Guid?>("ResidenceReceiptId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ResidenceFeeId")
@@ -305,7 +305,7 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.VehiclePayment", b =>
                 {
-                    b.Property<Guid>("VehicleReceiptId")
+                    b.Property<Guid?>("VehicleReceiptId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("VehicleFeeId")
@@ -335,9 +335,6 @@ namespace Project.Migrations
                     b.Property<string>("Description")
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("VehicleFeeId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("VehicleId")
                         .HasColumnType("uniqueidentifier");

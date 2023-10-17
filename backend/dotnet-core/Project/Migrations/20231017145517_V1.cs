@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Project.Migrations
 {
     /// <inheritdoc />
-    public partial class V0 : Migration
+    public partial class V1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -78,7 +78,6 @@ namespace Project.Migrations
                 {
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ResidenceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdentityCardNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -102,6 +101,7 @@ namespace Project.Migrations
                 name: "AbsentPerson",
                 columns: table => new
                 {
+                    AbsentPersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StartTime = table.Column<DateTime>(type: "date", nullable: false),
                     EndTime = table.Column<DateTime>(type: "date", nullable: false),
@@ -109,7 +109,7 @@ namespace Project.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("Pk_AbsentPerson_PersonId", x => x.PersonId);
+                    table.PrimaryKey("Pk_AbsentPersonId_AbsentIdId", x => x.AbsentPersonId);
                     table.ForeignKey(
                         name: "Fk_AbsentPerson_PersonId",
                         column: x => x.PersonId,
@@ -215,7 +215,6 @@ namespace Project.Migrations
                 {
                     VehicleReceiptId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     VehicleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    VehicleFeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "date", nullable: false),
                     Amount = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -254,6 +253,11 @@ namespace Project.Migrations
                         principalColumn: "VehicleReceiptId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AbsentPerson_PersonId",
+                table: "AbsentPerson",
+                column: "PersonId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Person_ResidenceId",

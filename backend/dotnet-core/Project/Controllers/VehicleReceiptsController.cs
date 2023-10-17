@@ -40,7 +40,8 @@ namespace Project.Controllers
                     VehicleId = receipt.VehicleId,
                     DateCreated = receipt.DateCreated,
                     Amount = receipt.Amount,    
-                    Description = receipt.Description,  
+                    Description = receipt.Description,
+                    VehiclePayments = receipt.VehiclePayments,
                     LicensePlate = receipt.Vehicle.LicensePlate,
                     OwnerName = receipt.Vehicle.Person.Name
                 });
@@ -72,6 +73,7 @@ namespace Project.Controllers
                 DateCreated = vehicleReceipt.DateCreated,
                 Amount = vehicleReceipt.Amount,
                 Description = vehicleReceipt.Description,
+                VehiclePayments = vehicleReceipt.VehiclePayments,
                 LicensePlate = vehicleReceipt.Vehicle.LicensePlate,
                 OwnerName = vehicleReceipt.Vehicle.Person.Name
             };
@@ -106,6 +108,7 @@ namespace Project.Controllers
                     DateCreated = receipt.DateCreated,
                     Amount = receipt.Amount,
                     Description = receipt.Description,
+                    VehiclePayments = receipt.VehiclePayments,
                     LicensePlate = receipt.Vehicle.LicensePlate,
                     OwnerName = receipt.Vehicle.Person.Name
                 });
@@ -128,6 +131,7 @@ namespace Project.Controllers
             var currentReceipt = await _context.VehicleReceipts.FindAsync(id);
 
             // Update new receipt's attributes
+            currentReceipt.VehicleReceiptId = newReceipt.VehicleReceiptId;
             currentReceipt.Amount = newReceipt.Amount;
             currentReceipt.DateCreated = newReceipt.DateCreated;
             currentReceipt.Description = newReceipt.Description;
@@ -136,13 +140,13 @@ namespace Project.Controllers
             var removedPayments = currentReceipt.VehiclePayments
                                     .Where(oldR => newReceipt.VehiclePayments
                                     .Any(newR => (newR.VehicleFeeId != oldR.VehicleFeeId
-                                                 && newR.Amount != oldR.Amount)))
+                                                 || newR.Amount != oldR.Amount)))
                                     .ToList();
 
             var addedPayments = newReceipt.VehiclePayments
                                     .Where(newR => currentReceipt.VehiclePayments
                                     .Any(oldR => (oldR.VehicleFeeId != newR.VehicleFeeId
-                                                 && oldR.Amount != newR.Amount)))
+                                                 || oldR.Amount != newR.Amount)))
                                     .ToList();
 
             // Remove | Add payments in context
@@ -222,6 +226,7 @@ namespace Project.Controllers
             return CreatedAtAction("GetVehicleReceipt", new { id = vehicleReceipt.VehicleReceiptId }, vehicleReceipt);
             ;
         }
+
 
         // DELETE: api/VehicleReceipts/5
         [HttpDelete("{id}")]

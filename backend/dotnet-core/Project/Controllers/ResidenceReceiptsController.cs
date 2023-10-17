@@ -32,15 +32,16 @@ namespace Project.Controllers
             var residenceReceipts =  await _context.ResidenceReceipts.ToListAsync();
             var receiptsInfor = new List<ResidenceReceiptInfor>();
 
-            foreach(var receipt in residenceReceipts)
+            foreach (var receipt in residenceReceipts)
             {
-                receiptsInfor.Add(new ResidenceReceiptInfor 
+                receiptsInfor.Add(new ResidenceReceiptInfor
                 {
                     ResidenceReceiptId = receipt.ResidenceReceiptId,
                     PersonId = receipt.PersonId,
-                    DateCreated = receipt.DateCreated,  
+                    DateCreated = receipt.DateCreated,
                     Amount = receipt.Amount,
                     Description = receipt.Description,
+                    ResidencePayments = receipt.ResidencePayments,
                     Name = receipt.Person.Name,
                     Address = receipt.Person.Residence.Address
                 });
@@ -73,6 +74,7 @@ namespace Project.Controllers
                 DateCreated = residenceReceipt.DateCreated,
                 Amount = residenceReceipt.Amount,
                 Description = residenceReceipt.Description,
+                ResidencePayments = residenceReceipt.ResidencePayments,
                 Name = residenceReceipt.Person.Name,
                 Address = residenceReceipt.Person.Residence.Address
             };
@@ -107,6 +109,7 @@ namespace Project.Controllers
                     DateCreated = receipt.DateCreated,
                     Amount = receipt.Amount,
                     Description = receipt.Description,
+                    ResidencePayments = receipt.ResidencePayments,
                     Name = receipt.Person.Name,
                     Address = receipt.Person.Residence.Address
                 });
@@ -128,27 +131,28 @@ namespace Project.Controllers
             var currentReceipt = await _context.ResidenceReceipts.FindAsync(id);
 
             // Update new receipt's attributes
+            currentReceipt.PersonId = newReceipt.PersonId;
             currentReceipt.Amount = newReceipt.Amount;
             currentReceipt.DateCreated = newReceipt.DateCreated;
             currentReceipt.Description = newReceipt.Description;
 
             // Get removed | added payments
             var removedPayments = currentReceipt.ResidencePayments
-                                    .Where(oldR => newReceipt.ResidencePayments
-                                    .Any(newR => (newR.ResidenceFeeId != oldR.ResidenceFeeId 
-                                                 && newR.Amount != oldR.Amount)))
+                                    .Where(oldR => !newReceipt.ResidencePayments
+                                    .Any(newR => (newR.ResidenceFeeId == oldR.ResidenceFeeId
+                                                 && newR.Amount == oldR.Amount)))
                                     .ToList();
 
             var addedPayments = newReceipt.ResidencePayments
-                                    .Where(newR => currentReceipt.ResidencePayments
-                                    .Any(oldR => (oldR.ResidenceFeeId != newR.ResidenceFeeId 
-                                                 && oldR.Amount != newR.Amount)))
+                                    .Where(newR => !currentReceipt.ResidencePayments
+                                    .Any(oldR => (oldR.ResidenceFeeId == newR.ResidenceFeeId
+                                                 && oldR.Amount == newR.Amount)))
                                     .ToList();
-
+         
             // Remove | Add payments in context
             _context.ResidencePayments.RemoveRange(removedPayments);
             _context.ResidencePayments.AddRange(addedPayments);
-            
+
             // Save Db_context
             try
             {

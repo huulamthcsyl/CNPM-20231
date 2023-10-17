@@ -12,8 +12,8 @@ using Project.Models;
 namespace Project.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20231015093715_V2")]
-    partial class V2
+    [Migration("20231017145517_V1")]
+    partial class V1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,11 +30,15 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.AbsentPerson", b =>
                 {
-                    b.Property<Guid>("PersonId")
+                    b.Property<Guid>("AbsentPersonId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("date");
+
+                    b.Property<Guid>("PersonId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Reason")
                         .IsUnicode(true)
@@ -43,8 +47,10 @@ namespace Project.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("date");
 
-                    b.HasKey("PersonId")
-                        .HasName("Pk_AbsentPerson_PersonId");
+                    b.HasKey("AbsentPersonId")
+                        .HasName("Pk_AbsentPersonId_AbsentIdId");
+
+                    b.HasIndex("PersonId");
 
                     b.ToTable("AbsentPerson", (string)null);
                 });
@@ -171,7 +177,7 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.ResidencePayment", b =>
                 {
-                    b.Property<Guid>("ResidenceReceiptId")
+                    b.Property<Guid?>("ResidenceReceiptId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ResidenceFeeId")
@@ -302,7 +308,7 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.VehiclePayment", b =>
                 {
-                    b.Property<Guid>("VehicleReceiptId")
+                    b.Property<Guid?>("VehicleReceiptId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("VehicleFeeId")
@@ -333,9 +339,6 @@ namespace Project.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("VehicleFeeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("VehicleId")
                         .HasColumnType("uniqueidentifier");
 
@@ -346,22 +349,25 @@ namespace Project.Migrations
                     b.ToTable("VehicleReceipt", (string)null);
                 });
 
-            modelBuilder.Entity("Project.Models.Person", b =>
+            modelBuilder.Entity("Project.Models.AbsentPerson", b =>
                 {
-                    b.HasOne("Project.Models.AbsentPerson", "AbsentPerson")
-                        .WithOne("Person")
-                        .HasForeignKey("Project.Models.Person", "PersonId")
+                    b.HasOne("Project.Models.Person", "Person")
+                        .WithMany("AbsentPepple")
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("Fk_AbsentPerson_PersonId");
 
+                    b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("Project.Models.Person", b =>
+                {
                     b.HasOne("Project.Models.Residence", "Residence")
                         .WithMany("People")
                         .HasForeignKey("ResidenceId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .HasConstraintName("Fk_Person_ResidenceId");
-
-                    b.Navigation("AbsentPerson");
 
                     b.Navigation("Residence");
                 });
@@ -465,14 +471,10 @@ namespace Project.Migrations
                     b.Navigation("Vehicle");
                 });
 
-            modelBuilder.Entity("Project.Models.AbsentPerson", b =>
-                {
-                    b.Navigation("Person")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Project.Models.Person", b =>
                 {
+                    b.Navigation("AbsentPepple");
+
                     b.Navigation("Records");
 
                     b.Navigation("ResidenceReceipts");
