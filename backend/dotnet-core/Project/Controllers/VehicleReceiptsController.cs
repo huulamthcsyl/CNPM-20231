@@ -23,24 +23,41 @@ namespace Project.Controllers
 
         // GET: api/vehiclereceipt/all
         [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<VehicleReceipt>>> GetVehicleReceipts()
+        public async Task<ActionResult<IEnumerable<VehicleReceiptInfor>>> GetVehicleReceipts()
         {
           if (_context.VehicleReceipts == null)
           {
               return NotFound();
           }
-            return await _context.VehicleReceipts.ToListAsync();
+            var vehicleReceipts = await _context.VehicleReceipts.ToListAsync();
+            var receiptsInfor = new List<VehicleReceiptInfor>();
+
+            foreach (var receipt in vehicleReceipts)
+            {
+                receiptsInfor.Add(new VehicleReceiptInfor 
+                {
+                    VehicleReceiptId = receipt.VehicleReceiptId,
+                    VehicleId = receipt.VehicleId,
+                    DateCreated = receipt.DateCreated,
+                    Amount = receipt.Amount,    
+                    Description = receipt.Description,  
+                    LicensePlate = receipt.Vehicle.LicensePlate,
+                    OwnerName = receipt.Vehicle.Person.Name
+                });
+            }
+
+            return receiptsInfor;
         }
 
 
         // GET: api/vehiclereceipt/[:id]
         [HttpGet("{id}")]
-        public async Task<ActionResult<VehicleReceipt>> GetVehicleReceipt(Guid id)
+        public async Task<ActionResult<VehicleReceiptInfor>> GetVehicleReceipt(Guid id)
         {
-          if (_context.VehicleReceipts == null)
-          {
-              return NotFound();
-          }
+            if (_context.VehicleReceipts == null)
+            {
+                return NotFound();
+            }
             var vehicleReceipt = await _context.VehicleReceipts.FindAsync(id);
 
             if (vehicleReceipt == null)
@@ -48,21 +65,91 @@ namespace Project.Controllers
                 return NotFound();
             }
 
-            return vehicleReceipt;
+            var vehicleReceiptInfor = new VehicleReceiptInfor()
+            {
+                VehicleReceiptId = vehicleReceipt.VehicleReceiptId,
+                VehicleId = vehicleReceipt.VehicleId,
+                DateCreated = vehicleReceipt.DateCreated,
+                Amount = vehicleReceipt.Amount,
+                Description = vehicleReceipt.Description,
+                LicensePlate = vehicleReceipt.Vehicle.LicensePlate,
+                OwnerName = vehicleReceipt.Vehicle.Person.Name
+            };
+
+            return vehicleReceiptInfor;
+        }
+
+
+        // GET: api/vehiclereceipt?licenseplate={}&address={}&starttime={}&endtime={}
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<VehicleReceiptInfor>>> GetResidenceReceipts(string licenseplate, DateTime starttime, DateTime endtime)
+        {
+            if (_context.ResidenceReceipts == null)
+            {
+                return NotFound();
+            }
+
+            var vehicleReceipts = await _context.VehicleReceipts
+                                        .Where(p => (p.Vehicle.LicensePlate == licenseplate
+                                                    && starttime <= p.DateCreated 
+                                                    && p.DateCreated <= endtime))
+                                        .ToListAsync();
+
+            var receiptsInfor = new List<VehicleReceiptInfor>();
+
+            foreach (var receipt in vehicleReceipts)
+            {
+                receiptsInfor.Add(new VehicleReceiptInfor
+                {
+                    VehicleReceiptId = receipt.VehicleReceiptId,
+                    VehicleId = receipt.VehicleId,
+                    DateCreated = receipt.DateCreated,
+                    Amount = receipt.Amount,
+                    Description = receipt.Description,
+                    LicensePlate = receipt.Vehicle.LicensePlate,
+                    OwnerName = receipt.Vehicle.Person.Name
+                });
+            }
+
+            return receiptsInfor;
         }
 
 
         // PUT: api/vehiclereceipt/[_id]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutVehicleReceipt(Guid id, VehicleReceipt vehicleReceipt)
+        public async Task<IActionResult> PutVehicleReceipt(Guid id, VehicleReceipt newReceipt)
         {
-            if (id != vehicleReceipt.VehicleReceiptId)
+            if (id != newReceipt.VehicleReceiptId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(vehicleReceipt).State = EntityState.Modified;
 
+            var currentReceipt = await _context.VehicleReceipts.FindAsync(id);
+
+            // Update new receipt's attributes
+            currentReceipt.Amount = newReceipt.Amount;
+            currentReceipt.DateCreated = newReceipt.DateCreated;
+            currentReceipt.Description = newReceipt.Description;
+
+            // Get removed | added payments
+            var removedPayments = currentReceipt.VehiclePayments
+                                    .Where(oldR => newReceipt.VehiclePayments
+                                    .Any(newR => (newR.VehicleFeeId != oldR.VehicleFeeId
+                                                 && newR.Amount != oldR.Amount)))
+                                    .ToList();
+
+            var addedPayments = newReceipt.VehiclePayments
+                                    .Where(newR => currentReceipt.VehiclePayments
+                                    .Any(oldR => (oldR.VehicleFeeId != newR.VehicleFeeId
+                                                 && oldR.Amount != newR.Amount)))
+                                    .ToList();
+
+            // Remove | Add payments in context
+            _context.VehiclePayments.RemoveRange(removedPayments);
+            _context.VehiclePayments.AddRange(addedPayments);
+
+            // Save Db_context
             try
             {
                 await _context.SaveChangesAsync();

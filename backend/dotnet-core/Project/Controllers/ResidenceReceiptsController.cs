@@ -23,19 +23,37 @@ namespace Project.Controllers
 
         // GET: api/residencereceipt/all
         [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<ResidenceReceipt>>> GetResidenceReceipts()
+        public async Task<ActionResult<IEnumerable<ResidenceReceiptInfor>>> GetResidenceReceipts()
         {
           if (_context.ResidenceReceipts == null)
           {
               return NotFound();
           }
-            return await _context.ResidenceReceipts.ToListAsync();
+            var residenceReceipts =  await _context.ResidenceReceipts.ToListAsync();
+            var receiptsInfor = new List<ResidenceReceiptInfor>();
+
+            foreach(var receipt in residenceReceipts)
+            {
+                receiptsInfor.Add(new ResidenceReceiptInfor 
+                {
+                    ResidenceReceiptId = receipt.ResidenceReceiptId,
+                    PersonId = receipt.PersonId,
+                    DateCreated = receipt.DateCreated,  
+                    Amount = receipt.Amount,
+                    Description = receipt.Description,
+                    Name = receipt.Person.Name,
+                    Address = receipt.Person.Residence.Address
+                });
+            }
+
+            return receiptsInfor;
+
         }
 
 
         // GET: api/residencereceipt/[:id]
         [HttpGet("{id}")]
-        public async Task<ActionResult<ResidenceReceipt>> GetResidenceReceipt(Guid id)
+        public async Task<ActionResult<ResidenceReceiptInfor>> GetResidenceReceipt(Guid id)
         {
           if (_context.ResidenceReceipts == null)
           {
@@ -47,13 +65,24 @@ namespace Project.Controllers
             {
                 return NotFound();
             }
+            
+            var residenceReceiptInfor = new ResidenceReceiptInfor()
+            {
+                ResidenceReceiptId = residenceReceipt.ResidenceReceiptId,
+                PersonId = residenceReceipt.PersonId,
+                DateCreated = residenceReceipt.DateCreated,
+                Amount = residenceReceipt.Amount,
+                Description = residenceReceipt.Description,
+                Name = residenceReceipt.Person.Name,
+                Address = residenceReceipt.Person.Residence.Address
+            };
 
-            return residenceReceipt;
+            return residenceReceiptInfor;
         }
 
         // GET: api/residencereceipt?name={}&address={}&starttime={}&endtime={}
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ResidenceReceipt>>> GetResidenceReceipts(string name, string adress, DateTime starttime, DateTime endtime )
+        public async Task<ActionResult<IEnumerable<ResidenceReceiptInfor>>> GetResidenceReceipts(string name, string adress, DateTime starttime, DateTime endtime )
         {
             if (_context.ResidenceReceipts == null)
             {
@@ -61,11 +90,29 @@ namespace Project.Controllers
             }
 
             var residenceReceipts = await _context.ResidenceReceipts
-                                        .Where(p => (p.Person.Name == name && p.Person.Residence.Address == adress
-                                               && starttime <= p.DateCreated && p.DateCreated <= endtime))
+                                        .Where(p => (p.Person.Name == name 
+                                                    && p.Person.Residence.Address == adress
+                                                    && starttime <= p.DateCreated 
+                                                    && p.DateCreated <= endtime))
                                         .ToListAsync();
 
-            return residenceReceipts;
+            var receiptsInfor = new List<ResidenceReceiptInfor>();
+
+            foreach (var receipt in residenceReceipts)
+            {
+                receiptsInfor.Add(new ResidenceReceiptInfor
+                {
+                    ResidenceReceiptId = receipt.ResidenceReceiptId,
+                    PersonId = receipt.PersonId,
+                    DateCreated = receipt.DateCreated,
+                    Amount = receipt.Amount,
+                    Description = receipt.Description,
+                    Name = receipt.Person.Name,
+                    Address = receipt.Person.Residence.Address
+                });
+            }
+
+            return receiptsInfor;
         }
 
 
@@ -80,28 +127,29 @@ namespace Project.Controllers
 
             var currentReceipt = await _context.ResidenceReceipts.FindAsync(id);
 
-            if (currentReceipt == null)
-            {
-                return NotFound();
-            }
-
-            // Update new receipt
+            // Update new receipt's attributes
             currentReceipt.Amount = newReceipt.Amount;
             currentReceipt.DateCreated = newReceipt.DateCreated;
             currentReceipt.Description = newReceipt.Description;
 
+            // Get removed | added payments
             var removedPayments = currentReceipt.ResidencePayments
                                     .Where(oldR => newReceipt.ResidencePayments
-                                    .Any(newR => (newR.ResidenceFeeId != oldR.ResidenceFeeId && newR.Amount != oldR.Amount)))
-                                    .ToList();
-            var addedPayments = newReceipt.ResidencePayments
-                                    .Where(newR => currentReceipt.ResidencePayments
-                                    .Any(oldR => (oldR.ResidenceFeeId != newR.ResidenceFeeId && oldR.Amount != newR.Amount)))
+                                    .Any(newR => (newR.ResidenceFeeId != oldR.ResidenceFeeId 
+                                                 && newR.Amount != oldR.Amount)))
                                     .ToList();
 
+            var addedPayments = newReceipt.ResidencePayments
+                                    .Where(newR => currentReceipt.ResidencePayments
+                                    .Any(oldR => (oldR.ResidenceFeeId != newR.ResidenceFeeId 
+                                                 && oldR.Amount != newR.Amount)))
+                                    .ToList();
+
+            // Remove | Add payments in context
             _context.ResidencePayments.RemoveRange(removedPayments);
             _context.ResidencePayments.AddRange(addedPayments);
-                
+            
+            // Save Db_context
             try
             {
                 await _context.SaveChangesAsync();
