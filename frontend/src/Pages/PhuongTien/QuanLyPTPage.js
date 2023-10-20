@@ -4,8 +4,6 @@ import { FormControl, FormGroup, TextField } from "@mui/material";
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableRow, TableHead, TableContainer } from "@mui/material";
 import { Paper, Link } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { NavLink } from "react-router-dom";
 import PlusCircle from "../../Icons/PlusCircle.png";
 
@@ -19,7 +17,6 @@ function QuanLyPTPage() {
     { name: "Ghi chú" },
   ];
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={2} style={{ padding: "50px" }}>
         <Grid item xs={12}>
           <h1 style={{ fontSize: "48px" }}> Quản lý phương tiện </h1>
@@ -109,9 +106,6 @@ function QuanLyPTPage() {
           </TableContainer>
         </Grid>
       </Grid>
-    </LocalizationProvider>
-
   );
-
 }
 export default QuanLyPTPage;

@@ -30,7 +30,7 @@ function TaoPhuongTienPage() {
           ></TextField>
         </Grid>
         <Grid item container direction="row" alignItems="center">
-          <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
+          <Typography style={{ fontSize: "24px", marginRight: "65px" }}>
             Chủ sở hữu
           </Typography>
           <TextField
@@ -49,5 +49,4 @@ function TaoPhuongTienPage() {
     </Grid>
   )
 }
-
 export default TaoPhuongTienPage
