@@ -1,19 +1,20 @@
 import Home from "../Pages/Home";
-import DanhMucThu from "../Pages/DanhMucThu";
-import DanhMucThuPhi from "../Pages/DanhSachThuPhi";
-import HoKhau from "../Pages/HoKhau";
-import NhanKhau from "../Pages/NhanKhau";
-import TaoPhieuThu from "../Pages/TaoPhieuThu";
-import TaoKhoanThu from "../Pages/TaoKhoanThu";
-import ThemHoDan from "../Pages/ThemHoDan";
-import ThemCuDan from "../Pages/ThemCuDan";
+import DanhMucThu from "../Pages/DanhMucThu/DanhMucThuPage";
+import DanhMucThuPhi from "../Pages/DanhSachThuPhi/DanhSachThuPage";
+import HoKhau from "../Pages/HoKhau/DanhSachHoDanPage";
+import NhanKhau from "../Pages/NhanKhau/NhanKhauPage";
+import TaoPhieuThu from "../Pages/TaoPhieuThu/TaoPhieuThuPage";
+import TaoKhoanThu from "../Pages/TaoKhoanThu/TaoKhoanThuPage";
+import ThemHoDan from "../Pages/ThemHoDan/ThemHoDanPage";
+import ThemCuDan from "../Pages/ThemCuDan/ThemCuDanPage";
 import TamVang from "../Pages/TamVang/TamVangPage.js";
 import DangNhapPage from "../Pages/Home/DangNhapPage.js";
 import NoneLayout from "../Layout/NoneLayout.js";
-import HoSoPage from "../Pages/HoSo";
+import HoSoPage from "../Pages/HoSo/HoSoPage";
 import QuanLyPTPage from "../Pages/PhuongTien/QuanLyPTPage";
 import ThuPhiPTPage from "../Pages/PhuongTien/ThuPhiPTPage";
 import TaoPhuongTienPage from "../Pages/PhuongTien/TaoPhuongTienPage";
+import ChiTietHoDan from "../Pages/HoKhau/ChiTietHoDanPage";
 const publicRoutes = [
   { path: "/", component: DangNhapPage, layout: NoneLayout },
   { path: "/danhmucthu", component: DanhMucThu },
@@ -29,7 +30,8 @@ const publicRoutes = [
   { path: "/hosoadmin", component: HoSoPage },
   { path: "/quanlyphuongtien", component: QuanLyPTPage },
   { path: "/thuphiphuongtien", component: ThuPhiPTPage },
-  { path: "/taophuongtien", component: TaoPhuongTienPage}
+  { path: "/taophuongtien", component: TaoPhuongTienPage },
+  { path: "/chitiethodan", component: ChiTietHoDan },
 ];
 
 export { publicRoutes };

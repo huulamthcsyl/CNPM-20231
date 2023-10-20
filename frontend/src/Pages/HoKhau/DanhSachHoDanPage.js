@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import ButtonAdd from "../../Layout/component/ButtonAdd";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
+import { NavLink } from "react-router-dom";
 
 const theme = createTheme({
   components: {
@@ -118,14 +119,23 @@ function HoKhau() {
                   <TableCell>-</TableCell>
                   <TableCell>-</TableCell>
                   <TableCell>
-                    <Typography
-                      variant="h5"
-                      style={{ fontWeight: "500" }}
-                      padding={0}
-                      color="#3454FC"
-                    >
-                      Chi tiết
-                    </Typography>
+                    <NavLink to="/chitiethodan">
+                      <button
+                        style={{
+                          backgroundColor: "transparent",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <Typography
+                          variant="h5"
+                          style={{ fontWeight: "500" }}
+                          padding={0}
+                          color="#3454FC"
+                        >
+                          Chi tiết
+                        </Typography>
+                      </button>
+                    </NavLink>
                   </TableCell>
                 </TableRow>
               ))}
