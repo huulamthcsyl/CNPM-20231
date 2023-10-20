@@ -3,10 +3,6 @@ import { Grid, Button, Typography } from "@mui/material";
 import {TextField} from "@mui/material";
 function TaoPhuongTienPage() {
   return (
-    
-    // <Grid item xs={12}>
-    //       <h1 style={{ fontSize: "48px" }}> Thêm phương tiện mới </h1>
-    // </Grid>
     <Grid container spacing={2} padding={"50px"}>
         <Grid item xs={12}>
           <h1 style={{ fontSize: "40px" }}>Thêm phương tiện mới</h1>
