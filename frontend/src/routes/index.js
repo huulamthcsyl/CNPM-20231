@@ -15,6 +15,7 @@ import QuanLyPTPage from "../Pages/PhuongTien/QuanLyPTPage";
 import ThuPhiPTPage from "../Pages/PhuongTien/ThuPhiPTPage";
 import TaoPhuongTienPage from "../Pages/PhuongTien/TaoPhuongTienPage";
 import ChiTietHoDan from "../Pages/HoKhau/ChiTietHoDanPage";
+import ChiTietPhuongTien from "../Pages/PhuongTien/ChiTietPhuongTienPage";
 const publicRoutes = [
   { path: "/", component: DangNhapPage, layout: NoneLayout },
   { path: "/danhmucthu", component: DanhMucThu },
@@ -32,6 +33,7 @@ const publicRoutes = [
   { path: "/thuphiphuongtien", component: ThuPhiPTPage },
   { path: "/taophuongtien", component: TaoPhuongTienPage },
   { path: "/chitiethodan", component: ChiTietHoDan },
+  { path: "/chitietphuongtien", component: ChiTietPhuongTien },
 ];
 
 export { publicRoutes };
