@@ -21,6 +21,7 @@ function QuanLyPTPage() {
         <Grid item xs={12}>
           <h1 style={{ fontSize: "48px" }}> Quản lý phương tiện </h1>
         </Grid>
+
         <Grid item xs={6}>
           <NavLink to="/taophuongtien">
             <Button
@@ -40,6 +41,7 @@ function QuanLyPTPage() {
             </Button>
           </NavLink>
         </Grid>
+
         <Grid item xs={12}>
           <FormControl>
             <FormGroup row>
@@ -67,6 +69,7 @@ function QuanLyPTPage() {
             </Typography>
           </Button>
         </Grid>
+
         <Grid item xs={12}>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }}>
@@ -107,6 +110,7 @@ function QuanLyPTPage() {
             </Table>
           </TableContainer>
         </Grid>
+        
       </Grid>
   );
 }
