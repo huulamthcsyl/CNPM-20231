@@ -31,7 +31,7 @@ function Sidebar() {
         <div className={cx("menu")}>
           <ButtonMenu iconLeft={<ThuPhiIcon />} title="Thu phí" iconRight="">
             <NavLink
-              to="/danhsachthuphi"
+              to="/danhsachphieuthu"
               className={(nav) => {
                 cx({ active: nav.isActive });
               }}

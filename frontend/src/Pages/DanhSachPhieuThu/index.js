@@ -35,7 +35,7 @@ export default function DanhSachThu() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={2} style={{ padding: "50px" }}>
         <Grid item xs={12}>
-          <div style={{ fontSize: "48px" }}> Danh sách thu phí </div>
+          <div style={{ fontSize: "48px" }}> Danh sách phiếu thu </div>
         </Grid>
         <Grid item xs={6}>
           <NavLink to="/taophieuthu">
@@ -117,8 +117,10 @@ export default function DanhSachThu() {
                     500.000 đồng
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>03/10/2023</TableCell>
-                  <TableCell style={{ fontSize: "18px" }}>
-                    <Link href="">Chi tiết</Link>
+                  <TableCell>
+                    <NavLink to="/ChiTietPhieuThu">
+                      <Typography style={{fontSize: "18px"}}>Chi Tiết</Typography>
+                    </NavLink>
                   </TableCell>
                 </TableRow>
               </TableBody>
