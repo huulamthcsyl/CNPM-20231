@@ -3,9 +3,7 @@ import { Grid, Button, Typography } from "@mui/material";
 import { FormControl, FormGroup, TextField } from "@mui/material";
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableRow, TableHead, TableContainer } from "@mui/material";
-import { Paper, Link } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { Paper } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import PlusCircle from "../../Icons/PlusCircle.png";
 
@@ -19,13 +17,12 @@ function QuanLyPTPage() {
     { name: "Ghi chú" },
   ];
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={2} style={{ padding: "50px" }}>
         <Grid item xs={12}>
           <h1 style={{ fontSize: "48px" }}> Quản lý phương tiện </h1>
         </Grid>
         <Grid item xs={6}>
-          <NavLink to="/TaoPhuongTien">
+          <NavLink to="/taophuongtien">
             <Button
               variant="contained"
               style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
@@ -99,9 +96,11 @@ function QuanLyPTPage() {
                     Nguyễn Văn A
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
-                    <Link href="">
-                      Chi tiết
-                    </Link>
+
+                  <NavLink to="/chitietphuongtien">
+                    Chi tiết
+                  </NavLink>
+                  
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -109,9 +108,6 @@ function QuanLyPTPage() {
           </TableContainer>
         </Grid>
       </Grid>
-    </LocalizationProvider>
-
   );
-
 }
 export default QuanLyPTPage;
