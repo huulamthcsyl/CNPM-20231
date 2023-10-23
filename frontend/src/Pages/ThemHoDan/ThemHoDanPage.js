@@ -134,7 +134,17 @@ function ThemHoDan() {
                   </TableCell>
                   <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
                     <span style={{ color: "blue" }}>Chi tiết</span>|
-                    <span style={{ color: "red" }}>Xóa</span>
+                    <button
+                      style={{
+                        backgroundColor: "transparent",
+                        fontSize: "18px",
+                      }}
+                      onClick={() => {
+                        setNumberLine(numberLine - 1);
+                      }}
+                    >
+                      <span style={{ color: "red" }}>Xóa</span>
+                    </button>
                   </TableCell>
                 </TableRow>
               ))}

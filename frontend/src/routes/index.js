@@ -18,6 +18,9 @@ import ChiTietPhieuThu from "../Pages/ChiTietPhieuThu/ChiTietPhieuThuPage";
 import ChiTietKhoanThu from "../Pages/ChiTietKhoanThu/ChiTietKhoanThuPage";
 import ChiTietHoDan from "../Pages/HoKhau/ChiTietHoDanPage";
 import ChiTietPhuongTien from "../Pages/PhuongTien/ChiTietPhuongTienPage";
+import TaoKhoanThuPTPage from "../Pages/TaoKhoanThuPhuongtien/TaoKhoanThuPTPage";
+import ChiTietThuPhiPhuongtienPage from "../Pages/ThuPhiPhuongTien/ChiTietThuPhiPhuongtienPage";
+import QuanLyThuPhiPhuongtienPage from "../Pages/ThuPhiPhuongTien/QuanLyThuPhiPhuongtienPage";
 const publicRoutes = [
   { path: "/", component: DangNhapPage, layout: NoneLayout },
   { path: "/danhmucthu", component: DanhMucThu },
@@ -38,6 +41,9 @@ const publicRoutes = [
   { path: "/chitietkhoanthu", component: ChiTietKhoanThu },
   { path: "/chitiethodan", component: ChiTietHoDan },
   { path: "/chitietphuongtien", component: ChiTietPhuongTien },
+  { path: "/taokhoanthuphuongtien", component: TaoKhoanThuPTPage },
+  { path: "/chitietthuphiphuongtien", component: ChiTietThuPhiPhuongtienPage },
+  { path: "/quanlythuphiphuongtien", component: QuanLyThuPhiPhuongtienPage },
 ];
 
 export { publicRoutes };
