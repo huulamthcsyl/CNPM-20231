@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography, TextField, Paper, Button } from "@mui/material";
+import { Grid, Typography, TextField, Paper, Button, useScrollTrigger } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -7,6 +7,7 @@ import { styled } from "@mui/system";
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableRow, TableHead, TableContainer } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { useState } from "react";
 
 export default function TaoPhieuThu() {
   const CustomizedDatePicker = styled(DatePicker)`
@@ -24,6 +25,16 @@ export default function TaoPhieuThu() {
     { name: "Số tiền" },
     { name: "" },
   ];
+  
+  const [payments, setPayments] = useState([]);
+
+  const handleAddPayment = () => {
+    setPayments([...payments, {name: "", cost: null}])
+  }
+  const handleDeletePayment = (id) => {
+    const updatePayments = payments.filter((_, index) => index != id);
+    setPayments(updatePayments);
+  }
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={2} padding={"50px"}>
@@ -72,25 +83,32 @@ export default function TaoPhieuThu() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
-                  <TableCell style={{ fontSize: "18px" }}>1</TableCell>
+                {payments.map((payment, index) => (
+                  <TableRow>
+                  <TableCell style={{ fontSize: "18px" }}>{index+1}</TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
-                    Phí vệ sinh
+                    {payment.name}
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
-                    100.000 đồng
+                    {payment.cost}
                   </TableCell>
-                  <TableCell style={{ fontSize: "18px", color: "red" }}>
-                    Xóa
+                  <TableCell >
+                    <button onClick={() => handleDeletePayment(index)} style={{ fontSize: "18px", color: "red" }}>
+                      Xóa
+                    </button>
                   </TableCell>
                 </TableRow>
+                ))}
+                
               </TableBody>
             </Table>
           </TableContainer>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant="h4" style={{ color: "red" }}>
-            Thêm
+          <Typography >
+            <button onClick={() => handleAddPayment()} style={{ fontSize: "18px", color: "red" }}>
+              Thêm
+            </button>
           </Typography>
         </Grid>
         <Grid item>
