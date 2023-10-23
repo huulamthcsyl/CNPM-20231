@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 import PlusCircle from "../../Icons/PlusCircle.png";
 import ThuPhi from "../../Icons/ThuPhi.png";
 function ThuPhiPTPage() {
-  const fields = [{ label: "Tên phí thu" }];
+//  const fields = [{ label: "Tên phí thu" }];
   const tableHeadName = [
     { name: "Số thứ tự" },
     { name: "Tên khoản thu" },
@@ -64,7 +64,7 @@ function ThuPhiPTPage() {
 
         <Grid item xs={12}>
           <FormControl>
-            <FormGroup row>
+            {/* <FormGroup row>
               {fields.map((field, index) => (
                 <TextField
                   key={index}
@@ -75,7 +75,17 @@ function ThuPhiPTPage() {
                   InputLabelProps={{ style: { fontSize: "20px" } }}
                 />
               ))}
-            </FormGroup>
+            </FormGroup> */}
+                  <Grid item container direction="row" alignItems="center">
+                  <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
+                    Tên phí thu
+                  </Typography>
+                  <TextField
+                    style={{ width: "500px" }}
+                    inputProps={{ style: { fontSize: "18px" } }}
+                  ></TextField>
+                  </Grid>
+
           </FormControl>
         </Grid>
 
