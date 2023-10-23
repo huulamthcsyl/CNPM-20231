@@ -43,7 +43,7 @@ function ThuPhiPTPage() {
         </Grid>
 
         <Grid item xs={6}>
-          <NavLink to="">
+          <NavLink to="/quanlythuphiphuongtien">
             <Button
               variant="contained"
               style={{ backgroundColor: "#79C9FF", margin: "30px 0px"}}
@@ -120,7 +120,7 @@ function ThuPhiPTPage() {
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
 
-                  <NavLink to="">
+                  <NavLink to="/chitietthuphiphuongtien">
                     Chi tiết
                   </NavLink>
                   
@@ -128,11 +128,6 @@ function ThuPhiPTPage() {
                 </TableRow>
               </TableBody>
               
-                    
-
-
-
-
               <TableFooter>
                 <TableRow>
                   <TableCell style={{ fontSize: "18px", backgroundColor: "#FBCCCC", fontWeight: "bolder" }}>
@@ -152,6 +147,7 @@ function ThuPhiPTPage() {
                   </TableCell>
                 </TableRow>
               </TableFooter>
+          
             </Table>
           </TableContainer>
         </Grid>
