@@ -22,7 +22,7 @@ import TaoKhoanThuPTPage from "../Pages/TaoKhoanThuPhuongtien/TaoKhoanThuPTPage"
 import ChiTietThuPhiPhuongtienPage from "../Pages/ThuPhiPhuongTien/ChiTietThuPhiPhuongtienPage";
 import QuanLyThuPhiPhuongtienPage from "../Pages/ThuPhiPhuongTien/QuanLyThuPhiPhuongtienPage";
 import ChiTietCuDanPage from "../Pages/NhanKhau/ChiTietCuDanPage";
-
+import DangKyTamVangPage from "../Pages/TamVang/DangKyTamVangPage";
 const publicRoutes = [
   { path: "/", component: DangNhapPage, layout: NoneLayout },
   { path: "/danhmucthu", component: DanhMucThu },
@@ -47,6 +47,7 @@ const publicRoutes = [
   { path: "/chitietthuphiphuongtien", component: ChiTietThuPhiPhuongtienPage },
   { path: "/quanlythuphiphuongtien", component: QuanLyThuPhiPhuongtienPage },
   { path: "/chitietcudan", component: ChiTietCuDanPage },
+  { path: "/dangkytamvang", component: DangKyTamVangPage },
 ];
 
 export { publicRoutes };

@@ -2,7 +2,7 @@ import PlusCircle from "../../Icons/PlusCircle.png";
 import { Button, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
-function ButtonAdd({ to, title }) {
+function ButtonAdd({ to, title, icon }) {
   return (
     <NavLink to={to}>
       <Button
@@ -11,7 +11,7 @@ function ButtonAdd({ to, title }) {
       >
         <Typography style={{ marginRight: "8px" }}>
           <img
-            src={PlusCircle}
+            src={icon ? icon : PlusCircle}
             style={{ width: "26px", height: "26px" }}
             alt=""
           />
