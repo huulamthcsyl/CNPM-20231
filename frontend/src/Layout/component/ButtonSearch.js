@@ -4,7 +4,11 @@ function ButtonSearch({ title }) {
   return (
     <Button
       variant="contained"
-      style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+      style={{
+        backgroundColor: "#79C9FF",
+        border: "2px solid #333",
+        margin: "30px 0px",
+      }}
     >
       <Typography variant="h4" style={{ color: "black" }}>
         {title}
