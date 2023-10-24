@@ -1,4 +1,5 @@
 import {
+  Button,
   Grid,
   InputLabel,
   MenuItem,
@@ -104,7 +105,7 @@ function ThemCuDan() {
           wrap="wrap"
           alignItems="center"
         >
-          <Grid item container xs={6} wrap="nowrap">
+          <Grid item container xs={6} wrap="nowrap" alignItems="center">
             <Grid item xs={3}>
               <Typography variant="h4">Giới tính</Typography>
             </Grid>
@@ -296,9 +297,25 @@ function ThemCuDan() {
             <TextField></TextField>
           </Grid>
         </Grid>
-        <Grid xs={12}>
+        <Grid xs={2}>
           <NavLink to="/nhankhau">
             <ButtonSearch title="Xác nhận" border="none"></ButtonSearch>
+          </NavLink>
+        </Grid>
+        <Grid>
+          <NavLink to="/nhankhau">
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#f48888",
+                width: "100px",
+                margin: "30px 0px",
+              }}
+            >
+              <Typography variant="h4" style={{ color: "black" }}>
+                Xóa
+              </Typography>
+            </Button>
           </NavLink>
         </Grid>
       </ThemeProvider>
