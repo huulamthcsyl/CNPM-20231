@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import ButtonAdd from "../../Layout/component/ButtonAdd";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
+import { NavLink } from "react-router-dom";
 const theme = createTheme({
   components: {
     MuiTypography: {
@@ -110,15 +111,17 @@ function NhanKhau() {
                   </TableCell>
                   <TableCell>
                     {
-                      <button
-                        style={{
-                          backgroundColor: "transparent",
-                          color: "blue",
-                          textDecoration: "underline",
-                        }}
-                      >
-                        Chi tiết
-                      </button>
+                      <NavLink to="/chitietcudan">
+                        <button
+                          style={{
+                            backgroundColor: "transparent",
+                            color: "blue",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          Chi tiết
+                        </button>
+                      </NavLink>
                     }
                   </TableCell>
                 </TableRow>

@@ -1,12 +1,12 @@
 import { Button, Typography } from "@mui/material";
 
-function ButtonSearch({ title }) {
+function ButtonSearch({ title, border }) {
   return (
     <Button
       variant="contained"
       style={{
         backgroundColor: "#79C9FF",
-        border: "2px solid #333",
+        border: border ? border : "2px solid #333",
         margin: "30px 0px",
       }}
     >

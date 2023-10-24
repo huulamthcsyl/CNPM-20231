@@ -8,7 +8,7 @@ import {
   Typography,
   createTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
 import { NavLink } from "react-router-dom";
 
@@ -35,27 +35,44 @@ const theme = createTheme({
     },
   },
 });
+const person = {
+  name: "Nguyễn Văn A",
+  gender: "Nam",
+  status: "Thường trú",
+  dateBirth: "01/01/1970",
+  province: "Hà Nội",
+  district: "Quận Hai Bà Trưng",
+  village: "Phường Bách Khoa",
+};
 function ThemCuDan() {
-  const [status, setStatus] = useState("");
-
+  const [status, setStatus] = useState(person.status);
   const handleChange = (event) => {
     setStatus(event.target.value);
   };
-  const [province, setProvince] = useState("");
+  const [gender, setGender] = useState(person.gender);
+  const handleGenderChange = (event) => {
+    setGender(event.target.value);
+  };
+  const [province, setProvince] = useState(person.province);
 
   const handleChange2 = (event) => {
     setProvince(event.target.value);
   };
-  const [district, setDistrict] = useState("");
+  const [district, setDistrict] = useState(person.district);
 
   const handleChange3 = (event) => {
     setDistrict(event.target.value);
   };
-  const [village, setVillage] = useState("");
+  const [village, setVillage] = useState(person.village);
 
   const handleChange4 = (event) => {
     setVillage(event.target.value);
   };
+  const [name, setName] = useState(person.name);
+  const handleChangeName = (event) => {
+    setName(event.target.value);
+  };
+  useEffect(() => {}, [gender]);
   return (
     <Grid container spacing={1} style={{ padding: "50px" }}>
       <ThemeProvider theme={theme}>
@@ -76,7 +93,7 @@ function ThemCuDan() {
             <Typography variant="h4">Họ và tên</Typography>
           </Grid>
           <Grid item>
-            <TextField></TextField>
+            <TextField onChange={handleChangeName} value={name}></TextField>
           </Grid>
         </Grid>
         <Grid
@@ -93,9 +110,12 @@ function ThemCuDan() {
             </Grid>
             <Grid item alignItems="center">
               <input
+                checked={person.gender === "Nam"}
                 id="radio1"
                 type="radio"
+                value="Nam"
                 name="gender"
+                onChange={handleGenderChange}
                 style={{ cursor: "pointer", width: "20px", height: "20px" }}
               ></input>
               <label
@@ -107,9 +127,12 @@ function ThemCuDan() {
             </Grid>
             <Grid item alignItems="center">
               <input
+                checked={person.gender === "Nữ"}
                 id="radio2"
+                onChange={handleGenderChange}
                 type="radio"
                 name="gender"
+                value="Nữ"
                 style={{ cursor: "pointer", width: "20px", height: "20px" }}
               ></input>
               <label
@@ -133,10 +156,10 @@ function ThemCuDan() {
                 placeholder="trang thai"
                 onChange={handleChange}
               >
-                <MenuItem value={1}>
+                <MenuItem value="Thường trú">
                   <Typography variant="h5">Thường trú</Typography>
                 </MenuItem>
-                <MenuItem value={2}>
+                <MenuItem value="Tạm vắng">
                   <Typography variant="h5">Tạm vắng</Typography>
                 </MenuItem>
               </Select>
@@ -177,10 +200,10 @@ function ThemCuDan() {
                 style={{ width: "150px" }}
                 onChange={handleChange2}
               >
-                <MenuItem value={1}>
+                <MenuItem value="Hà Nội">
                   <Typography variant="h5">Hà Nội</Typography>
                 </MenuItem>
-                <MenuItem value={2}>
+                <MenuItem value="Tp.HCM">
                   <Typography variant="h5">Tp.HCM</Typography>
                 </MenuItem>
               </Select>
@@ -205,10 +228,10 @@ function ThemCuDan() {
                 style={{ width: "250px" }}
                 onChange={handleChange3}
               >
-                <MenuItem value={1}>
+                <MenuItem value="Quận Hai Bà Trưng">
                   <Typography variant="h5">Quận Hai Bà Trưng</Typography>
                 </MenuItem>
-                <MenuItem value={2}>
+                <MenuItem value="Quận Thanh Xuân">
                   <Typography variant="h5">Quận Thanh Xuân</Typography>
                 </MenuItem>
               </Select>
@@ -234,10 +257,10 @@ function ThemCuDan() {
               style={{ width: "280px" }}
               onChange={handleChange4}
             >
-              <MenuItem value={1}>
+              <MenuItem value="Phường Bách Khoa">
                 <Typography variant="h5">Phường Bách Khoa</Typography>
               </MenuItem>
-              <MenuItem value={2}>
+              <MenuItem value="Phường ...">
                 <Typography variant="h5">Phường ...</Typography>
               </MenuItem>
             </Select>
