@@ -115,7 +115,7 @@ function ChiTietThuPhiPhuongtienPage() {
                       100.000 đồng
                     </TableCell>
                     <TableCell>
-                      <NavLink to="">
+                      <NavLink to="/chitietphieuthuphuongtien">
                         <Typography style={{fontSize: "18px"}}>Chi Tiết</Typography>
                       </NavLink>
                     </TableCell>
