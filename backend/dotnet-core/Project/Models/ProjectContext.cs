@@ -37,7 +37,6 @@ namespace Project.Models
 
                 e.Property(e => e.Address).IsUnicode(true);
 
-                e.Property(e => e.DateOfBirth).HasColumnType("date");
             });
 
             modelBuilder.Entity<Person>(e =>
@@ -69,10 +68,6 @@ namespace Project.Models
 
                 e.Property(e => e.Reason).IsUnicode(true);
 
-                e.Property(e => e.StartTime).HasColumnType("date");
-
-                e.Property(e => e.EndTime).HasColumnType("date");
-
                 e.HasOne(e => e.Person)
                     .WithMany(p => p.AbsentPepple)
                     .HasForeignKey(e => e.PersonId)
@@ -102,8 +97,6 @@ namespace Project.Models
                 e.Property(e => e.RecordId).ValueGeneratedNever();
 
                 e.Property(e => e.Action).IsUnicode(true);
-
-                e.Property(e => e.DateCreated).HasColumnType("date");
 
                 e.HasOne(e => e.Person)
                     .WithMany(p => p.Records)
@@ -158,8 +151,6 @@ namespace Project.Models
 
                 e.Property(e => e.Description).IsUnicode(true);
 
-                e.Property(e => e.DateCreated).HasColumnType("date");
-
                 e.HasOne(e => e.Person)
                     .WithMany(p => p.ResidenceReceipts)
                     .HasForeignKey(e => e.PersonId)
@@ -193,8 +184,6 @@ namespace Project.Models
                 e.Property(e => e.VehicleReceiptId).ValueGeneratedNever();
 
                 e.Property(e => e.Description).IsUnicode(true);
-
-                e.Property(e => e.DateCreated).HasColumnType("date");
 
                 e.HasOne(e => e.Vehicle)
                     .WithMany(v => v.VehicleReceipts)

@@ -192,21 +192,6 @@ namespace Project.Controllers
             residence.ResidenceId = Guid.NewGuid();
             residence.People.Clear();
             _context.Residences.Add(residence);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (ResidenceExists(residence.ResidenceId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
             foreach (var p in people)
             {
@@ -234,7 +219,6 @@ namespace Project.Controllers
             {
                 return StatusCode(400, ex.Message);
             }
-
            
             return CreatedAtAction("GetResidence", new { id = residence.ResidenceId }, residence);
         }
