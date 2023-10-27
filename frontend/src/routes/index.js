@@ -13,17 +13,17 @@ import NoneLayout from "../Layout/NoneLayout.js";
 import HoSoPage from "../Pages/HoSo/HoSoPage";
 import QuanLyPTPage from "../Pages/PhuongTien/QuanLyPTPage";
 import ThuPhiPTPage from "../Pages/PhuongTien/ThuPhiPTPage";
-import TaoPhuongTienPage from "../Pages/PhuongTien/TaoPhuongTienPage";
+import TaoPhuongTienPage from "../Pages/QuanLyPhuongTien/TaoPhuongTienPage";
 import ChiTietPhieuThu from "../Pages/ChiTietPhieuThu/ChiTietPhieuThuPage";
 import ChiTietKhoanThu from "../Pages/ChiTietKhoanThu/ChiTietKhoanThuPage";
 import ChiTietHoDan from "../Pages/HoKhau/ChiTietHoDanPage";
-import ChiTietPhuongTien from "../Pages/PhuongTien/ChiTietPhuongTienPage";
+import ChiTietPhuongTien from "../Pages/QuanLyPhuongTien/ChiTietPhuongTienPage";
 import TaoKhoanThuPTPage from "../Pages/TaoKhoanThuPhuongtien/TaoKhoanThuPTPage";
-import ChiTietThuPhiPhuongtienPage from "../Pages/ThuPhiPhuongTien/ChiTietThuPhiPhuongtienPage";
-import QuanLyThuPhiPhuongtienPage from "../Pages/ThuPhiPhuongTien/QuanLyThuPhiPhuongtienPage";
 import ChiTietCuDanPage from "../Pages/NhanKhau/ChiTietCuDanPage";
 import DangKyTamVangPage from "../Pages/TamVang/DangKyTamVangPage";
 import ChiTietPhieuThuPhuongTienPage from "../Pages/ThuPhiPhuongTien/ChiTietPhieuThuPhuongTienPage";
+import ChiTietThuPhiPhuongtienPage from "../Pages/ThuPhiPhuongTien/ChiTietThuPhiPhuongtienPage";
+import QuanLyThuPhiPhuongtienPage from "../Pages/ThuPhiPhuongTien/QuanLyThuPhiPhuongtienPage";
 const publicRoutes = [
   { path: "/", component: DangNhapPage, layout: NoneLayout },
   { path: "/danhmucthu", component: DanhMucThu },
