@@ -1,4 +1,4 @@
-# Bài tập lớn nhập môn công nghệ phần mềm 20222
+# Bài tập lớn nhập môn công nghệ phần mềm 2023.1
 ## Chủ đề: xây dựng phần mềm quản lý chung cư
 
 ## Công nghệ, Framework:
