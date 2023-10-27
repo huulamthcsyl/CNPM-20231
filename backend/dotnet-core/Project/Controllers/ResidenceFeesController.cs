@@ -56,6 +56,8 @@ namespace Project.Controllers
             {
                 return NotFound();
             }
+
+            name = name ?? string.Empty;
             
             var paymentList = await _context.ResidencePayments.ToListAsync();
             var fees = await _context.ResidenceFees.Where(p => (p.Name.Contains(name))).ToListAsync();
