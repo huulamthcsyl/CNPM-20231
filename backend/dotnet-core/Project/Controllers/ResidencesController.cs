@@ -53,16 +53,20 @@ namespace Project.Controllers
         }
 
 
-        // GET: api/residence?name=
+        // GET: api/residence?name=?&address=
         [HttpGet()]
-        public async Task<ActionResult<IEnumerable<Residence>>> GetResidences(string name)
+        public async Task<ActionResult<IEnumerable<Residence>>> GetResidences(string name, string? address)
         {
             if (_context.Residences == null)
             {
                 return NotFound();
             }
+            name = name ?? string.Empty;
+            address = address ?? string.Empty;
 
-            var residences = await _context.Residences.Where(p => (p.OwnerName == name)).ToListAsync();
+            var residences = await _context.Residences
+                            .Where(p => (p.OwnerName.Contains(name) && p.Address.Contains(address)))
+                            .ToListAsync();
         
             return residences;
         }

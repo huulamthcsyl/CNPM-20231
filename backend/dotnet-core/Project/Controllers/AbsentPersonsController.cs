@@ -54,7 +54,10 @@ namespace Project.Controllers
             {
                 return NotFound();
             }
-            var absentPeople = await _context.AbsentPeople.Where(ap => (ap.Person.Name == name)).ToListAsync();
+
+            name = name ?? string.Empty;
+
+            var absentPeople = await _context.AbsentPeople.Where(ap => (ap.Person.Name.Contains(name))).ToListAsync();
 
             return absentPeople;
         }

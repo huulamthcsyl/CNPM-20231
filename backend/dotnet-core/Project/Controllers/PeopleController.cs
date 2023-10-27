@@ -61,7 +61,9 @@ namespace Project.Controllers
                 return NotFound();
             }
 
-            var people = await _context.People.Where(p => p.Name == name).ToListAsync();
+            name = name ?? string.Empty;
+
+            var people = await _context.People.Where(p => p.Name.Contains(name)).ToListAsync();
 
             return people;
         }

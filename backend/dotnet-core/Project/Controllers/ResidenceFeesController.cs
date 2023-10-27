@@ -58,7 +58,7 @@ namespace Project.Controllers
             }
             
             var paymentList = await _context.ResidencePayments.ToListAsync();
-            var fees = await _context.ResidenceFees.Where(p => (p.Name == name)).ToListAsync();
+            var fees = await _context.ResidenceFees.Where(p => (p.Name.Contains(name))).ToListAsync();
             var feesInfor = new List<ResidenceFeeInfor>();
 
             foreach (var fee in fees)

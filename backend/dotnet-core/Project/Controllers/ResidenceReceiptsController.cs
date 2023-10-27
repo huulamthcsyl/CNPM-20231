@@ -84,16 +84,19 @@ namespace Project.Controllers
 
         // GET: api/residencereceipt?name={}&address={}&starttime={}&endtime={}
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ResidenceReceiptInfor>>> GetResidenceReceipts(string name, string adress, DateTime starttime, DateTime endtime )
+        public async Task<ActionResult<IEnumerable<ResidenceReceiptInfor>>> GetResidenceReceipts(string name, string address, DateTime starttime, DateTime endtime )
         {
             if (_context.ResidenceReceipts == null)
             {
                 return NotFound();
             }
 
+            name = name ?? string.Empty;
+            address = address ?? string.Empty;
+
             var residenceReceipts = await _context.ResidenceReceipts
-                                        .Where(p => (p.Person.Name == name 
-                                                    && p.Person.Residence.Address == adress
+                                        .Where(p => (p.Person.Name.Contains(name) 
+                                                    && p.Person.Residence.Address.Contains(address)
                                                     && starttime <= p.DateCreated 
                                                     && p.DateCreated <= endtime))
                                         .ToListAsync();
