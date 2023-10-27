@@ -4,7 +4,8 @@ import { TextField } from "@mui/material";
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableRow, TableHead, TableContainer } from "@mui/material";
 import { Paper } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+
 function QuanLyThuPhiPhuongtienPage() {
   const tableHeadName = [
     { name: "Số thứ tự" },
@@ -89,20 +90,23 @@ function QuanLyThuPhiPhuongtienPage() {
                 </TableRow>
               </TableBody>
               
+              
           
             </Table>
           </TableContainer>
         </Grid>
 
         <Grid item>
-          <Button
-            variant="contained"
-            style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
-          >
-            <Typography variant="h4" style={{ color: "black" }}>
-              Xác nhận
-            </Typography>
-          </Button>
+          <NavLink to="/thuphiphuongtien">
+              <Button
+                variant="contained"
+                style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+              >
+                <Typography variant="h4" style={{ color: "black" }}>
+                  Xác nhận
+                </Typography>
+              </Button>
+          </NavLink>
         </Grid>
    
     </Grid>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Grid, Button, Typography } from "@mui/material";
 import {TextField} from "@mui/material";
+import { NavLink } from 'react-router-dom';
 
 function TaoKhoanThuPTPage() {
   return (
@@ -19,13 +20,19 @@ function TaoKhoanThuPTPage() {
           ></TextField>
         </Grid>
 
-        <Button
-          variant="contained"
-          style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}>
-          <Typography variant="h4" style={{ color: "black" }}>
-            Xác nhận
-          </Typography>
-        </Button>
+        <Grid item>
+          <NavLink to="/thuphiphuongtien">
+              <Button
+                variant="contained"
+                style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+              >
+                <Typography variant="h4" style={{ color: "black" }}>
+                  Xác nhận
+                </Typography>
+              </Button>
+          </NavLink>
+        </Grid>
+        
     </Grid>
   );
 }

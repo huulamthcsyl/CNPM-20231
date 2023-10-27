@@ -1,6 +1,8 @@
 import React from 'react'
 import { Grid, Button, Typography } from "@mui/material";
 import {TextField} from "@mui/material";
+import { NavLink } from "react-router-dom";
+
 function TaoPhuongTienPage() {
   return (
     <Grid container spacing={2} padding={"50px"}>
@@ -34,14 +36,19 @@ function TaoPhuongTienPage() {
             inputProps={{ style: { fontSize: "18px" } }}
           ></TextField>
         </Grid>
-        <Button
-            variant="contained"
-            style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
-          >
-            <Typography variant="h4" style={{ color: "black" }}>
-              Xác nhận
-            </Typography>
-        </Button>
+        
+        <Grid item>
+          <NavLink to="/quanlyphuongtien">
+              <Button
+                variant="contained"
+                style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+              >
+                <Typography variant="h4" style={{ color: "black" }}>
+                  Xác nhận
+                </Typography>
+              </Button>
+          </NavLink>
+        </Grid>
     </Grid>
   )
 }
