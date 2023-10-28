@@ -54,7 +54,7 @@ namespace Project.Controllers
 
         // GET:api/person?name=
         [HttpGet()]
-        public async Task<ActionResult<IEnumerable<Person>>> GetPeople(string name)
+        public async Task<ActionResult<IEnumerable<Person>>> GetPeople(string? name)
         {
             if (_context.People == null)
             {

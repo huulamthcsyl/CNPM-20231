@@ -69,13 +69,16 @@ namespace Project.Controllers
 
         // GET: api/vehiclefee?name=
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VehicleFeeInfor>>> GetVehicleFee(string name)
+        public async Task<ActionResult<IEnumerable<VehicleFeeInfor>>> GetVehicleFee(string? name)
         {
             if (_context.VehicleFees == null)
             {
                 return NotFound();
             }
-            var vehicleFees = await _context.VehicleFees.Where(p => (p.Name == name)).ToListAsync();
+
+            name = name ?? string.Empty;
+
+            var vehicleFees = await _context.VehicleFees.Where(p => (p.Name.Contains(name))).ToListAsync();
             var vehiclePayments = await _context.VehiclePayments.ToListAsync();
             var vehicleFeesInfor = new List<VehicleFeeInfor>();
 

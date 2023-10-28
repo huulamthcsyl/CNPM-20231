@@ -50,7 +50,7 @@ namespace Project.Controllers
 
         // GET: api/residencefee?name=
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ResidenceFeeInfor>>> GetResidenceFee(string name)
+        public async Task<ActionResult<IEnumerable<ResidenceFeeInfor>>> GetResidenceFee(string? name)
         {
             if (_context.ResidenceFees == null)
             {

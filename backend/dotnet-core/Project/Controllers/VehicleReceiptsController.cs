@@ -84,15 +84,19 @@ namespace Project.Controllers
 
         // GET: api/vehiclereceipt?licenseplate={}&address={}&starttime={}&endtime={}
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VehicleReceiptInfor>>> GetResidenceReceipts(string licenseplate, DateTime starttime, DateTime endtime)
+        public async Task<ActionResult<IEnumerable<VehicleReceiptInfor>>> GetResidenceReceipts(string? licenseplate, DateTime? starttime, DateTime? endtime)
         {
             if (_context.ResidenceReceipts == null)
             {
                 return NotFound();
             }
 
+            licenseplate = licenseplate ?? string.Empty;
+            starttime = starttime ?? DateTime.MinValue;
+            endtime = endtime ?? DateTime.MaxValue;
+
             var vehicleReceipts = await _context.VehicleReceipts
-                                        .Where(p => (p.Vehicle.LicensePlate == licenseplate
+                                        .Where(p => (p.Vehicle.LicensePlate.Contains(licenseplate)
                                                     && starttime <= p.DateCreated 
                                                     && p.DateCreated <= endtime))
                                         .ToListAsync();

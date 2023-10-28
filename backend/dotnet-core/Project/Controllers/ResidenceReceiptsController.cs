@@ -84,7 +84,7 @@ namespace Project.Controllers
 
         // GET: api/residencereceipt?name={}&address={}&starttime={}&endtime={}
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ResidenceReceiptInfor>>> GetResidenceReceipts(string name, string address, DateTime starttime, DateTime endtime )
+        public async Task<ActionResult<IEnumerable<ResidenceReceiptInfor>>> GetResidenceReceipts(string? name, string? address, DateTime? starttime, DateTime? endtime )
         {
             if (_context.ResidenceReceipts == null)
             {
@@ -93,6 +93,8 @@ namespace Project.Controllers
 
             name = name ?? string.Empty;
             address = address ?? string.Empty;
+            starttime = starttime ?? DateTime.MinValue;
+            endtime = endtime ?? DateTime.MaxValue;
 
             var residenceReceipts = await _context.ResidenceReceipts
                                         .Where(p => (p.Person.Name.Contains(name) 

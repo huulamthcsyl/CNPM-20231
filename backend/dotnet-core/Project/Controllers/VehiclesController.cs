@@ -34,13 +34,22 @@ namespace Project.Controllers
 
         // GET: api/vehicle?licenseplate=
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicle(string licenseplate)
+        public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicle(string? licenseplate, string? ownerName, string? category)
         {
           if (_context.Vehicles == null)
           {
               return NotFound();
           }
-            var vehicles = await _context.Vehicles.Where(p => p.LicensePlate == licenseplate).ToListAsync();
+
+            licenseplate = licenseplate ?? string.Empty;
+            ownerName = ownerName ?? string.Empty;
+            category = category ?? string.Empty;
+
+            var vehicles = await _context.Vehicles
+                                .Where(p => (p.LicensePlate.Contains(licenseplate))
+                                            && p.Category.Contains(category)
+                                            && p.Person.Name.Contains(ownerName))
+                                .ToListAsync();
 
             return vehicles;
         }

@@ -48,7 +48,7 @@ namespace Project.Controllers
 
         //GET: api/absent/?name=
         [HttpGet("name")]
-        public async Task<ActionResult<IEnumerable<AbsentPerson>>> GetAbsentPeople(string name)
+        public async Task<ActionResult<IEnumerable<AbsentPerson>>> GetAbsentPeople(string? name)
         {
             if (_context.AbsentPeople == null)
             {

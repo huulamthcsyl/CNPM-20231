@@ -55,7 +55,7 @@ namespace Project.Controllers
 
         // GET: api/residence?name=?&address=
         [HttpGet()]
-        public async Task<ActionResult<IEnumerable<Residence>>> GetResidences(string name, string? address)
+        public async Task<ActionResult<IEnumerable<Residence>>> GetResidences(string? name, string? address)
         {
             if (_context.Residences == null)
             {
