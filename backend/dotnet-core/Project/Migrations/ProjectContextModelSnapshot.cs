@@ -32,7 +32,7 @@ namespace Project.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("EndTime")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("PersonId")
                         .HasColumnType("uniqueidentifier");
@@ -42,7 +42,7 @@ namespace Project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartTime")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("AbsentPersonId")
                         .HasName("Pk_AbsentPersonId_AbsentIdId");
@@ -108,7 +108,7 @@ namespace Project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreated")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("PersonId")
                         .HasColumnType("uniqueidentifier");
@@ -199,7 +199,7 @@ namespace Project.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsUnicode(true)
@@ -222,7 +222,7 @@ namespace Project.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"), 0L);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<string>("Account")
                         .IsRequired()
@@ -234,7 +234,7 @@ namespace Project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("Gender")
                         .HasColumnType("bit");
@@ -330,7 +330,7 @@ namespace Project.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsUnicode(true)

@@ -31,7 +31,7 @@ namespace Project.Models
 
                 e.ToTable("User");
 
-                e.Property(e => e.UserId).UseIdentityColumn(seed: 0, increment: 1);
+                e.Property(e => e.UserId).UseIdentityColumn(seed: 1, increment: 1);
 
                 e.Property(e => e.Name).IsUnicode(true);
 
