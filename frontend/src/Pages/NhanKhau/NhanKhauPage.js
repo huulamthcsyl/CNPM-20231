@@ -14,6 +14,9 @@ import {
 import ButtonAdd from "../../Layout/component/ButtonAdd";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
 import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { API_BASE_URL } from "../../Api/Api"
 const theme = createTheme({
   components: {
     MuiTypography: {
@@ -47,8 +50,9 @@ const headTable = [
 const people = [
   {
     name: "Nguyen Van A",
-    datebirth: "01/01/1970",
-    cccd: "0123456789",
+    dateOfBirth
+      : "01/01/1970",
+    identityCardNumber: "0123456789",
   },
   {},
   {},
@@ -57,9 +61,21 @@ const people = [
   {},
   {},
   {},
-  {},
+
 ];
+
+
 function NhanKhau() {
+  const [allPeople, setAllPeople] = useState([])
+  useEffect(() => {
+    axios.get(API_BASE_URL + "/person/all").then((respone) => {
+      setAllPeople(respone.data);
+
+    }).catch((error) => {
+      console.error('Error fetching data:', error);
+    });
+
+  }, [])
   return (
     <Grid container spacing={1} style={{ padding: "50px" }}>
       <ThemeProvider theme={theme}>
@@ -95,7 +111,7 @@ function NhanKhau() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {people.map((peop, index) => (
+              {allPeople.map((peop, index) => (
                 <TableRow key={index}>
                   <TableCell>
                     <Typography variant="h5">{index + 1}</Typography>
@@ -104,10 +120,10 @@ function NhanKhau() {
                     <Typography variant="h5">{peop.name}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h5">{peop.datebirth}</Typography>
+                    <Typography variant="h5">{new Date(peop.dateOfBirth).toLocaleDateString()}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h5">{peop.cccd}</Typography>
+                    <Typography variant="h5">{peop.identityCardNumber}</Typography>
                   </TableCell>
                   <TableCell>
                     {

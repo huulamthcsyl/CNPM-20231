@@ -8,10 +8,11 @@ import {
   Typography,
   createTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
 import { NavLink } from "react-router-dom";
-
+import axios from "axios";
+const API_ADDRESS = 'https://vn-public-apis.fpo.vn/';
 const theme = createTheme({
   components: {
     MuiTypography: {
@@ -46,16 +47,40 @@ function ThemCuDan() {
   const handleChange2 = (event) => {
     setProvince(event.target.value);
   };
-  const [district, setDistrict] = useState("");
+  const [district, setDistrict] = useState(null);
 
   const handleChange3 = (event) => {
     setDistrict(event.target.value);
   };
-  const [village, setVillage] = useState("");
-
+  const [village, setVillage] = useState(null);
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [villages, setVillages] = useState([]);
+  useEffect(() => {
+    axios.get(API_ADDRESS + "provinces/getAll?limit=-1")
+      .then(response => {
+        setProvinces(response.data.data.data);
+      });
+  }, []);
+  useEffect(() => {
+    if (province) {
+      axios.get(API_ADDRESS + "districts/getByProvince?provinceCode=" + province.code + "&limit=-1")
+        .then(response => {
+          setDistricts(response.data.data.data);
+        });
+    }
+  }, [province]);
   const handleChange4 = (event) => {
     setVillage(event.target.value);
   };
+  useEffect(() => {
+    if (district) {
+      axios.get(API_ADDRESS + "wards/getByDistrict?districtCode=" + district.code + "&limit=-1")
+        .then(response => {
+          setVillages(response.data.data.data);
+        });
+    }
+  }, [district]);
   return (
     <Grid container spacing={1} style={{ padding: "50px" }}>
       <ThemeProvider theme={theme}>
@@ -99,7 +124,7 @@ function ThemCuDan() {
                 style={{ cursor: "pointer", width: "20px", height: "20px" }}
               ></input>
               <label
-                for="radio1"
+                htmlFor="radio1"
                 style={{ fontSize: "24px", margin: "0px 12px" }}
               >
                 Nam
@@ -113,7 +138,7 @@ function ThemCuDan() {
                 style={{ cursor: "pointer", width: "20px", height: "20px" }}
               ></input>
               <label
-                for="radio2"
+                htmlFor="radio2"
                 style={{ fontSize: "24px", margin: "0px 12px" }}
               >
                 Nữ
@@ -177,12 +202,15 @@ function ThemCuDan() {
                 style={{ width: "150px" }}
                 onChange={handleChange2}
               >
-                <MenuItem value={1}>
-                  <Typography variant="h5">Hà Nội</Typography>
-                </MenuItem>
-                <MenuItem value={2}>
-                  <Typography variant="h5">Tp.HCM</Typography>
-                </MenuItem>
+                {
+                  provinces.map((provinc, index) => (
+                    <MenuItem value={provinc} key={index}>
+                      <Typography variant="h5">{provinc.name}</Typography>
+                    </MenuItem>
+                  ))
+                }
+
+
               </Select>
             </Grid>
           </Grid>
@@ -205,12 +233,13 @@ function ThemCuDan() {
                 style={{ width: "250px" }}
                 onChange={handleChange3}
               >
-                <MenuItem value={1}>
-                  <Typography variant="h5">Quận Hai Bà Trưng</Typography>
-                </MenuItem>
-                <MenuItem value={2}>
-                  <Typography variant="h5">Quận Thanh Xuân</Typography>
-                </MenuItem>
+                {districts.map((distric, index) => (
+                  <MenuItem value={distric} key={index}>
+                    <Typography variant="h5">{distric.name}</Typography>
+                  </MenuItem>
+                ))}
+
+
               </Select>
             </Grid>
           </Grid>
@@ -234,12 +263,13 @@ function ThemCuDan() {
               style={{ width: "280px" }}
               onChange={handleChange4}
             >
-              <MenuItem value={1}>
-                <Typography variant="h5">Phường Bách Khoa</Typography>
-              </MenuItem>
-              <MenuItem value={2}>
-                <Typography variant="h5">Phường ...</Typography>
-              </MenuItem>
+              {villages.map((villag, index) => (
+                <MenuItem value={villag} key={index}>
+                  <Typography variant="h5">{villag.name}</Typography>
+                </MenuItem>
+              ))}
+
+
             </Select>
           </Grid>
         </Grid>
@@ -273,7 +303,7 @@ function ThemCuDan() {
             <TextField></TextField>
           </Grid>
         </Grid>
-        <Grid xs={12}>
+        <Grid item xs={12}>
           <NavLink to="/nhankhau">
             <ButtonSearch title="Xác nhận" border="none"></ButtonSearch>
           </NavLink>
