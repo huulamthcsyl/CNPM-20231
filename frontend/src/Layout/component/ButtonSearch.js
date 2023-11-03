@@ -1,6 +1,7 @@
 import { Button, Typography } from "@mui/material";
+import { click } from "@testing-library/user-event/dist/click";
 
-function ButtonSearch({ title, border }) {
+function ButtonSearch({ title, border, onclick }) {
   return (
     <Button
       variant="contained"
@@ -9,6 +10,7 @@ function ButtonSearch({ title, border }) {
         border: border ? border : "2px solid #333",
         margin: "30px 0px",
       }}
+      onClick={onclick ? onclick : ''}
     >
       <Typography variant="h4" style={{ color: "black" }}>
         {title}

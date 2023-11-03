@@ -12,7 +12,8 @@ import { useEffect, useState } from "react";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-const API_ADDRESS = 'https://vn-public-apis.fpo.vn/';
+import { API_BASE_URL } from "../../Api/Api";
+const API_ADDRESS = 'https://provinces.open-api.vn/';
 const theme = createTheme({
   components: {
     MuiTypography: {
@@ -37,6 +38,42 @@ const theme = createTheme({
   },
 });
 function ThemCuDan() {
+
+  const addPerson = () => {
+    var gender = true;
+    var radioElement = document.getElementById("radio1");
+    if (radioElement.checked) {
+    } else {
+      gender = false
+    }
+    var dateBirthElement = document.getElementById('datebirth')
+    var namePerson = document.getElementById('name')
+    var identityCardNumber = document.getElementById('cccd')
+    var phoneNumber = document.getElementById('phoneNumber')
+
+    const person = {
+      "residenceId": null, "name": namePerson.value,
+      "dateOfBirth": dateBirthElement.value,
+      "identityCardNumber": identityCardNumber.value,
+      "gender": gender,
+      "phoneNumber": phoneNumber.value,
+      "homeTown": village.name + ', ' + district.name + ', ' + province.name,
+      "ownerRelationship": null,
+      "status": status
+    }
+    // console.log(person)
+    const headers = {
+      'access-control-allow-origin': '*',
+      'content-type': 'application/json; charset=utf-8 '
+    }
+    axios.post(API_BASE_URL + '/person', person, { headers },).then((response) => {
+      alert('them thanh cong')
+      // console.log(response.data)
+    }).catch((error) => {
+      alert('them that bai')
+      console.error('Error fetching data:', error);
+    });
+  }
   const [status, setStatus] = useState("");
 
   const handleChange = (event) => {
@@ -46,6 +83,7 @@ function ThemCuDan() {
 
   const handleChange2 = (event) => {
     setProvince(event.target.value);
+    setVillages([])
   };
   const [district, setDistrict] = useState(null);
 
@@ -56,17 +94,22 @@ function ThemCuDan() {
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [villages, setVillages] = useState([]);
+  const headers = {
+    'Access-Control-Allow-Origin': '*'
+  };
   useEffect(() => {
-    axios.get(API_ADDRESS + "provinces/getAll?limit=-1")
+
+    axios.get(API_ADDRESS + "api/?depth=1")
       .then(response => {
-        setProvinces(response.data.data.data);
+        setProvinces(response.data);
       });
   }, []);
   useEffect(() => {
     if (province) {
-      axios.get(API_ADDRESS + "districts/getByProvince?provinceCode=" + province.code + "&limit=-1")
+
+      axios.get(API_ADDRESS + "api/p/" + province.code + "?depth=2")
         .then(response => {
-          setDistricts(response.data.data.data);
+          setDistricts(response.data.districts);
         });
     }
   }, [province]);
@@ -75,9 +118,10 @@ function ThemCuDan() {
   };
   useEffect(() => {
     if (district) {
-      axios.get(API_ADDRESS + "wards/getByDistrict?districtCode=" + district.code + "&limit=-1")
+      axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+      axios.get(API_ADDRESS + "api/d/" + district.code + "?depth=2")
         .then(response => {
-          setVillages(response.data.data.data);
+          setVillages(response.data.wards);
         });
     }
   }, [district]);
@@ -101,7 +145,7 @@ function ThemCuDan() {
             <Typography variant="h4">Họ và tên</Typography>
           </Grid>
           <Grid item>
-            <TextField></TextField>
+            <TextField id='name'></TextField>
           </Grid>
         </Grid>
         <Grid
@@ -158,10 +202,10 @@ function ThemCuDan() {
                 placeholder="trang thai"
                 onChange={handleChange}
               >
-                <MenuItem value={1}>
+                <MenuItem value="Thường trú">
                   <Typography variant="h5">Thường trú</Typography>
                 </MenuItem>
-                <MenuItem value={2}>
+                <MenuItem value="Tạm vắng">
                   <Typography variant="h5">Tạm vắng</Typography>
                 </MenuItem>
               </Select>
@@ -174,6 +218,7 @@ function ThemCuDan() {
           </Grid>
           <Grid item>
             <input
+              id="datebirth"
               type="date"
               style={{ width: "200px", height: "35px" }}
             ></input>
@@ -285,7 +330,7 @@ function ThemCuDan() {
             <Typography variant="h4">CCCD</Typography>
           </Grid>
           <Grid item>
-            <TextField></TextField>
+            <TextField id="cccd"></TextField>
           </Grid>
         </Grid>
         <Grid
@@ -300,12 +345,12 @@ function ThemCuDan() {
             <Typography variant="h4">Số điện thoại</Typography>
           </Grid>
           <Grid item>
-            <TextField></TextField>
+            <TextField id='phoneNumber'></TextField>
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <NavLink to="/nhankhau">
-            <ButtonSearch title="Xác nhận" border="none"></ButtonSearch>
+          <NavLink to="#">
+            <ButtonSearch title="Xác nhận" border="none" onclick={addPerson}></ButtonSearch>
           </NavLink>
         </Grid>
       </ThemeProvider>

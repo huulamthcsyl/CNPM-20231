@@ -67,6 +67,23 @@ const people = [
 
 function NhanKhau() {
   const [allPeople, setAllPeople] = useState([])
+  const [person, setPerson] = useState('')
+  const searchPerson = () => {
+    if (person.length > 0) {
+      axios.get(API_BASE_URL + '/person?name=' + person).then((response) => {
+        setAllPeople(response.data)
+      })
+    } else {
+      axios.get(API_BASE_URL + "/person/all").then((respone) => {
+        setAllPeople(respone.data);
+
+      }).catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+
+    }
+
+  }
   useEffect(() => {
     axios.get(API_BASE_URL + "/person/all").then((respone) => {
       setAllPeople(respone.data);
@@ -94,8 +111,8 @@ function NhanKhau() {
           <Grid item>
             <Typography variant="h4">Tên</Typography>
           </Grid>
-          <TextField></TextField>
-          <ButtonSearch title="Tìm kiếm"></ButtonSearch>
+          <TextField value={person} onChange={e => { setPerson(e.target.value) }}></TextField>
+          <ButtonSearch title="Tìm kiếm" onclick={searchPerson}></ButtonSearch>
         </Grid>
       </ThemeProvider>
       <Grid item xs={12}>
