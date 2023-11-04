@@ -41,7 +41,7 @@ namespace Project.Models
 
             modelBuilder.Entity<UserAccount>(e =>
             {
-                e.HasKey(e => e.UserName).HasName("Pk_UserAccount_UserName");
+                e.HasKey(e => e.Username).HasName("Pk_UserAccount_UserName");
 
                 e.ToTable("UserAccount");
             });
@@ -67,11 +67,11 @@ namespace Project.Models
 
             modelBuilder.Entity<AbsentPerson>(e =>
             {
-                e.HasKey(e => e.AbsentPersonId).HasName("Pk_AbsentPersonId_AbsentIdId");
+                e.HasKey(e => e.AbsentPersonId).HasName("Pk_AbsentPerson_AbsentPersonId");
 
                 e.ToTable("AbsentPerson");
 
-                e.Property(e => e.PersonId).ValueGeneratedNever();
+                e.Property(e => e.AbsentPersonId).ValueGeneratedNever();
 
                 e.Property(e => e.Reason).IsUnicode(true);
 
@@ -79,7 +79,7 @@ namespace Project.Models
                     .WithMany(p => p.AbsentPepple)
                     .HasForeignKey(e => e.PersonId)
                     .HasConstraintName("Fk_AbsentPerson_PersonId")
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Residence>(e => 
@@ -109,7 +109,7 @@ namespace Project.Models
                     .WithMany(p => p.Records)
                     .HasForeignKey(e => e.PersonId)
                     .HasConstraintName("Fk_Record_PersonId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.SetNull);
 
                 e.HasOne(e => e.Residence)
                     .WithMany(p => p.Records)
@@ -162,7 +162,7 @@ namespace Project.Models
                     .WithMany(p => p.ResidenceReceipts)
                     .HasForeignKey(e => e.PersonId)
                     .HasConstraintName("Fk_ResidenceReceipt_PersonId")
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.SetNull);
             });
 
             modelBuilder.Entity<Vehicle>(e => 
@@ -179,7 +179,7 @@ namespace Project.Models
                     .WithMany(p => p.Vehicles)
                     .HasForeignKey(e => e.PersonId)
                     .HasConstraintName("Fk_Vehicle_PersonId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.SetNull);
             });
 
             modelBuilder.Entity<VehicleReceipt>(e => 
@@ -196,7 +196,7 @@ namespace Project.Models
                     .WithMany(v => v.VehicleReceipts)
                     .HasForeignKey(e => e.VehicleId)
                     .HasConstraintName("Fk_VehicleReceipt_VehicleId")
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.SetNull);
             });
 
             modelBuilder.Entity<VehiclePayment>(e =>

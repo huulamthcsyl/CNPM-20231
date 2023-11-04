@@ -8,7 +8,7 @@ namespace Project.Models
         public Guid VehicleId { get; set; }
 
         // Foreign key
-        public Guid PersonId { get; set; }
+        public Guid? PersonId { get; set; }
 
         // Properties
         public string Category { get; set; }

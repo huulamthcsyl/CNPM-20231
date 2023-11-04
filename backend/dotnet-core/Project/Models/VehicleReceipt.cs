@@ -8,7 +8,7 @@ namespace Project.Models
         public Guid VehicleReceiptId { get; set; }
 
         // Foreign keys
-        public Guid VehicleId { get; set; }
+        public Guid? VehicleId { get; set; }
 
         // Properties
         public DateTime DateCreated { get; set; }

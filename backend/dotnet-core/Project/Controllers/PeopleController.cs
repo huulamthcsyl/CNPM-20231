@@ -139,6 +139,7 @@ namespace Project.Controllers
                 return NotFound();
             }
             var person = await _context.People.FindAsync(id);
+
             if (person == null)
             {
                 return NotFound();

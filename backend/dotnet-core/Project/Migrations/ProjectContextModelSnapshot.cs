@@ -18,6 +18,9 @@ namespace Project.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.12")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -25,13 +28,12 @@ namespace Project.Migrations
             modelBuilder.Entity("Project.Models.AbsentPerson", b =>
                 {
                     b.Property<Guid>("AbsentPersonId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("PersonId")
+                    b.Property<Guid?>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Reason")
@@ -42,7 +44,7 @@ namespace Project.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("AbsentPersonId")
-                        .HasName("Pk_AbsentPersonId_AbsentIdId");
+                        .HasName("Pk_AbsentPerson_AbsentPersonId");
 
                     b.HasIndex("PersonId");
 
@@ -107,7 +109,7 @@ namespace Project.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("PersonId")
+                    b.Property<Guid?>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ResidenceId")
@@ -171,7 +173,7 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.ResidencePayment", b =>
                 {
-                    b.Property<Guid?>("ResidenceReceiptId")
+                    b.Property<Guid>("ResidenceReceiptId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ResidenceFeeId")
@@ -202,7 +204,7 @@ namespace Project.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PersonId")
+                    b.Property<Guid?>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ResidenceReceiptId")
@@ -215,14 +217,14 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.UserAccount", b =>
                 {
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserName")
+                    b.HasKey("Username")
                         .HasName("Pk_UserAccount_UserName");
 
                     b.ToTable("UserAccount", (string)null);
@@ -275,7 +277,7 @@ namespace Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PersonId")
+                    b.Property<Guid?>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("VehicleId");
@@ -306,10 +308,10 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.VehiclePayment", b =>
                 {
-                    b.Property<Guid?>("VehicleReceiptId")
+                    b.Property<Guid>("VehicleReceiptId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("VehicleFeeId")
+                    b.Property<Guid?>("VehicleFeeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Amount")
@@ -337,7 +339,7 @@ namespace Project.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("VehicleId")
+                    b.Property<Guid?>("VehicleId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("VehicleReceiptId");
@@ -352,8 +354,7 @@ namespace Project.Migrations
                     b.HasOne("Project.Models.Person", "Person")
                         .WithMany("AbsentPepple")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired()
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("Fk_AbsentPerson_PersonId");
 
                     b.Navigation("Person");
@@ -375,8 +376,7 @@ namespace Project.Migrations
                     b.HasOne("Project.Models.Person", "Person")
                         .WithMany("Records")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
+                        .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("Fk_Record_PersonId");
 
                     b.HasOne("Project.Models.Residence", "Residence")
@@ -417,8 +417,7 @@ namespace Project.Migrations
                     b.HasOne("Project.Models.Person", "Person")
                         .WithMany("ResidenceReceipts")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired()
+                        .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("Fk_ResidenceReceipt_PersonId");
 
                     b.Navigation("Person");
@@ -429,8 +428,7 @@ namespace Project.Migrations
                     b.HasOne("Project.Models.Person", "Person")
                         .WithMany("Vehicles")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
+                        .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("Fk_Vehicle_PersonId");
 
                     b.Navigation("Person");
@@ -462,8 +460,7 @@ namespace Project.Migrations
                     b.HasOne("Project.Models.Vehicle", "Vehicle")
                         .WithMany("VehicleReceipts")
                         .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired()
+                        .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("Fk_VehicleReceipt_VehicleId");
 
                     b.Navigation("Vehicle");

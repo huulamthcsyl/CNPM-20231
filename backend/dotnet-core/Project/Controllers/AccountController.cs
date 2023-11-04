@@ -25,8 +25,8 @@ namespace Project.Controllers
             }
 
             var account = await _context.UserAccount
-                            .Where(p => (p.UserName == userAccount.UserName && p.Password == userAccount.Password))
-                            .FirstOrDefaultAsync();
+                            .FirstOrDefaultAsync(p => (p.Username.Equals(userAccount.Username)
+                                                && p.Password.Equals(userAccount.Password)));
             if (account == null)
             {
                 return Ok(new ApiResponse
@@ -60,7 +60,7 @@ namespace Project.Controllers
             }
             catch (DbUpdateException)
             {
-                if (UserAccountExists(userAccount.UserName))
+                if (UserAccountExists(userAccount.Username))
                 {
                     return Conflict();
                 }
@@ -101,7 +101,7 @@ namespace Project.Controllers
 
         private bool UserAccountExists(string userName)
         {
-            return (_context.UserAccount?.Any(e => e.UserName == userName)).GetValueOrDefault();
+            return (_context.UserAccount?.Any(e => e.Username == userName)).GetValueOrDefault();
         }
 
     }

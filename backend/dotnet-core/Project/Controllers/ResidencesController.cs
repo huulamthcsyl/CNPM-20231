@@ -241,13 +241,12 @@ namespace Project.Controllers
                 return NotFound();
             }
 
-            var people = await _context.People.ToListAsync();
+            var people = await _context.People.Where(p => ( p.ResidenceId == id)).ToListAsync();
 
             foreach (var p in people)
             {
-                var person = await _context.People.FindAsync(p.PersonId);
-                person.ResidenceId = null;
-                person.OwnerRelationship = null;
+                p.ResidenceId = null;
+                p.OwnerRelationship = null;
             }
             try
             {

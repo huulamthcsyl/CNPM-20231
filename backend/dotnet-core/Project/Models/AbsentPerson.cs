@@ -7,7 +7,7 @@ namespace Project.Models
         // Primary key
         public Guid AbsentPersonId { get; set; }
         // Foreign key
-        public Guid PersonId { get; set; }
+        public Guid? PersonId { get; set; }
 
         // Properties
         public DateTime StartTime { get; set; }
@@ -15,6 +15,7 @@ namespace Project.Models
         public string? Reason { get; set; }
 
         // Navigation properties
+        [JsonIgnore]
         public virtual Person? Person { get; set; }
     }
 }

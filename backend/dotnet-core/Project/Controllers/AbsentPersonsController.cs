@@ -24,10 +24,10 @@ namespace Project.Controllers
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<AbsentPerson>>> GetAbsentPeople()
         {
-          if (_context.AbsentPeople == null)
-          {
-              return NotFound();
-          }
+            if (_context.AbsentPeople == null)
+            {
+                return NotFound();
+            }
             return await _context.AbsentPeople.ToListAsync();
         }
 
@@ -83,10 +83,10 @@ namespace Project.Controllers
         [HttpPost]
         public async Task<ActionResult<AbsentPerson>> PostAbsentPerson(AbsentPerson absentPerson)
         {
-          if (_context.AbsentPeople == null)
-          {
-              return Problem("Entity set 'ProjectContext.AbsentPeople'  is null.");
-          }
+            if (_context.AbsentPeople == null)
+            {
+                return Problem("Entity set 'ProjectContext.AbsentPeople'  is null.");
+            }
             absentPerson.AbsentPersonId = Guid.NewGuid();
             _context.AbsentPeople.Add(absentPerson);
             var person = await _context.People.FindAsync(absentPerson.PersonId);
@@ -97,7 +97,7 @@ namespace Project.Controllers
             }
             catch (DbUpdateException)
             {
-                if (AbsentPersonExists(absentPerson.PersonId))
+                if (AbsentPersonExists(absentPerson.AbsentPersonId))
                 {
                     return Conflict();
                 }
@@ -107,7 +107,7 @@ namespace Project.Controllers
                 }
             }
 
-            return CreatedAtAction("GetAbsentPerson", new { id = absentPerson.PersonId }, absentPerson);
+            return CreatedAtAction("GetAbsentPerson", new { id = absentPerson.AbsentPersonId }, absentPerson);
         }
 
 
