@@ -32,7 +32,7 @@ namespace Project.Controllers
         }
 
 
-        // GET: api/vehicle?licenseplate=
+        // GET: api/vehicle?licenseplate=&ownerName=&category=
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicle(string? licenseplate, string? ownerName, string? category)
         {

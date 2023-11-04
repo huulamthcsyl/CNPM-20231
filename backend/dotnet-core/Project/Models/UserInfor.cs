@@ -2,14 +2,12 @@
 
 namespace Project.Models
 {
-    public class User
+    public class UserInfor
     {
         // Primary key
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         // Properties
-        public string Account { get; set; }
-        public string Password { get; set; }
         public string Name { get; set; }    
         public string? IdentityCardNumber { get; set; }
         public string Address { get; set; }

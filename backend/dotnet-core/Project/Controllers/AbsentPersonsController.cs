@@ -20,7 +20,7 @@ namespace Project.Controllers
             _context = context;
         }
 
-        // GET: api/absent
+        // GET: api/absent/all
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<AbsentPerson>>> GetAbsentPeople()
         {
@@ -33,7 +33,7 @@ namespace Project.Controllers
 
 
         // GET: api/absent/[:personId]
-        [HttpGet("id")]
+        [HttpGet()]
         public async Task<ActionResult<IEnumerable<AbsentPerson>>> GetAbsentPerson(Guid personId)
         {
             if (_context.AbsentPeople == null)
@@ -46,8 +46,8 @@ namespace Project.Controllers
         }
 
 
-        //GET: api/absent/?name=
-        [HttpGet("name")]
+        //GET: api/absent/person?name=
+        [HttpGet("person")]
         public async Task<ActionResult<IEnumerable<AbsentPerson>>> GetAbsentPeople(string? name)
         {
             if (_context.AbsentPeople == null)
@@ -64,7 +64,7 @@ namespace Project.Controllers
 
 
         //GET: api/absent/person
-        [HttpGet("person")]
+        [HttpGet("person/all")]
         public async Task<ActionResult<IEnumerable<Person>>> GetPeople()
         {
             if (_context.AbsentPeople == null)
@@ -111,7 +111,7 @@ namespace Project.Controllers
         }
 
 
-        // PUT: api/absent/5
+        // PUT: api/absent/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAbsentPerson(Guid id, AbsentPerson absentPerson)
         {

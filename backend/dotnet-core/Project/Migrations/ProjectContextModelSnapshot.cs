@@ -18,9 +18,6 @@ namespace Project.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.12")
-                .HasAnnotation("Proxies:ChangeTracking", false)
-                .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -216,17 +213,25 @@ namespace Project.Migrations
                     b.ToTable("ResidenceReceipt", (string)null);
                 });
 
-            modelBuilder.Entity("Project.Models.User", b =>
+            modelBuilder.Entity("Project.Models.UserAccount", b =>
                 {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
-
-                    b.Property<string>("Account")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserName")
+                        .HasName("Pk_UserAccount_UserName");
+
+                    b.ToTable("UserAccount", (string)null);
+                });
+
+            modelBuilder.Entity("Project.Models.UserInfor", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -247,17 +252,13 @@ namespace Project.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId")
-                        .HasName("Pk_User_UserId");
+                        .HasName("Pk_UserInfor_UserId");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("UserInfor", (string)null);
                 });
 
             modelBuilder.Entity("Project.Models.Vehicle", b =>

@@ -93,7 +93,7 @@ namespace Project.Controllers
             }
             if (check == true)
             {
-                return Problem("Cannot create residence. Person is currently in another residence!");
+                return Problem("Can't create residence. Person is currently in another residence!");
             }
 
             // Update new residence
@@ -114,9 +114,8 @@ namespace Project.Controllers
             foreach (var p in removedPeople)
             {
                 // Update residence of removed person
-                var person = await _context.People.FindAsync(p.PersonId);
-                person.ResidenceId = null;
-                person.OwnerRelationship = null;
+                p.ResidenceId = null;
+                p.OwnerRelationship = null;
 
                 // Insert remove action to Records
                 _context.Records.Add(new Record
@@ -189,7 +188,7 @@ namespace Project.Controllers
             }
             if (check == true) 
             {
-                return Problem("Cannot create residence. Person is currently in another residence!");
+                return Problem("Can't create residence. Person is currently in another residence!");
             }
 
             // Insert residence

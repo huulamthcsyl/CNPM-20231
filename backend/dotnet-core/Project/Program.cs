@@ -19,7 +19,7 @@ string connectionString = builder.Configuration.GetConnectionString("ProjectDB")
 builder.Services.AddDbContext<ProjectContext>(options =>
 {
     options.UseSqlServer(connectionString);
-    options.UseLazyLoadingProxies();
+    //options.UseLazyLoadingProxies();
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

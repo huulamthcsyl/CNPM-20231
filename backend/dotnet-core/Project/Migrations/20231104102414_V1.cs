@@ -40,13 +40,22 @@ namespace Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "UserAccount",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Account = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("Pk_UserAccount_UserName", x => x.UserName);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserInfor",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdentityCardNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -56,7 +65,7 @@ namespace Project.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("Pk_User_UserId", x => x.UserId);
+                    table.PrimaryKey("Pk_UserInfor_UserId", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -313,7 +322,10 @@ namespace Project.Migrations
                 name: "ResidencePayment");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "UserAccount");
+
+            migrationBuilder.DropTable(
+                name: "UserInfor");
 
             migrationBuilder.DropTable(
                 name: "VehiclePayment");

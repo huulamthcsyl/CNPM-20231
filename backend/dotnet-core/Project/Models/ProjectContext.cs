@@ -11,7 +11,8 @@ namespace Project.Models
         public ProjectContext(DbContextOptions<ProjectContext> options) : base(options) { }
 
         public virtual DbSet<AbsentPerson> AbsentPeople { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserInfor> UserInfor { get; set; }
+        public virtual DbSet<UserAccount> UserAccount { get; set; }
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<Record> Records { get; set; }
         public virtual DbSet<Residence> Residences { get; set; }
@@ -25,18 +26,24 @@ namespace Project.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>(e =>
+            modelBuilder.Entity<UserInfor>(e =>
             {
-                e.HasKey(e => e.UserId).HasName("Pk_User_UserId");
+                e.HasKey(e => e.UserId).HasName("Pk_UserInfor_UserId");
 
-                e.ToTable("User");
+                e.ToTable("UserInfor");
 
-                e.Property(e => e.UserId).UseIdentityColumn(seed: 1, increment: 1);
+                e.Property(e => e.UserId).ValueGeneratedNever();
 
                 e.Property(e => e.Name).IsUnicode(true);
 
                 e.Property(e => e.Address).IsUnicode(true);
+            });
 
+            modelBuilder.Entity<UserAccount>(e =>
+            {
+                e.HasKey(e => e.UserName).HasName("Pk_UserAccount_UserName");
+
+                e.ToTable("UserAccount");
             });
 
             modelBuilder.Entity<Person>(e =>
