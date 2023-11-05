@@ -1,7 +1,7 @@
 import { Password } from "@mui/icons-material";
 import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../Api/Api";
 
@@ -33,6 +33,14 @@ const styles = {
   },
 };
 function DangNhapPage() {
+  const navigate = useNavigate();
+  const user = localStorage.getItem("user")
+
+  useEffect(() => {
+    if (user != "null") {
+      navigate('/home')
+    }
+  }, [])
   const [account, setAccount] = useState('')
   const [password, setPassword] = useState('')
   const changeAccount = (e) => {
@@ -41,14 +49,20 @@ function DangNhapPage() {
   const changePassword = (e) => {
     setPassword(e.target.value)
   }
-  const navigate = useNavigate();
+
   const handleLogin = () => {
-    axios.get(API_BASE_URL + '/person/' + account).then((response) => {
-      alert('dang nhap thanh cong')
-      localStorage.setItem('user', account)
-      navigate("/home");
+    axios.post(API_BASE_URL + '/account/login', {
+      "username": account,
+      "password": password
+    }).then((response) => {
+      alert(response.data.message)
+      if (response.data.message == "Success") {
+        localStorage.setItem('user', account)
+        navigate("/home");
+      }
+
     }).catch((error) => {
-      alert('tai khoan khong ton tai')
+      alert('lỗi')
       console.error('Error fetching data:', error);
     });
 
@@ -61,7 +75,7 @@ function DangNhapPage() {
           <Typography variant="h4">Tài khoản</Typography>
         </Grid>
         <Grid item xs={8.5} sx={{ justifyContent: "center" }}>
-          <TextField margin="normal" sx={styles.input} size="small" value={account} onChange={e => changeAccount(e)} />
+          <TextField margin="normal" sx={styles.input} size="small" value={account} onChange={e => changeAccount(e)} placeholder="admin" />
         </Grid>
         <Grid item xs={3.5} sx={{ textAlign: "center" }}>
           <Typography variant="h4">Mật khẩu</Typography>
@@ -74,6 +88,7 @@ function DangNhapPage() {
             size="small"
             value={password}
             onChange={e => changePassword(e)}
+            placeholder="123"
           />
         </Grid>
       </Grid>
