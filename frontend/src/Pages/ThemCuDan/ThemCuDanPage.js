@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-import { API_BASE_URL } from "../../Api/Api";
+import ClassApi from "../../Api/Api";
 const API_ADDRESS = 'https://provinces.open-api.vn/';
 const theme = createTheme({
   components: {
@@ -66,7 +66,7 @@ function ThemCuDan() {
       'access-control-allow-origin': '*',
       'content-type': 'application/json; charset=utf-8 '
     }
-    axios.post(API_BASE_URL + '/person', person, { headers },).then((response) => {
+    ClassApi.PostPerson(person).then((response) => {
       alert('them thanh cong')
       // console.log(response.data)
     }).catch((error) => {

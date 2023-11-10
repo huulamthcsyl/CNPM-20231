@@ -16,7 +16,7 @@ import ButtonSearch from "../../Layout/component/ButtonSearch";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { API_BASE_URL } from "../../Api/Api"
+import ClassApi from "../../Api/Api"
 const theme = createTheme({
   components: {
     MuiTypography: {
@@ -70,11 +70,11 @@ function NhanKhau() {
   const [person, setPerson] = useState('')
   const searchPerson = () => {
     if (person.length > 0) {
-      axios.get(API_BASE_URL + '/person?name=' + person).then((response) => {
+      ClassApi.GetPerson(person).then((response) => {
         setAllPeople(response.data)
       })
     } else {
-      axios.get(API_BASE_URL + "/person/all").then((respone) => {
+      ClassApi.GetAllPeople().then((respone) => {
         setAllPeople(respone.data);
 
       }).catch((error) => {
@@ -85,7 +85,7 @@ function NhanKhau() {
 
   }
   useEffect(() => {
-    axios.get(API_BASE_URL + "/person/all").then((respone) => {
+    ClassApi.GetAllPeople().then((respone) => {
       setAllPeople(respone.data);
 
     }).catch((error) => {

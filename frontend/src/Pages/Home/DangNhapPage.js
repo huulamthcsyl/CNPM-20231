@@ -1,9 +1,11 @@
-import { Password } from "@mui/icons-material";
-import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
+import { Api, Password } from "@mui/icons-material";
+import { Alert, Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../../Api/Api";
+import ClassApi, { API_BASE_URL } from "../../Api/Api";
+import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer, toast } from 'react-toastify'
 
 const styles = {
   root: {
@@ -51,24 +53,32 @@ function DangNhapPage() {
   }
 
   const handleLogin = () => {
-    axios.post(API_BASE_URL + '/account/login', {
-      "username": account,
-      "password": password
-    }).then((response) => {
-      alert(response.data.message)
-      if (response.data.message == "Success") {
-        localStorage.setItem('user', account)
-        navigate("/home");
+    ClassApi.PostLogin(account, password).then((response) => {
+
+      if (response.data.message === "Success") {
+        toast.success(response.data.message, {
+          onClose: () => {
+            localStorage.setItem('user', account);
+            setTimeout(() => {
+              navigate("/home");
+            }, 1500);
+          },
+        });
+      } else {
+        toast.warning(response.data.message)
       }
 
     }).catch((error) => {
-      alert('lỗi')
+      toast.error("lỗi")
       console.error('Error fetching data:', error);
+
     });
 
   };
+
   return (
     <Box sx={styles.root}>
+
       <Typography variant="h2">Đăng nhập</Typography>
       <Grid container spacing={1} alignItems="center" sx={styles.tk_mk} p={5}>
         <Grid item xs={3.5} sx={{ textAlign: "center" }}>
