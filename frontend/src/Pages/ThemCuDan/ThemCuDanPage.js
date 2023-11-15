@@ -13,6 +13,7 @@ import ButtonSearch from "../../Layout/component/ButtonSearch";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import ClassApi from "../../Api/Api";
+import { toast } from "react-toastify";
 const API_ADDRESS = 'https://provinces.open-api.vn/';
 const theme = createTheme({
   components: {
@@ -67,10 +68,10 @@ function ThemCuDan() {
       'content-type': 'application/json; charset=utf-8 '
     }
     ClassApi.PostPerson(person).then((response) => {
-      alert('them thanh cong')
+      toast.success('thêm thành công')
       // console.log(response.data)
     }).catch((error) => {
-      alert('them that bai')
+      toast.error('thêm thất bại')
       console.error('Error fetching data:', error);
     });
   }

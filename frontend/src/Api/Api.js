@@ -2,9 +2,11 @@ import axios from "axios";
 
 const newLocal = 'https://localhost:7030/api';
 export const API_BASE_URL = newLocal
+let token = localStorage.getItem('token')
 const headers = {
     'access-control-allow-origin': '*',
-    'content-type': 'application/json; charset=utf-8 '
+    'content-type': 'application/json; charset=utf-8 ',
+    'Authorization': 'Bearer ' + token
 }
 class ClassApi {
     //****** ******/
@@ -21,7 +23,7 @@ class ClassApi {
         return axios.put(API_BASE_URL + '/account', {
             "oldpassword": oldpassword,
             "newpassword": newpassword
-        })
+        }), { headers }
     }
 
 
@@ -37,10 +39,10 @@ class ClassApi {
     //Api cu dan
     /****** */
     GetPerson(person) {
-        return axios.get(API_BASE_URL + '/person?name=' + person);
+        return axios.get(API_BASE_URL + '/person?name=' + person, { headers });
     }
     GetAllPeople() {
-        return axios.get(API_BASE_URL + "/person/all");
+        return axios.get(API_BASE_URL + "/person/all", { headers });
     }
     PostPerson(person) {
         return axios.post(API_BASE_URL + '/person', person, { headers });

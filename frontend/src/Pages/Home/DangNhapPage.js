@@ -58,7 +58,8 @@ function DangNhapPage() {
       if (response.data.message === "Success") {
         toast.success(response.data.message, {
           onClose: () => {
-            localStorage.setItem('user', account);
+            localStorage.setItem('user', response.data.data.id);
+            localStorage.setItem('token', response.data.data.token);
             setTimeout(() => {
               navigate("/home");
             }, 1500);
