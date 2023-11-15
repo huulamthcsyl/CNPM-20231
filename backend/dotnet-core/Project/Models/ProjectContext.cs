@@ -1,20 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Project.Models.Models;
 using System.Reflection.Emit;
 using System.Security.Cryptography;
 
 namespace Project.Models
 {
-    public partial class ProjectContext : DbContext
+    public class ProjectContext : DbContext
     {
         public ProjectContext() { }
 
         public ProjectContext(DbContextOptions<ProjectContext> options) : base(options) { }
 
         public virtual DbSet<AbsentPerson> AbsentPeople { get; set; }
-        public virtual DbSet<UserInfor> UserInfor { get; set; }
-        public virtual DbSet<UserAccount> UserAccount { get; set; }
+        public virtual DbSet<UserInfo> UserInfos { get; set; }
+        public virtual DbSet<UserAccount> UserAccounts { get; set; }
         public virtual DbSet<Person> People { get; set; }
-        public virtual DbSet<Record> Records { get; set; }
+        public virtual DbSet<Record> Records { get; set; }  
         public virtual DbSet<Residence> Residences { get; set; }
         public virtual DbSet<ResidenceFee> ResidenceFees { get; set; }
         public virtual DbSet<ResidencePayment> ResidencePayments { get; set; }
@@ -26,11 +28,13 @@ namespace Project.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserInfor>(e =>
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<UserInfo>(e =>
             {
                 e.HasKey(e => e.UserId).HasName("Pk_UserInfor_UserId");
 
-                e.ToTable("UserInfor");
+                e.ToTable("UserInfo");
 
                 e.Property(e => e.UserId).ValueGeneratedNever();
 
@@ -41,9 +45,16 @@ namespace Project.Models
 
             modelBuilder.Entity<UserAccount>(e =>
             {
-                e.HasKey(e => e.Username).HasName("Pk_UserAccount_UserName");
+                e.HasKey(e => e.UserId).HasName("Pk_UserAccount_UserName");
+
+                e.Property(e => e.UserId).ValueGeneratedNever();
 
                 e.ToTable("UserAccount");
+
+                e.HasOne(p => p.UserInfo)
+                    .WithOne(u => u.UserAccount)
+                    .HasForeignKey<UserInfo>(p => p.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Person>(e =>
