@@ -72,32 +72,32 @@ namespace Project.Controllers.UserController
         }
 
         // POST: api/UserInfos
-        [HttpPost]
-        public async Task<ActionResult<UserInfo>> PostUserInfo(UserInfo userInfo)
-        {
-          if (_context.UserInfos == null)
-          {
-              return Problem("Entity set 'ProjectContext.UserInfos'  is null.");
-          }
-            _context.UserInfos.Add(userInfo);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (UserInfoExists(userInfo.UserId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //[HttpPost]
+        //public async Task<ActionResult<UserInfo>> PostUserInfo(UserInfo userInfo)
+        //{
+        //  if (_context.UserInfos == null)
+        //  {
+        //      return Problem("Entity set 'ProjectContext.UserInfos'  is null.");
+        //  }
+        //    _context.UserInfos.Add(userInfo);
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateException)
+        //    {
+        //        if (UserInfoExists(userInfo.UserId))
+        //        {
+        //            return Conflict();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return StatusCode(201);
-        }
+        //    return StatusCode(201);
+        //}
 
         // DELETE: api/UserInfos/5
         [HttpDelete("{id}")]

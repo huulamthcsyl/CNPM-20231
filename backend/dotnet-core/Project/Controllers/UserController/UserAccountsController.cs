@@ -15,6 +15,8 @@ using Project.Models.Models;
 using System.Security.Claims;
 using Project.Models.Services;
 using Microsoft.AspNetCore.Authorization;
+using XSystem.Security.Cryptography;
+using XAct;
 
 namespace Project.Controllers.UserController
 {
@@ -25,19 +27,20 @@ namespace Project.Controllers.UserController
     {
         private readonly ProjectContext _context;
         private readonly IConfiguration _configuration;
+
         public UserAccountsController(ProjectContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
         }
 
-
         [HttpPost("Login")]
         [AllowAnonymous]
         public async Task<IActionResult> Logins(UserAccount account)
         {
+            var md5Password = EncryptMD5(account.Password);
             var user = await _context.UserAccounts.FirstOrDefaultAsync(p =>
-                                (p.UserName == account.UserName && p.Password == account.Password));
+                                (p.UserName == account.UserName && p.Password == md5Password));
             if (user == null)
             {
                 return Ok(new
@@ -60,43 +63,45 @@ namespace Project.Controllers.UserController
 
         // PUT: api/account/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserAccount(Guid id, UserAccount userAccount)
+        public async Task<IActionResult> PutUserAccount(Guid id, Password password)
         {
-            if (id != userAccount.UserId)
+            if (id != password.Id)
             {
                 return BadRequest();
             }
-            var account = await _context.UserAccounts.FirstOrDefaultAsync(p => p.UserName == userAccount.UserName);
-            if (account != null)
-            {
-                return Problem("username existed");
-            }
 
-            _context.Entry(userAccount).State = EntityState.Modified;
-
-            try
+            var userAccount = await _context.UserAccounts.FindAsync(id);
+            if (userAccount.Password != EncryptMD5(password.OldPassWord))
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserAccountExists(id))
+                return StatusCode(201, new
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                    Success = false,
+                    Message = "Invalid old password"
+                });
             }
-
-            return NoContent();
+            else
+            {
+                userAccount.Password = EncryptMD5(password.NewPassWord);
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(400, ex.Message);
+                }
+                return StatusCode(201, new
+                {
+                    Success = true,
+                    Message = "Success"
+                });
+            }
         }
 
         // POST: api/account/register
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<ActionResult<UserAccount>> PostUserAccount(UserAccount userAccount)
+        public async Task<IActionResult> PostUserAccount(UserAccount userAccount)
         {
           if (_context.UserAccounts == null)
           {
@@ -108,7 +113,14 @@ namespace Project.Controllers.UserController
                 return Problem("username existed");
             }
             userAccount.UserId = Guid.NewGuid();
+            userAccount.Password = EncryptMD5(userAccount.Password);
+
+            var userInfo = new UserInfo();
+            userInfo.UserId = userAccount.UserId;
+
             _context.UserAccounts.Add(userAccount);
+            _context.UserInfos.Add(userInfo);
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -172,6 +184,19 @@ namespace Project.Controllers.UserController
 
             var token = jwtTokenHandler.CreateToken(tokenDescription);
             return jwtTokenHandler.WriteToken(token);
+        }
+
+        private string EncryptMD5(string password)
+        {
+            StringBuilder hash = new StringBuilder();
+            MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider();
+            byte[] bytes = md5provider.ComputeHash(new UTF8Encoding().GetBytes(password));
+
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                hash.Append(bytes[i].ToString("x2"));
+            }
+            return hash.ToString();
         }
     }
 }
