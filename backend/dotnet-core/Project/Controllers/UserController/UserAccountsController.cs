@@ -34,6 +34,20 @@ namespace Project.Controllers.UserController
             _configuration = configuration;
         }
 
+        // Api for testing: get all account
+        [HttpGet("all")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<UserAccount>>> GetUserAccounts()
+        {
+            if (_context.UserAccounts == null)
+            {
+                return NotFound();
+            }
+            var userAccounts = await _context.UserAccounts.ToListAsync();
+
+            return userAccounts;
+        }
+
         [HttpPost("Login")]
         [AllowAnonymous]
         public async Task<IActionResult> Logins(UserAccount account)
@@ -137,7 +151,7 @@ namespace Project.Controllers.UserController
                 }
             }
 
-            return StatusCode(201);
+            return StatusCode(201, userAccount);
         }
 
         // DELETE: api/account/5
@@ -175,7 +189,8 @@ namespace Project.Controllers.UserController
                 {
                     new Claim("UserName", userAccount.UserName),
                     new Claim("Id", userAccount.UserId.ToString()),
-                    new Claim("TokenId", Guid.NewGuid().ToString())
+                    new Claim("TokenId", Guid.NewGuid().ToString()),
+                    new Claim(ClaimTypes.Role, "admin")
                 }),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials
@@ -188,15 +203,19 @@ namespace Project.Controllers.UserController
 
         private string EncryptMD5(string password)
         {
-            StringBuilder hash = new StringBuilder();
-            MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider();
-            byte[] bytes = md5provider.ComputeHash(new UTF8Encoding().GetBytes(password));
+            /// Disabled during the software's building and testing phase
+            ///
+            //StringBuilder hash = new StringBuilder();
+            //MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider();
+            //byte[] bytes = md5provider.ComputeHash(new UTF8Encoding().GetBytes(password));
 
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                hash.Append(bytes[i].ToString("x2"));
-            }
-            return hash.ToString();
+            //for (int i = 0; i < bytes.Length; i++)
+            //{
+            //    hash.Append(bytes[i].ToString("x2"));
+            //}
+            //return hash.ToString();
+
+            return password;
         }
     }
 }

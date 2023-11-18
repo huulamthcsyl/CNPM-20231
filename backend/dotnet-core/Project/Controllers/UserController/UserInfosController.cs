@@ -100,24 +100,24 @@ namespace Project.Controllers.UserController
         //}
 
         // DELETE: api/UserInfos/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserInfo(Guid id)
-        {
-            if (_context.UserInfos == null)
-            {
-                return NotFound();
-            }
-            var userInfo = await _context.UserInfos.FindAsync(id);
-            if (userInfo == null)
-            {
-                return NotFound();
-            }
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteUserInfo(Guid id)
+        //{
+        //    if (_context.UserInfos == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var userInfo = await _context.UserInfos.FindAsync(id);
+        //    if (userInfo == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            _context.UserInfos.Remove(userInfo);
-            await _context.SaveChangesAsync();
+        //    _context.UserInfos.Remove(userInfo);
+        //    await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         private bool UserInfoExists(Guid id)
         {
