@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const newLocal = 'https://localhost:7030/api';
+const newLocal = 'http://localhost:5169/api';
 export const API_BASE_URL = newLocal
 let token = localStorage.getItem('token')
 const headers = {
@@ -19,14 +19,20 @@ class ClassApi {
             "password": password
         })
     }
+    //Api thay mat khau
     ChangePassword(oldpassword, newpassword) {
         return axios.put(API_BASE_URL + '/account', {
             "oldpassword": oldpassword,
             "newpassword": newpassword
         }), { headers }
     }
-
-
+    //Api ho so
+    GetHoSo(id) {
+        return axios.get(API_BASE_URL + '/user/' + id, { headers })
+    }
+    PutHoSo(id, admin) {
+        return axios.put(API_BASE_URL + '/user/' + id, admin, { headers })
+    }
 
     /******** */
     //Api quan ly thu
