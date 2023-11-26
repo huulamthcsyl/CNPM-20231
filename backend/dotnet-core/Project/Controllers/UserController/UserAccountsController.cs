@@ -127,9 +127,8 @@ namespace Project.Controllers.UserController
         }
 
         // POST: api/account/register
-        [Authorize(Roles = "admin")]
         [HttpPost("register")]
-        [AllowAnonymous]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> PostUserAccount(UserAccount userAccount)
         {
           if (_context.UserAccounts == null)
@@ -221,6 +220,7 @@ namespace Project.Controllers.UserController
         {
             /// Disabled during the software's building and testing phase
             ///
+
             //StringBuilder hash = new StringBuilder();
             //MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider();
             //byte[] bytes = md5provider.ComputeHash(new UTF8Encoding().GetBytes(password));
