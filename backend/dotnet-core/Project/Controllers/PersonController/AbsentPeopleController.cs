@@ -13,7 +13,7 @@ namespace Project.Controllers.PersonController
 {
     [Route("api/absent")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "user")]
     public class AbsentPeopleController : ControllerBase
     {
         private readonly ProjectContext _context;

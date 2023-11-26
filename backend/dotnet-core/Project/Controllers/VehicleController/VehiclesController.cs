@@ -13,7 +13,7 @@ namespace Project.Controllers.VehicleController
 {
     [Route("api/vehicle")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "user")]
     public class VehiclesController : ControllerBase
     {
         private readonly ProjectContext _context;

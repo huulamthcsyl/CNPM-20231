@@ -13,7 +13,7 @@ namespace Project.Controllers.ResidenceController
 {
     [Route("api/record")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "user")]
     public class RecordsController : ControllerBase
     {
         private readonly ProjectContext _context;
