@@ -14,7 +14,7 @@ namespace Project.Controllers.FeeController
 {
     [Route("api/residencefee")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "user")]
     public class ResidenceFeesController : ControllerBase
     {
         private readonly ProjectContext _context;

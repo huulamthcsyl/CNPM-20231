@@ -15,14 +15,11 @@ using Project.Models.Models;
 using System.Security.Claims;
 using Project.Models.Services;
 using Microsoft.AspNetCore.Authorization;
-using XSystem.Security.Cryptography;
-using XAct;
 
 namespace Project.Controllers.UserController
 {
     [Route("api/account")]
     [ApiController]
-    [Authorize]
     public class UserAccountsController : ControllerBase
     {
         private readonly ProjectContext _context;
@@ -37,6 +34,7 @@ namespace Project.Controllers.UserController
         // Api for testing: get all account
         [HttpGet("all")]
         [AllowAnonymous]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<IEnumerable<UserAccount>>> GetUserAccounts()
         {
             if (_context.UserAccounts == null)
@@ -63,19 +61,35 @@ namespace Project.Controllers.UserController
                     Message = "Invalid username/password"
                 });
             }
-            else return Ok(new
+            else
             {
-                Success = true,
-                Message = "Success",
-                Data = new
+                if (account.UserName == "admin")
+                    return Ok(new
+                    {
+                        Success = true,
+                        Message = "Success",
+                        Data = new
+                        {
+                            Token = GenerateToken(account, "admin"),
+                            Id = user.UserId
+                        }
+                    }); ;
+
+                return Ok(new
                 {
-                    Token = GenerateToken(account),
-                    Id = user.UserId
-                }
-            }); ;
+                    Success = true,
+                    Message = "Success",
+                    Data = new
+                    {
+                        Token = GenerateToken(account, "user"),
+                        Id = user.UserId
+                    }
+                }); ;
+            }
         }
 
         // PUT: api/account/5
+        [Authorize(Roles = "user, admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUserAccount(Guid id, Password password)
         {
@@ -114,7 +128,7 @@ namespace Project.Controllers.UserController
 
         // POST: api/account/register
         [HttpPost("register")]
-        [AllowAnonymous]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> PostUserAccount(UserAccount userAccount)
         {
           if (_context.UserAccounts == null)
@@ -155,6 +169,7 @@ namespace Project.Controllers.UserController
         }
 
         // DELETE: api/account/5
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUserAccount(Guid id)
         {
@@ -179,7 +194,7 @@ namespace Project.Controllers.UserController
             return (_context.UserAccounts?.Any(e => e.UserId == id)).GetValueOrDefault();
         }
 
-        private string GenerateToken(UserAccount userAccount)
+        private string GenerateToken(UserAccount userAccount, string role)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
             var secretKeyBytes = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]);
@@ -190,7 +205,7 @@ namespace Project.Controllers.UserController
                     new Claim("UserName", userAccount.UserName),
                     new Claim("Id", userAccount.UserId.ToString()),
                     new Claim("TokenId", Guid.NewGuid().ToString()),
-                    new Claim(ClaimTypes.Role, "admin")
+                    new Claim(ClaimTypes.Role, role)
                 }),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials
@@ -205,6 +220,7 @@ namespace Project.Controllers.UserController
         {
             /// Disabled during the software's building and testing phase
             ///
+
             //StringBuilder hash = new StringBuilder();
             //MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider();
             //byte[] bytes = md5provider.ComputeHash(new UTF8Encoding().GetBytes(password));

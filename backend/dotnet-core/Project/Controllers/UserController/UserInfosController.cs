@@ -13,7 +13,7 @@ namespace Project.Controllers.UserController
 {
     [Route("api/user")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "user")]
     public class UserInfosController : ControllerBase
     {
         private readonly ProjectContext _context;

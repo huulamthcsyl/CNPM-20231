@@ -14,7 +14,7 @@ namespace Project.Controllers.FeeController
 {
     [Route("api/vehiclefee")]
     [ApiController]
-    [Authorize] 
+    [Authorize(Roles = "user")]
     public class VehicleFeesController : ControllerBase
     {
         private readonly ProjectContext _context;
