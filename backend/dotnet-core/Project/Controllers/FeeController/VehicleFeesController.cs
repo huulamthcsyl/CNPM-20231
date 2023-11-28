@@ -33,28 +33,27 @@ namespace Project.Controllers.FeeController
                 return NotFound();
             }
             var vehicleFees = await _context.VehicleFees.ToListAsync();
-            var vehiclePayments = await _context.VehiclePayments.ToListAsync();
-            var vehicleFeesInfor = new List<VehicleFeeInfo>();
+            var vehicleFeesInfo = new List<VehicleFeeInfo>();
 
             foreach (var vehicleFee in vehicleFees)
             {
-                vehicleFeesInfor.Add(new VehicleFeeInfo
+                vehicleFeesInfo.Add(new VehicleFeeInfo
                 {
                     VehicleFeeId = vehicleFee.VehicleFeeId,
                     Name = vehicleFee.Name,
                     Cost = vehicleFee.Cost,
-                    PaidQuantity = vehiclePayments.Where(p => p.VehicleFeeId == vehicleFee.VehicleFeeId).Count(),
-                    Total = vehiclePayments.Where(p => p.VehicleFeeId == vehicleFee.VehicleFeeId).Select(p => p.Amount).Sum()
+                    PaidQuantity = vehicleFee.VehiclePayments.Count(),
+                    Total = vehicleFee.VehiclePayments.Sum(p => p.Amount)
                 });
             }
 
-            return vehicleFeesInfor;
+            return vehicleFeesInfo;
         }
 
 
         // GET: api/vehiclefee/[:id]
         [HttpGet("{id}")]
-        public async Task<ActionResult<VehicleFee>> GetVehicleFee(Guid id)
+        public async Task<ActionResult<VehicleFeeInfo>> GetVehicleFee(Guid id)
         {
             if (_context.VehicleFees == null)
             {
@@ -67,7 +66,17 @@ namespace Project.Controllers.FeeController
                 return NotFound();
             }
 
-            return vehicleFee;
+            var vehicleFeeInfo = new VehicleFeeInfo
+            {
+                VehicleFeeId = vehicleFee.VehicleFeeId,
+                Name = vehicleFee.Name,
+                Cost = vehicleFee.Cost,
+                PaidQuantity = vehicleFee.VehiclePayments.Count(),
+                Total = vehicleFee.VehiclePayments.Sum(p => p.Amount),
+                VehiclePayments = vehicleFee.VehiclePayments
+            };
+
+            return vehicleFeeInfo;
         }
 
 
@@ -83,22 +92,21 @@ namespace Project.Controllers.FeeController
             name = name ?? string.Empty;
 
             var vehicleFees = await _context.VehicleFees.Where(p => p.Name.Contains(name)).ToListAsync();
-            var vehiclePayments = await _context.VehiclePayments.ToListAsync();
-            var vehicleFeesInfor = new List<VehicleFeeInfo>();
+            var vehicleFeesInfo = new List<VehicleFeeInfo>();
 
             foreach (var vehicleFee in vehicleFees)
             {
-                vehicleFeesInfor.Add(new VehicleFeeInfo
+                vehicleFeesInfo.Add(new VehicleFeeInfo
                 {
                     VehicleFeeId = vehicleFee.VehicleFeeId,
                     Name = vehicleFee.Name,
                     Cost = vehicleFee.Cost,
-                    PaidQuantity = vehiclePayments.Where(p => p.VehicleFeeId == vehicleFee.VehicleFeeId).Count(),
-                    Total = vehiclePayments.Where(p => p.VehicleFeeId == vehicleFee.VehicleFeeId).Select(p => p.Amount).Sum()
+                    PaidQuantity = vehicleFee.VehiclePayments.Count(),
+                    Total = vehicleFee.VehiclePayments.Sum(p => p.Amount)
                 });
             }
 
-            return vehicleFeesInfor;
+            return vehicleFeesInfo;
         }
 
 

@@ -26,29 +26,29 @@ namespace Project.Controllers.FeeController
 
         // GET: api/residencefee/all
         [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<ResidenceFee>>> GetResidenceFees()
+        public async Task<ActionResult<IEnumerable<ResidenceFeeInfo>>> GetResidenceFees()
         {
             if (_context.ResidenceFees == null)
             {
                 return NotFound();
             }
-            var paymentList = await _context.ResidencePayments.ToListAsync();
+
             var fees = await _context.ResidenceFees.ToListAsync();
-            var feesInfor = new List<ResidenceFeeInfo>();
+            var feesInfo = new List<ResidenceFeeInfo>();
 
             foreach (var fee in fees)
             {
-                feesInfor.Add(new ResidenceFeeInfo
+                feesInfo.Add(new ResidenceFeeInfo
                 {
                     ResidenceFeeId = fee.ResidenceFeeId,
                     Name = fee.Name,
                     IsObligatory = fee.IsObligatory,
                     Cost = fee.Cost,
-                    PaidQuantity = paymentList.Where(p => p.ResidenceFeeId == fee.ResidenceFeeId).Count(),
-                    Total = paymentList.Where(p => p.ResidenceFeeId == fee.ResidenceFeeId).Select(p => p.Amount).Sum()
+                    PaidQuantity = fee.ResidencePayments.Count(),
+                    Total = fee.ResidencePayments.Sum(p => p.Amount),
                 });
             }
-            return feesInfor;
+            return feesInfo;
         }
 
 
@@ -63,23 +63,50 @@ namespace Project.Controllers.FeeController
 
             name = name ?? string.Empty;
 
-            var paymentList = await _context.ResidencePayments.ToListAsync();
             var fees = await _context.ResidenceFees.Where(p => p.Name.Contains(name)).ToListAsync();
-            var feesInfor = new List<ResidenceFeeInfo>();
+            var feesInfo = new List<ResidenceFeeInfo>();
 
             foreach (var fee in fees)
             {
-                feesInfor.Add(new ResidenceFeeInfo
+                feesInfo.Add(new ResidenceFeeInfo
                 {
                     ResidenceFeeId = fee.ResidenceFeeId,
                     Name = fee.Name,
                     IsObligatory = fee.IsObligatory,
                     Cost = fee.Cost,
-                    PaidQuantity = paymentList.Where(p => p.ResidenceFeeId == fee.ResidenceFeeId).Count(),
-                    Total = paymentList.Where(p => p.ResidenceFeeId == fee.ResidenceFeeId).Select(p => p.Amount).Sum()
+                    PaidQuantity = fee.ResidencePayments.Count(),
+                    Total = fee.ResidencePayments.Sum(p => p.Amount),
                 });
             }
-            return feesInfor;
+            return feesInfo;
+        }
+
+        // GET: api/residencefee/{:id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ResidenceFeeInfo>> GetResidenceFee(Guid id)
+        {
+            if (_context.ResidenceFees == null)
+            {
+                return NotFound();
+            }
+
+            var residenceFee = await _context.ResidenceFees.FindAsync(id);
+
+            if (residenceFee == null) 
+            {
+                return NotFound(); 
+            }
+            var residenceFeeInfo = new ResidenceFeeInfo 
+            {
+                ResidenceFeeId = residenceFee.ResidenceFeeId,
+                Name = residenceFee.Name,
+                IsObligatory = residenceFee.IsObligatory,
+                Cost = residenceFee.Cost,
+                PaidQuantity = residenceFee.ResidencePayments.Count(),
+                Total = residenceFee.ResidencePayments.Sum(p => p.Amount),
+                ResidencePayments = residenceFee.ResidencePayments
+            };
+            return residenceFeeInfo;
         }
 
 

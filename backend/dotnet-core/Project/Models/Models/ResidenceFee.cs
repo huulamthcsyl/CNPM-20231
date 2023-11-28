@@ -13,7 +13,6 @@ namespace Project.Models.Models
         public int? Cost { get; set; }
 
         // Navigation properties
-        [JsonIgnore]
-        public virtual ICollection<ResidencePayment> ResidencePayments { get; set; } = new List<ResidencePayment>();
+        public virtual ICollection<ResidencePayment>? ResidencePayments { get; set; } = new List<ResidencePayment>();
     }
 }

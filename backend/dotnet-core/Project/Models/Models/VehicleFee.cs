@@ -12,7 +12,6 @@ namespace Project.Models.Models
         public int? Cost { get; set; }
 
         // Navigation property
-        [JsonIgnore]
-        public virtual ICollection<VehiclePayment> VehiclePayments { get; set; } = new List<VehiclePayment>();
+        public virtual ICollection<VehiclePayment>? VehiclePayments { get; set; } = new List<VehiclePayment>();
     }
 }
