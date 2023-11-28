@@ -142,7 +142,7 @@ function HoSoPage() {
                   rowSpacing={1}
                 >
                   <Grid item>
-                    <Typography variant="h4" fontWeight={400}>
+                    <Typography variant="h4" fontWeight={400} style={{ marginRight: "50px" }}>
                       Giới tính
                     </Typography>
                   </Grid>
@@ -175,9 +175,7 @@ function HoSoPage() {
                     </Typography>
                   </Grid>
                   <Grid item>
-
                     <input type="date" value={date} onChange={handleDateChange} style={{ height: '30px', width: '150px' }} />
-
                   </Grid>
                 </Grid>
                 <Grid
@@ -238,7 +236,7 @@ function HoSoPage() {
             </FormControl>
           </ThemeProvider>
           <Divider style={{ margin: "30px 0px", backgroundColor: "black" }} />
-          <ThemeProvider theme={theme2}>
+          {/* <ThemeProvider theme={theme2}>
             <FormControl>
               <FormGroup>
                 <Typography variant="h4" fontWeight={600}>
@@ -300,24 +298,45 @@ function HoSoPage() {
                     </div>
                   </Grid>
                 </Grid>
-                <NavLink to="./">
-                  <Button
-                    variant="contained"
-                    style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
-                    onClick={handleSend}
-                  >
-                    <Typography
-                      variant="h5"
-                      fontWeight={500}
-                      style={{ color: "black" }}
-                    >
-                      Xác nhận
-                    </Typography>
-                  </Button>
-                </NavLink>
               </FormGroup>
             </FormControl>
-          </ThemeProvider>
+          </ThemeProvider> */}
+        </Grid>
+
+        <Grid item xs={2}>
+          <NavLink to="/doimatkhau">
+            <Button
+              variant="contained"
+              style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+              onClick={handleSend}
+            >
+              <Typography
+                variant="h5"
+                fontWeight={500}
+                style={{ color: "black" }}
+              >
+                Đổi mật khẩu
+              </Typography>
+            </Button>
+          </NavLink>
+        </Grid>
+
+        <Grid item xs={2}>
+          <NavLink to="./">
+            <Button
+              variant="contained"
+              style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+              onClick={handleSend}
+            >
+              <Typography
+                variant="h5"
+                fontWeight={500}
+                style={{ color: "black" }}
+              >
+                Xác nhận
+              </Typography>
+            </Button>
+          </NavLink>
         </Grid>
       </Grid>
     </LocalizationProvider>

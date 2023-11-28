@@ -11,6 +11,7 @@ import TamVang from "../Pages/TamVang/TamVangPage.js";
 import DangNhapPage from "../Pages/Home/DangNhapPage.js";
 import NoneLayout from "../Layout/NoneLayout.js";
 import HoSoPage from "../Pages/HoSo/HoSoPage";
+import DoiMatKhauPage from "../Pages/HoSo/DoiMatKhauPage";
 import QuanLyPTPage from "../Pages/PhuongTien/QuanLyPTPage";
 import ThuPhiPTPage from "../Pages/PhuongTien/ThuPhiPTPage";
 import TaoPhuongTienPage from "../Pages/QuanLyPhuongTien/TaoPhuongTienPage";
@@ -37,6 +38,7 @@ const publicRoutes = [
   { path: "/tamvang", component: TamVang },
   { path: "/home", component: Home },
   { path: "/hosoadmin", component: HoSoPage },
+  { path: "/doimatkhau", component: DoiMatKhauPage },
   { path: "/quanlyphuongtien", component: QuanLyPTPage },
   { path: "/thuphiphuongtien", component: ThuPhiPTPage },
   { path: "/taophuongtien", component: TaoPhuongTienPage },
