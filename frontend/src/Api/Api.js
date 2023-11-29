@@ -30,6 +30,16 @@ class ClassApi {
     );
   }
 
+  /***** */
+  //Api ho so
+  GetHoSo(id) {
+    return axios.get(API_BASE_URL + '/user/' + id, { headers })
+  }
+  PutHoSo(id, admin) {
+    return axios.put(API_BASE_URL + '/user/' + id, admin, { headers })
+  }
+  /****** */
+
   /******** */
   //Api quan ly thu
   GetAllResidenceReceipt() {
@@ -38,14 +48,14 @@ class ClassApi {
   FindResidenceReceipt(name, address, starttime, endtime) {
     return axios.get(
       API_BASE_URL +
-        "/residencereceipt?name=" +
-        name +
-        "&address=" +
-        address +
-        "&starttime=" +
-        starttime +
-        "&endtime=" +
-        endtime,
+      "/residencereceipt?name=" +
+      name +
+      "&address=" +
+      address +
+      "&starttime=" +
+      starttime +
+      "&endtime=" +
+      endtime,
       { headers }
     );
   }
