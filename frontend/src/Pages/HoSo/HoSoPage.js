@@ -325,7 +325,7 @@ function HoSoPage() {
           <NavLink to="./">
             <Button
               variant="contained"
-              style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+              style={{ backgroundColor: "#79C9FF", margin: "30px 30px" }}
               onClick={handleSend}
             >
               <Typography
