@@ -100,7 +100,9 @@ namespace Project.Controllers.ResidenceController
             }
 
             // Update new residence
-            var currentResidence = await _context.Residences.FindAsync(id);
+            var currentResidence = await _context.Residences
+                .Include(r => r.People)
+                .FirstOrDefaultAsync(r => r.ResidenceId == id);
             currentResidence.MemberNumber = newResidence.MemberNumber;
             currentResidence.Address = newResidence.Address;
             currentResidence.OwnerName = newResidence.OwnerName;

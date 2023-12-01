@@ -60,7 +60,9 @@ namespace Project.Controllers.PersonController
 
             name = name ?? string.Empty;
 
-            var absentPeople = await _context.AbsentPeople.Where(ap => ap.Person.Name.Contains(name)).ToListAsync();
+            var absentPeople = await _context.AbsentPeople
+                .Include(a => a.Person)
+                .Where(ap => ap.Person.Name.Contains(name)).ToListAsync();
 
             return absentPeople;
         }
@@ -75,7 +77,7 @@ namespace Project.Controllers.PersonController
                 return NotFound();
             }
 
-            var people = await _context.AbsentPeople.Select(p => p.Person).Distinct().ToListAsync();
+            var people = await _context.AbsentPeople.Include(a => a.Person).Select(p => p.Person).Distinct().ToListAsync();
 
             return people;
 

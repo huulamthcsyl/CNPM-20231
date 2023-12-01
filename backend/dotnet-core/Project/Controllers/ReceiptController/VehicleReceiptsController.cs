@@ -33,7 +33,7 @@ namespace Project.Controllers.ReceiptController
             {
                 return NotFound();
             }
-            var vehicleReceipts = await _context.VehicleReceipts.ToListAsync();
+            var vehicleReceipts = await _context.VehicleReceipts.Include(r => r.Vehicle).ThenInclude(v => v.Person).ToListAsync();
             var receiptsInfor = new List<VehicleReceiptInfo>();
 
             foreach (var receipt in vehicleReceipts)
@@ -63,7 +63,10 @@ namespace Project.Controllers.ReceiptController
             {
                 return NotFound();
             }
-            var vehicleReceipt = await _context.VehicleReceipts.FindAsync(id);
+            var vehicleReceipt = await _context.VehicleReceipts
+                .Include(r => r.Vehicle)
+                .ThenInclude(v => v.Person)  
+                .FirstOrDefaultAsync(r => r.VehicleReceiptId == id);
 
             if (vehicleReceipt == null)
             {
@@ -100,10 +103,12 @@ namespace Project.Controllers.ReceiptController
             endtime = endtime ?? DateTime.MaxValue;
 
             var vehicleReceipts = await _context.VehicleReceipts
-                                        .Where(p => p.Vehicle.LicensePlate.Contains(licenseplate)
+                                            .Include(r => r.Vehicle)
+                                            .ThenInclude(v => v.Person)
+                                            .Where(p => p.Vehicle.LicensePlate.Contains(licenseplate)
                                                     && starttime <= p.DateCreated
                                                     && p.DateCreated <= endtime)
-                                        .ToListAsync();
+                                            .ToListAsync();
 
             var receiptsInfor = new List<VehicleReceiptInfo>();
 

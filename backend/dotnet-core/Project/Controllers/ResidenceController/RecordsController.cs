@@ -37,7 +37,7 @@ namespace Project.Controllers.ResidenceController
 
 
         // GET: api/record/residence/[:residenceId]
-        [HttpGet("residence")]
+        [HttpGet("residence/{id}")]
         public async Task<ActionResult<IEnumerable<Record>>> GetRecord(Guid id)
         {
             if (_context.Records == null)
