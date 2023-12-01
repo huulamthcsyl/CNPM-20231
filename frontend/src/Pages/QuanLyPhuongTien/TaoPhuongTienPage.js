@@ -11,12 +11,15 @@ function TaoPhuongTienPage() {
   const [Category, setCategory] = useState('');
 
   useEffect(() => {
-    ClassApi.PostVehicle(localStorage.getItem('id'), {
+
+  }, []);
+  const handleAdd = () => {
+    ClassApi.PostVehicle({
       "personId": PersionId,
       "category": Category,
       "licensePlate": VehicleId,
     })
-  }, []);
+  }
   // const handleChange = (event) => {
   //   setValue(event.target.value);
   // };
@@ -57,6 +60,8 @@ function TaoPhuongTienPage() {
         <TextField
           style={{ width: "500px" }}
           inputProps={{ style: { fontSize: "18px" } }}
+          value={Category}
+          onChange={(e) => { setCategory(e.target.value) }}
         ></TextField>
       </Grid>
       <Grid item container direction="row" alignItems="center">
@@ -66,6 +71,8 @@ function TaoPhuongTienPage() {
         <TextField
           style={{ width: "500px" }}
           inputProps={{ style: { fontSize: "18px" } }}
+          value={PersionId}
+          onChange={(e) => { setPersonId(e.target.value) }}
         ></TextField>
       </Grid>
 
@@ -74,7 +81,7 @@ function TaoPhuongTienPage() {
           <Button
             variant="contained"
             style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
-          //onClick={handleSend}
+            onClick={handleAdd}
           >
             <Typography variant="h4" style={{ color: "black" }}>
               Xác nhận

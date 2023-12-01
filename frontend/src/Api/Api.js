@@ -78,8 +78,8 @@ class ClassApi {
   GetVehicle(id) {
     return axios.get(API_BASE_URL + '/vehicle/' + id, { headers })
   }
-  PostVehicle(id, vehicle) {
-    return axios.post(API_BASE_URL + '/vehicle/' + id, vehicle, { headers })
+  PostVehicle(vehicle) {
+    return axios.post(API_BASE_URL + '/vehicle', vehicle, { headers })
   }
 
 }
