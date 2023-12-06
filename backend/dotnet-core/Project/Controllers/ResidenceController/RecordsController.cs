@@ -32,7 +32,7 @@ namespace Project.Controllers.ResidenceController
             {
                 return NotFound();
             }
-            return await _context.Records.ToListAsync();
+            return await _context.Records.Include(r => r.Person).ToListAsync();
         }
 
 
@@ -44,7 +44,7 @@ namespace Project.Controllers.ResidenceController
             {
                 return NotFound();
             }
-            var @record = await _context.Records.Where(r => r.ResidenceId == id).ToListAsync();
+            var @record = await _context.Records.Include(r => r.Person).Where(r => r.ResidenceId == id).ToListAsync();
 
             return @record;
         }
