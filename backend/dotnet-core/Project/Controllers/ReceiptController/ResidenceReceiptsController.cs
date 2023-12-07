@@ -33,7 +33,10 @@ namespace Project.Controllers.ReceiptController
             {
                 return NotFound();
             }
-            var residenceReceipts = await _context.ResidenceReceipts.ToListAsync();
+            var residenceReceipts = await _context.ResidenceReceipts
+                                    .Include(r => r.Person)
+                                    .ThenInclude(p => p.Residence)
+                                    .ToListAsync();
             var receiptsInfor = new List<ResidenceReceiptInfo>();
 
             foreach (var receipt in residenceReceipts)
@@ -64,7 +67,11 @@ namespace Project.Controllers.ReceiptController
             {
                 return NotFound();
             }
-            var residenceReceipt = await _context.ResidenceReceipts.FindAsync(id);
+
+            var residenceReceipt = await _context.ResidenceReceipts
+                                    .Include(r => r.Person)
+                                    .ThenInclude(person => person.Residence)
+                                    .FirstOrDefaultAsync(r => r.ResidenceReceiptId == id);
 
             if (residenceReceipt == null)
             {
@@ -101,6 +108,8 @@ namespace Project.Controllers.ReceiptController
             endtime = endtime ?? DateTime.MaxValue;
 
             var residenceReceipts = await _context.ResidenceReceipts
+                                        .Include (r => r.Person)
+                                        .ThenInclude(p => p.Residence)
                                         .Where(p => p.Person.Name.Contains(name)
                                                     && p.Person.Residence.Address.Contains(address)
                                                     && starttime <= p.DateCreated
@@ -137,7 +146,8 @@ namespace Project.Controllers.ReceiptController
                 return BadRequest();
             }
 
-            var currentReceipt = await _context.ResidenceReceipts.FindAsync(id);
+            var currentReceipt = await _context.ResidenceReceipts.Include(r => r.ResidencePayments)
+                                                                .FirstOrDefaultAsync(r => r.ResidenceReceiptId == id);
 
             // Update new receipt's attributes
             currentReceipt.PersonId = newReceipt.PersonId;

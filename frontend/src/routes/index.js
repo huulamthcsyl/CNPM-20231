@@ -25,6 +25,9 @@ import DangKyTamVangPage from "../Pages/TamVang/DangKyTamVangPage";
 import ChiTietPhieuThuPhuongTienPage from "../Pages/ThuPhiPhuongTien/ChiTietPhieuThuPhuongTienPage";
 import ChiTietThuPhiPhuongtienPage from "../Pages/ThuPhiPhuongTien/ChiTietThuPhiPhuongtienPage";
 import QuanLyThuPhiPhuongtienPage from "../Pages/ThuPhiPhuongTien/QuanLyThuPhiPhuongtienPage";
+import QTVLayout from "../Layout/QTVLayout.js";
+import QTVPage from "../Pages/QTVHeThong/QTVPage.js";
+import ThemQTVPage from "../Pages/QTVHeThong/ThemQTVPage.js";
 const publicRoutes = [
   { path: "/", component: DangNhapPage, layout: NoneLayout },
   { path: "/danhmucthu", component: DanhMucThu },
@@ -52,6 +55,8 @@ const publicRoutes = [
   { path: "/chitietcudan", component: ChiTietCuDanPage },
   { path: "/dangkytamvang", component: DangKyTamVangPage },
   { path: "/chitietphieuthuphuongtien", component: ChiTietPhieuThuPhuongTienPage },
+  { path: '/quantrivien', component: QTVPage, layout: QTVLayout },
+  { path: '/themquantrivien', component: ThemQTVPage, layout: QTVLayout }
 ];
 
 export { publicRoutes };

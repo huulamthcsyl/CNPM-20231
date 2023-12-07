@@ -31,7 +31,6 @@ namespace Project.Controllers.UserController
             _configuration = configuration;
         }
 
-        // Api for testing: get all account
         [HttpGet("all")]
         [AllowAnonymous]
         //[Authorize(Roles = "admin")]
@@ -131,12 +130,12 @@ namespace Project.Controllers.UserController
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> PostUserAccount(UserAccount userAccount)
         {
-          if (_context.UserAccounts == null)
-          {
-              return Problem("Entity set 'ProjectContext.UserAccounts'  is null.");
-          }
+            if (_context.UserAccounts == null)
+            {
+                return Problem("Entity set 'ProjectContext.UserAccounts'  is null.");
+            }
             var account = await _context.UserAccounts.FirstOrDefaultAsync(p => p.UserName == userAccount.UserName);
-            if (account != null) 
+            if (account != null)
             {
                 return Problem("username existed");
             }
@@ -167,6 +166,25 @@ namespace Project.Controllers.UserController
 
             return StatusCode(201, userAccount);
         }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet("reset/{id}")]
+        public async Task<ActionResult<string>> ResetPassword(Guid id)
+        {
+            var userAccount = await _context.UserAccounts.FindAsync(id);
+            string password = RandomString(15);
+            userAccount.Password = EncryptMD5(password);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
+            return password;
+        }
+
 
         // DELETE: api/account/5
         [Authorize(Roles = "admin")]
@@ -232,6 +250,14 @@ namespace Project.Controllers.UserController
             //return hash.ToString();
 
             return password;
+        }
+        private Random random = new Random();
+
+        private string RandomString(int length)
+        {
+            const string chars = "qwertyuioplkjhgfdaszxcvbnm0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }
