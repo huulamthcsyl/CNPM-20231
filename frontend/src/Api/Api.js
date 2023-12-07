@@ -76,15 +76,15 @@ class ClassApi {
 
   //Api phuong tien
   GetVehicle(id) {
-    return axios.get(API_BASE_URL + '/vehicle/' + id, { headers })
+    return axios.get(API_BASE_URL + '/vehicle/' + id, { headers });
   }
   PostVehicle(vehicle) {
-    return axios.post(API_BASE_URL + '/vehicle', vehicle, { headers })
+    return axios.post(API_BASE_URL + '/vehicle', vehicle, { headers });
   }
   /***** */
   //Api doi mat khau
   PutPassword(id, pass) {
-    return axios.put(API_BASE_URL + '/account/' + id, pass, { headers })
+    return axios.put(API_BASE_URL + '/account/' + id, pass, { headers });
   }
   /****** */
 }
