@@ -32,19 +32,19 @@ namespace Project.Controllers.ResidenceController
             {
                 return NotFound();
             }
-            return await _context.Records.ToListAsync();
+            return await _context.Records.Include(r => r.Person).ToListAsync();
         }
 
 
         // GET: api/record/residence/[:residenceId]
-        [HttpGet("residence")]
+        [HttpGet("residence/{id}")]
         public async Task<ActionResult<IEnumerable<Record>>> GetRecord(Guid id)
         {
             if (_context.Records == null)
             {
                 return NotFound();
             }
-            var @record = await _context.Records.Where(r => r.ResidenceId == id).ToListAsync();
+            var @record = await _context.Records.Include(r => r.Person).Where(r => r.ResidenceId == id).ToListAsync();
 
             return @record;
         }

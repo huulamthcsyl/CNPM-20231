@@ -4,39 +4,27 @@ import { TextField } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import ClassApi from '../../Api/Api'
 import axios from 'axios';
+import { toast } from "react-toastify";
+
 function TaoPhuongTienPage() {
   let PhuongTien = {}
   const [PersionId, setPersonId] = useState('');
   const [VehicleId, setVehicleId] = useState('');
   const [Category, setCategory] = useState('');
 
-  useEffect(() => {
-
-  }, []);
   const handleAdd = () => {
     ClassApi.PostVehicle({
       "personId": PersionId,
       "category": Category,
       "licensePlate": VehicleId,
+    }).then(
+      (response) => {
+        toast.success('thành công')
+      }
+    ).catch(() => {
+      toast.error('lỗi')
     })
   }
-  // const handleChange = (event) => {
-  //   setValue(event.target.value);
-  // };
-  // const handleSend = () => {
-  //   ClassApi.PutVehicle(localStorage.getItem('id'),
-  //     {
-  //       vehicleId: localStorage.getItem('id'),
-  //       category: LoaiXe,
-  //       personId: ChuSoHuu
-  //     }).then(
-  //       (response) => {
-  //         toast.success('thành công')
-  //       }
-  //     ).catch(() => {
-  //       toast.error('lỗi')
-  //     })
-  // }
   return (
     <Grid container spacing={2} padding={"50px"}>
       <Grid item xs={12}>

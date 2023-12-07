@@ -81,6 +81,11 @@ class ClassApi {
   PostVehicle(vehicle) {
     return axios.post(API_BASE_URL + '/vehicle', vehicle, { headers })
   }
-
+  /***** */
+  //Api doi mat khau
+  PutPassword(id, pass) {
+    return axios.put(API_BASE_URL + '/account/' + id, pass, { headers })
+  }
+  /****** */
 }
 export default new ClassApi();

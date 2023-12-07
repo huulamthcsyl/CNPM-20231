@@ -33,7 +33,9 @@ namespace Project.Controllers.FeeController
                 return NotFound();
             }
 
-            var fees = await _context.ResidenceFees.ToListAsync();
+            var fees = await _context.ResidenceFees
+                        .Include(r => r.ResidencePayments)
+                        .ToListAsync();
             var feesInfo = new List<ResidenceFeeInfo>();
 
             foreach (var fee in fees)
@@ -63,7 +65,9 @@ namespace Project.Controllers.FeeController
 
             name = name ?? string.Empty;
 
-            var fees = await _context.ResidenceFees.Where(p => p.Name.Contains(name)).ToListAsync();
+            var fees = await _context.ResidenceFees
+                    .Include (r => r.ResidencePayments)
+                    .Where(p => p.Name.Contains(name)).ToListAsync();
             var feesInfo = new List<ResidenceFeeInfo>();
 
             foreach (var fee in fees)
@@ -90,12 +94,40 @@ namespace Project.Controllers.FeeController
                 return NotFound();
             }
 
-            var residenceFee = await _context.ResidenceFees.FindAsync(id);
+            var residenceFee = await _context.ResidenceFees
+                                .Include(fee => fee.ResidencePayments) 
+                                .ThenInclude(payment => payment.ResidenceReceipt)
+                                .FirstOrDefaultAsync(rFee => rFee.ResidenceFeeId == id);
 
-            if (residenceFee == null) 
+            if (residenceFee == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
+
+            var receipts = await _context.ResidenceReceipts
+                            .Include(r => r.Person)
+                            .ThenInclude(p => p.Residence)
+                            .ToListAsync();
+
+            var filterReceipts = receipts.Where(p => residenceFee.ResidencePayments.Any(r => r.ResidenceReceiptId == p.ResidenceReceiptId)).ToList();
+            
+            var receiptsInfo = new List<ResidenceReceiptInfo>();
+
+            foreach(var receipt in filterReceipts)
+            {
+                receiptsInfo.Add(new ResidenceReceiptInfo
+                {
+                    ResidenceReceiptId = receipt.ResidenceReceiptId,
+                    PersonId = receipt.PersonId,
+                    DateCreated = receipt.DateCreated,
+                    Amount = receipt.Amount,
+                    Description = receipt.Description,
+                    ResidencePayments = receipt.ResidencePayments,
+                    Name = receipt.Person.Name,
+                    Address = receipt.Person.Residence == null ? null : receipt.Person.Residence.Address
+                });
+            }
+
             var residenceFeeInfo = new ResidenceFeeInfo 
             {
                 ResidenceFeeId = residenceFee.ResidenceFeeId,
@@ -104,8 +136,9 @@ namespace Project.Controllers.FeeController
                 Cost = residenceFee.Cost,
                 PaidQuantity = residenceFee.ResidencePayments.Count(),
                 Total = residenceFee.ResidencePayments.Sum(p => p.Amount),
-                ResidencePayments = residenceFee.ResidencePayments
+                residenceReceipts = receiptsInfo
             };
+
             return residenceFeeInfo;
         }
 
