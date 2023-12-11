@@ -100,6 +100,7 @@ function DangNhapPage() {
             value={password}
             onChange={e => changePassword(e)}
             placeholder="123"
+            onKeyDown={(e) => { if (e.key == "Enter") { handleLogin() } }}
           />
         </Grid>
       </Grid>
@@ -108,6 +109,7 @@ function DangNhapPage() {
         color="primary"
         sx={{ width: "200px", height: "40px", fontSize: "20px" }}
         onClick={handleLogin}
+
       >
         Đăng nhập
       </Button>

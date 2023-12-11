@@ -138,7 +138,8 @@ function Sidebar() {
               }}
               onClick={() => {
                 setUser("");
-                localStorage.setItem("user", null)
+                localStorage.setItem("user", null);
+                navigate('/')
               }}
               startIcon={<LogoutIcon />}
             >
