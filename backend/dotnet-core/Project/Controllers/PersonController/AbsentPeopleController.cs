@@ -31,19 +31,21 @@ namespace Project.Controllers.PersonController
             {
                 return NotFound();
             }
-            return await _context.AbsentPeople.ToListAsync();
+            return await _context.AbsentPeople.Include(ap => ap.Person).ToListAsync();
         }
 
 
-        // GET: api/absent/[:personId]
+        // GET: api/absent/[:id]
         [HttpGet()]
-        public async Task<ActionResult<IEnumerable<AbsentPerson>>> GetAbsentPerson(Guid personId)
+        public async Task<ActionResult<AbsentPerson>> GetAbsentPerson(Guid id)
         {
             if (_context.AbsentPeople == null)
             {
                 return NotFound();
             }
-            var absentPeople = await _context.AbsentPeople.Where(p => p.PersonId == personId).ToListAsync();
+            var absentPeople = await _context.AbsentPeople
+                            .Include(p => p.Person)
+                            .FirstOrDefaultAsync(p => p.AbsentPersonId == id);
 
             return absentPeople;
         }
@@ -62,7 +64,8 @@ namespace Project.Controllers.PersonController
 
             var absentPeople = await _context.AbsentPeople
                 .Include(a => a.Person)
-                .Where(ap => ap.Person.Name.Contains(name)).ToListAsync();
+                .Where(ap => ap.Person.Name.Contains(name))
+                .ToListAsync();
 
             return absentPeople;
         }
@@ -77,7 +80,10 @@ namespace Project.Controllers.PersonController
                 return NotFound();
             }
 
-            var people = await _context.AbsentPeople.Include(a => a.Person).Select(p => p.Person).Distinct().ToListAsync();
+            var people = await _context.AbsentPeople
+                        .Include(a => a.Person)
+                        .Select(p => p.Person)
+                        .Distinct().ToListAsync();
 
             return people;
 
