@@ -45,7 +45,9 @@ namespace Project.Controllers.ResidenceController
             {
                 return NotFound();
             }
-            var residence = await _context.Residences.FindAsync(id);
+            var residence = await _context.Residences
+                                .Include(r => r.People)
+                                .FirstOrDefaultAsync(r => r.ResidenceId == id);
 
             if (residence == null)
             {

@@ -15,7 +15,6 @@ namespace Project.Models.Models
         public string? Reason { get; set; }
 
         // Navigation properties
-        [JsonIgnore]
         public virtual Person? Person { get; set; }
     }
 }
