@@ -36,6 +36,7 @@ namespace Project.Controllers.ReceiptController
             var residenceReceipts = await _context.ResidenceReceipts
                                     .Include(r => r.Person)
                                     .ThenInclude(p => p.Residence)
+                                    .Include(r => r.ResidencePayments)
                                     .ToListAsync();
             var receiptsInfor = new List<ResidenceReceiptInfo>();
 
@@ -71,6 +72,7 @@ namespace Project.Controllers.ReceiptController
             var residenceReceipt = await _context.ResidenceReceipts
                                     .Include(r => r.Person)
                                     .ThenInclude(person => person.Residence)
+                                    .Include(r => r.ResidencePayments)
                                     .FirstOrDefaultAsync(r => r.ResidenceReceiptId == id);
 
             if (residenceReceipt == null)
@@ -110,6 +112,7 @@ namespace Project.Controllers.ReceiptController
             var residenceReceipts = await _context.ResidenceReceipts
                                         .Include (r => r.Person)
                                         .ThenInclude(p => p.Residence)
+                                        .Include(r => r.ResidencePayments)
                                         .Where(p => p.Person.Name.Contains(name)
                                                     && p.Person.Residence.Address.Contains(address)
                                                     && starttime <= p.DateCreated

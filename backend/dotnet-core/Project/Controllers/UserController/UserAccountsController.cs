@@ -15,6 +15,7 @@ using Project.Models.Models;
 using System.Security.Claims;
 using Project.Models.Services;
 using Microsoft.AspNetCore.Authorization;
+using XSystem.Security.Cryptography;
 
 namespace Project.Controllers.UserController
 {
@@ -32,8 +33,7 @@ namespace Project.Controllers.UserController
         }
 
         [HttpGet("all")]
-        [AllowAnonymous]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<IEnumerable<UserAccount>>> GetUserAccounts()
         {
             if (_context.UserAccounts == null)
@@ -70,9 +70,10 @@ namespace Project.Controllers.UserController
                         Data = new
                         {
                             Token = GenerateToken(account, "admin"),
-                            Id = user.UserId
+                            Id = user.UserId,
+                            Role = "admin"
                         }
-                    }); ;
+                    });;;
 
                 return Ok(new
                 {
@@ -81,9 +82,10 @@ namespace Project.Controllers.UserController
                     Data = new
                     {
                         Token = GenerateToken(account, "user"),
-                        Id = user.UserId
+                        Id = user.UserId,
+                        Role = "user"
                     }
-                }); ;
+                });;
             }
         }
 
@@ -236,20 +238,16 @@ namespace Project.Controllers.UserController
 
         private string EncryptMD5(string password)
         {
-            /// Disabled during the software's building and testing phase
-            ///
+            StringBuilder hash = new StringBuilder();
+            MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider();
+            byte[] bytes = md5provider.ComputeHash(new UTF8Encoding().GetBytes(password));
 
-            //StringBuilder hash = new StringBuilder();
-            //MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider();
-            //byte[] bytes = md5provider.ComputeHash(new UTF8Encoding().GetBytes(password));
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                hash.Append(bytes[i].ToString("x2"));
+            }
+            return hash.ToString();
 
-            //for (int i = 0; i < bytes.Length; i++)
-            //{
-            //    hash.Append(bytes[i].ToString("x2"));
-            //}
-            //return hash.ToString();
-
-            return password;
         }
         private Random random = new Random();
 
