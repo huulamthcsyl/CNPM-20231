@@ -37,7 +37,7 @@ const styles = {
 function DangNhapPage() {
   const navigate = useNavigate();
   const user = localStorage.getItem("user")
-
+  const [message, setMessage] = useState('')
   useEffect(() => {
     if (user != "null") {
       navigate('/home')
@@ -56,16 +56,14 @@ function DangNhapPage() {
     ClassApi.PostLogin(account, password).then((response) => {
 
       if (response.data.message === "Success") {
-        toast.success(response.data.message, {
-          onClose: () => {
-            localStorage.setItem('user', response.data.data.id);
-            localStorage.setItem('token', response.data.data.token);
-            setTimeout(() => {
-              navigate("/home");
-            }, 1500);
-          },
-        });
+
+        localStorage.setItem('user', response.data.data.id);
+        localStorage.setItem('token', response.data.data.token);
+
+        navigate("/home");
+
       } else {
+        setMessage(response.data.message)
         toast.warning(response.data.message)
       }
 
@@ -103,11 +101,15 @@ function DangNhapPage() {
             onKeyDown={(e) => { if (e.key == "Enter") { handleLogin() } }}
           />
         </Grid>
+        <Grid item xs={6} textAlign='center' paddingBottom='20px'>
+          <p style={{ color: 'red' }}>{message}</p>
+        </Grid>
       </Grid>
+
       <Button
         variant="contained"
         color="primary"
-        sx={{ width: "200px", height: "40px", fontSize: "20px" }}
+        sx={{ width: "200px", height: "40px", fontSize: "20px", marginTop: '30px' }}
         onClick={handleLogin}
 
       >

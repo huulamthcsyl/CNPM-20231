@@ -21,7 +21,10 @@ const headers = [
   " ",
 ];
 function ThemHoDan() {
-  const [numberLine, setNumberLine] = useState(2);
+  const [ownerName, setOwnerName] = useState('')
+  const [address, setAddress] = useState('')
+  const [numberMember, setNumberMember] = useState(1)
+  const [numberLine, setNumberLine] = useState(1);
   var arr = [...Array(numberLine).keys()].map((i) => i + 1);
   useEffect(() => {
     arr = [...Array(numberLine).keys()].map((i) => i + 1);
@@ -38,17 +41,19 @@ function ThemHoDan() {
           container
           xs={12}
           direction="row"
-          style={{ alignItems: "center" }}
+          style={{ alignItems: "center", alignContent: 'center  ' }}
         >
-          <Grid item style={{ marginTop: "30px" }}>
+          <Grid item xs={5} sm={2.2}>
             <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
               Tên chủ hộ
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid item >
             <TextField
               style={{ width: "300px" }}
-              inputProps={{ style: { fontSize: "13px" } }}
+              inputProps={{ style: { fontSize: "15px" } }}
+              value={ownerName}
+              onChange={(e) => { setOwnerName(e.target.value) }}
             ></TextField>
           </Grid>
         </Grid>
@@ -59,7 +64,7 @@ function ThemHoDan() {
           direction="row"
           style={{ alignItems: "center" }}
         >
-          <Grid item>
+          <Grid item xs={5} sm={2.2}>
             <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
               Nơi thường trú
             </Typography>
@@ -67,7 +72,9 @@ function ThemHoDan() {
           <Grid item style={{ marginTop: "30px", marginBottom: "30px" }}>
             <TextField
               style={{ width: "500px" }}
-              inputProps={{ style: { fontSize: "13px" } }}
+              inputProps={{ style: { fontSize: "15px" } }}
+              value={address}
+              onChange={(e) => { setAddress(e.target.value) }}
             ></TextField>
           </Grid>
         </Grid>

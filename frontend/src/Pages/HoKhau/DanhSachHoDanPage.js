@@ -15,7 +15,8 @@ import {
 import ButtonAdd from "../../Layout/component/ButtonAdd";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
 import { NavLink } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+import ClassAPi from '../../Api/Api'
 const theme = createTheme({
   components: {
     MuiTypography: {
@@ -46,8 +47,13 @@ const tableHead = [
   { name: "Số nhân khẩu" },
   { name: "Ghi chú" },
 ];
-const info = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
 function HoKhau() {
+  const [info, setInfo] = useState([{}, {}, {}, {}, {}, {}, {}]);
+  useEffect(() => {
+    ClassAPi.GetResidences().then((response) => {
+      setInfo(response.data)
+    })
+  }, [])
   return (
     <Grid container spacing={2} style={{ padding: "50px" }}>
       <ThemeProvider theme={theme}>
@@ -115,9 +121,9 @@ function HoKhau() {
                       {index}
                     </Typography>
                   </TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
+                  <TableCell style={{ fontSize: '20px' }}>{colume.ownerName}</TableCell>
+                  <TableCell style={{ fontSize: '20px' }}>{colume.address}</TableCell>
+                  <TableCell style={{ fontSize: '20px' }}>{colume.memberNumber}</TableCell>
                   <TableCell>
                     <NavLink to="/chitiethodan">
                       <button

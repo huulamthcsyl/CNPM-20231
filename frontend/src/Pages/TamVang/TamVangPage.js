@@ -3,6 +3,8 @@ import ButtonAdd from "../../Layout/component/ButtonAdd";
 import src from "../../Icons/HoSo.png";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
 import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
+import ClassApi from '../../Api/Api'
 const theme = createTheme({
   components: {
     MuiTypography: {
@@ -33,22 +35,20 @@ const headTable = [
   "Số CCCD",
   "",
 ];
-const people = [
-  {
-    name: "Nguyen Van A",
-    datebirth: "01/01/1970",
-    cccd: "0123456789",
-  },
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-];
+
 function TamVangPage() {
+  const people = [
+    {
+      name: "Nguyen Van A",
+      datOfBirth: "01/01/1970",
+      identityCardNumber: "0123456789",
+    },
+    {},
+
+  ];
+  useEffect(() => {
+
+  }, [])
   return (
     <Grid container spacing={1} style={{ padding: "50px" }}>
       <ThemeProvider theme={theme}>
@@ -96,10 +96,10 @@ function TamVangPage() {
                     <Typography variant="h5">{peop.name}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h5">{peop.datebirth}</Typography>
+                    <Typography variant="h5">{peop.identityCardNumber}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h5">{peop.cccd}</Typography>
+                    <Typography variant="h5">{peop.identityCardNumber}</Typography>
                   </TableCell>
                   <TableCell>
                     {

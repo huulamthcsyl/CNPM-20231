@@ -66,6 +66,16 @@ function DangKyTamVangPage() {
   const handleChange4 = (event) => {
     setVillage(event.target.value);
   };
+  const [name, setName] = useState('')
+  const [gender, setGender] = useState()
+  const [birth, setBirth] = useState(Date.now)
+  const [cccd, setCccd] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [address1, setAddress1] = useState('')
+  const [address2, setAddress2] = useState('')
+  const [timeFrom, setTimeFrom] = useState()
+  const [timeTo, setTimeTo] = useState('')
+  const [reason, setReason] = useState('')
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={1} style={{ padding: "50px" }} rowSpacing={2}>
