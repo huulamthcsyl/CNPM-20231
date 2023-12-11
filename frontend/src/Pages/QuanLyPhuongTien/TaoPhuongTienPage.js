@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import ClassApi from '../../Api/Api'
 import axios from 'axios';
 import { toast } from "react-toastify";
+import { Select, MenuItem } from '@mui/material';
 
 function TaoPhuongTienPage() {
   let PhuongTien = {}
@@ -19,10 +20,10 @@ function TaoPhuongTienPage() {
       "licensePlate": VehicleId,
     }).then(
       (response) => {
-        toast.success('thành công')
+        toast.success('Thành công')
       }
     ).catch(() => {
-      toast.error('lỗi')
+      toast.error('Lỗi')
     })
   }
   return (
@@ -41,7 +42,8 @@ function TaoPhuongTienPage() {
           onChange={(e) => { setVehicleId(e.target.value) }}
         ></TextField>
       </Grid>
-      <Grid item container direction="row" alignItems="center">
+
+      {/* <Grid item container direction="row" alignItems="center">
         <Typography style={{ fontSize: "24px", marginRight: "110px" }}>
           Loại xe
         </Typography>
@@ -51,7 +53,27 @@ function TaoPhuongTienPage() {
           value={Category}
           onChange={(e) => { setCategory(e.target.value) }}
         ></TextField>
+      </Grid> */}
+
+      <Grid item container direction="row" alignItems="center">
+        <Typography style={{ fontSize: "24px", marginRight: "110px" }}>
+          Loại xe
+        </Typography>
+        <Select
+          style={{ width: "500px", fontSize: "18px" }}
+          value={Category}
+          onChange={(e) => { setCategory(e.target.value) }}
+        >
+          <MenuItem value="" disabled>
+            Chọn loại xe
+          </MenuItem>
+          <MenuItem value="Ô tô">Ô tô</MenuItem>
+          <MenuItem value="Xe máy">Xe máy</MenuItem>
+        </Select>
       </Grid>
+
+
+
       <Grid item container direction="row" alignItems="center">
         <Typography style={{ fontSize: "24px", marginRight: "65px" }}>
           Chủ sở hữu
