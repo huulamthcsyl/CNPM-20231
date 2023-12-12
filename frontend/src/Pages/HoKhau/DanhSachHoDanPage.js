@@ -54,6 +54,15 @@ function HoKhau() {
       setInfo(response.data)
     })
   }, [])
+  const [ownerName, setOwnerName] = useState('')
+  const [address, setAddress] = useState('')
+  const handleSearch = () => {
+
+    ClassAPi.FindResidence(ownerName, address).then((response) => {
+      setInfo(response.data)
+    })
+
+  }
   return (
     <Grid container spacing={2} style={{ padding: "50px" }}>
       <ThemeProvider theme={theme}>
@@ -77,7 +86,7 @@ function HoKhau() {
             }}
           >
             <Typography variant="h4">Tên chủ hộ</Typography>
-            <TextField></TextField>
+            <TextField value={ownerName} onChange={(e) => { setOwnerName(e.target.value) }}></TextField>
             <div
               style={{
                 display: "flex",
@@ -85,9 +94,9 @@ function HoKhau() {
               }}
             >
               <Typography variant="h4">Nơi thường trú</Typography>
-              <TextField></TextField>
+              <TextField value={address} onChange={(e) => { setAddress(e.target.value) }}></TextField>
             </div>
-            <ButtonSearch title="Tìm kiếm"></ButtonSearch>
+            <ButtonSearch onclick={handleSearch} title="Tìm kiếm"></ButtonSearch>
           </div>
         </Grid>
       </ThemeProvider>

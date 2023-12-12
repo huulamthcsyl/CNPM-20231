@@ -12,6 +12,8 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import styled from "@emotion/styled";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
+import ClassApi from '../../Api/Api'
+import { toast } from "react-toastify";
 const CustomizedDatePicker = styled(DatePicker)`
   & .MuiInputBase-input {
     font-size: 18px;
@@ -67,15 +69,33 @@ function DangKyTamVangPage() {
     setVillage(event.target.value);
   };
   const [name, setName] = useState('')
-  const [gender, setGender] = useState()
-  const [birth, setBirth] = useState(Date.now)
+  const [gender, setGender] = useState('Nam')
+  const [birth, setBirth] = useState()
   const [cccd, setCccd] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [address1, setAddress1] = useState('')
   const [address2, setAddress2] = useState('')
   const [timeFrom, setTimeFrom] = useState()
-  const [timeTo, setTimeTo] = useState('')
+  const [timeTo, setTimeTo] = useState()
   const [reason, setReason] = useState('')
+  const handleAdd = () => {
+    ClassApi.GetByCCCD(cccd).then((response) => {
+      ClassApi.PostAbsent({
+        "absentPersonId": "934a9ac4-42ef-4713-a9f7-88e9308b7ae4",
+        "personId": response.data.personId,
+        "startTime": timeFrom,
+        "endTime": timeTo,
+        "reason": reason
+      }).then((resp) => {
+        toast.success('Đăng ký tạm vắng  thành công')
+      }).catch((error) => {
+        toast.error('Đăng ký tạm vắng thất bại')
+      })
+    }).catch((error) => {
+      console.log(error);
+      toast.error('Đăng ký tạm vắng thất bại')
+    })
+  }
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={1} style={{ padding: "50px" }} rowSpacing={2}>
@@ -97,7 +117,7 @@ function DangKyTamVangPage() {
               <Typography variant="h4">Họ và tên</Typography>
             </Grid>
             <Grid item>
-              <TextField></TextField>
+              <TextField value={name} onChange={(e) => { setName(e.target.value) }}></TextField>
             </Grid>
           </Grid>
           <Grid
@@ -118,6 +138,9 @@ function DangKyTamVangPage() {
                   type="radio"
                   name="gender"
                   style={{ cursor: "pointer", width: "20px", height: "20px" }}
+                  value='Nam'
+                  checked={gender == 'Nam' ? true : false}
+                  onClick={() => { setGender('Nam') }}
                 ></input>
                 <label
                   htmlFor="radio1"
@@ -132,10 +155,15 @@ function DangKyTamVangPage() {
                   type="radio"
                   name="gender"
                   style={{ cursor: "pointer", width: "20px", height: "20px" }}
+                  value='Nữ'
+                  checked={gender == 'Nam' ? false : true}
+                  onClick={() => { setGender('Nữ') }}
+
                 ></input>
                 <label
                   htmlFor="radio2"
                   style={{ fontSize: "24px", margin: "0px 12px" }}
+
                 >
                   Nữ
                 </label>
@@ -154,6 +182,11 @@ function DangKyTamVangPage() {
                   width: "200px",
                   paddingTop: "10px",
                 }}
+                value={birth}
+                onChange={(value) => {
+                  setBirth(value)
+                }}
+
               />
             </Grid>
           </Grid>
@@ -170,7 +203,7 @@ function DangKyTamVangPage() {
               <Typography variant="h4">CCCD</Typography>
             </Grid>
             <Grid item>
-              <TextField></TextField>
+              <TextField value={cccd} onChange={(e) => { setCccd(e.target.value) }}></TextField>
             </Grid>
           </Grid>
           <Grid
@@ -185,7 +218,7 @@ function DangKyTamVangPage() {
               <Typography variant="h4">Số điện thoại</Typography>
             </Grid>
             <Grid item>
-              <TextField></TextField>
+              <TextField value={phoneNumber} onChange={(e) => { setPhoneNumber(e.target.value) }}></TextField>
             </Grid>
           </Grid>
           <Grid
@@ -200,7 +233,7 @@ function DangKyTamVangPage() {
               <Typography variant="h4">Nơi thường trú</Typography>
             </Grid>
             <Grid item>
-              <TextField></TextField>
+              <TextField value={address1} onChange={(e) => { setAddress1(e.target.value) }}></TextField>
             </Grid>
           </Grid>
           <Grid
@@ -215,7 +248,7 @@ function DangKyTamVangPage() {
               <Typography variant="h4">Nơi tạm trú</Typography>
             </Grid>
             <Grid item>
-              <TextField></TextField>
+              <TextField value={address2} onChange={(e) => { setAddress2(e.target.value) }}></TextField>
             </Grid>
           </Grid>
           <Grid
@@ -234,6 +267,8 @@ function DangKyTamVangPage() {
                 label="Từ ngày"
                 slotProps={{ textField: { variant: "filled" } }}
                 sx={{ marginRight: "35px", width: "200px", paddingTop: "10px" }}
+                value={timeFrom}
+                onChange={(e) => { setTimeFrom(e) }}
               />
             </Grid>
             <Grid item>
@@ -245,6 +280,8 @@ function DangKyTamVangPage() {
                   width: "200px",
                   paddingTop: "10px",
                 }}
+                value={timeTo}
+                onChange={(e) => { setTimeTo(e) }}
               />
             </Grid>
           </Grid>
@@ -260,13 +297,13 @@ function DangKyTamVangPage() {
               <Typography variant="h4">Lý do</Typography>
             </Grid>
             <Grid item>
-              <TextField></TextField>
+              <TextField value={reason} onChange={(e) => { setReason(e.target.value) }}></TextField>
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <NavLink to="/tamvang">
-              <ButtonSearch title="Xác nhận" border="none"></ButtonSearch>
-            </NavLink>
+
+            <ButtonSearch onclick={handleAdd} title="Xác nhận" border="none"></ButtonSearch>
+
           </Grid>
         </ThemeProvider>
       </Grid>

@@ -72,6 +72,10 @@ class ClassApi {
   PostResidence(residence) {
     return axios.post(API_BASE_URL + '/residence', residence, { headers })
   }
+
+  FindResidence(name, address) {
+    return axios.get(API_BASE_URL + "/residence?name=" + name + '&address=' + address, { headers })
+  }
   //api nhan khau
   GetInfoPerson(id) {
     return axios.get(API_BASE_URL + '')
@@ -85,12 +89,16 @@ class ClassApi {
   PostPerson(person) {
     return axios.post(API_BASE_URL + "/person", person, { headers });
   }
-
+  GetByCCCD(cccd) {
+    return axios.get(API_BASE_URL + '/absent/PersonByCCCD?cccd=' + cccd, { headers })
+  }
   //api tạm vắng
   GetAllAbsent() {
     return axios.get(API_BASE_URL + 'absent/person/all', { headers })
   }
-
+  PostAbsent(absent) {
+    return axios.post(API_BASE_URL + '/absent', absent, { headers })
+  }
   //**
   //Api phuong tien
   //*** */
