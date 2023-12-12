@@ -49,8 +49,17 @@ namespace Project.Controllers.PersonController
 
             return absentPeople;
         }
+        [HttpGet("PersonByCCCD")]
+        public async Task<ActionResult<object>> GetPerson(string cccd)
+        {
+            if (_context.People == null)
+            {
+                return NotFound();
+            }
+            var absentPeople =await  _context.People.FirstOrDefaultAsync(p => p.IdentityCardNumber == cccd);
 
-
+            return absentPeople;
+        }
         //GET: api/absent/person?name=
         [HttpGet("person")]
         public async Task<ActionResult<IEnumerable<AbsentPerson>>> GetAbsentPeople(string? name)
