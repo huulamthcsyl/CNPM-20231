@@ -33,10 +33,10 @@ class ClassApi {
   /***** */
   //Api ho so
   GetHoSo(id) {
-    return axios.get(API_BASE_URL + '/user/' + id, { headers })
+    return axios.get(API_BASE_URL + "/user/" + id, { headers });
   }
   PutHoSo(id, admin) {
-    return axios.put(API_BASE_URL + '/user/' + id, admin, { headers })
+    return axios.put(API_BASE_URL + "/user/" + id, admin, { headers });
   }
   /****** */
 
@@ -48,17 +48,34 @@ class ClassApi {
   FindResidenceReceipt(name, address, starttime, endtime) {
     return axios.get(
       API_BASE_URL +
-      "/residencereceipt?name=" +
-      name +
-      "&address=" +
-      address +
-      "&starttime=" +
-      starttime +
-      "&endtime=" +
-      endtime,
+        "/residencereceipt?name=" +
+        name +
+        "&address=" +
+        address +
+        "&starttime=" +
+        starttime +
+        "&endtime=" +
+        endtime,
       { headers }
     );
   }
+  GetResidenceReceipt(id) {
+    return axios.get(API_BASE_URL + "/residencereceipt/" + id, { headers });
+  }
+  PostResidenceReceipt(residenceReceiptData) {
+    return axios.post(
+      API_BASE_URL + "/residencereceipt",
+      residenceReceiptData,
+      { headers }
+    );
+  }
+  GetResidenceFee(id) {
+    return axios.get(API_BASE_URL + "/residencefee/" + id, { headers });
+  }
+  GetAllResidenceFee() {
+    return axios.get(API_BASE_URL + "/residencefee/all", { headers });
+  }
+
   //****** */
 
   /***** */
@@ -66,19 +83,18 @@ class ClassApi {
   /****** */
   //api ho khau
   GetResidences() {
-    return axios.get(API_BASE_URL + '/residence/all', { headers })
+    return axios.get(API_BASE_URL + "/residence/all", { headers });
+  }
+  GetResidenceById(id) {
+    return axios.get(API_BASE_URL + "/residence/" + id, { headers });
   }
 
   PostResidence(residence) {
-    return axios.post(API_BASE_URL + '/residence', residence, { headers })
-  }
-
-  FindResidence(name, address) {
-    return axios.get(API_BASE_URL + "/residence?name=" + name + '&address=' + address, { headers })
+    return axios.post(API_BASE_URL + "/residence", residence, { headers });
   }
   //api nhan khau
   GetInfoPerson(id) {
-    return axios.get(API_BASE_URL + '')
+    return axios.get(API_BASE_URL + "");
   }
   GetPerson(person) {
     return axios.get(API_BASE_URL + "/person?name=" + person, { headers });
@@ -89,29 +105,25 @@ class ClassApi {
   PostPerson(person) {
     return axios.post(API_BASE_URL + "/person", person, { headers });
   }
-  GetByCCCD(cccd) {
-    return axios.get(API_BASE_URL + '/absent/PersonByCCCD?cccd=' + cccd, { headers })
-  }
+
   //api tạm vắng
   GetAllAbsent() {
-    return axios.get(API_BASE_URL + 'absent/person/all', { headers })
+    return axios.get(API_BASE_URL + "absent/person/all", { headers });
   }
-  PostAbsent(absent) {
-    return axios.post(API_BASE_URL + '/absent', absent, { headers })
-  }
+
   //**
   //Api phuong tien
   //*** */
   GetVehicle(id) {
-    return axios.get(API_BASE_URL + '/vehicle/' + id, { headers });
+    return axios.get(API_BASE_URL + "/vehicle/" + id, { headers });
   }
   PostVehicle(vehicle) {
-    return axios.post(API_BASE_URL + '/vehicle', vehicle, { headers });
+    return axios.post(API_BASE_URL + "/vehicle", vehicle, { headers });
   }
   /***** */
   //Api doi mat khau
   PutPassword(id, pass) {
-    return axios.put(API_BASE_URL + '/account/' + id, pass, { headers });
+    return axios.put(API_BASE_URL + "/account/" + id, pass, { headers });
   }
   /****** */
 }
