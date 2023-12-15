@@ -5,7 +5,7 @@ import {
   Typography,
   createTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
 import { NavLink } from "react-router-dom";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -14,6 +14,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import ClassApi from '../../Api/Api'
 import { toast } from "react-toastify";
+import AutoComplete from "../../Layout/component/AutoCompleteSearch";
+import dayjs from "dayjs";
 const CustomizedDatePicker = styled(DatePicker)`
   & .MuiInputBase-input {
     font-size: 18px;
@@ -40,7 +42,7 @@ const theme = createTheme({
           width: "430px",
           "& .MuiInputBase-input": {
             fontSize: "20px",
-            padding: "5px",
+            padding: "15px",
           },
         },
       },
@@ -68,6 +70,7 @@ function DangKyTamVangPage() {
   const handleChange4 = (event) => {
     setVillage(event.target.value);
   };
+  const [personId, setPersonId] = useState('')
   const [name, setName] = useState('')
   const [gender, setGender] = useState('Nam')
   const [birth, setBirth] = useState()
@@ -78,23 +81,50 @@ function DangKyTamVangPage() {
   const [timeFrom, setTimeFrom] = useState()
   const [timeTo, setTimeTo] = useState()
   const [reason, setReason] = useState('')
-  const handleAdd = () => {
-    ClassApi.GetByCCCD(cccd).then((response) => {
-      ClassApi.PostAbsent({
-        "absentPersonId": "934a9ac4-42ef-4713-a9f7-88e9308b7ae4",
-        "personId": response.data.personId,
-        "startTime": timeFrom,
-        "endTime": timeTo,
-        "reason": reason
-      }).then((resp) => {
-        toast.success('Đăng ký tạm vắng  thành công')
-      }).catch((error) => {
-        toast.error('Đăng ký tạm vắng thất bại')
+  const personShrinkList = [];
+  const [personList, setPersonList] = useState([])
+  useEffect(() => {
+    ClassApi.GetAllPeople()
+      .then((res) => {
+        setPersonList(res.data);
       })
+      .catch((err) => {
+        toast.error("lỗi 1");
+      });
+  }, [name])
+  personList.map((person, index) => {
+    personShrinkList.push({
+      label: person.name,
+      code: person.identityCardNumber,
+      personId: person.personId,
+      residenceId: person.residenceId,
+      gender: person.gender,
+      birth: person.dateOfBirth,
+      phone: person.phoneNumber
+    });
+  });
+  const handleAdd = () => {
+
+    ClassApi.PostAbsent({
+      "absentPersonId": "934a9ac4-42ef-4713-a9f7-88e9308b7ae4",
+      "personId": personId,
+      "startTime": timeFrom,
+      "endTime": timeTo,
+      "reason": reason
+    }).then((resp) => {
+      toast.success('Đăng ký tạm vắng  thành công')
     }).catch((error) => {
-      console.log(error);
       toast.error('Đăng ký tạm vắng thất bại')
     })
+  }
+  const handleChangeName = (e, value) => {
+    console.log(value)
+    setName(value.label)
+    setCccd(value.code)
+    setGender(value.gender ? 'Nam' : 'Nữ')
+    setBirth(dayjs(value.birth))
+    setPhoneNumber(value.phone)
+    setPersonId(value.personId)
   }
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -117,7 +147,11 @@ function DangKyTamVangPage() {
               <Typography variant="h4">Họ và tên</Typography>
             </Grid>
             <Grid item>
-              <TextField value={name} onChange={(e) => { setName(e.target.value) }}></TextField>
+              <AutoComplete
+                optionList={personShrinkList}
+                onChange={handleChangeName}
+                padding='0px'
+              ></AutoComplete>
             </Grid>
           </Grid>
           <Grid
@@ -203,7 +237,7 @@ function DangKyTamVangPage() {
               <Typography variant="h4">CCCD</Typography>
             </Grid>
             <Grid item>
-              <TextField value={cccd} onChange={(e) => { setCccd(e.target.value) }}></TextField>
+              <TextField value={cccd}></TextField>
             </Grid>
           </Grid>
           <Grid

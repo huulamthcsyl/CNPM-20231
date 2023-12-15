@@ -52,7 +52,7 @@ const publicRoutes = [
   { path: "/taokhoanthuphuongtien", component: TaoKhoanThuPTPage },
   { path: "/chitietthuphiphuongtien", component: ChiTietThuPhiPhuongtienPage },
   { path: "/quanlythuphiphuongtien", component: QuanLyThuPhiPhuongtienPage },
-  { path: "/chitietcudan", component: ChiTietCuDanPage },
+  { path: "/chitietcudan/:id", component: ChiTietCuDanPage },
   { path: "/dangkytamvang", component: DangKyTamVangPage },
   { path: "/chitietphieuthuphuongtien", component: ChiTietPhieuThuPhuongTienPage },
   { path: '/quantrivien', component: QTVPage, layout: QTVLayout },

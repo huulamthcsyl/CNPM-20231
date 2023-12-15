@@ -12,6 +12,9 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import ClassApi from '../../Api/Api'
+import AutoComplete from "../../Layout/component/AutoCompleteSearch";
+import { toast } from "react-toastify";
 const headers = [
   "STT",
   "Họ và tên",
@@ -25,11 +28,31 @@ function ThemHoDan() {
   const [address, setAddress] = useState('')
   const [numberMember, setNumberMember] = useState(1)
   const [numberLine, setNumberLine] = useState(1);
+  const personShrinkList = [];
+  const [personList, setPersonList] = useState([])
   var arr = [...Array(numberLine).keys()].map((i) => i + 1);
   useEffect(() => {
     arr = [...Array(numberLine).keys()].map((i) => i + 1);
-  }, [numberLine]);
-  console.log(arr);
+    ClassApi.GetAllPeople()
+      .then((res) => {
+        setPersonList(res.data);
+      })
+      .catch((err) => {
+        toast.error("lỗi 1");
+      });
+  }, [numberLine, ownerName]);
+  personList.map((person, index) => {
+    personShrinkList.push({
+      label: person.name,
+      code: person.identityCardNumber,
+      personId: person.personId,
+      residenceId: person.residenceId,
+    });
+  });
+  // console.log(arr);
+  const handleChangeName = (event) => {
+    setOwnerName(event.target.value)
+  };
   return (
     <Grid container spacing={2} padding="50px">
       <Grid item xs={12}>
@@ -55,6 +78,7 @@ function ThemHoDan() {
               value={ownerName}
               onChange={(e) => { setOwnerName(e.target.value) }}
             ></TextField>
+
           </Grid>
         </Grid>
         <Grid
@@ -103,14 +127,12 @@ function ThemHoDan() {
                 <TableRow key={index}>
                   <TableCell style={{ fontSize: "18px" }}>{index}</TableCell>
                   <TableCell>
-                    <input
-                      style={{
-                        fontSize: "18px",
-                        border: "none",
-                        width: "150px",
-                      }}
-                      type="text"
-                    />
+
+                    <AutoComplete
+                      optionList={personShrinkList}
+                      onChange={handleChangeName}
+                      width={250}
+                    ></AutoComplete>
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
                     <input

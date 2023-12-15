@@ -48,14 +48,14 @@ class ClassApi {
   FindResidenceReceipt(name, address, starttime, endtime) {
     return axios.get(
       API_BASE_URL +
-        "/residencereceipt?name=" +
-        name +
-        "&address=" +
-        address +
-        "&starttime=" +
-        starttime +
-        "&endtime=" +
-        endtime,
+      "/residencereceipt?name=" +
+      name +
+      "&address=" +
+      address +
+      "&starttime=" +
+      starttime +
+      "&endtime=" +
+      endtime,
       { headers }
     );
   }
@@ -88,13 +88,15 @@ class ClassApi {
   GetResidenceById(id) {
     return axios.get(API_BASE_URL + "/residence/" + id, { headers });
   }
-
+  FindResidence(name, address) {
+    return axios.get(API_BASE_URL + "/residence?name=" + name + '&address=' + address, { headers })
+  }
   PostResidence(residence) {
     return axios.post(API_BASE_URL + "/residence", residence, { headers });
   }
   //api nhan khau
   GetInfoPerson(id) {
-    return axios.get(API_BASE_URL + "");
+    return axios.get(API_BASE_URL + "/person/" + id, { headers });
   }
   GetPerson(person) {
     return axios.get(API_BASE_URL + "/person?name=" + person, { headers });
@@ -108,9 +110,15 @@ class ClassApi {
 
   //api tạm vắng
   GetAllAbsent() {
-    return axios.get(API_BASE_URL + "absent/person/all", { headers });
+    return axios.get(API_BASE_URL + "/absent/all", { headers });
   }
-
+  //api postabsent
+  PostAbsent(absent) {
+    return axios.post(API_BASE_URL + '/absent', absent, { headers })
+  }
+  FindAbsent(name) {
+    return axios.get(API_BASE_URL + '/absent/person?name=' + name, { headers })
+  }
   //**
   //Api phuong tien
   //*** */
