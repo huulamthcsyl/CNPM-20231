@@ -51,7 +51,7 @@ namespace Project.Controllers.ReceiptController
                     Description = receipt.Description,
                     ResidencePayments = receipt.ResidencePayments,
                     Name = receipt.Person.Name,
-                    Address = receipt.Person.Residence == null ? null : receipt.Person.Residence.Address
+                    Address = receipt.Person.ResidenceId == null ? null : receipt.Person.Residence.Address
                 });
             }
 

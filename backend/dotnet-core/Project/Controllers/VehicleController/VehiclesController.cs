@@ -49,6 +49,7 @@ namespace Project.Controllers.VehicleController
             category = category ?? string.Empty;
 
             var vehicles = await _context.Vehicles
+                                .Include(v => v.Person)
                                 .Where(p => p.LicensePlate.Contains(licenseplate)
                                             && p.Category.Contains(category)
                                             && p.Person.Name.Contains(ownerName))
