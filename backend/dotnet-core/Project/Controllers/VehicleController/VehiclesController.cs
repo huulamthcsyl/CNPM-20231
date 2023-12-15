@@ -49,7 +49,7 @@ namespace Project.Controllers.VehicleController
 
         // GET: api/vehicle?licenseplate=&ownerName=&category=
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicle(string? licenseplate, string? ownerName, string? category)
+        public async Task<ActionResult<IEnumerable<object>>> GetVehicle(string? licenseplate, string? ownerName, string? category)
         {
             if (_context.Vehicles == null)
             {
@@ -66,8 +66,19 @@ namespace Project.Controllers.VehicleController
                                             && p.Category.Contains(category)
                                             && p.Person.Name.Contains(ownerName))
                                 .ToListAsync();
+            var list = new List<object>();
+            foreach (var vehicle in vehicles)
+            {
+                var user = await _context.People.FirstOrDefaultAsync(u => u.PersonId == vehicle.PersonId);
+                var obj = new
+                {
+                    vehicle = vehicle,
+                    name = user?.Name,
+                };
+                list.Add(obj);
+            }
+            return list;
 
-            return vehicles;
         }
 
 

@@ -6,8 +6,9 @@ import { TableRow, TableHead, TableContainer } from "@mui/material";
 import { Paper } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { Select, MenuItem } from '@mui/material';
-import { useState, useEffect, ClassApi } from "react";
+import { useState, useEffect } from "react";
 import PlusCircle from "../../Icons/PlusCircle.png";
+import ClassApi from "../../Api/Api"
 
 
 function QuanLyPTPage() {
@@ -20,30 +21,28 @@ function QuanLyPTPage() {
     { name: "Ghi chú" },
   ];
 
-  // const [allVehicle, setAllVehicles] = useState([])
-  // const [vehicle, setVehicle] = useState('')
-  // const searchVehicle = () => {
-  //   if (vehicle.length > 0) {
-  //     ClassApi.GetVehicle(vehicle).then((response) => {
-  //       setAllVehicles(response.data)
-  //     })
-  //   } else {
-  //     ClassApi.GetAllVehicles().then((respone) => {
-  //       setAllVehicles(respone.data);
-  //     }).catch((error) => {
-  //       console.error('Error fetching data:', error);
-  //     });
+  const [allVehicle, setAllVehicles] = useState([])
+  const [licenseplate, setLicenseplate] = useState('')
+  const [ownerName, setOwnerName] = useState('')
+  const [category, setCategory] = useState('')
+  const search = () => {
+    ClassApi.FindVehicle(licenseplate, ownerName, category).then((respone) => {
+      setAllVehicles(respone.data)
+    });
+    console.log('clicked')
+  }
 
-  //   }
-  // }
-  // useEffect(() => {
-  //   ClassApi.GetAllVehicles().then((respone) => {
-  //     setAllVehicles(respone.data);
+  useEffect(() => {
+    ClassApi.GetAllVehicles().then((response) => {
+      setAllVehicles(response.data);
 
-  //   }).catch((error) => {
-  //     console.error('Error fetching data:', error);
-  //   });
-  // }, [])
+
+
+
+    }).catch((error) => {
+      console.error('Error fetching data:', error);
+    });
+  }, [])
 
 
   return (
@@ -96,8 +95,8 @@ function QuanLyPTPage() {
         <TextField
           style={{ width: "250px" }}
           inputProps={{ style: { fontSize: "18px" } }}
-        //value={VehicleId}
-        //onChange={(e) => { setVehicleId(e.target.value) }}
+          value={licenseplate}
+          onChange={(e) => { setLicenseplate(e.target.value) }}
         ></TextField>
       </Grid>
 
@@ -107,8 +106,8 @@ function QuanLyPTPage() {
         </Typography>
         <Select
           style={{ width: "250px", fontSize: "18px" }}
-        //value={Category}
-        //onChange={(e) => { setCategory(e.target.value) }}
+          value={category}
+          onChange={(e) => { setCategory(e.target.value) }}
         >
           <MenuItem value="" disabled>
             Chọn loại xe
@@ -125,8 +124,8 @@ function QuanLyPTPage() {
         <TextField
           style={{ width: "250px" }}
           inputProps={{ style: { fontSize: "18px" } }}
-        //value={PersionId}
-        //onChange={(e) => { setPersonId(e.target.value) }}
+          value={ownerName}
+          onChange={(e) => { setOwnerName(e.target.value) }}
         ></TextField>
       </Grid>
 
@@ -134,6 +133,7 @@ function QuanLyPTPage() {
         <Button
           variant="contained"
           style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+          onClick={search}
         >
           <Typography variant="h4" style={{ color: "black" }}>
             Tìm kiếm
@@ -156,27 +156,30 @@ function QuanLyPTPage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow>
-                <TableCell style={{ fontSize: "18px" }}>
-                  1
-                </TableCell>
-                <TableCell style={{ fontSize: "18px" }}>
-                  30A-88888
-                </TableCell>
-                <TableCell style={{ fontSize: "18px" }}>
-                  Ô tô
-                </TableCell>
-                <TableCell style={{ fontSize: "18px" }}>
-                  Nguyễn Văn A
-                </TableCell>
-                <TableCell style={{ fontSize: "18px" }}>
 
-                  <NavLink to="/chitietphuongtien">
-                    Chi tiết
-                  </NavLink>
+              {allVehicle.map((column, index) => (
+                <TableRow key={index}>
+                  <TableCell style={{ fontSize: "18px" }}>
+                    {index + 1}
+                  </TableCell>
+                  <TableCell style={{ fontSize: "18px" }}>
+                    {column.vehicle?column.vehicle.licensePlate:''}
+                  </TableCell>
+                  <TableCell style={{ fontSize: "18px" }}>
+                    {column.vehicle?column.vehicle.category:''}
+                  </TableCell>
+                  <TableCell style={{ fontSize: "18px" }}>
+                    {column.name?column.name:''}
+                  </TableCell>
+                  <TableCell style={{ fontSize: "18px" }}>
 
-                </TableCell>
-              </TableRow>
+                    <NavLink to="/chitietphuongtien">
+                      Chi tiết
+                    </NavLink>
+
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>

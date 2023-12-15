@@ -127,6 +127,12 @@ class ClassApi {
   GetAllVehicles() {
     return axios.get(API_BASE_URL + "/vehicle/all", { headers });
   }
+  FindVehicle(licenseplate, ownerName, category) {
+    return axios.get(API_BASE_URL + '/vehicle?licenseplate=' + licenseplate
+      + '&ownerName=' + ownerName
+      + '&category=' + category, { headers })
+
+  }
   GetVehicle(id) {
     return axios.get(API_BASE_URL + '/vehicle/' + id, { headers });
   }
