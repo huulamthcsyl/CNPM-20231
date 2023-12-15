@@ -25,13 +25,25 @@ namespace Project.Controllers.VehicleController
 
         // GET: api/vehicle/all
         [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicles()
+        public async Task<ActionResult<IEnumerable<object>>> GetVehicles()
         {
             if (_context.Vehicles == null)
             {
                 return NotFound();
             }
-            return await _context.Vehicles.ToListAsync();
+            var all = await _context.Vehicles.ToListAsync();
+            var list= new List<object>();
+            foreach (var vehicle in all)
+            {
+                var user = await _context.People.FirstOrDefaultAsync(u => u.PersonId == vehicle.PersonId);
+                var obj = new
+                {
+                    vehicle = vehicle,
+                    name = user?.Name,
+                };
+                list.Add(obj);
+            }
+            return list;
         }
 
 
