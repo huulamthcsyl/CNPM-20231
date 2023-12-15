@@ -107,7 +107,9 @@ class ClassApi {
   PostPerson(person) {
     return axios.post(API_BASE_URL + "/person", person, { headers });
   }
-
+  PutPerson(person) {
+    return axios.put(API_BASE_URL + '/person/' + person.personId, person, { headers })
+  }
   //api tạm vắng
   GetAllAbsent() {
     return axios.get(API_BASE_URL + "/absent/all", { headers });
