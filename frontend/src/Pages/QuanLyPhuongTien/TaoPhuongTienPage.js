@@ -93,17 +93,17 @@ function TaoPhuongTienPage() {
       </Grid>
 
       <Grid item>
-        {/* <NavLink to="/quanlyphuongtien"> */}
-        <Button
-          variant="contained"
-          style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
-          onClick={handleAdd}
-        >
-          <Typography variant="h4" style={{ color: "black" }}>
-            Xác nhận
-          </Typography>
-        </Button>
-        {/* </NavLink> */}
+        <NavLink to="/quanlyphuongtien">
+          <Button
+            variant="contained"
+            style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+            onClick={handleAdd}
+          >
+            <Typography variant="h4" style={{ color: "black" }}>
+              Xác nhận
+            </Typography>
+          </Button>
+        </NavLink>
       </Grid>
     </Grid>
   )
