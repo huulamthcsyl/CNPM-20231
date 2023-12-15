@@ -21,6 +21,8 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import styled from "@emotion/styled";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 const API_ADDRESS = 'https://provinces.open-api.vn/';
 const theme = createTheme({
   components: {
@@ -116,7 +118,22 @@ function ThemCuDan() {
       setAddr(address)
     })
   }, [])
-
+  const handleChangeInfo = () => {
+    ClassApi.PutPerson({
+      "personId": param.id,
+      "name": name,
+      "dateOfBirth": birth,
+      "identityCardNumber": cccd,
+      "gender": gender,
+      "phoneNumber": phoneNumber,
+      "homeTown": village + ', ' + district + ', ' + province,
+      "status": status
+    }).then(() => {
+      toast.success('Sửa thông tin thành công')
+    }).catch(() => {
+      toast.error('Lỗi')
+    })
+  }
   useEffect(() => {
 
     axios.get(API_ADDRESS + "api/?depth=1")
@@ -381,9 +398,9 @@ function ThemCuDan() {
             </Grid>
           </Grid>
           <Grid xs={2}>
-            <NavLink to="/nhankhau">
-              <ButtonSearch title="Xác nhận" border="none"></ButtonSearch>
-            </NavLink>
+
+            <ButtonSearch title="Xác nhận" border="none" onclick={handleChangeInfo}></ButtonSearch>
+
           </Grid>
           <Grid>
             <NavLink to="/nhankhau">
