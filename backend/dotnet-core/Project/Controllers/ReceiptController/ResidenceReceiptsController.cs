@@ -89,7 +89,7 @@ namespace Project.Controllers.ReceiptController
                 Description = residenceReceipt.Description,
                 ResidencePayments = residenceReceipt.ResidencePayments,
                 Name = residenceReceipt.Person.Name,
-                Address = residenceReceipt.Person.Residence == null ? null : residenceReceipt.Person.Residence.Address
+                Address = residenceReceipt.Person.ResidenceId == null ? null : residenceReceipt.Person.Residence.Address
             };
 
             return residenceReceiptInfor;
@@ -132,7 +132,7 @@ namespace Project.Controllers.ReceiptController
                     Description = receipt.Description,
                     ResidencePayments = receipt.ResidencePayments,
                     Name = receipt.Person.Name,
-                    Address = receipt.Person.Residence == null ? null : receipt.Person.Residence.Address
+                    Address = receipt.Person.ResidenceId == null ? null : receipt.Person.Residence.Address
                 });
             }
 
