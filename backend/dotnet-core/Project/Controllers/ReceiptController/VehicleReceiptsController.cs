@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
 using Project.Models.Models;
@@ -50,7 +51,7 @@ namespace Project.Controllers.ReceiptController
                     Amount = receipt.Amount,
                     Description = receipt.Description,
                     VehiclePayments = receipt.VehiclePayments,
-                    LicensePlate = receipt.Vehicle.LicensePlate,
+                    LicensePlate = receipt.VehicleId == null ? null : receipt.Vehicle.LicensePlate,
                     OwnerName = receipt.Vehicle.Person.Name
                 });
             }

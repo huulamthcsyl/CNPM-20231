@@ -40,7 +40,7 @@ namespace Project.Controllers.UserController
             {
                 return NotFound();
             }
-            var userAccounts = await _context.UserAccounts.ToListAsync();
+            var userAccounts = await _context.UserAccounts.Where(u => u.UserName != "admin").ToListAsync();
 
             return userAccounts;
         }
