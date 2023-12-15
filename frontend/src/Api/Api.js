@@ -107,9 +107,7 @@ class ClassApi {
   PostPerson(person) {
     return axios.post(API_BASE_URL + "/person", person, { headers });
   }
-  PutPerson(person) {
-    return axios.put(API_BASE_URL + '/person/' + person.personId, person, { headers })
-  }
+
   //api tạm vắng
   GetAllAbsent() {
     return axios.get(API_BASE_URL + "/absent/all", { headers });
@@ -124,12 +122,20 @@ class ClassApi {
   //**
   //Api phuong tien
   //*** */
+  GetAllVehicles() {
+    return axios.get(API_BASE_URL + "/vehicle/all", { headers });
+  }
   GetVehicle(id) {
-    return axios.get(API_BASE_URL + "/vehicle/" + id, { headers });
+    return axios.get(API_BASE_URL + '/vehicle/' + id, { headers });
   }
   PostVehicle(vehicle) {
-    return axios.post(API_BASE_URL + "/vehicle", vehicle, { headers });
+    return axios.post(API_BASE_URL + '/vehicle', vehicle, { headers });
   }
+
+  PostVehicleFee(vehiclefee) {
+    return axios.post(API_BASE_URL + '/vehiclefee', vehiclefee, { headers });
+  }
+  g
   /***** */
   //Api doi mat khau
   PutPassword(id, pass) {

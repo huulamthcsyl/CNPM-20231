@@ -18,25 +18,26 @@ export default function ChiTietPhieuThu() {
     ClassApi.GetResidenceReceipt(residenceReceiptId)
       .then((res) => {
         setResidenceReceipt(res.data);
-        setPaymentList(res.data.residencePayments);        
-        
+        setPaymentList(res.data.residencePayments);
+
       })
       .catch((error) => {
-         toast.error("lỗi 1");
-         console.log(error);
+        toast.error("lỗi 1");
+        console.log(error);
       });
-      
+
   }, []);
+
   paymentList.map((payment) => {
     ClassApi.GetResidenceFee(payment.residenceFeeId)
-    .then((res) => {
-      feeNames.push(res.data.name);
-      console.log(feeNames);
-    })
-    .catch((error) => {
-      toast.error("lỗi 2");
-      console.log(error);
-    })
+      .then((res) => {
+        feeNames.push(res.data.name);
+        console.log(feeNames);
+      })
+      .catch((error) => {
+        toast.error("lỗi 2");
+        console.log(error);
+      })
   })
   console.log(feeNames);
   const tableHeadName = [
@@ -47,7 +48,8 @@ export default function ChiTietPhieuThu() {
   const information = [
     { id: 1, name: "Họ và tên", marginRight: "25px", value: residenceReceipt.name },
     { id: 2, name: "Địa chỉ", marginRight: "52px", value: residenceReceipt.address },
-    { id: 3,
+    {
+      id: 3,
       name: "Ngày thu",
       marginRight: "28px",
       value: new Date(residenceReceipt.dateCreated).toLocaleDateString('en-GB'),

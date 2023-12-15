@@ -6,6 +6,7 @@ import { TableRow, TableHead, TableContainer } from "@mui/material";
 import { Paper } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { Select, MenuItem } from '@mui/material';
+import { useState, useEffect, ClassApi } from "react";
 import PlusCircle from "../../Icons/PlusCircle.png";
 
 
@@ -18,6 +19,33 @@ function QuanLyPTPage() {
     { name: "Chủ sở hữu" },
     { name: "Ghi chú" },
   ];
+
+  // const [allVehicle, setAllVehicles] = useState([])
+  // const [vehicle, setVehicle] = useState('')
+  // const searchVehicle = () => {
+  //   if (vehicle.length > 0) {
+  //     ClassApi.GetVehicle(vehicle).then((response) => {
+  //       setAllVehicles(response.data)
+  //     })
+  //   } else {
+  //     ClassApi.GetAllVehicles().then((respone) => {
+  //       setAllVehicles(respone.data);
+  //     }).catch((error) => {
+  //       console.error('Error fetching data:', error);
+  //     });
+
+  //   }
+  // }
+  // useEffect(() => {
+  //   ClassApi.GetAllVehicles().then((respone) => {
+  //     setAllVehicles(respone.data);
+
+  //   }).catch((error) => {
+  //     console.error('Error fetching data:', error);
+  //   });
+  // }, [])
+
+
   return (
     <Grid container spacing={2} style={{ padding: "50px" }}>
       <Grid item xs={12}>

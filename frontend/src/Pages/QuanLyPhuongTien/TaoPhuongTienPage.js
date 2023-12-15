@@ -3,29 +3,46 @@ import { Grid, Button, Typography } from "@mui/material";
 import { TextField } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import ClassApi from '../../Api/Api'
-import axios from 'axios';
 import { toast } from "react-toastify";
 import { Select, MenuItem } from '@mui/material';
+import AutoComplete from '../../Layout/component/AutoCompleteSearch';
+import { Vehicle } from '../../Models/Vehicle';
 
 function TaoPhuongTienPage() {
   let PhuongTien = {}
-  const [PersionId, setPersonId] = useState('');
-  const [VehicleId, setVehicleId] = useState('');
-  const [Category, setCategory] = useState('');
+  const [personId, setPersonId] = useState('');
+  const [lisensePlate, setLisensePlate] = useState('');
+  const [category, setCategory] = useState('');
+  const [ownerName, setOwnerName] = useState("");
+  const [personList, setPersonList] = useState([]);
+  const personShrinkList = [];
 
-  const handleAdd = () => {
-    ClassApi.PostVehicle({
-      "personId": PersionId,
-      "category": Category,
-      "licensePlate": VehicleId,
-    }).then(
-      (response) => {
-        toast.success('Thành công')
-      }
-    ).catch(() => {
-      toast.error('Lỗi')
-    })
+  useEffect(() => {
+    ClassApi.GetAllPeople()
+      .then((res) => {
+        setPersonList(res.data)
+      })
+      .catch((err) => {
+        toast.error(err.name);
+      })
+  }, [])
+  personList.map((person, index) => {
+    personShrinkList.push({ label: person.name, code: person.identityCard, personId: person.personId });
+  });
+  const handleChangeName = (e, value) => {
+    setPersonId(value.personId);
   }
+  const handleAdd = () => {
+    ClassApi.PostVehicle(new Vehicle(personId, category, lisensePlate))
+      .then(
+        (response) => {
+          toast.success('Thành công')
+        }
+      ).catch((err) => {
+        toast.error(err.name)
+      })
+  }
+
   return (
     <Grid container spacing={2} padding={"50px"}>
       <Grid item xs={12}>
@@ -38,22 +55,10 @@ function TaoPhuongTienPage() {
         <TextField
           style={{ width: "500px" }}
           inputProps={{ style: { fontSize: "18px" } }}
-          value={VehicleId}
-          onChange={(e) => { setVehicleId(e.target.value) }}
+          value={lisensePlate}
+          onChange={(e) => { setLisensePlate(e.target.value) }}
         ></TextField>
       </Grid>
-
-      {/* <Grid item container direction="row" alignItems="center">
-        <Typography style={{ fontSize: "24px", marginRight: "110px" }}>
-          Loại xe
-        </Typography>
-        <TextField
-          style={{ width: "500px" }}
-          inputProps={{ style: { fontSize: "18px" } }}
-          value={Category}
-          onChange={(e) => { setCategory(e.target.value) }}
-        ></TextField>
-      </Grid> */}
 
       <Grid item container direction="row" alignItems="center">
         <Typography style={{ fontSize: "24px", marginRight: "110px" }}>
@@ -61,7 +66,7 @@ function TaoPhuongTienPage() {
         </Typography>
         <Select
           style={{ width: "500px", fontSize: "18px" }}
-          value={Category}
+          value={category}
           onChange={(e) => { setCategory(e.target.value) }}
         >
           <MenuItem value="" disabled>
@@ -78,26 +83,27 @@ function TaoPhuongTienPage() {
         <Typography style={{ fontSize: "24px", marginRight: "65px" }}>
           Chủ sở hữu
         </Typography>
-        <TextField
+        {/* <TextField
           style={{ width: "500px" }}
           inputProps={{ style: { fontSize: "18px" } }}
           value={PersionId}
           onChange={(e) => { setPersonId(e.target.value) }}
-        ></TextField>
+        ></TextField> */}
+        <AutoComplete optionList={personShrinkList} onChange={handleChangeName}></AutoComplete>
       </Grid>
 
       <Grid item>
-        <NavLink to="/quanlyphuongtien">
-          <Button
-            variant="contained"
-            style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
-            onClick={handleAdd}
-          >
-            <Typography variant="h4" style={{ color: "black" }}>
-              Xác nhận
-            </Typography>
-          </Button>
-        </NavLink>
+        {/* <NavLink to="/quanlyphuongtien"> */}
+        <Button
+          variant="contained"
+          style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+          onClick={handleAdd}
+        >
+          <Typography variant="h4" style={{ color: "black" }}>
+            Xác nhận
+          </Typography>
+        </Button>
+        {/* </NavLink> */}
       </Grid>
     </Grid>
   )
