@@ -48,7 +48,7 @@ const publicRoutes = [
   { path: "/chitietphieuthu", component: ChiTietPhieuThu },
   { path: "/chitietkhoanthu", component: ChiTietKhoanThu },
   { path: "/chitiethodan", component: ChiTietHoDan },
-  { path: "/chitietphuongtien", component: ChiTietPhuongTien },
+  { path: "/chitietphuongtien/:id", component: ChiTietPhuongTien },
   { path: "/taokhoanthuphuongtien", component: TaoKhoanThuPTPage },
   { path: "/chitietthuphiphuongtien", component: ChiTietThuPhiPhuongtienPage },
   { path: "/quanlythuphiphuongtien", component: QuanLyThuPhiPhuongtienPage },

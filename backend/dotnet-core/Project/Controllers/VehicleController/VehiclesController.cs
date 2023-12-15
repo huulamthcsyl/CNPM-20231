@@ -80,7 +80,27 @@ namespace Project.Controllers.VehicleController
             return list;
 
         }
+        [HttpGet("id")]
+        public async Task<ActionResult<object>> GetVehicleById(Guid id)
+        {
+            if (_context.Vehicles == null)
+            {
+                return NotFound();
+            }
+            
+            var vehicles = await _context.Vehicles.FirstOrDefaultAsync(vehicles => vehicles.VehicleId == id);
+         
+                var user = await _context.People.FirstOrDefaultAsync(u => u.PersonId == vehicles.PersonId);
+                var obj = new
+                {
+                    vehicle = vehicles,
+                    name = user?.Name,
+                };
+                
+            
+            return obj;
 
+        }
 
         // PUT: api/vehicle/[:id]
         [HttpPut("{id}")]

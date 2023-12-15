@@ -163,17 +163,17 @@ function QuanLyPTPage() {
                     {index + 1}
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
-                    {column.vehicle?column.vehicle.licensePlate:''}
+                    {column.vehicle ? column.vehicle.licensePlate : ''}
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
-                    {column.vehicle?column.vehicle.category:''}
+                    {column.vehicle ? column.vehicle.category : ''}
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
-                    {column.name?column.name:''}
+                    {column.name ? column.name : ''}
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
 
-                    <NavLink to="/chitietphuongtien">
+                    <NavLink to={"/chitietphuongtien/" + column.vehicle.vehicleId}>
                       Chi tiết
                     </NavLink>
 

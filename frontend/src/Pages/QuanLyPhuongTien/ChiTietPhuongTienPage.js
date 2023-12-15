@@ -1,13 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid, Button, Typography } from "@mui/material";
 import { TextField } from "@mui/material";
-import { NavLink } from 'react-router-dom';
-function ChiTietPhuongTien({ PhuongTien }) {
-  PhuongTien = {
-    bienkiemsoat: "30A-88888",
-    loaixe: "Ô tô",
-    chusohuu: "Nguyễn Văn A"
-  }
+import { NavLink, useParams } from 'react-router-dom';
+import ClassApi from '../../Api/Api'
+function ChiTietPhuongTien() {
+  const [PhuongTien, setPhuongTien] = useState({
+    "vehicle": {
+      "vehicleId": "f6b659b7-610d-44f6-9a67-61c505389108",
+      "personId": "ad4beae4-662f-406d-bb56-d1d9275dd440",
+      "category": "Ô tô",
+      "licensePlate": "12A-45568"
+    },
+    "name": "Nguyễn Văn C"
+  })
+  const param = useParams()
+  useEffect(() => {
+    ClassApi.GetVehicleById(param.id).then((response) => {
+      setPhuongTien(response.data)
+    })
+  }, [])
   return (
     <Grid container spacing={2} padding={"50px"}>
       <Grid item xs={12}>
@@ -23,7 +34,7 @@ function ChiTietPhuongTien({ PhuongTien }) {
         <TextField
           style={{ width: "500px" }}
           inputProps={{ style: { fontSize: "18px" } }}
-          value={PhuongTien.bienkiemsoat}
+          value={PhuongTien.vehicle.licensePlate}
         ></TextField>
       </Grid>
 
@@ -34,7 +45,7 @@ function ChiTietPhuongTien({ PhuongTien }) {
         <TextField
           style={{ width: "500px" }}
           inputProps={{ style: { fontSize: "18px" } }}
-          value={PhuongTien.loaixe}
+          value={PhuongTien.vehicle.category}
         ></TextField>
       </Grid>
 
@@ -45,7 +56,8 @@ function ChiTietPhuongTien({ PhuongTien }) {
         <TextField
           style={{ width: "500px" }}
           inputProps={{ style: { fontSize: "18px" } }}
-          value={PhuongTien.chusohuu}
+          value={PhuongTien.name}
+
         ></TextField>
       </Grid>
 
