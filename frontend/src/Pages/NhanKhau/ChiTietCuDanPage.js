@@ -1,8 +1,11 @@
 import {
   Button,
+  FormControlLabel,
   Grid,
   InputLabel,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
   TextField,
   ThemeProvider,
@@ -11,8 +14,14 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
-import { NavLink } from "react-router-dom";
-
+import { NavLink, useParams } from "react-router-dom";
+import ClassApi from '../../Api/Api'
+import dayjs from "dayjs";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import styled from "@emotion/styled";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import axios from "axios";
+const API_ADDRESS = 'https://provinces.open-api.vn/';
 const theme = createTheme({
   components: {
     MuiTypography: {
@@ -36,16 +45,31 @@ const theme = createTheme({
     },
   },
 });
-const person = {
-  name: "Nguyễn Văn A",
-  gender: "Nam",
-  status: "Thường trú",
-  dateBirth: "01/01/1970",
-  province: "Hà Nội",
-  district: "Quận Hai Bà Trưng",
-  village: "Phường Bách Khoa",
-};
+const CustomizedDatePicker = styled(DatePicker)`
+  & .MuiInputBase-input {
+    font-size: 18px;
+    width: 150px;
+    height: 40px;
+  }
+  .MuiInputLabel-root {
+    font-size: 20px;
+  }
+`;
 function ThemCuDan() {
+  const [person, setPerson] = useState({
+    name: "Nguyễn Văn A",
+    gender: true,
+    status: "Thường trú",
+    dateOfBirth: "2021-05-04T00:00:00",
+    province: "Hà Nội",
+    district: "Quận Hai Bà Trưng",
+    village: "Phường Bách Khoa",
+    phoneNumber: '0123456789',
+    identityCardNumber: '189931832'
+  });
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [villages, setVillages] = useState([]);
   const [status, setStatus] = useState(person.status);
   const handleChange = (event) => {
     setStatus(event.target.value);
@@ -55,14 +79,17 @@ function ThemCuDan() {
     setGender(event.target.value);
   };
   const [province, setProvince] = useState(person.province);
-
+  const [birth, setBirth] = useState(dayjs('2021-05-04T00:00:00'))
+  const [addr, setAddr] = useState('')
   const handleChange2 = (event) => {
     setProvince(event.target.value);
+    setVillages([])
   };
   const [district, setDistrict] = useState(person.district);
 
   const handleChange3 = (event) => {
     setDistrict(event.target.value);
+
   };
   const [village, setVillage] = useState(person.village);
 
@@ -73,253 +100,310 @@ function ThemCuDan() {
   const handleChangeName = (event) => {
     setName(event.target.value);
   };
-  useEffect(() => {}, [gender]);
+  const [phoneNumber, setPhoneNumber] = useState(person.phoneNumber)
+  const [cccd, setCccd] = useState(person.identityCardNumber)
+  const param = useParams()
+  useEffect(() => {
+    ClassApi.GetInfoPerson(param.id).then((response) => {
+      setName(response.data.name)
+      setGender(response.data.gender)
+      setCccd(response.data.identityCardNumber)
+      setStatus(response.data.status)
+      setBirth(dayjs(response.data.dateOfBirth))
+      setPhoneNumber(response.data.phoneNumber)
+      let address = response.data.homeTown.split(',')
+      setProvince(address[2].trim())
+      setAddr(address)
+    })
+  }, [])
+
+  useEffect(() => {
+
+    axios.get(API_ADDRESS + "api/?depth=1")
+      .then(response => {
+        setProvinces(response.data);
+      });
+  }, []);
+  useEffect(() => {
+    if (province) {
+      axios.get(API_ADDRESS + 'api/p/search/?q=' + province).then((res) => {
+        // console.log(provin)
+        axios.get(API_ADDRESS + "api/p/" + (res.data)[0].code + "?depth=2")
+          .then(response => {
+            setDistricts(response.data.districts);
+            //  setDistrict(addr[1].trim())
+
+          }).finally(() => {
+            if (addr) {
+              setDistrict(addr[1].trim())
+            }
+          })
+      })
+    }
+  }, [province]);
+  useEffect(() => {
+    if (district) {
+      axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+      axios.get(API_ADDRESS + 'api/d/search/?q=' + district).then((res) => {
+        axios.get(API_ADDRESS + "api/d/" + (res.data)[0].code + "?depth=2")
+          .then(response => {
+            setVillages(response.data.wards);
+
+          }).finally(() => {
+            if (addr) {
+              setVillage(addr[0].trim())
+            }
+          });
+      })
+
+    }
+  }, [district]);
   return (
-    <Grid container spacing={1} style={{ padding: "50px" }}>
-      <ThemeProvider theme={theme}>
-        <Grid item xs={12}>
-          <Typography variant="h1" fontSize={48}>
-            Thêm cư dân mới
-          </Typography>
-        </Grid>
-        <Grid
-          item
-          container
-          xs={12}
-          alignItems="center"
-          wrap="wrap"
-          columnSpacing={8}
-        >
-          <Grid item xs="auto">
-            <Typography variant="h4">Họ và tên</Typography>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Grid container spacing={1} style={{ padding: "50px" }}>
+        <ThemeProvider theme={theme}>
+          <Grid item xs={12}>
+            <Typography variant="h1" fontSize={48}>
+              Chi tiết cư dân
+            </Typography>
           </Grid>
-          <Grid item>
-            <TextField onChange={handleChangeName} value={name}></TextField>
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          container
-          xs={12}
-          direction="row"
-          wrap="wrap"
-          alignItems="center"
-        >
-          <Grid item container xs={6} wrap="nowrap" alignItems="center">
-            <Grid item xs={3}>
-              <Typography variant="h4">Giới tính</Typography>
-            </Grid>
-            <Grid item alignItems="center">
-              <input
-                checked={person.gender === "Nam"}
-                id="radio1"
-                type="radio"
-                value="Nam"
-                name="gender"
-                onChange={handleGenderChange}
-                style={{ cursor: "pointer", width: "20px", height: "20px" }}
-              ></input>
-              <label
-                for="radio1"
-                style={{ fontSize: "24px", margin: "0px 12px" }}
-              >
-                Nam
-              </label>
-            </Grid>
-            <Grid item alignItems="center">
-              <input
-                checked={person.gender === "Nữ"}
-                id="radio2"
-                onChange={handleGenderChange}
-                type="radio"
-                name="gender"
-                value="Nữ"
-                style={{ cursor: "pointer", width: "20px", height: "20px" }}
-              ></input>
-              <label
-                for="radio2"
-                style={{ fontSize: "24px", margin: "0px 12px" }}
-              >
-                Nữ
-              </label>
-            </Grid>
-          </Grid>
-          <Grid item container alignItems="center" xs={6} spacing={2}>
-            <Grid item>
-              <Typography variant="h4">Trạng thái cư trú</Typography>
-            </Grid>
-            <Grid item style={{ bottom: "7px", position: "relative" }}>
-              <InputLabel id="demo-select-small-label">Trạng thái</InputLabel>
-              <Select
-                labelId="demo-select-small-label"
-                value={status}
-                style={{ width: "200px" }}
-                placeholder="trang thai"
-                onChange={handleChange}
-              >
-                <MenuItem value="Thường trú">
-                  <Typography variant="h5">Thường trú</Typography>
-                </MenuItem>
-                <MenuItem value="Tạm vắng">
-                  <Typography variant="h5">Tạm vắng</Typography>
-                </MenuItem>
-              </Select>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item container wrap="wrap" alignItems="center">
-          <Grid item style={{ marginRight: "30px" }}>
-            <Typography variant="h4">Ngày, tháng, năm sinh</Typography>
-          </Grid>
-          <Grid item>
-            <input
-              type="date"
-              style={{ width: "200px", height: "35px" }}
-            ></input>
-          </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography variant="h4">Quê quán </Typography>
-        </Grid>
-        <Grid item container wrap="wrap" columnSpacing={8}>
           <Grid
             item
             container
+            xs={12}
+            alignItems="center"
+            wrap="wrap"
+            columnSpacing={8}
+          >
+            <Grid item xs="auto">
+              <Typography variant="h4">Họ và tên</Typography>
+            </Grid>
+            <Grid item>
+              <TextField onChange={handleChangeName} value={name}></TextField>
+            </Grid>
+          </Grid>
+          <Grid
+            item
+            container
+            xs={12}
+            direction="row"
+            wrap="wrap"
+            alignItems="center"
+          >
+            <Grid item container xs={6} wrap="nowrap" alignItems="center">
+              <Grid item xs={3}>
+                <Typography variant="h4">Giới tính</Typography>
+              </Grid>
+              <RadioGroup
+                name="radio-buttons-group"
+                value={gender}
+                onChange={(e) => { setGender(e.target.value) }}
+                style={{ display: "inline" }}
+              >
+                <FormControlLabel
+                  value={true}
+                  control={<Radio />}
+                  label=<Typography variant="h4" fontWeight={400}>
+                    Nam
+                  </Typography>
+                />
+                <FormControlLabel
+                  value={false}
+                  control={<Radio />}
+                  label=<Typography variant="h4" fontWeight={400}>
+                    Nữ
+                  </Typography>
+                />
+              </RadioGroup>
+            </Grid>
+            <Grid item container alignItems="center" xs={6} spacing={2}>
+              <Grid item>
+                <Typography variant="h4">Trạng thái cư trú</Typography>
+              </Grid>
+              <Grid item style={{ bottom: "7px", position: "relative" }}>
+                <InputLabel id="demo-select-small-label">Trạng thái</InputLabel>
+                <Select
+                  labelId="demo-select-small-label"
+                  value={status}
+                  style={{ width: "200px" }}
+                  placeholder="trang thai"
+                  onChange={handleChange}
+                >
+                  <MenuItem value="Thường trú">
+                    <Typography variant="h5">Thường trú</Typography>
+                  </MenuItem>
+                  <MenuItem value="Tạm Vắng">
+                    <Typography variant="h5">Tạm vắng</Typography>
+                  </MenuItem>
+                </Select>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item container wrap="wrap" alignItems="center">
+            <Grid item style={{ marginRight: "30px" }}>
+              <Typography variant="h4">Ngày, tháng, năm sinh</Typography>
+            </Grid>
+            <Grid item>
+
+              <CustomizedDatePicker
+                // slotProps={{ textField: { variant: "filled" } }}
+                sx={{
+                  marginRight: "35px",
+                  width: "200px",
+                  paddingTop: "10px",
+                }}
+                value={birth}
+                onChange={(value) => { setBirth(value) }}
+
+              />
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h4">Quê quán </Typography>
+          </Grid>
+          <Grid item container wrap="wrap" columnSpacing={8}>
+            <Grid
+              item
+              container
+              xs="auto"
+              wrap="nowrap"
+              alignItems="center"
+              spacing={3}
+            >
+              <Grid item>
+                <Typography variant="h4">Tỉnh (Thành phố)</Typography>
+              </Grid>
+              <Grid item style={{ bottom: "7px", position: "relative" }}>
+                <InputLabel id="select-province">Tỉnh (thành phố)</InputLabel>
+                <Select
+                  labelId="select-province"
+                  value={province}
+                  style={{ width: "150px" }}
+                  onChange={handleChange2}
+                >
+                  {
+                    provinces.map((provinc, index) => (
+                      <MenuItem value={provinc.name} key={index}>
+                        <Typography variant="h5">{provinc.name}</Typography>
+                      </MenuItem>
+                    ))
+                  }
+                </Select>
+              </Grid>
+            </Grid>
+            <Grid
+              item
+              xs="auto"
+              container
+              wrap="nowrap"
+              alignItems="center"
+              spacing={3}
+            >
+              <Grid item>
+                <Typography variant="h4">Huyện (Quận)</Typography>
+              </Grid>
+              <Grid item style={{ bottom: "7px", position: "relative" }}>
+                <InputLabel id="select-district">Huyện (quận)</InputLabel>
+                <Select
+                  labelId="select-district"
+                  value={district}
+                  style={{ width: "250px" }}
+                  onChange={handleChange3}
+                >
+                  {districts.map((distric, index) => (
+                    <MenuItem value={distric.name} key={index}>
+                      <Typography variant="h5">{distric.name}</Typography>
+                    </MenuItem>
+                  ))}
+
+
+                </Select>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid
+            item
             xs="auto"
+            container
             wrap="nowrap"
             alignItems="center"
             spacing={3}
           >
             <Grid item>
-              <Typography variant="h4">Tỉnh (Thành phố)</Typography>
+              <Typography variant="h4">Xã (Phường)</Typography>
             </Grid>
             <Grid item style={{ bottom: "7px", position: "relative" }}>
-              <InputLabel id="select-province">Tỉnh (thành phố)</InputLabel>
+              <InputLabel id="select-village">Xã (phường)</InputLabel>
               <Select
-                labelId="select-province"
-                value={province}
-                style={{ width: "150px" }}
-                onChange={handleChange2}
+                labelId="select-village"
+                value={village}
+                style={{ width: "280px" }}
+                onChange={handleChange4}
               >
-                <MenuItem value="Hà Nội">
-                  <Typography variant="h5">Hà Nội</Typography>
-                </MenuItem>
-                <MenuItem value="Tp.HCM">
-                  <Typography variant="h5">Tp.HCM</Typography>
-                </MenuItem>
+                {villages.map((villag, index) => (
+                  <MenuItem value={villag.name} key={index}>
+                    <Typography variant="h5">{villag.name}</Typography>
+                  </MenuItem>
+                ))}
+
+
               </Select>
             </Grid>
           </Grid>
           <Grid
             item
-            xs="auto"
             container
-            wrap="nowrap"
+            xs={12}
             alignItems="center"
-            spacing={3}
+            wrap="wrap"
+            columnSpacing={12}
           >
+            <Grid item xs="auto">
+              <Typography variant="h4">CCCD</Typography>
+            </Grid>
             <Grid item>
-              <Typography variant="h4">Huyện (Quận)</Typography>
+              <TextField value={cccd} onChange={(e) => { setCccd(e.target.value) }}></TextField>
             </Grid>
-            <Grid item style={{ bottom: "7px", position: "relative" }}>
-              <InputLabel id="select-district">Huyện (quận)</InputLabel>
-              <Select
-                labelId="select-district"
-                value={district}
-                style={{ width: "250px" }}
-                onChange={handleChange3}
+          </Grid>
+          <Grid
+            item
+            container
+            xs={12}
+            alignItems="center"
+            wrap="wrap"
+            columnSpacing={3}
+          >
+            <Grid item xs="auto">
+              <Typography variant="h4">Số điện thoại</Typography>
+            </Grid>
+            <Grid item>
+              <TextField value={phoneNumber} onChange={(e) => { setPhoneNumber(e.target.value) }}></TextField>
+            </Grid>
+          </Grid>
+          <Grid xs={2}>
+            <NavLink to="/nhankhau">
+              <ButtonSearch title="Xác nhận" border="none"></ButtonSearch>
+            </NavLink>
+          </Grid>
+          <Grid>
+            <NavLink to="/nhankhau">
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#f48888",
+                  width: "100px",
+                  margin: "30px 0px",
+                }}
               >
-                <MenuItem value="Quận Hai Bà Trưng">
-                  <Typography variant="h5">Quận Hai Bà Trưng</Typography>
-                </MenuItem>
-                <MenuItem value="Quận Thanh Xuân">
-                  <Typography variant="h5">Quận Thanh Xuân</Typography>
-                </MenuItem>
-              </Select>
-            </Grid>
+                <Typography variant="h4" style={{ color: "black" }}>
+                  Xóa
+                </Typography>
+              </Button>
+            </NavLink>
           </Grid>
-        </Grid>
-        <Grid
-          item
-          xs="auto"
-          container
-          wrap="nowrap"
-          alignItems="center"
-          spacing={3}
-        >
-          <Grid item>
-            <Typography variant="h4">Xã (Phường)</Typography>
-          </Grid>
-          <Grid item style={{ bottom: "7px", position: "relative" }}>
-            <InputLabel id="select-village">Xã (phường)</InputLabel>
-            <Select
-              labelId="select-village"
-              value={village}
-              style={{ width: "280px" }}
-              onChange={handleChange4}
-            >
-              <MenuItem value="Phường Bách Khoa">
-                <Typography variant="h5">Phường Bách Khoa</Typography>
-              </MenuItem>
-              <MenuItem value="Phường ...">
-                <Typography variant="h5">Phường ...</Typography>
-              </MenuItem>
-            </Select>
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          container
-          xs={12}
-          alignItems="center"
-          wrap="wrap"
-          columnSpacing={12}
-        >
-          <Grid item xs="auto">
-            <Typography variant="h4">CCCD</Typography>
-          </Grid>
-          <Grid item>
-            <TextField></TextField>
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          container
-          xs={12}
-          alignItems="center"
-          wrap="wrap"
-          columnSpacing={3}
-        >
-          <Grid item xs="auto">
-            <Typography variant="h4">Số điện thoại</Typography>
-          </Grid>
-          <Grid item>
-            <TextField></TextField>
-          </Grid>
-        </Grid>
-        <Grid xs={2}>
-          <NavLink to="/nhankhau">
-            <ButtonSearch title="Xác nhận" border="none"></ButtonSearch>
-          </NavLink>
-        </Grid>
-        <Grid>
-          <NavLink to="/nhankhau">
-            <Button
-              variant="contained"
-              style={{
-                backgroundColor: "#f48888",
-                width: "100px",
-                margin: "30px 0px",
-              }}
-            >
-              <Typography variant="h4" style={{ color: "black" }}>
-                Xóa
-              </Typography>
-            </Button>
-          </NavLink>
-        </Grid>
-      </ThemeProvider>
-    </Grid>
+        </ThemeProvider>
+      </Grid>
+    </LocalizationProvider>
   );
 }
 

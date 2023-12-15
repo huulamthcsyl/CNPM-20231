@@ -22,7 +22,7 @@ function App() {
                 path={route.path}
                 element={
                   <Layout>
-                    <ToastContainer />
+                    <ToastContainer position="bottom-center" />
                     <Page />
                   </Layout>
                 }

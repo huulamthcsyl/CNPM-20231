@@ -4,27 +4,30 @@ import { FormControl, FormGroup, TextField } from "@mui/material";
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableRow, TableHead, TableContainer } from "@mui/material";
 import { TablePagination } from "@mui/material";
-import { Paper, createTheme, ThemeProvider } from "@mui/material";
+import { Paper } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { styled } from "@mui/system";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import PlusCircle from "../../Icons/PlusCircle.png";
 import ClassApi from "../../Api/Api";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-
+import { format } from 'date-fns';
 
 export default function DanhSachPhieuThu() {
+  const pathname = window.location.pathname;
+  const nextPathname =
+    pathname.substr(0, pathname.indexOf("/")) +
+    "/ChiTietPhieuThu/?residenceReceiptId=";
   const [residenceReceipts, setResidenceReceipts] = useState([]);
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [starttime, setStarttime] = useState();
   const [endtime, setEndtime] = useState();
   const [page, setPage] = useState(0);
-  const [rowsperpage, setRowsperpage] = useState(5);
-
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const tableHeadName = [
     { name: "Số thứ tự" },
     { name: "Họ và tên" },
@@ -33,8 +36,12 @@ export default function DanhSachPhieuThu() {
     { name: "Thời gian" },
     { name: "Ghi chú" },
   ];
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
   const handleChangeRowsPerPage = (event) => {
-    setRowsperpage(parseInt(event.target.value, 10));
+    setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
   const handleSearch = (name, address, starttime, endtime) => {
@@ -68,6 +75,7 @@ export default function DanhSachPhieuThu() {
         console.log(err);
       });
   };
+
   const CustomizedDatePicker = styled(DatePicker)`
     & .MuiInputBase-input {
       font-size: 18px;
@@ -77,7 +85,6 @@ export default function DanhSachPhieuThu() {
       font-size: 20px;
     }
   `;
-
   useEffect(() => {
     ClassApi.GetAllResidenceReceipt()
       .then((res) => {
@@ -167,7 +174,7 @@ export default function DanhSachPhieuThu() {
         <Grid item xs={12}>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }}>
-              <TableHead>
+              <thead>
                 <TableRow>
                   {tableHeadName.map((column, index) => (
                     <TableCell key={index}>
@@ -177,15 +184,21 @@ export default function DanhSachPhieuThu() {
                     </TableCell>
                   ))}
                 </TableRow>
-              </TableHead>
-              <TableBody>
+              </thead>
+              <tbody>
                 {residenceReceipts &&
-                  residenceReceipts.map(
+                  (rowsPerPage > 0
+                    ? residenceReceipts.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                    : residenceReceipts
+                  ).map(
                     (residenceReceipt, index) =>
                       residenceReceipt && (
                         <TableRow>
                           <TableCell style={{ fontSize: "18px" }}>
-                            {index + 1}
+                            {page * rowsPerPage + index + 1}
                           </TableCell>
                           <TableCell style={{ fontSize: "18px" }}>
                             {residenceReceipt.name}
@@ -194,36 +207,64 @@ export default function DanhSachPhieuThu() {
                             {residenceReceipt.address}
                           </TableCell>
                           <TableCell style={{ fontSize: "18px" }}>
-                            {residenceReceipt.amount}
+                            {residenceReceipt.amount.toLocaleString("en-US", {
+                              style: "decimal",
+                              minimumFractionDigits: 0,
+                            })}
                           </TableCell>
                           <TableCell style={{ fontSize: "18px" }}>
                             {new Date(
                               residenceReceipt.dateCreated
-                            ).toLocaleDateString()}
+                            ).toLocaleDateString('en-GB')}
                           </TableCell>
                           <TableCell style={{ fontSize: "18px" }}>
-                            <NavLink to="/ChiTietPhieuThu">
-                              <Typography style={{ fontSize: "18px" }}>
-                                Chi tiết
-                              </Typography>
-                            </NavLink>
+                            <a
+                              href={`${nextPathname}${residenceReceipt.residenceReceiptId}`}
+                              style={{ textDecoration: "underline" }}
+                            >
+                              Chi tiết
+                            </a>
                           </TableCell>
                         </TableRow>
                       )
                   )}
-              </TableBody>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 8, 10, { label: "All", value: -1 }]}
+                    colSpan={6}
+                    count={residenceReceipts.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    slotProps={{
+                      select: {
+                        "aria-label": "rows per page",
+                      },
+                      actions: {
+                        showFirstButton: true,
+                        showLastButton: true,
+                      },
+                    }}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    sx={{
+                      "& .MuiToolbar-root": {
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+
+                        "@media (min-width: 768px)": {
+                          flexDirection: "row",
+                          alignItems: "center",
+                        },
+                      },
+                    }}
+                  />
+                </tr>
+              </tfoot>
             </Table>
           </TableContainer>
-         
-            <TablePagination
-              rowsPerPageOptions={[5, 8]}
-              component="div"
-              count={residenceReceipts.length}
-              rowsPerPage={rowsperpage}
-              page={page}
-              onPageChange={(event, newPage) => setPage(newPage)}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
         </Grid>
       </Grid>
     </LocalizationProvider>

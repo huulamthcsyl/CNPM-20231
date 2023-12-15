@@ -3,17 +3,55 @@ import { Grid, Typography, TextField, Paper, Button } from "@mui/material";
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableRow, TableHead, TableContainer } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import ClassApi from "../../Api/Api";
+import { toast } from "react-toastify";
 
 export default function ChiTietPhieuThu() {
+  const searchParams = new URLSearchParams(window.location.search);
+  const residenceReceiptId = searchParams.get("residenceReceiptId");
+  const [residenceReceipt, setResidenceReceipt] = useState({});
+  const [paymentList, setPaymentList] = useState([])
+  let feeNames = [];
+
+  useEffect(() => {
+    ClassApi.GetResidenceReceipt(residenceReceiptId)
+      .then((res) => {
+        setResidenceReceipt(res.data);
+        setPaymentList(res.data.residencePayments);        
+        
+      })
+      .catch((error) => {
+         toast.error("lỗi 1");
+         console.log(error);
+      });
+      
+  }, []);
+  paymentList.map((payment) => {
+    ClassApi.GetResidenceFee(payment.residenceFeeId)
+    .then((res) => {
+      feeNames.push(res.data.name);
+      console.log(feeNames);
+    })
+    .catch((error) => {
+      toast.error("lỗi 2");
+      console.log(error);
+    })
+  })
+  console.log(feeNames);
   const tableHeadName = [
-    { name: "Số thứ tự" },
-    { name: "Tên khoản thu" },
-    { name: "Số tiền" },
+    { id: 1, name: "Số thứ tự" },
+    { id: 2, name: "Tên khoản thu" },
+    { id: 3, name: "Số tiền (đồng)" },
   ];
   const information = [
-    { name: "Họ và tên", marginRight: "25px" },
-    { name: "Địa chỉ", marginRight: "52px" },
-    { name: "Thời gian", marginRight: "25px" },
+    { id: 1, name: "Họ và tên", marginRight: "25px", value: residenceReceipt.name },
+    { id: 2, name: "Địa chỉ", marginRight: "52px", value: residenceReceipt.address },
+    { id: 3,
+      name: "Ngày thu",
+      marginRight: "28px",
+      value: new Date(residenceReceipt.dateCreated).toLocaleDateString('en-GB'),
+    },
   ];
   return (
     <Grid container spacing={2} padding={"50px"}>
@@ -29,7 +67,7 @@ export default function ChiTietPhieuThu() {
           </Typography>
           <TextField
             style={{ width: "500px" }}
-            //value={}
+            value={information[index].value}
             inputProps={{ style: { fontSize: "18px" }, readOnly: "true" }}
           ></TextField>
         </Grid>
@@ -52,27 +90,40 @@ export default function ChiTietPhieuThu() {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow>
-                <TableCell style={{ fontSize: "18px" }}>1</TableCell>
-                <TableCell style={{ fontSize: "18px" }}>Phí vệ sinh</TableCell>
-                <TableCell style={{ fontSize: "18px" }}>100.000 đồng</TableCell>
-              </TableRow>
+              {paymentList && paymentList.map((payment, index) => (
+                <TableRow>
+                  <TableCell style={{ fontSize: "18px" }}>
+                    {index + 1}
+                  </TableCell>
+                  <TableCell style={{ fontSize: "18px" }}>
+                    {feeNames && feeNames[index]}
+                  </TableCell>
+                  <TableCell style={{ fontSize: "18px" }}>
+                    {payment.amount && payment.amount.toLocaleString("en-US", {
+                      style: "decimal",
+                    })}
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
       </Grid>
       <Grid item>
         <Typography style={{ fontSize: "24px" }}>
-          Tổng số tiền: 100.000 đồng
+          Tổng số tiền: {residenceReceipt.amount && residenceReceipt.amount.toLocaleString("en-US", {
+            style: "decimal",
+          })} đồng
         </Typography>
       </Grid>
       <Grid item container direction="row" alignItems="center">
-        <Typography style={{ fontSize: "24px", marginRight: "48px" }}>
+        <Typography style={{ fontSize: "24px", marginRight: "42px" }}>
           Ghi chú
         </Typography>
         <TextField
           style={{ width: "500px" }}
           inputProps={{ style: { fontSize: "18px" }, readOnly: true }}
+          value={residenceReceipt.description}
         ></TextField>
       </Grid>
       <Grid item>
@@ -90,3 +141,5 @@ export default function ChiTietPhieuThu() {
     </Grid>
   );
 }
+
+/* eslint-disable react-hooks/rules-of-hooks */

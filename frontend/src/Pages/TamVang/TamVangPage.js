@@ -3,6 +3,8 @@ import ButtonAdd from "../../Layout/component/ButtonAdd";
 import src from "../../Icons/HoSo.png";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
 import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import ClassApi from '../../Api/Api'
 const theme = createTheme({
   components: {
     MuiTypography: {
@@ -33,22 +35,44 @@ const headTable = [
   "Số CCCD",
   "",
 ];
-const people = [
-  {
-    name: "Nguyen Van A",
-    datebirth: "01/01/1970",
-    cccd: "0123456789",
-  },
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-];
+
 function TamVangPage() {
+  const [name, setName] = useState('')
+  const [people, setPeople] = useState([
+    {
+      "absentPersonId": "1441a1ca-a444-472b-b209-1c6fe13170c9",
+      "personId": "821cec81-33c9-45d9-819e-536f9a8e32b2",
+      "startTime": "2023-12-12T17:00:00",
+      "endTime": "2023-12-24T17:00:00",
+      "reason": "ốm",
+      "person": {
+        "personId": "821cec81-33c9-45d9-819e-536f9a8e32b2",
+        "residenceId": null,
+        "name": "hoang",
+        "dateOfBirth": "2021-05-04T00:00:00",
+        "identityCardNumber": "232342432",
+        "gender": true,
+        "phoneNumber": "432432423432",
+        "homeTown": "Xã Ngam La, Huyện Yên Minh, Tỉnh Hà Giang",
+        "ownerRelationship": null,
+        "status": "Tạm Vắng"
+      }
+    },
+    {},
+
+  ]);
+  useEffect(() => {
+    ClassApi.GetAllAbsent().then((response) => {
+      setPeople(response.data)
+    })
+  }, [])
+  const handleFind = () => {
+    if (name.length > 0) {
+      ClassApi.FindAbsent(name).then((response) => {
+        setPeople(response.data)
+      })
+    }
+  }
   return (
     <Grid container spacing={1} style={{ padding: "50px" }}>
       <ThemeProvider theme={theme}>
@@ -71,8 +95,8 @@ function TamVangPage() {
           <Grid item>
             <Typography variant="h4">Tên</Typography>
           </Grid>
-          <TextField></TextField>
-          <ButtonSearch title="Tìm kiếm"></ButtonSearch>
+          <TextField value={name} onChange={(e) => { setName(e.target.value) }}></TextField>
+          <ButtonSearch title="Tìm kiếm" onclick={handleFind}></ButtonSearch>
         </Grid></ThemeProvider>
       <Grid item xs={12}>
         <TableContainer>
@@ -93,17 +117,17 @@ function TamVangPage() {
                     <Typography variant="h5">{index + 1}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h5">{peop.name}</Typography>
+                    <Typography variant="h5">{peop.person ? peop.person.name : ''}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h5">{peop.datebirth}</Typography>
+                    <Typography variant="h5">{peop.person ? peop.person.dateOfBirth : ''}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h5">{peop.cccd}</Typography>
+                    <Typography variant="h5">{peop.person ? peop.person.identityCardNumber : ''}</Typography>
                   </TableCell>
                   <TableCell>
                     {
-                      <NavLink to="/chitietcudan">
+                      <NavLink to={"/chitietcudan/" + peop.personId}>
                         <button
                           style={{
                             backgroundColor: "transparent",

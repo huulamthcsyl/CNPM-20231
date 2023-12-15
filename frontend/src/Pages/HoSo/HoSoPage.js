@@ -308,7 +308,6 @@ function HoSoPage() {
             <Button
               variant="contained"
               style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
-              onClick={handleSend}
             >
               <Typography
                 variant="h5"

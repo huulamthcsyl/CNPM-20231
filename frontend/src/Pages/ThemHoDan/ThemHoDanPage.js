@@ -12,6 +12,9 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import ClassApi from '../../Api/Api'
+import AutoComplete from "../../Layout/component/AutoCompleteSearch";
+import { toast } from "react-toastify";
 const headers = [
   "STT",
   "Họ và tên",
@@ -21,12 +24,35 @@ const headers = [
   " ",
 ];
 function ThemHoDan() {
-  const [numberLine, setNumberLine] = useState(2);
+  const [ownerName, setOwnerName] = useState('')
+  const [address, setAddress] = useState('')
+  const [numberMember, setNumberMember] = useState(1)
+  const [numberLine, setNumberLine] = useState(1);
+  const personShrinkList = [];
+  const [personList, setPersonList] = useState([])
   var arr = [...Array(numberLine).keys()].map((i) => i + 1);
   useEffect(() => {
     arr = [...Array(numberLine).keys()].map((i) => i + 1);
-  }, [numberLine]);
-  console.log(arr);
+    ClassApi.GetAllPeople()
+      .then((res) => {
+        setPersonList(res.data);
+      })
+      .catch((err) => {
+        toast.error("lỗi 1");
+      });
+  }, [numberLine, ownerName]);
+  personList.map((person, index) => {
+    personShrinkList.push({
+      label: person.name,
+      code: person.identityCardNumber,
+      personId: person.personId,
+      residenceId: person.residenceId,
+    });
+  });
+  // console.log(arr);
+  const handleChangeName = (event) => {
+    setOwnerName(event.target.value)
+  };
   return (
     <Grid container spacing={2} padding="50px">
       <Grid item xs={12}>
@@ -38,18 +64,21 @@ function ThemHoDan() {
           container
           xs={12}
           direction="row"
-          style={{ alignItems: "center" }}
+          style={{ alignItems: "center", alignContent: 'center  ' }}
         >
-          <Grid item style={{ marginTop: "30px" }}>
+          <Grid item xs={5} sm={2.2}>
             <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
               Tên chủ hộ
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid item >
             <TextField
               style={{ width: "300px" }}
-              inputProps={{ style: { fontSize: "13px" } }}
+              inputProps={{ style: { fontSize: "15px" } }}
+              value={ownerName}
+              onChange={(e) => { setOwnerName(e.target.value) }}
             ></TextField>
+
           </Grid>
         </Grid>
         <Grid
@@ -59,7 +88,7 @@ function ThemHoDan() {
           direction="row"
           style={{ alignItems: "center" }}
         >
-          <Grid item>
+          <Grid item xs={5} sm={2.2}>
             <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
               Nơi thường trú
             </Typography>
@@ -67,7 +96,9 @@ function ThemHoDan() {
           <Grid item style={{ marginTop: "30px", marginBottom: "30px" }}>
             <TextField
               style={{ width: "500px" }}
-              inputProps={{ style: { fontSize: "13px" } }}
+              inputProps={{ style: { fontSize: "15px" } }}
+              value={address}
+              onChange={(e) => { setAddress(e.target.value) }}
             ></TextField>
           </Grid>
         </Grid>
@@ -96,14 +127,12 @@ function ThemHoDan() {
                 <TableRow key={index}>
                   <TableCell style={{ fontSize: "18px" }}>{index}</TableCell>
                   <TableCell>
-                    <input
-                      style={{
-                        fontSize: "18px",
-                        border: "none",
-                        width: "150px",
-                      }}
-                      type="text"
-                    />
+
+                    <AutoComplete
+                      optionList={personShrinkList}
+                      onChange={handleChangeName}
+                      width={250}
+                    ></AutoComplete>
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
                     <input

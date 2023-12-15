@@ -144,7 +144,7 @@ function NhanKhau() {
                   </TableCell>
                   <TableCell>
                     {
-                      <NavLink to="/chitietcudan">
+                      <NavLink to={"/chitietcudan/" + peop.personId}>
                         <button
                           style={{
                             backgroundColor: "transparent",

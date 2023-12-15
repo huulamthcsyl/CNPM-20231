@@ -61,15 +61,18 @@ function ChiTietPhuongTien({ PhuongTien }) {
           </Button>
         </NavLink>
       </Grid>
+
       <Grid item>
-        <Button
-          variant="contained"
-          style={{ backgroundColor: "red", margin: "30px 30px" }}
-        >
-          <Typography variant="h4" style={{ color: "black" }}>
-            Xóa phương tiện
-          </Typography>
-        </Button>
+        <NavLink to="/quanlyphuongtien">
+          <Button
+            variant="contained"
+            style={{ backgroundColor: "red", margin: "30px 30px" }}
+          >
+            <Typography variant="h4" style={{ color: "black" }}>
+              Xóa phương tiện
+            </Typography>
+          </Button>
+        </NavLink>
       </Grid>
     </Grid >
   )
