@@ -11,6 +11,11 @@ const headers = {
 class ClassApi {
   //****** ******/
   //Api Quan tri vien
+
+  getUser(){
+    return axios.get(API_BASE_URL + "/account/all", {headers: headers});
+  }
+
   //********** */
   //Api dang nhap
   PostLogin(account, password) {
