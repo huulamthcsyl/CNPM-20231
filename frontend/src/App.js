@@ -22,7 +22,7 @@ function App() {
                 path={route.path}
                 element={
                   <Layout>
-                    <ToastContainer position="bottom-center" />
+                    <ToastContainer autoClose={3000} hideProgressBar position="bottom-center" />
                     <Page />
                   </Layout>
                 }
