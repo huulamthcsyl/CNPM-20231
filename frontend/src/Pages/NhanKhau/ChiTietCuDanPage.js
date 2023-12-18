@@ -249,8 +249,8 @@ function ThemCuDan() {
                   <MenuItem value="Thường trú">
                     <Typography variant="h5">Thường trú</Typography>
                   </MenuItem>
-                  <MenuItem value="Tạm Vắng">
-                    <Typography variant="h5">Tạm vắng</Typography>
+                  <MenuItem value="Tạm Trú">
+                    <Typography variant="h5">Tạm trú</Typography>
                   </MenuItem>
                 </Select>
               </Grid>
