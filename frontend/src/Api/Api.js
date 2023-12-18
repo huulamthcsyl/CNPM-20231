@@ -159,7 +159,9 @@ class ClassApi {
   PostVehicleFee(vehiclefee) {
     return axios.post(API_BASE_URL + '/vehiclefee', vehiclefee, { headers });
   }
-  g
+  PostVehicleReceipts(vehiclereceipt) {
+    return axios.post(API_BASE_URL + '/vehiclereceipt', vehiclereceipt, { headers });
+  }
   /***** */
   //Api doi mat khau
   PutPassword(id, pass) {
