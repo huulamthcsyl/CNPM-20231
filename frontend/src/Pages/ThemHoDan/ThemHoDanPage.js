@@ -15,8 +15,8 @@ import { useEffect, useState } from "react";
 import ClassApi from '../../Api/Api'
 import AutoComplete from "../../Layout/component/AutoCompleteSearch";
 import { toast } from "react-toastify";
+import CustomRow from "./Row";
 const headers = [
-  "STT",
   "Họ và tên",
   "Ngày, tháng, năm sinh",
   "Số CMT/CCCD",
@@ -26,33 +26,38 @@ const headers = [
 function ThemHoDan() {
   const [ownerName, setOwnerName] = useState('')
   const [address, setAddress] = useState('')
-  const [numberMember, setNumberMember] = useState(1)
+  const [listMember, setListMember] = useState([])
   const [numberLine, setNumberLine] = useState(1);
-  const personShrinkList = [];
-  const [personList, setPersonList] = useState([])
-  var arr = [...Array(numberLine).keys()].map((i) => i + 1);
-  useEffect(() => {
-    arr = [...Array(numberLine).keys()].map((i) => i + 1);
-    ClassApi.GetAllPeople()
-      .then((res) => {
-        setPersonList(res.data);
-      })
-      .catch((err) => {
-        toast.error("lỗi 1");
-      });
-  }, [numberLine, ownerName]);
-  personList.map((person, index) => {
-    personShrinkList.push({
-      label: person.name,
-      code: person.identityCardNumber,
-      personId: person.personId,
-      residenceId: person.residenceId,
-    });
-  });
-  // console.log(arr);
-  const handleChangeName = (event) => {
-    setOwnerName(event.target.value)
+  const [arr, setArr] = useState([1])
+  const handlePost = () => {
+    ClassApi.PostResidence({
+      "residenceId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "memberNumber": listMember.length,
+      "address": address,
+      "ownerName": ownerName,
+      "people": listMember
+    }).then((response) => {
+      toast.info('Thành công')
+    })
+  }
+  var deleterow = (index) => {
+    const newArr = arr.filter((_, idx) => idx !== index - 1);
+    setArr(newArr)
+    const updatedList = listMember.filter((_, i) => i !== index);
+    setListMember(updatedList);
+    //  setNumberLine(numberLine - 1)
+  }
+  const handleAddRow = () => {
+    setArr([...arr, arr.length + 1]); // Thêm một phần tử mới vào mảng arr với giá trị tăng dần
   };
+  useEffect(() => {
+    setArr(Array.from({ length: numberLine }, (_, index) => index + 1)); // Tạo mảng mới từ 1 đến numberLine
+  }, [numberLine]);
+  const pushMember = (person) => {
+    setListMember([...listMember, person])
+    console.log([...listMember, person])
+  }
+
   return (
     <Grid container spacing={2} padding="50px">
       <Grid item xs={12}>
@@ -124,58 +129,7 @@ function ThemHoDan() {
             </TableHead>
             <TableBody>
               {arr.map((index) => (
-                <TableRow key={index}>
-                  <TableCell style={{ fontSize: "18px" }}>{index}</TableCell>
-                  <TableCell>
-
-                    <AutoComplete
-                      optionList={personShrinkList}
-                      onChange={handleChangeName}
-                      width={250}
-                    ></AutoComplete>
-                  </TableCell>
-                  <TableCell style={{ fontSize: "18px" }}>
-                    <input
-                      style={{ fontSize: "18px", border: "none" }}
-                      type="date"
-                    />
-                  </TableCell>
-                  <TableCell style={{ fontSize: "18px" }}>
-                    <input
-                      style={{
-                        fontSize: "18px",
-                        border: "none",
-                        width: "150px",
-                      }}
-                      type="text"
-                    ></input>
-                  </TableCell>
-                  <TableCell style={{ fontSize: "18px" }}>
-                    <select style={{ fontSize: "18px", border: "none" }}>
-                      <option>Chủ hộ</option>
-                      <option>Vợ</option>
-                      <option>Chồng</option>
-                      <option>Con</option>
-                      <option>Bố</option>
-                      <option>Mẹ</option>
-                      <option>Anh/chị/em</option>
-                    </select>
-                  </TableCell>
-                  <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
-                    <span style={{ color: "blue" }}>Chi tiết</span>|
-                    <button
-                      style={{
-                        backgroundColor: "transparent",
-                        fontSize: "18px",
-                      }}
-                      onClick={() => {
-                        setNumberLine(numberLine - 1);
-                      }}
-                    >
-                      <span style={{ color: "red" }}>Xóa</span>
-                    </button>
-                  </TableCell>
-                </TableRow>
+                <CustomRow key={index} index={index} ondelete={deleterow} handleAdd={pushMember} />
               ))}
             </TableBody>
           </Table>
@@ -185,7 +139,7 @@ function ThemHoDan() {
         <button
           style={{ backgroundColor: "transparent", cursor: "pointer" }}
           onClick={() => {
-            setNumberLine(numberLine + 1);
+            handleAddRow()
           }}
         >
           <Typography variant="h4" style={{ color: "red", cursor: "pointer" }}>
@@ -197,6 +151,7 @@ function ThemHoDan() {
         <Button
           variant="contained"
           style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+          onClick={handlePost}
         >
           <Typography variant="h4" style={{ color: "black" }}>
             Xác nhận

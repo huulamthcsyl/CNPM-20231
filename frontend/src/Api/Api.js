@@ -12,12 +12,12 @@ class ClassApi {
   //****** ******/
   //Api Quan tri vien
 
-  getUser(){
-    return axios.get(API_BASE_URL + "/account/all", {headers: headers});
+  getUser() {
+    return axios.get(API_BASE_URL + "/account/all", { headers: headers });
   }
 
-  registerUser(username, password){
-    return axios.post(API_BASE_URL + "/account/register", {username: username, password: password}, {headers: headers})
+  registerUser(username, password) {
+    return axios.post(API_BASE_URL + "/account/register", { username: username, password: password }, { headers: headers })
   }
 
   //********** */
@@ -102,6 +102,9 @@ class ClassApi {
   }
   PostResidence(residence) {
     return axios.post(API_BASE_URL + "/residence", residence, { headers });
+  }
+  PostResidence(residence) {
+    return axios.post(API_BASE_URL + '/residence', residence, { headers })
   }
   //api nhan khau
   GetInfoPerson(id) {
