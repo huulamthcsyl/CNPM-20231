@@ -12,6 +12,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import ClassApi from '../../Api/Api'
+import { useParams } from "react-router-dom";
 const headers = [
   "STT",
   "Họ và tên",
@@ -21,31 +23,40 @@ const headers = [
   " ",
 ];
 function ChiTietHoDan({ Hodan }) {
+  const id = useParams().id
   Hodan = {
-    chuho: "Nguyễn Văn A",
-    noithuongtru: "P10.02.10",
-    thanhvien: [
+    "residenceId": "76635a7e-2cc1-4428-8724-7f6fbbc57613",
+    "memberNumber": 1,
+    "address": "...",
+    "ownerName": "Hoàng",
+    "people": [
       {
-        hoten: "Nguyễn Văn A",
-        sinhnhat: "01/01/1970",
-        cccd: "0123456789",
-        quanhe: "Chồng",
-      },
-      {
-        hoten: "Lê Thị B",
-        sinhnhat: "01/01/1974",
-        cccd: "0123737379",
-        quanhe: "Vợ",
-      },
-    ],
+        "personId": "821cec81-33c9-45d9-819e-536f9a8e32b2",
+        "residenceId": "76635a7e-2cc1-4428-8724-7f6fbbc57613",
+        "name": "Hoàng",
+        "dateOfBirth": "2003-02-11T20:00:00",
+        "identityCardNumber": "232342432",
+        "gender": true,
+        "phoneNumber": "432432423432",
+        "homeTown": "Xã Quỳnh Yên, Huyện Quỳnh Lưu, Tỉnh Nghệ An",
+        "ownerRelationship": null,
+        "status": "Tạm Vắng"
+      }
+    ]
   };
+
   const [hodan, setHodan] = useState(Hodan);
-  const [numberLine, setNumberLine] = useState(hodan.thanhvien.length);
+  const [numberLine, setNumberLine] = useState(hodan.people.length);
   var arr = [...Array(numberLine).keys()].map((i) => i + 1);
   useEffect(() => {
     arr = [...Array(numberLine).keys()].map((i) => i + 1);
   }, [numberLine]);
   console.log(arr);
+  useEffect(() => {
+    ClassApi.GetResidenceById(id).then((response) => {
+      setHodan(response.data)
+    })
+  }, [])
   return (
     <Grid container spacing={2} padding="50px">
       <Grid item xs={12}>
@@ -68,7 +79,7 @@ function ChiTietHoDan({ Hodan }) {
             <TextField
               style={{ width: "300px" }}
               inputProps={{ style: { fontSize: "13px" } }}
-              value={hodan.chuho}
+              value={hodan.ownerName}
             ></TextField>
           </Grid>
         </Grid>
@@ -88,7 +99,7 @@ function ChiTietHoDan({ Hodan }) {
             <TextField
               style={{ width: "500px" }}
               inputProps={{ style: { fontSize: "13px" } }}
-              value={hodan.noithuongtru}
+              value={hodan.address}
             ></TextField>
           </Grid>
         </Grid>
@@ -125,8 +136,8 @@ function ChiTietHoDan({ Hodan }) {
                       }}
                       type="text"
                       value={
-                        hodan.thanhvien[index - 1] != undefined
-                          ? hodan.thanhvien[index - 1].hoten
+                        hodan.people[index - 1] != undefined
+                          ? hodan.people[index - 1].name
                           : ""
                       }
                     />
@@ -136,8 +147,8 @@ function ChiTietHoDan({ Hodan }) {
                       style={{ fontSize: "18px", border: "none" }}
                       type="date"
                       value={
-                        hodan.thanhvien[index - 1] != undefined
-                          ? hodan.thanhvien[index - 1].sinhnhat
+                        hodan.people[index - 1] != undefined
+                          ? hodan.people[index - 1].dateOfBirth
                           : ""
                       }
                     />
@@ -151,8 +162,8 @@ function ChiTietHoDan({ Hodan }) {
                       }}
                       type="text"
                       value={
-                        hodan.thanhvien[index - 1] != undefined
-                          ? hodan.thanhvien[index - 1].cccd
+                        hodan.people[index - 1] != undefined
+                          ? hodan.people[index - 1].identityCardNumber
                           : ""
                       }
                     ></input>
@@ -160,8 +171,8 @@ function ChiTietHoDan({ Hodan }) {
                   <TableCell style={{ fontSize: "18px" }}>
                     <select
                       value={
-                        hodan.thanhvien[index - 1] != undefined
-                          ? hodan.thanhvien[index - 1].quanhe
+                        hodan.people[index - 1] != undefined
+                          ? hodan.people[index - 1].ownerRelationship
                           : "Chủ hộ"
                       }
                       style={{ fontSize: "18px", border: "none" }}

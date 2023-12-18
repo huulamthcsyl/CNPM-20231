@@ -34,7 +34,9 @@ function CustomRow({ index, ondelete, handleAdd }) {
 
     // console.log(arr);
     const handleChangeName = (event, value) => {
-        handleAdd(value.person)
+        var personn = value.person
+        personn.ownerRelationship = relation
+        handleAdd(personn)
         setName(value.name)
         setBirth(value.birth ? value.birth.slice(0, 10) : birth)
         setIdentityCardNumber(value.code)

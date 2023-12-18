@@ -106,6 +106,7 @@ class ClassApi {
   PostResidence(residence) {
     return axios.post(API_BASE_URL + '/residence', residence, { headers })
   }
+
   //api nhan khau
   GetInfoPerson(id) {
     return axios.get(API_BASE_URL + "/person/" + id, { headers });
