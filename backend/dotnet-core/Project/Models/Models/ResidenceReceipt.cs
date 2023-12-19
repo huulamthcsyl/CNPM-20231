@@ -12,6 +12,7 @@ namespace Project.Models.Models
 
         // Properties
         public DateTime DateCreated { get; set; }
+        public string Address { get; set; }
         public int Amount { get; set; }
         public string? Description { get; set; }
 

@@ -73,7 +73,7 @@ namespace Project.Models
                     .WithMany(r => r.People)
                     .HasForeignKey(p => p.ResidenceId)
                     .HasConstraintName("Fk_Person_ResidenceId")
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.SetNull);
             });
 
             modelBuilder.Entity<AbsentPerson>(e =>
@@ -101,8 +101,6 @@ namespace Project.Models
 
                 e.Property(e => e.ResidenceId).ValueGeneratedNever();
 
-                e.Property(e => e.OwnerName).IsUnicode(true);
-
                 e.Property(e => e.Address).IsUnicode(true);
             });
 
@@ -120,7 +118,7 @@ namespace Project.Models
                     .WithMany(p => p.Records)
                     .HasForeignKey(e => e.PersonId)
                     .HasConstraintName("Fk_Record_PersonId")
-                    .OnDelete(DeleteBehavior.SetNull);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 e.HasOne(e => e.Residence)
                     .WithMany(p => p.Records)

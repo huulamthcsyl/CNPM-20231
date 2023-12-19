@@ -27,7 +27,7 @@ namespace Project.Controllers.ReceiptController
 
         // GET: api/residencereceipt/all
         [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<ResidenceReceiptInfo>>> GetResidenceReceipts()
+        public async Task<ActionResult<IEnumerable<ResidenceReceipt>>> GetResidenceReceipts()
         {
             if (_context.ResidenceReceipts == null)
             {
@@ -35,69 +35,15 @@ namespace Project.Controllers.ReceiptController
             }
             var residenceReceipts = await _context.ResidenceReceipts
                                     .Include(r => r.Person)
-                                    .ThenInclude(p => p.Residence)
-                                    .Include(r => r.ResidencePayments)
                                     .ToListAsync();
-            var receiptsInfor = new List<ResidenceReceiptInfo>();
 
-            foreach (var receipt in residenceReceipts)
-            {
-                receiptsInfor.Add(new ResidenceReceiptInfo
-                {
-                    ResidenceReceiptId = receipt.ResidenceReceiptId,
-                    PersonId = receipt.PersonId,
-                    DateCreated = receipt.DateCreated,
-                    Amount = receipt.Amount,
-                    Description = receipt.Description,
-                    ResidencePayments = receipt.ResidencePayments,
-                    Name = receipt.Person.Name,
-                    Address = receipt.Person.ResidenceId == null ? null : receipt.Person.Residence.Address
-                });
-            }
+            return residenceReceipts;
 
-            return receiptsInfor;
-
-        }
-
-
-        // GET: api/residencereceipt/[:id]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ResidenceReceiptInfo>> GetResidenceReceipt(Guid id)
-        {
-            if (_context.ResidenceReceipts == null)
-            {
-                return NotFound();
-            }
-
-            var residenceReceipt = await _context.ResidenceReceipts
-                                    .Include(r => r.Person)
-                                    .ThenInclude(person => person.Residence)
-                                    .Include(r => r.ResidencePayments)
-                                    .FirstOrDefaultAsync(r => r.ResidenceReceiptId == id);
-
-            if (residenceReceipt == null)
-            {
-                return NotFound();
-            }
-
-            var residenceReceiptInfor = new ResidenceReceiptInfo()
-            {
-                ResidenceReceiptId = residenceReceipt.ResidenceReceiptId,
-                PersonId = residenceReceipt.PersonId,
-                DateCreated = residenceReceipt.DateCreated,
-                Amount = residenceReceipt.Amount,
-                Description = residenceReceipt.Description,
-                ResidencePayments = residenceReceipt.ResidencePayments,
-                Name = residenceReceipt.Person.Name,
-                Address = residenceReceipt.Person.ResidenceId == null ? null : residenceReceipt.Person.Residence.Address
-            };
-
-            return residenceReceiptInfor;
         }
 
         // GET: api/residencereceipt?name={}&address={}&starttime={}&endtime={}
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ResidenceReceiptInfo>>> GetResidenceReceipts(string? name, string? address, DateTime? starttime, DateTime? endtime)
+        public async Task<ActionResult<IEnumerable<ResidenceReceipt>>> GetResidenceReceipts(string? name, string? address, DateTime? starttime, DateTime? endtime)
         {
             if (_context.ResidenceReceipts == null)
             {
@@ -111,34 +57,63 @@ namespace Project.Controllers.ReceiptController
 
             var residenceReceipts = await _context.ResidenceReceipts
                                         .Include (r => r.Person)
-                                        .ThenInclude(p => p.Residence)
-                                        .Include(r => r.ResidencePayments)
                                         .Where(p => p.Person.Name.Contains(name)
-                                                    && p.Person.Residence.Address.Contains(address)
+                                                    && p.Address.Contains(address)
                                                     && starttime <= p.DateCreated
                                                     && p.DateCreated <= endtime)
                                         .ToListAsync();
 
-            var receiptsInfor = new List<ResidenceReceiptInfo>();
-
-            foreach (var receipt in residenceReceipts)
-            {
-                receiptsInfor.Add(new ResidenceReceiptInfo
-                {
-                    ResidenceReceiptId = receipt.ResidenceReceiptId,
-                    PersonId = receipt.PersonId,
-                    DateCreated = receipt.DateCreated,
-                    Amount = receipt.Amount,
-                    Description = receipt.Description,
-                    ResidencePayments = receipt.ResidencePayments,
-                    Name = receipt.Person.Name,
-                    Address = receipt.Person.ResidenceId == null ? null : receipt.Person.Residence.Address
-                });
-            }
-
-            return receiptsInfor;
+            return residenceReceipts;
         }
 
+        // GET: api/residencereceipt?name={}&address={}&starttime={}&endtime={}&id={}
+        [HttpGet("feeid")]
+        public async Task<ActionResult<IEnumerable<ResidenceReceipt>>> GetResidenceReceipts(string? name, string? address, DateTime? starttime, DateTime? endtime, Guid id)
+        {
+            if (_context.ResidenceReceipts == null)
+            {
+                return NotFound();
+            }
+
+            name = name ?? string.Empty;
+            address = address ?? string.Empty;
+            starttime = starttime ?? DateTime.MinValue;
+            endtime = endtime ?? DateTime.MaxValue;
+
+            var residenceReceipts = await _context.ResidenceReceipts
+                                        .Include(r => r.Person)
+                                        .Include(r => r.ResidencePayments)
+                                        .Where(p => p.ResidencePayments.Any(r => r.ResidenceFeeId == id)
+                                                    && p.Person.Name.Contains(name)
+                                                    && p.Address.Contains(address)
+                                                    && starttime <= p.DateCreated
+                                                    && p.DateCreated <= endtime)
+                                        .ToListAsync();
+     
+            return residenceReceipts;
+        }
+
+        // GET: api/residencereceipt/[:id]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ResidenceReceipt>> GetResidenceReceipt(Guid id)
+        {
+            if (_context.ResidenceReceipts == null)
+            {
+                return NotFound();
+            }
+
+            var residenceReceipt = await _context.ResidenceReceipts
+                                    .Include(r => r.Person)
+                                    .Include(r => r.ResidencePayments)
+                                    .FirstOrDefaultAsync(r => r.ResidenceReceiptId == id);
+
+            if (residenceReceipt == null)
+            {
+                return NotFound();
+            }
+
+            return residenceReceipt;
+        }
 
         //PUT: api/residencereceipt/[:id]
         [HttpPut("{id}")]
@@ -157,6 +132,7 @@ namespace Project.Controllers.ReceiptController
             currentReceipt.Amount = newReceipt.Amount;
             currentReceipt.DateCreated = newReceipt.DateCreated;
             currentReceipt.Description = newReceipt.Description;
+            currentReceipt.Address = newReceipt.Address;
 
             // Get removed | added payments
             var removedPayments = currentReceipt.ResidencePayments

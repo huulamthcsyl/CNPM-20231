@@ -6,7 +6,5 @@ namespace Project.Models.Services
     {
         public int PaidQuantity { get; set; }
         public int Total { get; set; }
-        public ICollection<VehicleReceiptInfo>? vehicleReceipts { get; set; }
-
     }
 }

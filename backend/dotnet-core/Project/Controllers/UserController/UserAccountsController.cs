@@ -40,7 +40,7 @@ namespace Project.Controllers.UserController
             {
                 return NotFound();
             }
-            var userAccounts = await _context.UserAccounts.Where(u => u.UserName != "admin").ToListAsync();
+            var userAccounts = await _context.UserAccounts.Where(u => u.Role != "admin").ToListAsync();
 
             return userAccounts;
         }
@@ -62,16 +62,16 @@ namespace Project.Controllers.UserController
             }
             else
             {
-                if (account.UserName == "admin")
+                if (account.Role == "admin")
                     return Ok(new
                     {
                         Success = true,
                         Message = "Success",
+                        Role = "admin",
                         Data = new
                         {
                             Token = GenerateToken(account, "admin"),
                             Id = user.UserId,
-                            Role = "admin"
                         }
                     });;;
 
@@ -79,11 +79,11 @@ namespace Project.Controllers.UserController
                 {
                     Success = true,
                     Message = "Success",
+                    Role = "user",
                     Data = new
                     {
                         Token = GenerateToken(account, "user"),
                         Id = user.UserId,
-                        Role = "user"
                     }
                 });;
             }
@@ -129,7 +129,8 @@ namespace Project.Controllers.UserController
 
         // POST: api/account/register
         [HttpPost("register")]
-        [Authorize(Roles = "admin")]
+        [AllowAnonymous]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> PostUserAccount(UserAccount userAccount)
         {
             if (_context.UserAccounts == null)
@@ -139,7 +140,7 @@ namespace Project.Controllers.UserController
             var account = await _context.UserAccounts.FirstOrDefaultAsync(p => p.UserName == userAccount.UserName);
             if (account != null)
             {
-                return Problem("username existed");
+                return StatusCode(400, "username existed");
             }
             userAccount.UserId = Guid.NewGuid();
             userAccount.Password = EncryptMD5(userAccount.Password);

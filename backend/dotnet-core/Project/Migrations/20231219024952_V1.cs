@@ -18,7 +18,7 @@ namespace Project.Migrations
                     ResidenceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MemberNumber = table.Column<int>(type: "int", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OwnerName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,7 +45,8 @@ namespace Project.Migrations
                 {
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -87,7 +88,8 @@ namespace Project.Migrations
                         name: "Fk_Person_ResidenceId",
                         column: x => x.ResidenceId,
                         principalTable: "Residence",
-                        principalColumn: "ResidenceId");
+                        principalColumn: "ResidenceId",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,7 +154,7 @@ namespace Project.Migrations
                         column: x => x.PersonId,
                         principalTable: "Person",
                         principalColumn: "PersonId",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "Fk_Record_ResidenceId",
                         column: x => x.ResidenceId,
@@ -168,6 +170,7 @@ namespace Project.Migrations
                     ResidenceReceiptId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Amount = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },

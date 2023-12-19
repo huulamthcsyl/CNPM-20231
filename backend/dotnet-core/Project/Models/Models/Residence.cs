@@ -10,7 +10,7 @@ namespace Project.Models.Models
         // Properties
         public int MemberNumber { get; set; }
         public string Address { get; set; }
-        public string OwnerName { get; set; }
+        public Guid OwnerId { get; set; }
 
         // Navigation properties
         [JsonIgnore]

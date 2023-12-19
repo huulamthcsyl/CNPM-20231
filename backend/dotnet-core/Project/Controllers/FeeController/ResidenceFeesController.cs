@@ -104,30 +104,6 @@ namespace Project.Controllers.FeeController
                 return NotFound();
             }
 
-            var receipts = await _context.ResidenceReceipts
-                            .Include(r => r.Person)
-                            .ThenInclude(p => p.Residence)
-                            .ToListAsync();
-
-            var filterReceipts = receipts.Where(p => residenceFee.ResidencePayments.Any(r => r.ResidenceReceiptId == p.ResidenceReceiptId)).ToList();
-            
-            var receiptsInfo = new List<ResidenceReceiptInfo>();
-
-            foreach(var receipt in filterReceipts)
-            {
-                receiptsInfo.Add(new ResidenceReceiptInfo
-                {
-                    ResidenceReceiptId = receipt.ResidenceReceiptId,
-                    PersonId = receipt.PersonId,
-                    DateCreated = receipt.DateCreated,
-                    Amount = receipt.Amount,
-                    Description = receipt.Description,
-                    ResidencePayments = receipt.ResidencePayments,
-                    Name = receipt.Person.Name,
-                    Address = receipt.Person.Residence == null ? null : receipt.Person.Residence.Address
-                });
-            }
-
             var residenceFeeInfo = new ResidenceFeeInfo 
             {
                 ResidenceFeeId = residenceFee.ResidenceFeeId,
@@ -136,7 +112,6 @@ namespace Project.Controllers.FeeController
                 Cost = residenceFee.Cost,
                 PaidQuantity = residenceFee.ResidencePayments.Count(),
                 Total = residenceFee.ResidencePayments.Sum(p => p.Amount),
-                residenceReceipts = receiptsInfo
             };
 
             return residenceFeeInfo;
@@ -144,34 +119,34 @@ namespace Project.Controllers.FeeController
 
 
         // PUT: api/residencefee/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutResidenceFee(Guid id, ResidenceFee residenceFee)
-        {
-            if (id != residenceFee.ResidenceFeeId)
-            {
-                return BadRequest();
-            }
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutResidenceFee(Guid id, ResidenceFee residenceFee)
+        //{
+        //    if (id != residenceFee.ResidenceFeeId)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            _context.Entry(residenceFee).State = EntityState.Modified;
+        //    _context.Entry(residenceFee).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ResidenceFeeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!ResidenceFeeExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
 
         // POST: api/residencefee
@@ -181,6 +156,11 @@ namespace Project.Controllers.FeeController
             if (_context.ResidenceFees == null)
             {
                 return Problem("Entity set 'ProjectContext.ResidenceFees'  is null.");
+            }
+            var fee = await _context.ResidenceFees.FirstOrDefaultAsync(f => f.Name == residenceFee.Name);
+            if (fee != null)
+            {
+                return StatusCode(400, "Khoản thu đã tồn tại");
             }
             residenceFee.ResidenceFeeId = Guid.NewGuid();
             _context.ResidenceFees.Add(residenceFee);

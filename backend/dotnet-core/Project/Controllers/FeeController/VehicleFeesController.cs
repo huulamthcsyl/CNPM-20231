@@ -70,30 +70,7 @@ namespace Project.Controllers.FeeController
                 return NotFound();
             }
 
-            var receipts = await _context.VehicleReceipts
-                            .Include(r => r.Vehicle)
-                            .ThenInclude(v => v.Person)
-                            .ToListAsync();
-
-            var filterReceipts = receipts.Where(p => vehicleFee.VehiclePayments.Any(r => r.VehicleReceiptId == p.VehicleReceiptId)).ToList();
-
-            var obj = new List<VehicleReceiptInfo>();
-
-            foreach(var receipt in filterReceipts)
-            {
-                obj.Add(new VehicleReceiptInfo
-                {
-                    VehicleReceiptId = receipt.VehicleReceiptId,
-                    VehicleId = receipt.VehicleId,
-                    DateCreated = receipt.DateCreated,
-                    Amount = receipt.Amount,
-                    Description = receipt.Description,
-                    VehiclePayments = receipt.VehiclePayments,
-                    LicensePlate = receipt.Vehicle.LicensePlate,
-                    OwnerName = receipt.Vehicle.Person.Name
-                }); 
-            }
-
+       
             var vehicleFeeInfo = new VehicleFeeInfo
             {
                 VehicleFeeId = vehicleFee.VehicleFeeId,
@@ -101,7 +78,6 @@ namespace Project.Controllers.FeeController
                 Cost = vehicleFee.Cost,
                 PaidQuantity = vehicleFee.VehiclePayments.Count(),
                 Total = vehicleFee.VehiclePayments.Sum(p => p.Amount),
-                vehicleReceipts = obj
             };
 
             return vehicleFeeInfo;
@@ -142,34 +118,34 @@ namespace Project.Controllers.FeeController
 
 
         // PUT: api/vehiclefee/[:id]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutVehicleFee(Guid id, VehicleFee vehicleFee)
-        {
-            if (id != vehicleFee.VehicleFeeId)
-            {
-                return BadRequest();
-            }
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutVehicleFee(Guid id, VehicleFee vehicleFee)
+        //{
+        //    if (id != vehicleFee.VehicleFeeId)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            _context.Entry(vehicleFee).State = EntityState.Modified;
+        //    _context.Entry(vehicleFee).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!VehicleFeeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!VehicleFeeExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
 
         // POST: api/vehiclefee
@@ -179,6 +155,11 @@ namespace Project.Controllers.FeeController
             if (_context.VehicleFees == null)
             {
                 return Problem("Entity set 'ProjectContext.VehicleFees'  is null.");
+            }
+            var fee = await _context.VehicleFees.FirstOrDefaultAsync(f => f.Name == vehicleFee.Name);
+            if (fee != null)
+            {
+                return StatusCode(400, "Khoản thu đã tồn tại");
             }
 
             vehicleFee.VehicleFeeId = Guid.NewGuid();

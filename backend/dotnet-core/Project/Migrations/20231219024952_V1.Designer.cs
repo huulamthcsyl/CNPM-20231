@@ -12,7 +12,7 @@ using Project.Models;
 namespace Project.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20231115132421_V1")]
+    [Migration("20231219024952_V1")]
     partial class V1
     {
         /// <inheritdoc />
@@ -138,10 +138,8 @@ namespace Project.Migrations
                     b.Property<int>("MemberNumber")
                         .HasColumnType("int");
 
-                    b.Property<string>("OwnerName")
-                        .IsRequired()
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ResidenceId")
                         .HasName("PK_Residence_ResidenceId");
@@ -194,6 +192,10 @@ namespace Project.Migrations
                     b.Property<Guid>("ResidenceReceiptId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
@@ -221,6 +223,10 @@ namespace Project.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -369,7 +375,7 @@ namespace Project.Migrations
                     b.HasOne("Project.Models.Models.Residence", "Residence")
                         .WithMany("People")
                         .HasForeignKey("ResidenceId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("Fk_Person_ResidenceId");
 
                     b.Navigation("Residence");
@@ -380,7 +386,7 @@ namespace Project.Migrations
                     b.HasOne("Project.Models.Models.Person", "Person")
                         .WithMany("Records")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("Fk_Record_PersonId");
 
                     b.HasOne("Project.Models.Models.Residence", "Residence")
@@ -511,8 +517,7 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.Models.UserAccount", b =>
                 {
-                    b.Navigation("UserInfo")
-                        .IsRequired();
+                    b.Navigation("UserInfo");
                 });
 
             modelBuilder.Entity("Project.Models.Models.Vehicle", b =>
