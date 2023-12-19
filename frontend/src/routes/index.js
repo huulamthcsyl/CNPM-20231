@@ -59,4 +59,4 @@ const publicRoutes = [
   { path: '/themquantrivien', component: ThemQTVPage, layout: QTVLayout }
 ];
 
-export { publicRoutes };
+export { publicRoutes };  
