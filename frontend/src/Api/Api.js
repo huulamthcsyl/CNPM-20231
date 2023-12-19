@@ -162,6 +162,22 @@ class ClassApi {
   PostVehicleReceipts(vehiclereceipt) {
     return axios.post(API_BASE_URL + '/vehiclereceipt', vehiclereceipt, { headers });
   }
+
+  GetAllVehicleReceipt() {
+    return axios.get(API_BASE_URL + "/vehiclereceipt/all", { headers });
+  }
+  FindVehicleReceipt(lisensePlate, starttime, endtime) {
+    return axios.get(
+      API_BASE_URL +
+      "/vehicle?licenseplate=" +
+      lisensePlate +
+      "&starttime=" +
+      starttime +
+      "&endtime=" +
+      endtime,
+      { headers }
+    );
+  }
   /***** */
   //Api doi mat khau
   PutPassword(id, pass) {
