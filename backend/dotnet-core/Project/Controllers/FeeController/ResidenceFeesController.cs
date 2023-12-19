@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
 using Project.Models.Models;
-using Project.Models.Services;
 
 namespace Project.Controllers.FeeController
 {
@@ -26,7 +25,7 @@ namespace Project.Controllers.FeeController
 
         // GET: api/residencefee/all
         [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<ResidenceFeeInfo>>> GetResidenceFees()
+        public async Task<ActionResult<IEnumerable<object>>> GetResidenceFees()
         {
             if (_context.ResidenceFees == null)
             {
@@ -36,11 +35,11 @@ namespace Project.Controllers.FeeController
             var fees = await _context.ResidenceFees
                         .Include(r => r.ResidencePayments)
                         .ToListAsync();
-            var feesInfo = new List<ResidenceFeeInfo>();
+            var feesInfo = new List<object>();
 
             foreach (var fee in fees)
             {
-                feesInfo.Add(new ResidenceFeeInfo
+                feesInfo.Add(new
                 {
                     ResidenceFeeId = fee.ResidenceFeeId,
                     Name = fee.Name,
@@ -56,7 +55,7 @@ namespace Project.Controllers.FeeController
 
         // GET: api/residencefee?name=
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ResidenceFeeInfo>>> GetResidenceFee(string? name)
+        public async Task<ActionResult<IEnumerable<object>>> GetResidenceFee(string? name)
         {
             if (_context.ResidenceFees == null)
             {
@@ -68,11 +67,11 @@ namespace Project.Controllers.FeeController
             var fees = await _context.ResidenceFees
                     .Include (r => r.ResidencePayments)
                     .Where(p => p.Name.Contains(name)).ToListAsync();
-            var feesInfo = new List<ResidenceFeeInfo>();
+            var feesInfo = new List<object>();
 
             foreach (var fee in fees)
             {
-                feesInfo.Add(new ResidenceFeeInfo
+                feesInfo.Add(new
                 {
                     ResidenceFeeId = fee.ResidenceFeeId,
                     Name = fee.Name,
@@ -87,7 +86,7 @@ namespace Project.Controllers.FeeController
 
         // GET: api/residencefee/{:id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<ResidenceFeeInfo>> GetResidenceFee(Guid id)
+        public async Task<ActionResult<object>> GetResidenceFee(Guid id)
         {
             if (_context.ResidenceFees == null)
             {
@@ -104,7 +103,7 @@ namespace Project.Controllers.FeeController
                 return NotFound();
             }
 
-            var residenceFeeInfo = new ResidenceFeeInfo 
+            var residenceFeeInfo = new  
             {
                 ResidenceFeeId = residenceFee.ResidenceFeeId,
                 Name = residenceFee.Name,

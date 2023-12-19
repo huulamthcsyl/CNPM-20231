@@ -13,8 +13,9 @@ namespace Project.Models.Models
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string? Reason { get; set; }
-       
+
         // Navigation properties
+        [JsonIgnore]
         public virtual Person? Person { get; set; }
     }
 }

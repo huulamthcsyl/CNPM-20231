@@ -13,7 +13,6 @@ using Microsoft.IdentityModel.Tokens;
 using Project.Models;
 using Project.Models.Models;
 using System.Security.Claims;
-using Project.Models.Services;
 using Microsoft.AspNetCore.Authorization;
 using XSystem.Security.Cryptography;
 
@@ -47,7 +46,7 @@ namespace Project.Controllers.UserController
 
         [HttpPost("Login")]
         [AllowAnonymous]
-        public async Task<IActionResult> Logins(UserAccount account)
+        public async Task<IActionResult> Logins(Login account)
         {
             var md5Password = EncryptMD5(account.Password);
             var user = await _context.UserAccounts.FirstOrDefaultAsync(p =>
@@ -62,7 +61,7 @@ namespace Project.Controllers.UserController
             }
             else
             {
-                if (account.Role == "admin")
+                if (user.Role == "admin")
                     return Ok(new
                     {
                         Success = true,
@@ -70,7 +69,7 @@ namespace Project.Controllers.UserController
                         Role = "admin",
                         Data = new
                         {
-                            Token = GenerateToken(account, "admin"),
+                            Token = GenerateToken(user),
                             Id = user.UserId,
                         }
                     });;;
@@ -82,7 +81,7 @@ namespace Project.Controllers.UserController
                     Role = "user",
                     Data = new
                     {
-                        Token = GenerateToken(account, "user"),
+                        Token = GenerateToken(user),
                         Id = user.UserId,
                     }
                 });;
@@ -100,7 +99,7 @@ namespace Project.Controllers.UserController
             }
 
             var userAccount = await _context.UserAccounts.FindAsync(id);
-            if (userAccount.Password != EncryptMD5(password.OldPassWord))
+            if (userAccount.Password != EncryptMD5(password.OldPassword))
             {
                 return StatusCode(201, new
                 {
@@ -110,7 +109,7 @@ namespace Project.Controllers.UserController
             }
             else
             {
-                userAccount.Password = EncryptMD5(password.NewPassWord);
+                userAccount.Password = EncryptMD5(password.NewPassword);
                 try
                 {
                     await _context.SaveChangesAsync();
@@ -129,8 +128,7 @@ namespace Project.Controllers.UserController
 
         // POST: api/account/register
         [HttpPost("register")]
-        [AllowAnonymous]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> PostUserAccount(UserAccount userAccount)
         {
             if (_context.UserAccounts == null)
@@ -140,7 +138,7 @@ namespace Project.Controllers.UserController
             var account = await _context.UserAccounts.FirstOrDefaultAsync(p => p.UserName == userAccount.UserName);
             if (account != null)
             {
-                return StatusCode(400, "username existed");
+                return StatusCode(400, "Tài khoản đã tồn tại");
             }
             userAccount.UserId = Guid.NewGuid();
             userAccount.Password = EncryptMD5(userAccount.Password);
@@ -215,7 +213,7 @@ namespace Project.Controllers.UserController
             return (_context.UserAccounts?.Any(e => e.UserId == id)).GetValueOrDefault();
         }
 
-        private string GenerateToken(UserAccount userAccount, string role)
+        private string GenerateToken(UserAccount userAccount)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
             var secretKeyBytes = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]);
@@ -226,7 +224,7 @@ namespace Project.Controllers.UserController
                     new Claim("UserName", userAccount.UserName),
                     new Claim("Id", userAccount.UserId.ToString()),
                     new Claim("TokenId", Guid.NewGuid().ToString()),
-                    new Claim(ClaimTypes.Role, role)
+                    new Claim(ClaimTypes.Role, userAccount.Role)
                 }),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials

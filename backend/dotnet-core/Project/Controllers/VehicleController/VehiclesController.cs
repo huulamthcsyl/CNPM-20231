@@ -31,19 +31,22 @@ namespace Project.Controllers.VehicleController
             {
                 return NotFound();
             }
-            var all = await _context.Vehicles.ToListAsync();
-            var list= new List<object>();
-            foreach (var vehicle in all)
+            var vehicles = await _context.Vehicles.Include(v => v.Person).ToListAsync();
+
+            var listVehicle = new List<object>();
+
+            foreach (var vehicle in vehicles)
             {
-                var user = await _context.People.FirstOrDefaultAsync(u => u.PersonId == vehicle.PersonId);
-                var obj = new
+                listVehicle.Add(new
                 {
-                    vehicle = vehicle,
-                    name = user?.Name,
-                };
-                list.Add(obj);
+                    vehicleId = vehicle.VehicleId,
+                    category = vehicle.Category,
+                    licensePlate = vehicle.LicensePlate,
+                    ownerName = vehicle.Person.Name
+                });
             }
-            return list;
+
+            return listVehicle;
         }
 
 
@@ -66,18 +69,21 @@ namespace Project.Controllers.VehicleController
                                             && p.Category.Contains(category)
                                             && p.Person.Name.Contains(ownerName))
                                 .ToListAsync();
-            var list = new List<object>();
+
+            var listVehicle = new List<object>();
+
             foreach (var vehicle in vehicles)
             {
-                var user = await _context.People.FirstOrDefaultAsync(u => u.PersonId == vehicle.PersonId);
-                var obj = new
+                listVehicle.Add(new
                 {
-                    vehicle = vehicle,
-                    name = user?.Name,
-                };
-                list.Add(obj);
+                    vehicleId = vehicle.VehicleId,
+                    category = vehicle.Category,
+                    licensePlate = vehicle.LicensePlate,
+                    ownerName = vehicle.Person.Name
+                });
             }
-            return list;
+
+            return listVehicle;
 
         }
         [HttpGet("id")]
@@ -88,18 +94,17 @@ namespace Project.Controllers.VehicleController
                 return NotFound();
             }
             
-            var vehicles = await _context.Vehicles.FirstOrDefaultAsync(vehicles => vehicles.VehicleId == id);
-         
-                var user = await _context.People.FirstOrDefaultAsync(u => u.PersonId == vehicles.PersonId);
-                var obj = new
-                {
-                    vehicle = vehicles,
-                    name = user?.Name,
-                };
-                
-            
-            return obj;
+            var vehicle = await _context.Vehicles.Include(v => v.Person).FirstOrDefaultAsync(v => v.VehicleId == id);
 
+            var vehicleInfo = new
+            {
+                vehicleId = vehicle.VehicleId,
+                category = vehicle.Category,
+                licensePlate = vehicle.LicensePlate,
+                ownerName = vehicle.Person.Name
+            };
+
+            return vehicleInfo;
         }
 
         // PUT: api/vehicle/[:id]

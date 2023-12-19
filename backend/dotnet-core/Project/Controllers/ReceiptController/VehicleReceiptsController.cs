@@ -9,7 +9,6 @@ using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
 using Project.Models.Models;
-using Project.Models.Services;
 
 namespace Project.Controllers.ReceiptController
 {
@@ -28,7 +27,7 @@ namespace Project.Controllers.ReceiptController
 
         // GET: api/vehiclereceipt/all
         [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<VehicleReceipt>>> GetVehicleReceipts()
+        public async Task<ActionResult<IEnumerable<object>>> GetVehicleReceipts()
         {
             if (_context.VehicleReceipts == null)
             {
@@ -36,38 +35,77 @@ namespace Project.Controllers.ReceiptController
             }
             var vehicleReceipts = await _context.VehicleReceipts
                             .Include(r => r.Vehicle)
+                            .ThenInclude(v => v.Person)
                             .ToListAsync();
-            
 
-            return vehicleReceipts;
+            var listReceipt = new List<object>();
+
+            foreach (var receipt in vehicleReceipts)
+            {
+                listReceipt.Add(new
+                {
+                    vehicleReceiptId = receipt.VehicleReceiptId,
+                    dateCreated = receipt.DateCreated,
+                    amount = receipt.Amount,
+                    description = receipt.Description,
+                    licensePlate = receipt.Vehicle.LicensePlate,
+                    personName = receipt.Vehicle.Person.Name
+                });
+            }
+
+            return listReceipt;
         }
 
 
         // GET: api/vehiclereceipt/[:id]
         [HttpGet("{id}")]
-        public async Task<ActionResult<VehicleReceipt>> GetVehicleReceipt(Guid id)
+        public async Task<ActionResult<object>> GetVehicleReceipt(Guid id)
         {
             if (_context.VehicleReceipts == null)
             {
                 return NotFound();
             }
             var vehicleReceipt = await _context.VehicleReceipts
-                .Include(r => r.Vehicle)
-                .Include(r => r.VehiclePayments)
-                .FirstOrDefaultAsync(r => r.VehicleReceiptId == id);
+                                        .Include(r => r.Vehicle)
+                                        .ThenInclude(v => v.Person)
+                                        .Include(r => r.VehiclePayments)
+                                        .ThenInclude(vp => vp.VehicleFee)
+                                        .FirstOrDefaultAsync(r => r.VehicleReceiptId == id);
 
             if (vehicleReceipt == null)
             {
                 return NotFound();
             }
 
-            return vehicleReceipt;
+            var listPayment = new List<object>();
+
+            foreach (var payment in vehicleReceipt.VehiclePayments)
+            {
+                listPayment.Add(new
+                {
+                    amount = payment.Amount,
+                    feeName = payment.VehicleFee.Name
+                });
+            };
+
+            var receipt = new
+            {
+                vehicleReceiptId = vehicleReceipt.VehicleReceiptId,
+                dateCreated = vehicleReceipt.DateCreated,
+                amount = vehicleReceipt.Amount,
+                description = vehicleReceipt.Description,
+                licensePlate = vehicleReceipt.Vehicle.LicensePlate,
+                personName = vehicleReceipt.Vehicle.Person.Name,
+                listPayment = listPayment
+            };
+
+            return receipt;
         }
 
 
-        // GET: api/vehiclereceipt?licenseplate={}&address={}&starttime={}&endtime={}
+        // GET: api/vehiclereceipt?licenseplate={}&name={}&starttime={}&endtime={}
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VehicleReceipt>>> GetResidenceReceipts(string? licenseplate, DateTime? starttime, DateTime? endtime)
+        public async Task<ActionResult<IEnumerable<object>>> GetResidenceReceipts(string? licenseplate, string? name, DateTime? starttime, DateTime? endtime)
         {
             if (_context.ResidenceReceipts == null)
             {
@@ -75,22 +113,40 @@ namespace Project.Controllers.ReceiptController
             }
 
             licenseplate = licenseplate ?? string.Empty;
+            name = name ?? string.Empty;
             starttime = starttime ?? DateTime.MinValue;
             endtime = endtime ?? DateTime.MaxValue;
 
             var vehicleReceipts = await _context.VehicleReceipts
                                             .Include(r => r.Vehicle)
+                                            .ThenInclude(v => v.Person)
                                             .Where(p => p.Vehicle.LicensePlate.Contains(licenseplate)
+                                                    && p.Vehicle.Person.Name.Contains(name)
                                                     && starttime <= p.DateCreated
                                                     && p.DateCreated <= endtime)
                                             .ToListAsync();
 
-            return vehicleReceipts;
+            var listReceipt = new List<object>();
+
+            foreach (var receipt in vehicleReceipts)
+            {
+                listReceipt.Add(new
+                {
+                    vehicleReceiptId = receipt.VehicleReceiptId,
+                    dateCreated = receipt.DateCreated,
+                    amount = receipt.Amount,
+                    description = receipt.Description,
+                    licensePlate = receipt.Vehicle.LicensePlate,
+                    personName = receipt.Vehicle.Person.Name
+                });
+            }
+
+            return listReceipt;
         }
 
-        // GET: api/vehiclereceipt?licenseplate={}&address={}&starttime={}&endtime={}&id=
+        // GET: api/vehiclereceipt?licenseplate={}&name={}&starttime={}&endtime={}&id=
         [HttpGet("feeid")]
-        public async Task<ActionResult<IEnumerable<VehicleReceipt>>> GetResidenceReceipts(string? licenseplate, DateTime? starttime, DateTime? endtime, Guid id)
+        public async Task<ActionResult<IEnumerable<object>>> GetResidenceReceipts(string? licenseplate, string? name,  DateTime? starttime, DateTime? endtime, Guid id)
         {
             if (_context.ResidenceReceipts == null)
             {
@@ -98,19 +154,37 @@ namespace Project.Controllers.ReceiptController
             }
 
             licenseplate = licenseplate ?? string.Empty;
+            name = name ?? string.Empty;
             starttime = starttime ?? DateTime.MinValue;
             endtime = endtime ?? DateTime.MaxValue;
 
             var vehicleReceipts = await _context.VehicleReceipts
                                             .Include(r => r.Vehicle)
+                                            .ThenInclude(v => v.Person)
                                             .Include(v => v.VehiclePayments)
                                             .Where(p => p.VehiclePayments.Any(vp => vp.VehicleFeeId == id)
                                                     && p.Vehicle.LicensePlate.Contains(licenseplate)
+                                                    && p.Vehicle.Person.Name.Contains(name)
                                                     && starttime <= p.DateCreated
                                                     && p.DateCreated <= endtime)
                                             .ToListAsync();
 
-            return vehicleReceipts;
+            var listReceipt = new List<object>();
+
+            foreach (var receipt in vehicleReceipts)
+            {
+                listReceipt.Add(new
+                {
+                    vehicleReceiptId = receipt.VehicleReceiptId,
+                    dateCreated = receipt.DateCreated,
+                    amount = receipt.Amount,
+                    description = receipt.Description,
+                    licensePlate = receipt.Vehicle.LicensePlate,
+                    personName = receipt.Vehicle.Person.Name
+                });
+            }
+
+            return listReceipt;
         }
 
 

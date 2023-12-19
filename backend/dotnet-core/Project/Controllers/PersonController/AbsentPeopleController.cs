@@ -25,44 +25,52 @@ namespace Project.Controllers.PersonController
 
         // GET: api/absent/all
         [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<AbsentPerson>>> GetAbsentPeople()
+        public async Task<ActionResult<IEnumerable<object>>> GetAbsentPeople()
         {
             if (_context.AbsentPeople == null)
             {
                 return NotFound();
             }
-            return await _context.AbsentPeople.Include(ap => ap.Person).ToListAsync();
+            var absentPeople = await _context.AbsentPeople.Include(ap => ap.Person).ToListAsync();
+
+            var listAbsent = new List<object>();
+
+            foreach (var absentperson in absentPeople)
+            {
+                listAbsent.Add(new
+                {
+                    absent = absentperson,
+                    person = absentperson.Person
+                });
+            }
+            return listAbsent;
         }
 
 
         // GET: api/absent/[:id]
         [HttpGet()]
-        public async Task<ActionResult<AbsentPerson>> GetAbsentPerson(Guid id)
+        public async Task<ActionResult<object>> GetAbsentPerson(Guid id)
         {
             if (_context.AbsentPeople == null)
             {
                 return NotFound();
             }
-            var absentPeople = await _context.AbsentPeople
+            var absentPerson = await _context.AbsentPeople
                             .Include(p => p.Person)
                             .FirstOrDefaultAsync(p => p.AbsentPersonId == id);
 
-            return absentPeople;
-        }
-        [HttpGet("PersonByCCCD")]
-        public async Task<ActionResult<object>> GetPerson(string cccd)
-        {
-            if (_context.People == null)
+            var absent = new
             {
-                return NotFound();
-            }
-            var absentPeople =await  _context.People.FirstOrDefaultAsync(p => p.IdentityCardNumber == cccd);
-
-            return absentPeople;
+                absent = absentPerson,
+                person = absentPerson.Person
+            };
+            return absent;
         }
+        
+
         //GET: api/absent/person?name=
         [HttpGet("person")]
-        public async Task<ActionResult<IEnumerable<AbsentPerson>>> GetAbsentPeople(string? name)
+        public async Task<ActionResult<IEnumerable<object>>> GetAbsentPeople(string? name)
         {
             if (_context.AbsentPeople == null)
             {
@@ -76,7 +84,18 @@ namespace Project.Controllers.PersonController
                 .Where(ap => ap.Person.Name.Contains(name))
                 .ToListAsync();
 
-            return absentPeople;
+            var listAbsent = new List<object>();
+
+            foreach (var absentperson in absentPeople)
+            {
+                listAbsent.Add(new
+                {
+                    absent = absentperson,
+                    person = absentperson.Person
+                });
+            }
+            return listAbsent;
+
         }
 
 

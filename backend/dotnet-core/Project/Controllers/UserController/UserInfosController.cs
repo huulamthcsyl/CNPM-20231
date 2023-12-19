@@ -71,54 +71,6 @@ namespace Project.Controllers.UserController
             return NoContent();
         }
 
-        // POST: api/UserInfos
-        //[HttpPost]
-        //public async Task<ActionResult<UserInfo>> PostUserInfo(UserInfo userInfo)
-        //{
-        //  if (_context.UserInfos == null)
-        //  {
-        //      return Problem("Entity set 'ProjectContext.UserInfos'  is null.");
-        //  }
-        //    _context.UserInfos.Add(userInfo);
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateException)
-        //    {
-        //        if (UserInfoExists(userInfo.UserId))
-        //        {
-        //            return Conflict();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return StatusCode(201);
-        //}
-
-        // DELETE: api/UserInfos/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteUserInfo(Guid id)
-        //{
-        //    if (_context.UserInfos == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var userInfo = await _context.UserInfos.FindAsync(id);
-        //    if (userInfo == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.UserInfos.Remove(userInfo);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
-
         private bool UserInfoExists(Guid id)
         {
             return (_context.UserInfos?.Any(e => e.UserId == id)).GetValueOrDefault();

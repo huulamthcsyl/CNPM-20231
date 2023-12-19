@@ -69,12 +69,10 @@ namespace Project.Controllers.ResidenceController
             name = name ?? string.Empty;
             address = address ?? string.Empty;
 
-
             var residences = await _context.Residences
                             .Include(r => r.People)
                             .Where(r => r.People.Any(p => (p.PersonId == r.OwnerId && p.Name.Contains(name)))
-                                        && r.Address.Contains(address)
-                                        )
+                                        && r.Address.Contains(address))
                             .ToListAsync();
 
             return residences;
@@ -102,7 +100,7 @@ namespace Project.Controllers.ResidenceController
             }
             if (check == true)
             {
-                return StatusCode(400, "Can't create residence. Person is currently in another residence!");
+                return StatusCode(400, "Cư dân hiên đang trong hộ khẩu khác");
             }
 
             // Update new residence
@@ -199,7 +197,7 @@ namespace Project.Controllers.ResidenceController
             }
             if (check == true)
             {
-                return StatusCode(400, "Can't create residence. Person is currently in another residence!");
+                return StatusCode(400, "Cư dân hiên đang trong hộ khẩu khác");
             }
 
             // Insert residence

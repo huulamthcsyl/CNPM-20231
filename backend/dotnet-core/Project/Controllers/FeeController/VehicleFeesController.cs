@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
 using Project.Models.Models;
-using Project.Models.Services;
 
 namespace Project.Controllers.FeeController
 {
@@ -26,7 +25,7 @@ namespace Project.Controllers.FeeController
 
         // GET: api/vehiclefee/all
         [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<VehicleFeeInfo>>> GetVehicleFees()
+        public async Task<ActionResult<IEnumerable<object>>> GetVehicleFees()
         {
             if (_context.VehicleFees == null)
             {
@@ -35,11 +34,11 @@ namespace Project.Controllers.FeeController
             var vehicleFees = await _context.VehicleFees
                                .Include(v => v.VehiclePayments)
                                .ToListAsync();
-            var vehicleFeesInfo = new List<VehicleFeeInfo>();
+            var vehicleFeesInfo = new List<object>();
 
             foreach (var vehicleFee in vehicleFees)
             {
-                vehicleFeesInfo.Add(new VehicleFeeInfo
+                vehicleFeesInfo.Add(new 
                 {
                     VehicleFeeId = vehicleFee.VehicleFeeId,
                     Name = vehicleFee.Name,
@@ -55,7 +54,7 @@ namespace Project.Controllers.FeeController
 
         // GET: api/vehiclefee/[:id]
         [HttpGet("{id}")]
-        public async Task<ActionResult<VehicleFeeInfo>> GetVehicleFee(Guid id)
+        public async Task<ActionResult<object>> GetVehicleFee(Guid id)
         {
             if (_context.VehicleFees == null)
             {
@@ -71,7 +70,7 @@ namespace Project.Controllers.FeeController
             }
 
        
-            var vehicleFeeInfo = new VehicleFeeInfo
+            var vehicleFeeInfo = new
             {
                 VehicleFeeId = vehicleFee.VehicleFeeId,
                 Name = vehicleFee.Name,
@@ -86,7 +85,7 @@ namespace Project.Controllers.FeeController
 
         // GET: api/vehiclefee?name=
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VehicleFeeInfo>>> GetVehicleFee(string? name)
+        public async Task<ActionResult<IEnumerable<object>>> GetVehicleFee(string? name)
         {
             if (_context.VehicleFees == null)
             {
@@ -99,11 +98,11 @@ namespace Project.Controllers.FeeController
                     .Include(v => v.VehiclePayments)
                     .Where(p => p.Name.Contains(name)).ToListAsync();
 
-            var vehicleFeesInfo = new List<VehicleFeeInfo>();
+            var vehicleFeesInfo = new List<object>();
 
             foreach (var vehicleFee in vehicleFees)
             {
-                vehicleFeesInfo.Add(new VehicleFeeInfo
+                vehicleFeesInfo.Add(new
                 {
                     VehicleFeeId = vehicleFee.VehicleFeeId,
                     Name = vehicleFee.Name,
