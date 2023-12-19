@@ -134,7 +134,7 @@ function HoKhau() {
                   <TableCell style={{ fontSize: '20px' }}>{colume.address}</TableCell>
                   <TableCell style={{ fontSize: '20px' }}>{colume.memberNumber}</TableCell>
                   <TableCell>
-                    <NavLink to="/chitiethodan">
+                    <NavLink to={"/chitiethodan/" + colume.residenceId}>
                       <button
                         style={{
                           backgroundColor: "transparent",
