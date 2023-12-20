@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
 using Project.Models.Models;
@@ -27,19 +28,36 @@ namespace Project.Controllers.ResidenceController
 
         // GET: api/residence/all
         [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<Residence>>> GetResidences()
+        public async Task<ActionResult<IEnumerable<object>>> GetResidences()
         {
             if (_context.Residences == null)
             {
                 return NotFound();
             }
-            return await _context.Residences.ToListAsync();
+
+            var residences =  await _context.Residences.ToListAsync();
+
+            var listResidence = new List<object>();
+
+            foreach (var residence in residences)
+            {
+                var owner = await _context.People.FindAsync(residence.OwnerId);
+                listResidence.Add(new
+                {
+                    residenceId = residence.ResidenceId,
+                    ownerName = owner.Name,
+                    address = residence.Address,
+                    memberNumber = residence.MemberNumber
+                });
+            }
+
+            return listResidence;
         }
 
 
         // GET: api/residence/[:id]
         [HttpGet("{id}")]
-        public async Task<ActionResult<Residence>> GetResidence(Guid id)
+        public async Task<ActionResult<object>> GetResidence(Guid id)
         {
             if (_context.Residences == null)
             {
@@ -54,13 +72,33 @@ namespace Project.Controllers.ResidenceController
                 return NotFound();
             }
 
-            return residence;
+            string ownerName = ""; 
+
+            foreach (var person in residence.People)
+            {
+                if (person.PersonId == residence.OwnerId)
+                {
+                    ownerName = person.Name; 
+                    break;
+                }
+            }
+
+            var residenceInfo = new
+            {
+                residenceId = residence.ResidenceId,
+                ownerName = ownerName,
+                address = residence.Address,
+                memberNumber = residence.MemberNumber,
+                people = residence.People
+            };
+
+            return residenceInfo;
         }
 
 
         // GET: api/residence?name=?&address=
         [HttpGet()]
-        public async Task<ActionResult<IEnumerable<Residence>>> GetResidences(string? name, string? address)
+        public async Task<ActionResult<IEnumerable<object>>> GetResidences(string? name, string? address)
         {
             if (_context.Residences == null)
             {
@@ -75,7 +113,31 @@ namespace Project.Controllers.ResidenceController
                                         && r.Address.Contains(address))
                             .ToListAsync();
 
-            return residences;
+            var listResidence = new List<object>();
+
+            foreach (var residence in residences)
+            {
+                string ownerName = "";
+
+                foreach (var person in residence.People)
+                {
+                    if (person.PersonId == residence.OwnerId)
+                    {
+                        ownerName = person.Name;
+                        break;
+                    }
+                }
+                listResidence.Add(new
+                {
+                    residenceId = residence.ResidenceId,
+                    ownerName = ownerName,
+                    address = residence.Address,
+                    memberNumber = residence.MemberNumber
+                });
+            }
+
+            return listResidence;
+
         }
 
 
