@@ -11,50 +11,46 @@ export default function ChiTietPhieuThu() {
   const searchParams = new URLSearchParams(window.location.search);
   const residenceReceiptId = searchParams.get("residenceReceiptId");
   const [residenceReceipt, setResidenceReceipt] = useState({});
-  const [paymentList, setPaymentList] = useState([])
-  let feeNames = [];
-
+  const [payments, setPayments] = useState([]);
   useEffect(() => {
     ClassApi.GetResidenceReceipt(residenceReceiptId)
       .then((res) => {
         setResidenceReceipt(res.data);
-        setPaymentList(res.data.residencePayments);
-
+        setPayments(res.data.listPayment);
       })
       .catch((error) => {
-        toast.error("lỗi 1");
+        toast.error(error.response);
         console.log(error);
       });
-
   }, []);
 
-  paymentList.map((payment) => {
-    ClassApi.GetResidenceFee(payment.residenceFeeId)
-      .then((res) => {
-        feeNames.push(res.data.name);
-        console.log(feeNames);
-      })
-      .catch((error) => {
-        toast.error("lỗi 2");
-        console.log(error);
-      })
-  })
-  console.log(feeNames);
+
   const tableHeadName = [
     { id: 1, name: "Số thứ tự" },
     { id: 2, name: "Tên khoản thu" },
     { id: 3, name: "Số tiền (đồng)" },
   ];
   const information = [
-    { id: 1, name: "Họ và tên", marginRight: "25px", value: residenceReceipt.name },
-    { id: 2, name: "Địa chỉ", marginRight: "52px", value: residenceReceipt.address },
+    {
+      id: 1,
+      name: "Họ và tên",
+      marginRight: "25px",
+      value: residenceReceipt.person,
+    },
+    {
+      id: 2,
+      name: "Địa chỉ",
+      marginRight: "52px",
+      value: residenceReceipt.address,
+    },
     {
       id: 3,
       name: "Ngày thu",
       marginRight: "28px",
-      value: new Date(residenceReceipt.dateCreated).toLocaleDateString('en-GB'),
+      value: new Date(residenceReceipt.dateCreated).toLocaleDateString("en-GB"),
     },
   ];
+
   return (
     <Grid container spacing={2} padding={"50px"}>
       <Grid item xs={12}>
@@ -92,30 +88,35 @@ export default function ChiTietPhieuThu() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {paymentList && paymentList.map((payment, index) => (
-                <TableRow>
-                  <TableCell style={{ fontSize: "18px" }}>
-                    {index + 1}
-                  </TableCell>
-                  <TableCell style={{ fontSize: "18px" }}>
-                    {feeNames && feeNames[index]}
-                  </TableCell>
-                  <TableCell style={{ fontSize: "18px" }}>
-                    {payment.amount && payment.amount.toLocaleString("en-US", {
-                      style: "decimal",
-                    })}
-                  </TableCell>
-                </TableRow>
-              ))}
+              {payments &&
+                payments.map((payment, index) => (
+                  <TableRow>
+                    <TableCell style={{ fontSize: "18px" }}>
+                      {index + 1}
+                    </TableCell>
+                    <TableCell style={{ fontSize: "18px" }}>
+                      {payment.feeName}
+                    </TableCell>
+                    <TableCell style={{ fontSize: "18px" }}>
+                      {payment.amount &&
+                        payment.amount.toLocaleString("en-US", {
+                          style: "decimal",
+                        })}
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
       </Grid>
       <Grid item>
         <Typography style={{ fontSize: "24px" }}>
-          Tổng số tiền: {residenceReceipt.amount && residenceReceipt.amount.toLocaleString("en-US", {
-            style: "decimal",
-          })} đồng
+          Tổng số tiền:{" "}
+          {residenceReceipt.amount &&
+            residenceReceipt.amount.toLocaleString("en-US", {
+              style: "decimal",
+            })}{" "}
+          đồng
         </Typography>
       </Grid>
       <Grid item container direction="row" alignItems="center">
@@ -144,4 +145,4 @@ export default function ChiTietPhieuThu() {
   );
 }
 
-/* eslint-disable react-hooks/rules-of-hooks */
+

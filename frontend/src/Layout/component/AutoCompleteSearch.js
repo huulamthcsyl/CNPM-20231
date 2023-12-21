@@ -20,7 +20,7 @@ export default function AutoComplete({ optionList, onChange, width }) {
           {option.label} (CCCD: {option.code})
         </Box>
       )}
-      renderInput={(params) => <TextField {...params} label="" />}
+      renderInput={(params) => <TextField {...params} label="" required={true}/>}
     />
   );
 }

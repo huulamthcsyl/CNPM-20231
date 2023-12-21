@@ -4,12 +4,14 @@ export class ResidenceReceipt {
     amount,
     description,
     residencePayments,
-    personId
+    personId, 
+    address
   ) {
     this.description = description;
     this.dateCreated = dateCreated;
     this.amount = amount;
     this.residencePayments = residencePayments;
     this.personId = personId;
+    this.address = address;
   }
 }

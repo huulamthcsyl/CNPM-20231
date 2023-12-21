@@ -1,26 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, Button, Typography } from "@mui/material";
 import { FormControl, FormGroup, TextField } from "@mui/material";
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableRow, TableHead, TableContainer } from "@mui/material";
-import { Paper, Link } from "@mui/material";
+import { Paper, TablePagination } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { styled } from "@mui/system";
 import { NavLink } from "react-router-dom";
+import ClassApi from "../../Api/Api";
+import { toast } from "react-toastify";
 
 export default function ChiTietKhoanThu() {
-  const fields = [{ label: "Tên" }, { label: "Địa chỉ" }];
+  const searchParams = new URLSearchParams(window.location.search);
+  const residenceFeeId = searchParams.get("residenceFeeId");
+  const pathname = window.location.pathname;
+  const nextPagePathname =
+    pathname.substr(0, pathname.indexOf("/")) +
+    "/ChiTietPhieuThu/?residenceReceiptId=";
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [starttime, setStarttime] = useState();
+  const [endtime, setEndtime] = useState();
+  const [fee, setFee] = useState({});
+  const [residenceReceipts, setResidenceReceipts] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const tableHeadName = [
     { name: "Số thứ tự" },
     { name: "Họ và tên" },
     { name: "Địa chỉ" },
     { name: "Tổng số tiền" },
     { name: "Thời gian" },
-    { name: "Ghi chú" },
+    { name: "" },
   ];
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   const CustomizedDatePicker = styled(DatePicker)`
     & .MuiInputBase-input {
       font-size: 18px;
@@ -30,46 +52,134 @@ export default function ChiTietKhoanThu() {
       font-size: 20px;
     }
   `;
+
+  useEffect(() => {
+    ClassApi.GetResidenceFee(residenceFeeId)
+      .then((res) => {
+        setFee(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        toast.error(err.response);
+        console.log(err);
+      });
+    ClassApi.FindResidenceReceiptByFeeId("", "", "", "", residenceFeeId)
+      .then((res) => {
+        setResidenceReceipts(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        toast.error(err.response);
+        console.log(err);
+      });
+  }, [residenceFeeId]);
+
+  const handleSearch = (name, address, starttime, endtime, residenceFeeId) => {
+    setPage(0);
+    var startTime, endTime;
+
+    if (starttime === undefined || !starttime.isValid()) startTime = "";
+    else {
+      startTime = new Date(starttime);
+      startTime.setDate(startTime.getDate() + 1);
+      startTime = JSON.stringify(startTime);
+      startTime = startTime.slice(1, startTime.length - 1);
+    }
+    if (endtime === undefined || !endtime.isValid()) endTime = "";
+    else {
+      endTime = new Date(endtime);
+      endTime.setDate(endTime.getDate() + 1);
+      endTime = JSON.stringify(endTime);
+      endTime = endTime.slice(1, endTime.length - 1);
+    }
+    ClassApi.FindResidenceReceiptByFeeId(
+      name,
+      address,
+      startTime,
+      endTime,
+      residenceFeeId
+    )
+      .then((res) => {
+        setResidenceReceipts(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        toast.error(err.response);
+        console.log(err);
+      });
+  };
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={2} style={{ padding: "50px" }}>
         <Grid item xs={12}>
-          <div style={{ fontSize: "48px" }}> Chi tiết "Tên phí" </div>
+          <div style={{ fontSize: "48px" }}> Chi tiết {fee.name} </div>
         </Grid>
-        <Grid item xs={6}>
-          <div style={{ fontSize: "26px" }}>Số người đã đóng: 10</div>
+        <Grid item xs={12}>
+          <div style={{ fontSize: "22px" }}>
+            Số người đã đóng: {fee.paidQuantity}
+          </div>
         </Grid>
-        <Grid item xs={6}>
-          <div style={{ fontSize: "26px" }}>Tổng số tiền: 3.000.000 đồng</div>
+        <Grid item xs={12}>
+          <div style={{ fontSize: "22px" }}>
+            Tổng số tiền đã thu:{" "}
+            {fee.total &&
+              fee.total.toLocaleString("en-US", { style: "decimal" })}{" "}
+            đồng
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <div style={{ fontSize: "22px" }}>
+            Bắt buộc: {fee.isObligatory === true ? "Có" : "Không"}
+          </div>
         </Grid>
         <Grid item xs={12}>
           <FormControl>
             <FormGroup row>
-              {fields.map((field, index) => (
-                <TextField
-                  key={index}
-                  label={field.label}
-                  variant="filled"
-                  style={{ marginRight: "35px" }}
-                  inputProps={{ style: { fontSize: "18px" } }}
-                  InputLabelProps={{ style: { fontSize: "20px" } }}
-                />
-              ))}
+              <TextField
+                label="Họ và tên"
+                variant="filled"
+                style={{ marginRight: "35px" }}
+                inputProps={{ style: { fontSize: "18px" } }}
+                InputLabelProps={{ style: { fontSize: "20px" } }}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <TextField
+                label="Địa chỉ"
+                variant="filled"
+                style={{ marginRight: "35px" }}
+                inputProps={{ style: { fontSize: "18px" } }}
+                InputLabelProps={{ style: { fontSize: "20px" } }}
+                onChange={(e) => setAddress(e.target.value)}
+              />
 
               <CustomizedDatePicker
                 label="Từ ngày"
                 slotProps={{ textField: { variant: "filled" } }}
                 sx={{ marginRight: "35px" }}
+                value={starttime}
+                onChange={(date) => {
+                  setStarttime(date);
+                }}
+                format="DD-MM-YYYY"
               />
               <CustomizedDatePicker
                 label="Đến ngày"
                 slotProps={{ textField: { variant: "filled" } }}
+                value={endtime}
+                onChange={(date) => setEndtime(date)}
+                format="DD-MM-YYYY"
               />
             </FormGroup>
           </FormControl>
         </Grid>
         <Grid item xs={12}>
-          <Button variant="contained" style={{ backgroundColor: "#79C9FF" }}>
+          <Button
+            variant="contained"
+            style={{ backgroundColor: "#79C9FF" }}
+            onClick={() =>
+              handleSearch(name, address, starttime, endtime, residenceFeeId)
+            }
+          >
             <Typography variant="h4" style={{ color: "black" }}>
               Tìm kiếm phiếu thu
             </Typography>
@@ -93,32 +203,85 @@ export default function ChiTietKhoanThu() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
-                  <TableCell style={{ fontSize: "18px" }}>1</TableCell>
-                  <TableCell style={{ fontSize: "18px" }}>
-                    Nguyễn Văn A
-                  </TableCell>
-                  <TableCell style={{ fontSize: "18px" }}>P10.04.10</TableCell>
-                  <TableCell style={{ fontSize: "18px" }}>
-                    500.000 đồng
-                  </TableCell>
-                  <TableCell style={{ fontSize: "18px" }}>03/10/2023</TableCell>
-                  <TableCell>
-                    <NavLink to="/ChiTietPhieuThu">
-                      <Typography style={{ fontSize: "18px" }}>
-                        Chi Tiết
-                      </Typography>
-                    </NavLink>
-                  </TableCell>
-                </TableRow>
+                {residenceReceipts &&
+                  (rowsPerPage > 0
+                    ? residenceReceipts.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                    : residenceReceipts
+                  ).map((residenceReceipt, index) => (
+                    <TableRow>
+                      <TableCell style={{ fontSize: "18px" }}>
+                        {index + 1}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "18px" }}>
+                        {residenceReceipt.personName}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "18px" }}>
+                        {residenceReceipt.address}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "18px" }}>
+                        {residenceReceipt.amount.toLocaleString("en-US", {
+                          style: "decimal",
+                        })}{" "}
+                        đồng
+                      </TableCell>
+                      <TableCell style={{ fontSize: "18px" }}>
+                        {new Date(
+                          residenceReceipt.dateCreated
+                        ).toLocaleDateString("en-GB")}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "18px" }}>
+                        <a
+                          href={`${nextPagePathname}${residenceReceipt.residenceReceiptsId}`}
+                          style={{ textDecoration: "underline" }}
+                        >
+                          Chi tiết
+                        </a>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
+              <tfoot>
+                <tr>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 8, 10, { label: "All", value: -1 }]}
+                    colSpan={6}
+                    count={residenceReceipts.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    slotProps={{
+                      select: {
+                        "aria-label": "rows per page",
+                      },
+                      actions: {
+                        showFirstButton: true,
+                        showLastButton: true,
+                      },
+                    }}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    sx={{
+                      "& .MuiTablePagination-input": {
+                        fontSize: "16px",
+                      },
+                      "& .MuiTablePagination-displayedRows": {
+                        fontSize: "16px",
+                      },
+                      "& .MuiTablePagination-selectLabel": {
+                        fontSize: "16px",
+                      },
+                    }}
+                  />
+                </tr>
+              </tfoot>
             </Table>
           </TableContainer>
         </Grid>
         <Grid item>
           <NavLink to="/danhmucthu">
             <Button
-              //  onclick={() => navigate(-1)}
               variant="contained"
               style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
             >

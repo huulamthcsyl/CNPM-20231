@@ -14,11 +14,11 @@ import PlusCircle from "../../Icons/PlusCircle.png";
 import ClassApi from "../../Api/Api";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 export default function DanhSachPhieuThu() {
   const pathname = window.location.pathname;
-  const nextPathname =
+  const nextPagePathname =
     pathname.substr(0, pathname.indexOf("/")) +
     "/ChiTietPhieuThu/?residenceReceiptId=";
   const [residenceReceipts, setResidenceReceipts] = useState([]);
@@ -45,8 +45,7 @@ export default function DanhSachPhieuThu() {
     setPage(0);
   };
   const handleSearch = (name, address, starttime, endtime) => {
-    console.log(starttime, endtime);
-
+    setPage(0);
     var startTime, endTime;
 
     if (starttime === undefined || !starttime.isValid()) startTime = "";
@@ -71,7 +70,7 @@ export default function DanhSachPhieuThu() {
         console.log(res.data);
       })
       .catch((err) => {
-        toast.error("lỗi");
+        toast.error(err.response);
         console.log(err);
       });
   };
@@ -91,7 +90,7 @@ export default function DanhSachPhieuThu() {
         setResidenceReceipts(res.data);
       })
       .catch((error) => {
-        toast.error("lỗi");
+        toast.error(error.response);
         console.log(error);
       });
   }, []);
@@ -195,13 +194,14 @@ export default function DanhSachPhieuThu() {
                     : residenceReceipts
                   ).map(
                     (residenceReceipt, index) =>
-                      residenceReceipt && (
+                      residenceReceipt &&
+                      residenceReceipt.residenceReceiptId !== null && (
                         <TableRow>
                           <TableCell style={{ fontSize: "18px" }}>
                             {page * rowsPerPage + index + 1}
                           </TableCell>
                           <TableCell style={{ fontSize: "18px" }}>
-                            {residenceReceipt.name}
+                            {residenceReceipt.personName}
                           </TableCell>
                           <TableCell style={{ fontSize: "18px" }}>
                             {residenceReceipt.address}
@@ -215,11 +215,11 @@ export default function DanhSachPhieuThu() {
                           <TableCell style={{ fontSize: "18px" }}>
                             {new Date(
                               residenceReceipt.dateCreated
-                            ).toLocaleDateString('en-GB')}
+                            ).toLocaleDateString("en-GB")}
                           </TableCell>
                           <TableCell style={{ fontSize: "18px" }}>
                             <a
-                              href={`${nextPathname}${residenceReceipt.residenceReceiptId}`}
+                              href={`${nextPagePathname}${residenceReceipt.residenceReceiptsId}`}
                               style={{ textDecoration: "underline" }}
                             >
                               Chi tiết
@@ -249,15 +249,14 @@ export default function DanhSachPhieuThu() {
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                     sx={{
-                      "& .MuiToolbar-root": {
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "flex-start",
-
-                        "@media (min-width: 768px)": {
-                          flexDirection: "row",
-                          alignItems: "center",
-                        },
+                      "& .MuiTablePagination-input": {
+                        fontSize: "16px",
+                      },
+                      "& .MuiTablePagination-displayedRows": {
+                        fontSize: "16px",
+                      },
+                      "& .MuiTablePagination-selectLabel": {
+                        fontSize: "16px",
                       },
                     }}
                   />

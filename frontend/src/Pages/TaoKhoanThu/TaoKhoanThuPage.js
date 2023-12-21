@@ -4,73 +4,131 @@ import { useState } from "react";
 import { RadioGroup, Radio, FormControlLabel } from "@mui/material";
 import { Button } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { ResidenceFee } from "../../Models/ResidenceFee";
+import ClassApi from "../../Api/Api";
+import { toast } from "react-toastify";
 
 export default function TaoKhoanThu() {
-  const [value, setValue] = useState("Có");
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
+  const [isObligatory, setIsObligatory] = useState(true);
+  const [name, setName] = useState("");
+  const [cost, setCost] = useState(0);
+  const handleChangeObligatory = (event) => {
+    setIsObligatory(event.target.value);
   };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const newResidenceFee = new ResidenceFee(name, Boolean(isObligatory), parseInt(cost));
+    ClassApi.PostResidenceFee(newResidenceFee)
+      .then((res) => {
+        
+        toast.success("Tạo khoản thu thành công!");
+      })
+      .catch((err) => {
+        toast.error(err.response);
+      });
+  };
+
   return (
     <Grid container spacing={2} padding={"50px"}>
       <Grid item>
         <div style={{ fontSize: "40px" }}>Tạo khoản thu dân cư mới</div>
       </Grid>
-      <Grid container direction={"row"} alignItems={"center"} item xs={12}>
-        <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
-          Tên khoản thu
-        </Typography>
-        <TextField
-          style={{ width: "500px" }}
-          inputProps={{ style: { fontSize: "18px" } }}
-        ></TextField>
-      </Grid>
-      <Grid container direction={"row"} alignItems={"center"} item xs={12}>
-        <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
-          Số tiền (đồng)
-        </Typography>
-        <TextField
-          style={{ width: "500px" }}
-          inputProps={{ style: { fontSize: "18px" } }}
-        ></TextField>
-      </Grid>
-      <Grid container direction={"row"} item xs={12}>
-        <Typography style={{ fontSize: "24px", marginRight: "68px" }}>
-          Bắt buộc?
-        </Typography>
-        <RadioGroup
-          name="radio-buttons-group"
-          value={value}
-          onChange={handleChange}
-          style={{ display: "inline" }}
-        >
-          <FormControlLabel
-            value="Có"
-            control={<Radio />}
-            label=<Typography variant="h4" fontWeight={400}>
-              Có
-            </Typography>
-          />
-          <FormControlLabel
-            value="Không"
-            control={<Radio />}
-            label=<Typography variant="h4" fontWeight={400}>
-              Không
-            </Typography>
-          />
-        </RadioGroup>
-      </Grid>
       <Grid item>
-        <NavLink to="/danhmucthu">
-          <Button
-            variant="contained"
-            style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
-          >
-            <Typography variant="h4" style={{ color: "black" }}>
-              Xác nhận
+        <form onSubmit={handleSubmit}>
+          <Grid container direction={"row"} alignItems={"center"} item xs={12}>
+            <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
+              Tên khoản thu
             </Typography>
-          </Button>
-        </NavLink>
+            <TextField
+              style={{ width: "500px" }}
+              inputProps={{ style: { fontSize: "18px" }, required: true }}
+              onChange={(e) => setName(e.target.value)}
+            ></TextField>
+          </Grid>
+
+          <Grid
+            container
+            direction={"row"}
+            alignItems={"center"}
+            item
+            xs={12}
+            sx={{ mt: 2 }}
+          >
+            <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
+              Số tiền (đồng)
+            </Typography>
+            <TextField
+              style={{ width: "500px" }}
+              inputProps={{ style: { fontSize: "18px" }, required: true }}
+              onChange={(e) => setCost(e.target.value)}
+            ></TextField>
+          </Grid>
+          <Grid
+            container
+            direction={"row"}
+            alignItems={"center"}
+            item
+            xs={12}
+            sx={{ mt: 2 }}
+          >
+            <Typography style={{ fontSize: "24px", marginRight: "68px" }}>
+              Bắt buộc?
+            </Typography>
+            <RadioGroup
+              name="radio-buttons-group"
+              value={isObligatory}
+              onChange={handleChangeObligatory}
+              style={{ display: "inline" }}
+            >
+              <FormControlLabel
+                value={true}
+                control={<Radio />}
+                label=<Typography variant="h4" fontWeight={400}>
+                  Có
+                </Typography>
+              />
+              <FormControlLabel
+                value={false}
+                control={<Radio />}
+                label=<Typography variant="h4" fontWeight={400}>
+                  Không
+                </Typography>
+              />
+            </RadioGroup>
+          </Grid>
+
+          <Grid item>
+           
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#79C9FF",
+                margin: "30px 0px",
+                fontSize: "20px",
+                color: "black",
+              }}
+              type="submit"
+              size="large"
+            >
+              Xác nhận
+            </Button>
+            <NavLink to="/danhmucthu">
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#79C9FF",
+                marginLeft: "30px",
+                fontSize: "20px",
+                color: "black",
+              }}
+              size="large"
+            >
+              Hủy
+            </Button>
+            </NavLink>
+          </Grid>
+        </form>
       </Grid>
     </Grid>
   );
