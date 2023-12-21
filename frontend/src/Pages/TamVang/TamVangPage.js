@@ -40,26 +40,26 @@ function TamVangPage() {
   const [name, setName] = useState('')
   const [people, setPeople] = useState([
     {
-      "absentPersonId": "1441a1ca-a444-472b-b209-1c6fe13170c9",
-      "personId": "821cec81-33c9-45d9-819e-536f9a8e32b2",
-      "startTime": "2023-12-12T17:00:00",
-      "endTime": "2023-12-24T17:00:00",
-      "reason": "ốm",
+      "absent": {
+        "absentPersonId": "3f380bb3-a6c7-48be-9cf0-617b999e31e1",
+        "personId": "dbbaf13c-def6-428d-bee9-ec2f00e93e4e",
+        "startTime": "2023-12-20T17:00:00",
+        "endTime": "2023-12-24T17:00:00",
+        "reason": "abc"
+      },
       "person": {
-        "personId": "821cec81-33c9-45d9-819e-536f9a8e32b2",
+        "personId": "dbbaf13c-def6-428d-bee9-ec2f00e93e4e",
         "residenceId": null,
-        "name": "hoang",
-        "dateOfBirth": "2021-05-04T00:00:00",
-        "identityCardNumber": "232342432",
-        "gender": true,
-        "phoneNumber": "432432423432",
-        "homeTown": "Xã Ngam La, Huyện Yên Minh, Tỉnh Hà Giang",
+        "name": "Phùng Thanh Đăng",
+        "dateOfBirth": "2023-12-01T10:00:00",
+        "identityCardNumber": "123456789",
+        "gender": false,
+        "phoneNumber": "546321",
+        "homeTown": "Xã Văn Tiến, Huyện Yên Lạc, Tỉnh Vĩnh Phúc",
         "ownerRelationship": null,
         "status": "Tạm Vắng"
       }
     },
-    {},
-
   ]);
   useEffect(() => {
     ClassApi.GetAllAbsent().then((response) => {
@@ -127,7 +127,7 @@ function TamVangPage() {
                   </TableCell>
                   <TableCell>
                     {
-                      <NavLink to={"/chitietcudan/" + peop.personId}>
+                      <NavLink to={"/chitietcudan/" + peop.person.personId}>
                         <button
                           style={{
                             backgroundColor: "transparent",

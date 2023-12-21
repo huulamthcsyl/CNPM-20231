@@ -1,7 +1,9 @@
 import {
   Button,
   Grid,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -16,6 +18,7 @@ import ClassApi from '../../Api/Api'
 import AutoComplete from "../../Layout/component/AutoCompleteSearch";
 import { toast } from "react-toastify";
 import CustomRow from "./Row";
+import { NavLink } from "react-router-dom";
 const headers = [
   "Họ và tên",
   "Ngày, tháng, năm sinh",
@@ -26,15 +29,41 @@ const headers = [
 function ThemHoDan() {
   const [ownerName, setOwnerName] = useState('')
   const [address, setAddress] = useState('')
+  const [name, setName] = useState()
   const [listMember, setListMember] = useState([])
-  const [numberLine, setNumberLine] = useState(1);
+  const [numberLine, setNumberLine] = useState(0);
+  const [id, setId] = useState('')
   const [arr, setArr] = useState([1])
+  const [personList, setPersonList] = useState([])
+  const [identityCardNumber, setIdentityCardNumber] = useState('')
+  const [birth, setBirth] = useState('')
+  const personShrinkList = [];
+  useEffect(() => {
+    ClassApi.GetAllPeople()
+      .then((res) => {
+        setPersonList(res.data);
+      })
+      .catch((err) => {
+        toast.error("lỗi 1");
+      });
+  }, [name]);
+  personList.map((person, index) => {
+    personShrinkList.push({
+      label: person.name,
+      code: person.identityCardNumber,
+      personId: person.personId,
+      residenceId: person.residenceId,
+      birth: person.dateOfBirth.slice(0, 10),
+      address: person.homeTown,
+      person: person
+    });
+  });
   const handlePost = () => {
     ClassApi.PostResidence({
       "residenceId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       "memberNumber": listMember.length,
       "address": address,
-      "ownerName": ownerName,
+      "ownerId": id,
       "people": listMember
     }).then((response) => {
       toast.info('Thành công')
@@ -45,6 +74,7 @@ function ThemHoDan() {
     setArr(newArr)
     const updatedList = listMember.filter((_, i) => i !== index);
     setListMember(updatedList);
+
     //  setNumberLine(numberLine - 1)
   }
   const handleAddRow = () => {
@@ -57,7 +87,21 @@ function ThemHoDan() {
     setListMember([...listMember, person])
     console.log([...listMember, person])
   }
-
+  const handleChangeName = (event, value) => {
+    let newArray = listMember;
+    if (newArray.length > 0) {
+      newArray.splice(0, 1, value.person)
+      setListMember(newArray)
+      console.log(newArray)
+    }
+    pushMember(value.person)
+    setName(value.label)
+    setId(value.personId)
+    setAddress(value.address)
+    setIdentityCardNumber(value.code)
+    setBirth(value.birth)
+    console.log(value)
+  };
   return (
     <Grid container spacing={2} padding="50px">
       <Grid item xs={12}>
@@ -77,12 +121,11 @@ function ThemHoDan() {
             </Typography>
           </Grid>
           <Grid item >
-            <TextField
-              style={{ width: "300px" }}
-              inputProps={{ style: { fontSize: "15px" } }}
-              value={ownerName}
-              onChange={(e) => { setOwnerName(e.target.value) }}
-            ></TextField>
+            <AutoComplete
+              optionList={personShrinkList}
+              onChange={handleChangeName}
+              width={400}
+            ></AutoComplete>
 
           </Grid>
         </Grid>
@@ -104,6 +147,7 @@ function ThemHoDan() {
               inputProps={{ style: { fontSize: "15px" } }}
               value={address}
               onChange={(e) => { setAddress(e.target.value) }}
+              disabled
             ></TextField>
           </Grid>
         </Grid>
@@ -128,6 +172,54 @@ function ThemHoDan() {
               </TableRow>
             </TableHead>
             <TableBody>
+              <TableRow>
+                <TableCell>
+                  <Typography style={{ fontSize: '20px' }}>{name}</Typography>
+                </TableCell>
+                <TableCell style={{ fontSize: "18px" }}>
+                  <input
+                    style={{ fontSize: "18px", border: "none" }}
+                    type="date"
+                    value={birth}
+                    //     onChange={(e) => { setBirth(e.target.value) }}
+                    disabled
+                  />
+                </TableCell>
+                <TableCell style={{ fontSize: "18px" }}>
+                  <input
+                    style={{
+                      fontSize: "18px",
+                      border: "none",
+                      width: "150px",
+                    }}
+                    type="text"
+                    value={identityCardNumber}
+                    disabled
+                  //   onChange={(e)=>setIdentityCardNumber(e.target.value)}
+                  ></input>
+                </TableCell>
+                <TableCell style={{ fontSize: "18px" }}>
+                  <Select style={{ fontSize: "18px", border: "none", width: '120px' }} value='Chủ hộ' >
+
+                    <MenuItem value='Chủ hộ'>Chủ hộ</MenuItem>
+
+                  </Select>
+                </TableCell>
+                <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
+                  <NavLink to={'/chitietcudan/' + id}>
+                    <span style={{ color: "blue" }}>Chi tiết</span>|
+                  </NavLink>
+                  <button
+                    style={{
+                      backgroundColor: "transparent",
+                      fontSize: "18px",
+                    }}
+
+                  >
+
+                  </button>
+                </TableCell>
+              </TableRow>
               {arr.map((index) => (
                 <CustomRow key={index} index={index} ondelete={deleterow} handleAdd={pushMember} />
               ))}
