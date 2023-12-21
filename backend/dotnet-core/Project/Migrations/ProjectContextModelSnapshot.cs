@@ -40,6 +40,9 @@ namespace Project.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("TemporaryStay")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("AbsentPersonId")
                         .HasName("Pk_AbsentPerson_AbsentPersonId");
 

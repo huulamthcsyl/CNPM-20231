@@ -12,7 +12,7 @@ using Project.Models;
 namespace Project.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20231219024952_V1")]
+    [Migration("20231221150853_V1")]
     partial class V1
     {
         /// <inheritdoc />
@@ -42,6 +42,9 @@ namespace Project.Migrations
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("TemporaryStay")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AbsentPersonId")
                         .HasName("Pk_AbsentPerson_AbsentPersonId");

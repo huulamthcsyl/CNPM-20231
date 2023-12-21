@@ -123,7 +123,8 @@ namespace Project.Migrations
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TemporaryStay = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
