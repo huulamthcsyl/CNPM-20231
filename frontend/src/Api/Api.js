@@ -155,7 +155,9 @@ class ClassApi {
   PostVehicle(vehicle) {
     return axios.post(API_BASE_URL + '/vehicle', vehicle, { headers });
   }
-
+  GetAllVehicleFees(){
+    return axios.get(API_BASE_URL + "/vehiclefee/all", { headers });
+  }
   PostVehicleFee(vehiclefee) {
     return axios.post(API_BASE_URL + '/vehiclefee', vehiclefee, { headers });
   }

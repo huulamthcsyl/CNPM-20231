@@ -15,6 +15,9 @@ function TaoPhuongTienPage() {
   const [category, setCategory] = useState('');
   const [ownerName, setOwnerName] = useState("");
   const [personList, setPersonList] = useState([]);
+
+  const [isValid, setIsValid] = useState(true);
+
   const personShrinkList = [];
 
   useEffect(() => {
@@ -33,6 +36,10 @@ function TaoPhuongTienPage() {
     setPersonId(value.personId);
   }
   const handleAdd = () => {
+
+    // Cần thêm chức năng kiểm tra nếu phương tiện đã bị trùng thì không cho thêm phương tiện mới
+
+
     ClassApi.PostVehicle(new Vehicle(personId, category, lisensePlate))
       .then(
         (response) => {
