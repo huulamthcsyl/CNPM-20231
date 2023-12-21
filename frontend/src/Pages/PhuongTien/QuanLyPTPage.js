@@ -36,10 +36,6 @@ function QuanLyPTPage() {
   useEffect(() => {
     ClassApi.GetAllVehicles().then((response) => {
       setAllVehicles(response.data);
-
-
-
-
     }).catch((error) => {
       console.error('Error fetching data:', error);
     });
@@ -113,10 +109,13 @@ function QuanLyPTPage() {
           <MenuItem value="" disabled>
             Chọn loại xe
           </MenuItem>
+          <MenuItem value="">Tất cả</MenuItem>
           <MenuItem value="Ô tô">Ô tô</MenuItem>
           <MenuItem value="Xe máy">Xe máy</MenuItem>
         </Select>
       </Grid>
+
+
 
       <Grid item xs={3} container direction="row" alignItems="center">
         <Typography style={{ fontSize: "24px", marginRight: "65px" }}>

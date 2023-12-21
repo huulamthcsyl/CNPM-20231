@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import ClassApi from '../../Api/Api'
 import { toast } from "react-toastify";
 import { Select, MenuItem } from '@mui/material';
-import AutoComplete from '../../Layout/component/AutoCompleteSearch';
+import { Autocomplete } from "@mui/material";
 import { Vehicle } from '../../Models/Vehicle';
 
 function TaoPhuongTienPage() {
@@ -13,12 +13,9 @@ function TaoPhuongTienPage() {
   const [personId, setPersonId] = useState('');
   const [lisensePlate, setLisensePlate] = useState('');
   const [category, setCategory] = useState('');
-  const [ownerName, setOwnerName] = useState("");
   const [personList, setPersonList] = useState([]);
-
+  const [selectedPerson, setSelectedPerson] = useState(null);
   const [isValid, setIsValid] = useState(true);
-
-  const personShrinkList = [];
 
   useEffect(() => {
     ClassApi.GetAllPeople()
@@ -29,21 +26,23 @@ function TaoPhuongTienPage() {
         toast.error(err.name);
       })
   }, [])
-  personList.map((person, index) => {
-    personShrinkList.push({ label: person.name, code: person.identityCard, personId: person.personId });
-  });
   const handleChangeName = (e, value) => {
-    setPersonId(value.personId);
+    setSelectedPerson(value);
   }
   const handleAdd = () => {
 
-    // Cần thêm chức năng kiểm tra nếu phương tiện đã bị trùng thì không cho thêm phương tiện mới
+    if (!selectedPerson || !category || !lisensePlate) {
+      toast.error("Thêm phương tiện không thành công vì chưa nhập đủ thông tin");
+      return;
+    }
 
 
-    ClassApi.PostVehicle(new Vehicle(personId, category, lisensePlate))
+    const newVehicle = new Vehicle(selectedPerson.personId, category, lisensePlate);
+
+    ClassApi.PostVehicle(newVehicle)
       .then(
         (response) => {
-          toast.success('Thành công')
+          toast.success('Thêm phương tiện thành công!')
         }
       ).catch((err) => {
         toast.error(err.name)
@@ -90,13 +89,25 @@ function TaoPhuongTienPage() {
         <Typography style={{ fontSize: "24px", marginRight: "65px" }}>
           Chủ sở hữu
         </Typography>
-        {/* <TextField
-          style={{ width: "500px" }}
-          inputProps={{ style: { fontSize: "18px" } }}
-          value={PersionId}
-          onChange={(e) => { setPersonId(e.target.value) }}
-        ></TextField> */}
-        <AutoComplete optionList={personShrinkList} onChange={handleChangeName}></AutoComplete>
+
+        {/* <AutoComplete optionList={personShrinkList} onChange={handleChangeName}></AutoComplete> */}
+        <Autocomplete
+          disablePortal
+          autoHighlight
+          options={personList}
+          getOptionLabel={(option) => option.name || ''}
+          value={selectedPerson}
+          onChange={handleChangeName}
+          sx={{
+            "& .MuiAutocomplete-input": {
+              fontSize: 20,
+            },
+            width: 500,
+          }}
+          renderInput={(params) => (
+            <TextField {...params} />
+          )}
+        />
       </Grid>
 
       <Grid item>

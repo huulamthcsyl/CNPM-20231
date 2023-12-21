@@ -64,14 +64,14 @@ class ClassApi {
   FindResidenceReceipt(name, address, starttime, endtime) {
     return axios.get(
       API_BASE_URL +
-        "/residencereceipt?name=" +
-        name +
-        "&address=" +
-        address +
-        "&starttime=" +
-        starttime +
-        "&endtime=" +
-        endtime,
+      "/residencereceipt?name=" +
+      name +
+      "&address=" +
+      address +
+      "&starttime=" +
+      starttime +
+      "&endtime=" +
+      endtime,
       { headers }
     );
   }
@@ -84,17 +84,17 @@ class ClassApi {
   ) {
     return axios.get(
       API_BASE_URL +
-        "/residencereceipt/feeid" +
-        "?name=" +
-        name +
-        "&address=" +
-        address +
-        "&starttime=" +
-        starttime +
-        "&endtime=" +
-        endtime +
-        "&id=" +
-        residenceFeeId,
+      "/residencereceipt/feeid" +
+      "?name=" +
+      name +
+      "&address=" +
+      address +
+      "&starttime=" +
+      starttime +
+      "&endtime=" +
+      endtime +
+      "&id=" +
+      residenceFeeId,
       { headers }
     );
   }
@@ -182,12 +182,12 @@ class ClassApi {
   FindVehicle(licenseplate, ownerName, category) {
     return axios.get(
       API_BASE_URL +
-        "/vehicle?licenseplate=" +
-        licenseplate +
-        "&ownerName=" +
-        ownerName +
-        "&category=" +
-        category,
+      "/vehicle?licenseplate=" +
+      licenseplate +
+      "&ownerName=" +
+      ownerName +
+      "&category=" +
+      category,
       { headers }
     );
   }
@@ -201,7 +201,25 @@ class ClassApi {
   PostVehicleFee(vehiclefee) {
     return axios.post(API_BASE_URL + "/vehiclefee", vehiclefee, { headers });
   }
-  g;
+
+  GetAllVehicleReceipt() {
+    return axios.get(API_BASE_URL + "/vehiclereceipt/all", { headers });
+  }
+  FindVehicleReceipt(lisensePlate, starttime, endtime) {
+    return axios.get(
+      API_BASE_URL +
+      "/vehicle?licenseplate=" +
+      lisensePlate +
+      "&starttime=" +
+      starttime +
+      "&endtime=" +
+      endtime,
+      { headers }
+    );
+  }
+  GetAllVehicleFees() {
+    return axios.get(API_BASE_URL + "/vehiclefee/all", { headers });
+  }
   /***** */
   //Api doi mat khau
   PutPassword(id, pass) {
