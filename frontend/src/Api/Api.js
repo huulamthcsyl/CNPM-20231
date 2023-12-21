@@ -201,6 +201,9 @@ class ClassApi {
   PostVehicleFee(vehiclefee) {
     return axios.post(API_BASE_URL + "/vehiclefee", vehiclefee, { headers });
   }
+  GetAllVehicleFees() {
+    return axios.get(API_BASE_URL + "/vehiclefee/all", { headers });
+  }
 
   GetAllVehicleReceipt() {
     return axios.get(API_BASE_URL + "/vehiclereceipt/all", { headers });
@@ -217,9 +220,7 @@ class ClassApi {
       { headers }
     );
   }
-  GetAllVehicleFees() {
-    return axios.get(API_BASE_URL + "/vehiclefee/all", { headers });
-  }
+
   /***** */
   //Api doi mat khau
   PutPassword(id, pass) {

@@ -1,25 +1,24 @@
-import React from 'react'
-import { Grid, Button, Typography } from "@mui/material";
-import { TextField } from "@mui/material";
+import React, { useState } from 'react';
+import { Grid, Button, Typography, TextField } from "@mui/material";
 import { NavLink } from 'react-router-dom';
-import { useState, toast } from 'react';
-import ClassApi from "../../Api/Api"
+import { toast } from 'react-toastify';
+import ClassApi from "../../Api/Api";
 
 function TaoKhoanThuPTPage() {
-
   const [name, setName] = useState('');
-  const [cost, setCost] = useState('');
+  // const [cost, setCost] = useState('');
+
   const handleAdd = () => {
     ClassApi.PostVehicleFee({
       "name": name,
-      "cost": parseInt(cost),
+      "cost": 0,
     }).then(
       (response) => {
-        toast.success('Thành công')
+        toast.success('Thêm khoản thu thành công');
       }
     ).catch(() => {
-      toast.error('Lỗi')
-    })
+      toast.error('Lỗi');
+    });
   }
 
   return (
@@ -40,7 +39,7 @@ function TaoKhoanThuPTPage() {
         ></TextField>
       </Grid>
 
-      <Grid item container direction="row" alignItems="center">
+      {/* <Grid item container direction="row" alignItems="center">
         <Typography style={{ fontSize: "24px", marginRight: "95px" }}>
           Giá tiền
         </Typography>
@@ -50,7 +49,7 @@ function TaoKhoanThuPTPage() {
           value={cost}
           onChange={(e) => { setCost(e.target.value) }}
         ></TextField>
-      </Grid>
+      </Grid> */}
 
       <Grid item>
         <NavLink to="/thuphiphuongtien">
@@ -65,7 +64,6 @@ function TaoKhoanThuPTPage() {
           </Button>
         </NavLink>
       </Grid>
-
     </Grid>
   );
 }
