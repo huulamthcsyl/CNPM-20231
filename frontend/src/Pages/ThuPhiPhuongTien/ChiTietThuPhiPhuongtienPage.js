@@ -54,7 +54,7 @@ function ChiTietThuPhiPhuongtienPage() {
     }
 
     console.log(startTime, endTime);
-    ClassApi.FindResidenceReceipt(lisensePlate, startTime, endTime)
+    ClassApi.FindVehicleReceipt(lisensePlate, startTime, endTime)
       .then((res) => {
         setVehicleReceipts(res.data);
         console.log(res.data);
