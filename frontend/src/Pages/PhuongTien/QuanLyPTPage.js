@@ -22,11 +22,12 @@ function QuanLyPTPage() {
   ];
 
   const [allVehicle, setAllVehicles] = useState([])
-  const [licenseplate, setLicenseplate] = useState('')
+  const [licensePlate, setLicensePlate] = useState('')
   const [ownerName, setOwnerName] = useState('')
   const [category, setCategory] = useState('')
+
   const search = () => {
-    ClassApi.FindVehicle(licenseplate, ownerName, category).then((respone) => {
+    ClassApi.FindVehicle(licensePlate, ownerName, category).then((respone) => {
       setAllVehicles(respone.data)
     });
     console.log('clicked')
@@ -95,8 +96,8 @@ function QuanLyPTPage() {
         <TextField
           style={{ width: "250px" }}
           inputProps={{ style: { fontSize: "18px" } }}
-          value={licenseplate}
-          onChange={(e) => { setLicenseplate(e.target.value) }}
+          value={licensePlate}
+          onChange={(e) => { setLicensePlate(e.target.value) }}
         ></TextField>
       </Grid>
 
@@ -163,17 +164,17 @@ function QuanLyPTPage() {
                     {index + 1}
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
-                    {column.vehicle ? column.vehicle.licensePlate : ''}
+                    {column.licensePlate ? column.licensePlate : ''}
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
-                    {column.vehicle ? column.vehicle.category : ''}
+                    {column.category ? column.category : ''}
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
-                    {column.name ? column.name : ''}
+                    {column.ownerName ? column.ownerName : ''}
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
 
-                    <NavLink to={"/chitietphuongtien/" + column.vehicle.vehicleId}>
+                    <NavLink to={"/chitietphuongtien/" + column.vehicleId}>
                       Chi tiết
                     </NavLink>
 

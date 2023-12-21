@@ -5,13 +5,10 @@ import { NavLink, useParams } from 'react-router-dom';
 import ClassApi from '../../Api/Api'
 function ChiTietPhuongTien() {
   const [PhuongTien, setPhuongTien] = useState({
-    "vehicle": {
-      "vehicleId": "f6b659b7-610d-44f6-9a67-61c505389108",
-      "personId": "ad4beae4-662f-406d-bb56-d1d9275dd440",
-      "category": "Ô tô",
-      "licensePlate": "12A-45568"
-    },
-    "name": "Nguyễn Văn C"
+    "vehicleId": "aec3d7c5-1e17-4e8f-826c-01eff91ba981",
+    "category": "Xe máy",
+    "licensePlate": "88A-12345",
+    "ownerName": "Phùng Thanh Đăng"
   })
   const param = useParams()
   useEffect(() => {
@@ -34,7 +31,7 @@ function ChiTietPhuongTien() {
         <TextField
           style={{ width: "500px" }}
           inputProps={{ style: { fontSize: "18px" } }}
-          value={PhuongTien.vehicle.licensePlate}
+          value={PhuongTien.licensePlate}
         ></TextField>
       </Grid>
 
@@ -45,7 +42,7 @@ function ChiTietPhuongTien() {
         <TextField
           style={{ width: "500px" }}
           inputProps={{ style: { fontSize: "18px" } }}
-          value={PhuongTien.vehicle.category}
+          value={PhuongTien.category}
         ></TextField>
       </Grid>
 
@@ -56,7 +53,7 @@ function ChiTietPhuongTien() {
         <TextField
           style={{ width: "500px" }}
           inputProps={{ style: { fontSize: "18px" } }}
-          value={PhuongTien.name}
+          value={PhuongTien.ownerName}
 
         ></TextField>
       </Grid>
