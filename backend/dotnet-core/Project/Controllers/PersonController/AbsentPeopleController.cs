@@ -158,7 +158,7 @@ namespace Project.Controllers.PersonController
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAbsentPerson(Guid id, AbsentPerson absentPerson)
         {
-            if (id != absentPerson.PersonId)
+            if (id != absentPerson.AbsentPersonId)
             {
                 return BadRequest();
             }
