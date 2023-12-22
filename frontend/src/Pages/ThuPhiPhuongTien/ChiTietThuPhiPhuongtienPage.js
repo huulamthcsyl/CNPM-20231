@@ -268,9 +268,14 @@ function ChiTietThuPhiPhuongtienPage() {
                         {new Date(vehicleReceipt.dateCreated).toLocaleDateString("en-GB")}
                       </TableCell>
                       <TableCell>
-                        <NavLink to="/chitietphieuthuphuongtien">
+                        {/* <NavLink to="/chitietphieuthuphuongtien">
                           <Typography style={{ fontSize: "18px" }}>Chi Tiết</Typography>
-                        </NavLink>
+                        </NavLink> */}
+                        <a href={`${nextPagePathname}${vehicleReceipt.vehicleReceiptId}`}>
+                          <Typography style={{ fontSize: "18px", textDecoration: "underline" }}>
+                            Chi Tiết
+                          </Typography>
+                        </a>
                       </TableCell>
 
                     </TableRow>
@@ -280,8 +285,6 @@ function ChiTietThuPhiPhuongtienPage() {
             </Table>
           </TableContainer>
         </Grid>
-
-
 
       </Grid>
     </LocalizationProvider>

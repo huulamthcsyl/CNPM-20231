@@ -5,12 +5,33 @@ import { Table, TableBody, TableCell } from "@mui/material";
 import { TableRow, TableHead, TableContainer } from "@mui/material";
 import { Paper } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import ClassApi from "../../Api/Api";
+import { toast } from "react-toastify";
+
+
 export default function ChiTietPhieuThuPhuongTienPage() {
+
+    const searchParams = new URLSearchParams(window.location.search);
+    const vehicleReceiptId = searchParams.get("vehicleReceiptId");
+    const [vehicleReceipt, setVehicleReceipt] = useState({});
+    const [payments, setPayments] = useState([]);
+    useEffect(() => {
+        ClassApi.GetVehicleReceipt(vehicleReceiptId)
+            .then((res) => {
+                setVehicleReceipt(res.data);
+                setPayments(res.data.listPayment);
+            })
+            .catch((error) => {
+                toast.error(error.response.data);
+                console.log(error);
+            });
+    }, []);
     const tableHeadName = [
         { name: "Số thứ tự" },
         { name: "Tên khoản thu" },
-        { name: "Số tiền" },
-        { name: "Ghi chú" },
+        { name: "Số tiền (đồng)" },
+
     ];
 
     return (
@@ -18,7 +39,7 @@ export default function ChiTietPhieuThuPhuongTienPage() {
         <Grid container spacing={2} padding={"50px"}>
             <Grid item xs={12}>
                 <h1 style={{ fontSize: "40px" }}>
-                    Chi tiết phiếu thu
+                    Chi tiết Phiếu thu Phương tiện
                 </h1>
             </Grid>
 
@@ -28,7 +49,7 @@ export default function ChiTietPhieuThuPhuongTienPage() {
                 </Typography>
                 <TextField
                     style={{ width: "500px" }}
-                    value={"30A-88888"}
+                    value={vehicleReceipt.licensePlate}
                     inputProps={{ style: { fontSize: "18px" } }}
                 ></TextField>
 
@@ -55,49 +76,47 @@ export default function ChiTietPhieuThuPhuongTienPage() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            <TableRow>
-                                <TableCell style={{ fontSize: "18px" }}>
-                                    1
-                                </TableCell>
-                                <TableCell style={{ fontSize: "18px" }}>
-                                    Phí trông giữ xe tháng 10
-                                </TableCell>
-                                <TableCell style={{ fontSize: "18px" }}>
-                                    400.000 đồng
-                                </TableCell>
-                                <TableCell style={{ fontSize: "18px" }}>
-                                    <Link>
-                                        Xóa
-                                    </Link>
-                                </TableCell>
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ fontSize: "18px" }}>
-                                    2
-                                </TableCell>
-                                <TableCell style={{ fontSize: "18px" }}>
-                                    Phí lau rửa xe
-                                </TableCell>
-                                <TableCell style={{ fontSize: "18px" }}>
-                                    100.000 đồng
-                                </TableCell>
-                                <TableCell style={{ fontSize: "18px" }}>
-                                    <Link>
-                                        Xóa
-                                    </Link>
-                                </TableCell>
-                            </TableRow>
+                            {payments &&
+                                payments.map((payment, index) => (
+                                    <TableRow>
+                                        <TableCell style={{ fontSize: "18px" }}>
+                                            {index + 1}
+                                        </TableCell>
+                                        <TableCell style={{ fontSize: "18px" }}>
+                                            {payment.feeName}
+                                        </TableCell>
+                                        <TableCell style={{ fontSize: "18px" }}>
+                                            {payment.amount &&
+                                                payment.amount.toLocaleString("en-US", {
+                                                    style: "decimal",
+                                                })}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
                         </TableBody>
-
-
-
                     </Table>
                 </TableContainer>
             </Grid>
+            <Grid item xs={12}>
+                <Typography style={{ fontSize: "24px" }}>
+                    Tổng số tiền:{" "}
+                    {vehicleReceipt.amount &&
+                        vehicleReceipt.amount.toLocaleString("en-US", { style: "decimal" })}{" "} đồng
+                </Typography>
+            </Grid>
+            <Grid item xs={12} container direction="row" alignItems="center">
+                <Typography style={{ fontSize: "24px", marginRight: "42px" }}>
+                    Ghi chú
+                </Typography>
+                <TextField
+                    style={{ width: "500px" }}
+                    inputProps={{ style: { fontSize: "18px" }, readOnly: true }}
+                    value={vehicleReceipt.description}
+                ></TextField>
+            </Grid>
 
             <Grid item>
-                <NavLink to="/chitietthuphiphuongtien">
+                <NavLink to="/" onClick={() => window.history.back()}>
                     <Button
                         variant="contained"
                         style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}

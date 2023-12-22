@@ -173,6 +173,7 @@ class ClassApi {
   //**
   //Api phuong tien
   //*** */
+  
   GetAllVehicles() {
     return axios.get(API_BASE_URL + "/vehicle/all", { headers });
   }
@@ -239,7 +240,9 @@ class ClassApi {
 
 
 
-
+  GetVehicleReceipt(id) {
+    return axios.get(API_BASE_URL + "/vehiclereceipt/" + id, { headers });
+  }
   PostVehicleReceipt(vehicleReceipt) {
     return axios.post(API_BASE_URL + "/vehiclereceipt", vehicleReceipt, { headers });
   }
