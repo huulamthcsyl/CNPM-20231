@@ -118,6 +118,9 @@ function DangKyTamVangPage() {
     })
   }
   const handleChangeName = (e, value) => {
+    if (e.target.value == null) {
+      return
+    }
     console.log(value)
     setName(value.label)
     setCccd(value.code)

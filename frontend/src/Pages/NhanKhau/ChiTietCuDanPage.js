@@ -239,21 +239,36 @@ function ThemCuDan() {
               </Grid>
               <Grid item style={{ bottom: "7px", position: "relative" }}>
                 <InputLabel id="demo-select-small-label">Trạng thái</InputLabel>
-                <Select
-                  labelId="demo-select-small-label"
-                  value={status}
-                  style={{ width: "200px" }}
-                  placeholder="trang thai"
-                  onChange={handleChange}
-                >
-                  <MenuItem value="Thường trú">
-                    <Typography variant="h5">Thường trú</Typography>
-                  </MenuItem>
-                  <MenuItem value="Tạm trú">
-                    <Typography variant="h5">Tạm trú</Typography>
-                  </MenuItem>
+                {status == 'Tạm Vắng' ?
+                  <Select
+                    labelId="demo-select-small-label"
+                    value="Tạm Vắng"
+                    style={{ width: "200px" }}
+                    placeholder="trang thai"
+                    onChange={handleChange}
+                    disabled
+                  >
+                    <MenuItem value="Tạm Vắng">
+                      <Typography variant="h5">Tạm vắng</Typography>
+                    </MenuItem>
 
-                </Select>
+                  </Select> :
+                  <Select
+                    labelId="demo-select-small-label"
+                    value={status}
+                    style={{ width: "200px" }}
+                    placeholder="trang thai"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="Thường trú">
+                      <Typography variant="h5">Thường trú</Typography>
+                    </MenuItem>
+                    <MenuItem value="Tạm trú">
+                      <Typography variant="h5">Tạm trú</Typography>
+                    </MenuItem>
+
+                  </Select>}
+
               </Grid>
             </Grid>
           </Grid>

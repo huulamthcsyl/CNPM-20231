@@ -3,8 +3,12 @@ import AutoComplete from "../../Layout/component/AutoCompleteSearch";
 import { MenuItem, Select, TableCell, TableRow } from "@mui/material";
 import { toast } from "react-toastify";
 import ClassApi from '../../Api/Api'
+
 import { NavLink } from "react-router-dom";
-function CustomRow({ index, ondelete, handleAdd }) {
+import { useListMember } from "./listMemberContext";
+
+function CustomRow({ index, ondelete, handleAdd, listMember, setListMember, changeRelation }) {
+    //  const { listMember, setListMember } = useListMember();
     const personShrinkList = [];
     const [name, setName] = useState()
     const [personList, setPersonList] = useState([])
@@ -31,12 +35,25 @@ function CustomRow({ index, ondelete, handleAdd }) {
             person: person
         });
     });
+    const handleDelete = () => {
+        // Gọi hàm onDelete (deleterow) với index của phần tử cần xóa
+        //ondelete()
+        const updatedList = [...listMember];
 
+        // Xóa phần tử tại vị trí index trong bản sao
+        updatedList.splice(index, 1);
+        // Cập nhật state với mảng mới đã xóa phần tử
+        setListMember(updatedList);
+        console.log(updatedList.length)
+        // console.log(listMember.length)
+        //  let newlist = listMember.filter((item, index) => index !== index)
+        //  setListMember(newlist)
+    };
     // console.log(arr);
     const handleChangeName = (event, value) => {
         var personn = value.person
         personn.ownerRelationship = relation
-        handleAdd(personn)
+        handleAdd(personn, 2, index)
         setName(value.name)
         setBirth(value.birth ? value.birth.slice(0, 10) : birth)
         setIdentityCardNumber(value.code)
@@ -80,7 +97,7 @@ function CustomRow({ index, ondelete, handleAdd }) {
                 ></input>
             </TableCell>
             <TableCell style={{ fontSize: "18px" }}>
-                <Select style={{ fontSize: "18px", border: "none", width: '120px' }} value={relation} onChange={(e) => { setRelation(e.target.value) }}>
+                <Select style={{ fontSize: "18px", border: "none", width: '120px' }} value={relation} onChange={(e) => { setRelation(e.target.value); changeRelation(index, e.target.value) }}>
                     <MenuItem value='Khác'>Khác</MenuItem>
                     <MenuItem value='Chủ hộ'>Chủ hộ</MenuItem>
                     <MenuItem value='Vợ'>Vợ</MenuItem>
@@ -100,9 +117,7 @@ function CustomRow({ index, ondelete, handleAdd }) {
                         backgroundColor: "transparent",
                         fontSize: "18px",
                     }}
-                    onClick={() => {
-                        ondelete(index)
-                    }}
+                    onClick={handleDelete}
                 >
                     <span style={{ color: "red" }}>Xóa</span>
                 </button>
