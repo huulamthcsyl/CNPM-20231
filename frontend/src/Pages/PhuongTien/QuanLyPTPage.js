@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Button, Typography } from "@mui/material";
 import { FormControl, FormGroup, TextField } from "@mui/material";
-import { Table, TableBody, TableCell } from "@mui/material";
+import { Table, TableBody, TableCell, TablePagination } from "@mui/material";
 import { TableRow, TableHead, TableContainer } from "@mui/material";
 import { Paper } from "@mui/material";
 import { NavLink } from "react-router-dom";
@@ -9,10 +9,11 @@ import { Select, MenuItem } from '@mui/material';
 import { useState, useEffect } from "react";
 import PlusCircle from "../../Icons/PlusCircle.png";
 import ClassApi from "../../Api/Api"
+import { all } from "axios";
 
 
 function QuanLyPTPage() {
-  //const fields = [{ label: "Biển kiểm soát" }, { label: "Chủ sở hữu" }, { label: "Loại xe" }];
+
   const tableHeadName = [
     { name: "Số thứ tự" },
     { name: "Biển kiểm soát" },
@@ -26,7 +27,19 @@ function QuanLyPTPage() {
   const [ownerName, setOwnerName] = useState('')
   const [category, setCategory] = useState('')
 
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   const search = () => {
+    setPage(0);
     ClassApi.FindVehicle(licensePlate, ownerName, category).then((respone) => {
       setAllVehicles(respone.data)
     });
@@ -157,30 +170,70 @@ function QuanLyPTPage() {
             </TableHead>
             <TableBody>
 
-              {allVehicle.map((column, index) => (
-                <TableRow key={index}>
-                  <TableCell style={{ fontSize: "18px" }}>
-                    {index + 1}
-                  </TableCell>
-                  <TableCell style={{ fontSize: "18px" }}>
-                    {column.licensePlate ? column.licensePlate : ''}
-                  </TableCell>
-                  <TableCell style={{ fontSize: "18px" }}>
-                    {column.category ? column.category : ''}
-                  </TableCell>
-                  <TableCell style={{ fontSize: "18px" }}>
-                    {column.ownerName ? column.ownerName : ''}
-                  </TableCell>
-                  <TableCell style={{ fontSize: "18px" }}>
+              {allVehicle &&
+                (rowsPerPage > 0
+                  ? allVehicle.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                  : allVehicle
+                ).map((column, index) => (
+                  <TableRow key={index}>
+                    <TableCell style={{ fontSize: "18px" }}>
+                      {page * rowsPerPage + index + 1}
+                    </TableCell>
+                    <TableCell style={{ fontSize: "18px" }}>
+                      {column.licensePlate ? column.licensePlate : ''}
+                    </TableCell>
+                    <TableCell style={{ fontSize: "18px" }}>
+                      {column.category ? column.category : ''}
+                    </TableCell>
+                    <TableCell style={{ fontSize: "18px" }}>
+                      {column.ownerName ? column.ownerName : ''}
+                    </TableCell>
+                    <TableCell style={{ fontSize: "18px" }}>
 
-                    <NavLink to={"/chitietphuongtien/" + column.vehicleId}>
-                      Chi tiết
-                    </NavLink>
+                      <NavLink to={"/chitietphuongtien/" + column.vehicleId}>
+                        Chi tiết
+                      </NavLink>
 
-                  </TableCell>
-                </TableRow>
-              ))}
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
+            <tfoot>
+              <tr>
+                <TablePagination
+                  rowsPerPageOptions={[5, 8, 10, { label: "All", value: -1 }]}
+                  colSpan={6}
+                  count={allVehicle.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  slotProps={{
+                    select: {
+                      "aria-label": "rows per page",
+                    },
+                    actions: {
+                      showFirstButton: true,
+                      showLastButton: true,
+                    },
+                  }}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  sx={{
+                    "& .MuiTablePagination-input": {
+                      fontSize: "16px",
+                    },
+                    "& .MuiTablePagination-displayedRows": {
+                      fontSize: "16px",
+                    },
+                    "& .MuiTablePagination-selectLabel": {
+                      fontSize: "16px",
+                    },
+                  }}
+                />
+              </tr>
+            </tfoot>
           </Table>
         </TableContainer>
       </Grid>

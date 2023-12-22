@@ -85,7 +85,7 @@ function ChiTietThuPhiPhuongtienPage() {
   }, [vehicleFeeId]);
 
   const handleSearch = () => {
-    // console.log(starttime, endtime);
+    console.log(starttime, endtime);
     setPage(0);
     var startTime, endTime;
 
@@ -251,7 +251,7 @@ function ChiTietThuPhiPhuongtienPage() {
                   ).map((vehicleReceipt, index) => (
                     <TableRow>
                       <TableCell style={{ fontSize: "18px" }}>
-                        {index + 1}
+                        {page * rowsPerPage + index + 1}
                       </TableCell>
                       <TableCell style={{ fontSize: "18px" }}>
                         {vehicleReceipt.licensePlate}
@@ -280,8 +280,40 @@ function ChiTietThuPhiPhuongtienPage() {
 
                     </TableRow>
                   ))}
-
               </TableBody>
+              <tfoot>
+                <tr>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 8, 10, { label: "All", value: -1 }]}
+                    colSpan={6}
+                    count={vehicleReceipts.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    slotProps={{
+                      select: {
+                        "aria-label": "rows per page",
+                      },
+                      actions: {
+                        showFirstButton: true,
+                        showLastButton: true,
+                      },
+                    }}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    sx={{
+                      "& .MuiTablePagination-input": {
+                        fontSize: "16px",
+                      },
+                      "& .MuiTablePagination-displayedRows": {
+                        fontSize: "16px",
+                      },
+                      "& .MuiTablePagination-selectLabel": {
+                        fontSize: "16px",
+                      },
+                    }}
+                  />
+                </tr>
+              </tfoot>
             </Table>
           </TableContainer>
         </Grid>

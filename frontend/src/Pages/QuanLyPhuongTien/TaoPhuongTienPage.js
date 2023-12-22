@@ -5,28 +5,29 @@ import { NavLink } from "react-router-dom";
 import ClassApi from '../../Api/Api'
 import { toast } from "react-toastify";
 import { Select, MenuItem } from '@mui/material';
-import { Autocomplete } from "@mui/material";
-import { Vehicle } from '../../Models/Vehicle';
 import AutoComplete from '../../Layout/component/AutoCompleteSearch';
+import { Vehicle } from '../../Models/Vehicle';
 
 function TaoPhuongTienPage() {
   let PhuongTien = {}
   const [personId, setPersonId] = useState('');
   const [lisensePlate, setLisensePlate] = useState('');
   const [category, setCategory] = useState('');
+  const [ownerName, setOwnerName] = useState("");
   const [personList, setPersonList] = useState([]);
-  const [selectedPerson, setSelectedPerson] = useState(null);
-  const [isValid, setIsValid] = useState(true);
+
   const personShrinkList = [];
+
   useEffect(() => {
     ClassApi.GetAllPeople()
       .then((res) => {
         setPersonList(res.data)
       })
       .catch((err) => {
-        toast.error(err.name);
+        toast.error(err.response.data);
       })
   }, [])
+
   personList.map((person, index) => {
     personShrinkList.push({
       label: person.name,
@@ -35,26 +36,37 @@ function TaoPhuongTienPage() {
       residenceId: person.residenceId,
     });
   });
-  const handleChangeName = (e, value) => {
-    setPersonId(value);
-  }
-  const handleAdd = () => {
 
-    if (!selectedPerson || !category || !lisensePlate) {
-      toast.error("Thêm phương tiện không thành công vì chưa nhập đủ thông tin");
-      return;
+  const handleChangeName = (e, value) => {
+    if (value !== null) {
+      setOwnerName(value.label)
+      setPersonId(value.personId);
+    } else {
+      setOwnerName("");
     }
 
-
-    const newVehicle = new Vehicle(personId, category, lisensePlate);
-
-    ClassApi.PostVehicle(newVehicle)
+  }
+  const handleAdd = (event) => {
+    event.preventDefault();
+    if (!lisensePlate) {
+      toast.error("Chưa nhập Biển kiểm soát")
+      return;
+    }
+    if (!category) {
+      toast.error("Chưa chọn Loại xe")
+      return;
+    }
+    if (!ownerName) {
+      toast.error("Chưa nhập Chủ sở hữu")
+      return;
+    }
+    ClassApi.PostVehicle(new Vehicle(personId, category, lisensePlate))
       .then(
         (response) => {
-          toast.success('Thêm phương tiện thành công!')
+          toast.success('Tạo phương tiện thành công')
         }
       ).catch((err) => {
-        toast.error(err.name)
+        toast.error(err.response.data)
       })
   }
 
@@ -98,36 +110,31 @@ function TaoPhuongTienPage() {
         <Typography style={{ fontSize: "24px", marginRight: "65px" }}>
           Chủ sở hữu
         </Typography>
-
-        <AutoComplete optionList={personShrinkList} onChange={handleChangeName}></AutoComplete>
-        {/* <Autocomplete
-          disablePortal
-          autoHighlight
-          options={personList}
-          getOptionLabel={(option) => option.name || ''}
-          value={selectedPerson}
-          onChange={handleChangeName}
-          sx={{
-            "& .MuiAutocomplete-input": {
-              fontSize: 20,
-            },
-            width: 500,
-          }}
-          renderInput={(params) => (
-            <TextField {...params} />
-          )}
-          />*/}
+        <AutoComplete
+          optionList={personShrinkList}
+          onChange={handleChangeName}>
+        </AutoComplete>
       </Grid>
 
+      <Grid item>
+        <Button
+          variant="contained"
+          style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+          onClick={handleAdd}
+        >
+          <Typography variant="h4" style={{ color: "black" }}>
+            Xác nhận
+          </Typography>
+        </Button>
+      </Grid>
       <Grid item>
         <NavLink to="/quanlyphuongtien">
           <Button
             variant="contained"
             style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
-            onClick={handleAdd}
           >
             <Typography variant="h4" style={{ color: "black" }}>
-              Xác nhận
+              Hủy
             </Typography>
           </Button>
         </NavLink>

@@ -11,20 +11,22 @@ function DoiMatKhauPage() {
     let MatKhau = {}
     const [oldPassWord, setOldPassWord] = useState('');
     const [newPassWord, setNewPassWord] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [printError, setPrintError] = useState(null);
 
-    const handleAdd = () => {
+    const handleChange = () => {
         const id = localStorage.getItem('user')
+        if (newPassWord !== confirmPassword) {
+            setPrintError("Mật khẩu không khớp!");
+            return;
+        }
         ClassApi.PutPassword(id, {
             'id': id,
             "oldPassWord": oldPassWord,
             "newPassWord": newPassWord,
         }).then(
-            (response) => {
-                toast.success('thành công')
-            }
-        ).catch(() => {
-            toast.error('lỗi')
-        })
+            (response) => { toast.success('Đổi mật khẩu thành công') }
+        ).catch(err => console.log(err));
     }
     return (
         <Grid container spacing={2} padding={"50px"}>
@@ -38,6 +40,7 @@ function DoiMatKhauPage() {
                     Mật khẩu cũ
                 </Typography>
                 <TextField
+                    required type="password"
                     style={{ width: "500px" }}
                     inputProps={{ style: { fontSize: "18px" } }}
                     value={oldPassWord}
@@ -49,6 +52,7 @@ function DoiMatKhauPage() {
                     Mật khẩu mới
                 </Typography>
                 <TextField
+                    required type="password"
                     style={{ width: "500px" }}
                     inputProps={{ style: { fontSize: "18px" } }}
                     value={newPassWord}
@@ -60,21 +64,36 @@ function DoiMatKhauPage() {
                     Xác nhận mật khẩu mới
                 </Typography>
                 <TextField
+                    required type="password"
                     style={{ width: "500px" }}
                     inputProps={{ style: { fontSize: "18px" } }}
-                    value={newPassWord}
-                    onChange={(e) => { setNewPassWord(e.target.value) }}
+                    FormHelperTextProps={{ style: { fontSize: "18px" } }}
+                    error={printError != null}
+                    helperText={printError}
+                    value={confirmPassword}
+                    onChange={(e) => { setConfirmPassword(e.target.value) }}
                 ></TextField>
             </Grid>
-            <Grid item>
+
+            <Grid item xs={2}>
+                <Button
+                    variant="contained"
+                    style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+                    onClick={handleChange}
+                >
+                    <Typography variant="h4" style={{ color: "black" }}>
+                        Xác nhận
+                    </Typography>
+                </Button>
+            </Grid>
+            <Grid item xs={2}>
                 <NavLink to="/hosoadmin">
                     <Button
                         variant="contained"
                         style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
-                        onClick={handleAdd}
                     >
                         <Typography variant="h4" style={{ color: "black" }}>
-                            Xác nhận
+                            Hủy
                         </Typography>
                     </Button>
                 </NavLink>

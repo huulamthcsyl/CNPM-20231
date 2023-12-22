@@ -81,7 +81,7 @@ function QuanLyThuPhiPhuongtienPage() {
     if (value !== null) {
       newPayments[index] = {
         label: value.label,
-        cost: String(value.cost),
+        cost: value.cost === null ? "" : String(value.cost),
         vehicleFeeId: value.vehicleFeeId,
       };
       if (payments[index].cost !== "")
@@ -96,7 +96,7 @@ function QuanLyThuPhiPhuongtienPage() {
   const handleChangeCost = (index) => (event, value) => {
     let newPayments = [...payments];
 
-    let newCost = parseInt(event.target.value);
+    let newCost = event.target.value === "" ? 0 : parseInt(event.target.value);
 
     if (newCost !== 0) {
       newPayments[index].cost = String(newCost);
@@ -182,14 +182,13 @@ function QuanLyThuPhiPhuongtienPage() {
                 )}
               />
             </Grid>
-
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <Grid item container direction="row" alignItems="center">
-                <Typography style={{ fontSize: "24px", marginRight: "28px" }}>
+                <Typography style={{ fontSize: "24px", marginRight: "28px", marginTop: "10px" }}>
                   Ngày thu
                 </Typography>
                 <CustomizedDatePicker
-                  sx={{ marginLeft: "60px" }}
+                  sx={{ marginLeft: "60px", marginTop: "10px" }}
                   value={dateCreated}
                   onChange={(date) => setDateCreated(date)}
                   format="DD-MM-YYYY"
@@ -198,7 +197,7 @@ function QuanLyThuPhiPhuongtienPage() {
             </LocalizationProvider>
 
             <Grid item xs={12}>
-              <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
+              <Typography style={{ fontSize: "24px", marginRight: "25px", marginTop: "10px" }}>
                 Danh sách khoản thu
               </Typography>
             </Grid>

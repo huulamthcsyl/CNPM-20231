@@ -7,7 +7,6 @@ import { Paper } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import PlusCircle from "../../Icons/PlusCircle.png";
 import ThuPhi from "../../Icons/ThuPhi.png";
-
 import ClassApi from "../../Api/Api";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
@@ -171,29 +170,7 @@ function ThuPhiPTPage() {
                 ))}
               </TableRow>
             </TableHead>
-            {/* <TableBody>
-              <TableRow>
-                <TableCell style={{ fontSize: "18px" }}>
-                  1
-                </TableCell>
-                <TableCell style={{ fontSize: "18px" }}>
-                  Phí gửi xe tháng 10
-                </TableCell>
-                <TableCell style={{ fontSize: "18px" }}>
-                  10
-                </TableCell>
-                <TableCell style={{ fontSize: "18px" }}>
-                  3.000.000 đồng
-                </TableCell>
-                <TableCell style={{ fontSize: "18px" }}>
 
-                  <NavLink to="/chitietthuphiphuongtien">
-                    Chi tiết
-                  </NavLink>
-
-                </TableCell>
-              </TableRow>
-            </TableBody> */}
 
             <TableBody>
               {payments &&
@@ -206,7 +183,7 @@ function ThuPhiPTPage() {
                 ).map((payment, index) => (
                   <TableRow>
                     <TableCell style={{ fontSize: "18px" }}>
-                      {index + 1}
+                      {page * rowsPerPage + index + 1}
                     </TableCell>
                     <TableCell style={{ fontSize: "18px" }}>
                       {payment.name}
