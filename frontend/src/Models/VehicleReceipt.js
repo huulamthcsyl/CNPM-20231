@@ -1,13 +1,17 @@
 export class VehicleReceipt {
   constructor(
+    vehicleId,
     dateCreated,
     amount,
     description,
-    personId
+    vehiclePayments,
+
   ) {
+    this.vehicleId = vehicleId;
     this.description = description;
     this.dateCreated = dateCreated;
     this.amount = amount;
-    this.personId = personId;
+    this.vehiclePayments = vehiclePayments;
+
   }
 }
