@@ -55,14 +55,18 @@ namespace Project.Controllers.PersonController
             {
                 return NotFound();
             }
+
             var absentPerson = await _context.AbsentPeople
                             .Include(p => p.Person)
                             .FirstOrDefaultAsync(p => p.AbsentPersonId == id);
 
+            var residence = await _context.Residences.FindAsync(absentPerson.PersonId);
+
             var absent = new
             {
                 absent = absentPerson,
-                person = absentPerson.Person
+                person = absentPerson.Person,
+                address = residence == null ? null : residence.Address
             };
             return absent;
         }
