@@ -65,6 +65,7 @@ function ChiTietHoDan({ Hodan }) {
   const [listMember2, setListMember2] = useState([])
   const [numberLine, setNumberLine] = useState(hodan.people.length);
   const [address, setAddress] = useState('')
+  const [owner, setOwner] = useState({ personId: '' })
   var deleterow = (index) => {
     console.log(index)
     const updatedList = [...listMember2];
@@ -92,21 +93,32 @@ function ChiTietHoDan({ Hodan }) {
   useEffect(() => {
     ClassApi.GetResidenceById(id).then((response) => {
       setHodan(response.data)
-      setListMember(response.data.people)
+      var newlist = response.data.people.filter(item => item.ownerRelationship != 'Chủ nhà')
+      var own = response.data.people.find(obj => obj.ownerRelationship == 'Chủ nhà')
+      setOwner(own)
+      setListMember(newlist)
       setIdd(response.data.ownerId)
       setAddress(response.data.address)
     })
   }, [])
   const handlePut = () => {
+
+    const updatedList = listMember2.map(item => {
+      if (item.ownerRelationship === '') {
+        return { ...item, ownerRelationship: 'Khác' };
+      }
+      return item;
+    });
     ClassApi.PutResidence({
       "residenceId": id,
       "memberNumber": [...listMember, ...listMember2].filter(obj => obj.hasOwnProperty('personId')).length + 1,
       "address": address,
       "ownerId": idd,
-      "people": [...listMember, ...listMember2]
+      "people": [owner, ...listMember, ...updatedList]
     }, id).then(
       (response) => {
         toast.success("Sửa hộ dân thành công!")
+        window.location.reload()
       }
     ).catch(() => {
       toast.error('Sửa thất bại')
@@ -286,7 +298,9 @@ function ChiTietHoDan({ Hodan }) {
                     </Select>
                   </TableCell>
                   <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
-                    <span style={{ color: "blue" }}>Chi tiết</span>|
+                    <NavLink style={{ textDecoration: 'none' }} to={'/chitietcudan/' + item.personId}>
+                      <span style={{ color: "blue" }}>Chi tiết</span>|
+                    </NavLink>
                     <button style={{ color: "red", backgroundColor: 'transparent', fontSize: '18px' }} onClick={() => { handleDel(index) }}>Xóa</button>
                   </TableCell>
                 </TableRow>
@@ -346,7 +360,7 @@ function ChiTietHoDan({ Hodan }) {
                   </TableCell>
                 </TableRow>
               ))}
-              <CustomRow listMember={listMember2} setListMember={setListMember2} />
+              <CustomRow listMember={listMember2} setListMember={setListMember2} ownerId={owner.personId} listMember2={listMember} />
             </TableBody>
           </Table>
         </TableContainer>
@@ -355,11 +369,13 @@ function ChiTietHoDan({ Hodan }) {
 
       </Grid>
       <Grid item xs={12}>
-        <button style={{ backgroundColor: "transparent", cursor: "pointer" }}>
-          <Typography variant="h4" style={{ color: "blue", cursor: "pointer" }}>
-            Lịch sử thay đổi nhân khẩu
-          </Typography>
-        </button>
+        <NavLink to={"/lichsuthaydoi/" + id}>
+          <button style={{ backgroundColor: "transparent", cursor: "pointer" }}>
+            <Typography variant="h4" style={{ color: "blue", cursor: "pointer" }}>
+              Lịch sử thay đổi nhân khẩu
+            </Typography>
+          </button>
+        </NavLink>
       </Grid>
       <Grid item>
         <Button

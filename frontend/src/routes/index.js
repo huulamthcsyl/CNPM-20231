@@ -29,6 +29,7 @@ import QTVLayout from "../Layout/QTVLayout.js";
 import QTVPage from "../Pages/QTVHeThong/QTVPage.js";
 import ThemQTVPage from "../Pages/QTVHeThong/ThemQTVPage.js";
 import ChiTietTamVangPage from "../Pages/TamVang/ChiTietTamVangPage.js";
+import LichSuPage from "../Pages/HoKhau/LishSuPage.js";
 const publicRoutes = [
   { path: "/", component: DangNhapPage, layout: NoneLayout },
   { path: "/danhmucthu", component: DanhMucThu },
@@ -49,6 +50,7 @@ const publicRoutes = [
   { path: "/chitietphieuthu", component: ChiTietPhieuThu },
   { path: "/chitietkhoanthu", component: ChiTietKhoanThu },
   { path: "/chitiethodan/:id", component: ChiTietHoDan },
+  { path: "/lichsuthaydoi/:id", component: LichSuPage },
   { path: '/chitiettamvang/:id', component: ChiTietTamVangPage },
   { path: "/chitietphuongtien/:id", component: ChiTietPhuongTien },
   { path: "/taokhoanthuphuongtien", component: TaoKhoanThuPTPage },
