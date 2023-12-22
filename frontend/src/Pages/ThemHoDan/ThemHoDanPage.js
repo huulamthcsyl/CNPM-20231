@@ -89,6 +89,14 @@ function ThemHoDan() {
 
     //  setNumberLine(numberLine - 1)
   }
+  const changeState = (list) => {
+    // setListMember(list)
+    setListMember((prev) => ({ value: list }))
+
+  }
+  useEffect(() => {
+
+  }, [listMember])
   const handleAddRow = () => {
     //  setArr([...arr, arr.length + 1]); // Thêm một phần tử mới vào mảng arr với giá trị tăng dần
     if (!Array.isArray(listMember)) {
@@ -108,31 +116,19 @@ function ThemHoDan() {
     newlist[index].ownerRelationship = relaton
     setListMember(newlist)
   }
-  const pushMember = (person, x, index) => {
-    if (person && x == 2) {
-
-      let newlist = listMember
-      newlist[index] = person
-      setListMember(newlist)
-      console.log(newlist)
-
-    }
+  const pushMember = (person) => {
+    let newlist = [...listMember]
+    newlist = [...newlist, person]
+    setListMember(newlist)
   }
-  const handleChangeName = (event, value) => {
-    if (event.target.value == null) {
+  const handleChangeName2 = (event, value) => {
+    if (value == null || value.person == null) {
       return
     } else {
-      let newArray = listMember;
-      if (newArray.length > 0) {
-        newArray.splice(0, 1, value.person ? value.person : '')
-        //setListMember(newArray)
-        setOwner(value.person)
-        console.log(listMember)
-        console.log(newArray)
-      } else {
-        //  setListMember([value.person, ...listMember])
-        setOwner(value.person)
-      }
+      //     let newArray = listMember;
+
+      setOwner(value.person)
+
       setName(value.label)
       setId(value.personId)
       setAddress(value.address)
@@ -163,7 +159,7 @@ function ThemHoDan() {
             <Grid item >
               <AutoComplete
                 optionList={personShrinkList}
-                onChange={handleChangeName}
+                onChange={handleChangeName2}
                 width={400}
               ></AutoComplete>
 
@@ -247,7 +243,7 @@ function ThemHoDan() {
                   </TableCell>
                   <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
                     <NavLink to={'/chitietcudan/' + id}>
-                      <span style={{ color: "blue" }}>Chi tiết</span>|
+                      <span style={{ color: "blue" }}>Chi tiết</span>
                     </NavLink>
                     <button
                       style={{
@@ -256,31 +252,73 @@ function ThemHoDan() {
                       }}
 
                     >
-
                     </button>
                   </TableCell>
                 </TableRow>
                 {listMember.length > 0 && listMember.map((item, index) => (
-                  <CustomRow key={index} index={index} ondelete={() => deleterow(index)} handleAdd={pushMember}
-                    setListMember={setListMember} changeRelation={changeRelation}
-                    listMember={listMember} />
+                  <TableRow key={index}>
+                    <TableCell>
+                      <Typography style={{ fontSize: '20px' }}>{item.name}</Typography>
+                    </TableCell>
+                    <TableCell style={{ fontSize: "18px" }}>
+                      <input
+                        style={{ fontSize: "18px", border: "none" }}
+                        type="date"
+                        value={item.dateOfBirth.slice(0, 10)}
+                        //     onChange={(e) => { setBirth(e.target.value) }}
+                        disabled
+                      />
+                    </TableCell>
+                    <TableCell style={{ fontSize: "18px" }}>
+                      <input
+                        style={{
+                          fontSize: "18px",
+                          border: "none",
+                          width: "150px",
+                        }}
+                        type="text"
+                        value={item.identityCardNumber}
+                        disabled
+                      //   onChange={(e)=>setIdentityCardNumber(e.target.value)}
+                      ></input>
+                    </TableCell>
+                    <TableCell style={{ fontSize: "18px" }}>
+                      <Select style={{ fontSize: "18px", border: "none", width: '120px' }} onChange={(e) => { changeRelation(index, e.target.value) }}>
+                        <MenuItem value='Khác'>Khác</MenuItem>
+                        <MenuItem value='Chủ hộ'>Chủ hộ</MenuItem>
+                        <MenuItem value='Vợ'>Vợ</MenuItem>
+                        <MenuItem value='Chồng'>Chồng</MenuItem>
+                        <MenuItem value='Con'>Con</MenuItem>
+                        <MenuItem value='Bố'>Bố</MenuItem>
+                        <MenuItem value='Mẹ'>Mẹ</MenuItem>
+                        <MenuItem value='Anh/chị/em'>Anh/chị/em</MenuItem>
+                      </Select>
+                    </TableCell>
+                    <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
+                      <NavLink to={'/chitietcudan/' + item.personId} style={{ textDecoration: 'none' }}>
+                        <span style={{ color: "blue" }}>Chi tiết</span>|
+                      </NavLink>
+                      <button
+                        style={{
+                          backgroundColor: "transparent",
+                          fontSize: "18px",
+                          color: 'red'
+                        }}
+                        onClick={() => deleterow(index)}
+                      >
+                        Xóa
+                      </button>
+                    </TableCell>
+                  </TableRow>
                 ))}
+                <CustomRow ondelete={deleterow} handleAdd={pushMember}
+                  setListMember={setListMember} changeRelation={changeRelation}
+                  listMember={listMember} personId={listMember.personId} />
               </TableBody>
             </Table>
           </TableContainer>
         </Grid>
-        <Grid item xs={12}>
-          <button
-            style={{ backgroundColor: "transparent", cursor: "pointer" }}
-            onClick={() => {
-              handleAddRow()
-            }}
-          >
-            <Typography variant="h4" style={{ color: "red", cursor: "pointer" }}>
-              Thêm
-            </Typography>
-          </button>
-        </Grid>
+
         <Grid item>
           <Button
             variant="contained"

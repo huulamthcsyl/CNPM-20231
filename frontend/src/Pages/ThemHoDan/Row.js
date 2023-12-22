@@ -7,7 +7,7 @@ import ClassApi from '../../Api/Api'
 import { NavLink } from "react-router-dom";
 import { useListMember } from "./listMemberContext";
 
-function CustomRow({ index, ondelete, handleAdd, listMember, setListMember, changeRelation }) {
+function CustomRow({ index, listMember, setListMember, changeRelation, personId }) {
     //  const { listMember, setListMember } = useListMember();
     const personShrinkList = [];
     const [name, setName] = useState()
@@ -39,11 +39,21 @@ function CustomRow({ index, ondelete, handleAdd, listMember, setListMember, chan
         // Gọi hàm onDelete (deleterow) với index của phần tử cần xóa
         //ondelete()
         const updatedList = [...listMember];
+        let list = []
+        for (var i = 0; i < updatedList.length; i++) {
+            if (updatedList[i].personId && updatedList[i].personId != personId) {
+                list.push(updatedList[i])
+            } else {
+                console.log(updatedList[i])
+            }
 
+        }
+        console.log(list)
         // Xóa phần tử tại vị trí index trong bản sao
-        updatedList.splice(index, 1);
+        //   updatedList.splice(index, 1);
         // Cập nhật state với mảng mới đã xóa phần tử
-        setListMember(updatedList);
+        //    setListMember([])
+        setListMember(list);
         console.log(updatedList.length)
         // console.log(listMember.length)
         //  let newlist = listMember.filter((item, index) => index !== index)
@@ -51,14 +61,11 @@ function CustomRow({ index, ondelete, handleAdd, listMember, setListMember, chan
     };
     // console.log(arr);
     const handleChangeName = (event, value) => {
-        var personn = value.person
-        personn.ownerRelationship = relation
-        handleAdd(personn, 2, index)
-        setName(value.name)
-        setBirth(value.birth ? value.birth.slice(0, 10) : birth)
-        setIdentityCardNumber(value.code)
-        setId(value.personId)
-        console.log(value)
+        if (value != null && value.person != null) {
+            var personn = value.person
+            personn.ownerRelationship = relation
+            setListMember([...listMember, value.person])
+        }
     };
     const handleChangeBirth = (event) => {
         setBirth(event.target.value);
@@ -75,13 +82,7 @@ function CustomRow({ index, ondelete, handleAdd, listMember, setListMember, chan
                 ></AutoComplete>
             </TableCell>
             <TableCell style={{ fontSize: "18px" }}>
-                <input
-                    style={{ fontSize: "18px", border: "none" }}
-                    type="date"
-                    value={birth}
-                    //     onChange={(e) => { setBirth(e.target.value) }}
-                    disabled
-                />
+
             </TableCell>
             <TableCell style={{ fontSize: "18px" }}>
                 <input
@@ -97,29 +98,20 @@ function CustomRow({ index, ondelete, handleAdd, listMember, setListMember, chan
                 ></input>
             </TableCell>
             <TableCell style={{ fontSize: "18px" }}>
-                <Select style={{ fontSize: "18px", border: "none", width: '120px' }} value={relation} onChange={(e) => { setRelation(e.target.value); changeRelation(index, e.target.value) }}>
-                    <MenuItem value='Khác'>Khác</MenuItem>
-                    <MenuItem value='Chủ hộ'>Chủ hộ</MenuItem>
-                    <MenuItem value='Vợ'>Vợ</MenuItem>
-                    <MenuItem value='Chồng'>Chồng</MenuItem>
-                    <MenuItem value='Con'>Con</MenuItem>
-                    <MenuItem value='Bố'>Bố</MenuItem>
-                    <MenuItem value='Mẹ'>Mẹ</MenuItem>
-                    <MenuItem value='Anh/chị/em'>Anh/chị/em</MenuItem>
-                </Select>
+
             </TableCell>
             <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
                 <NavLink to={'/chitietcudan/' + id}>
-                    <span style={{ color: "blue" }}>Chi tiết</span>|
+                    <span style={{ color: "blue" }}></span>
                 </NavLink>
                 <button
                     style={{
                         backgroundColor: "transparent",
                         fontSize: "18px",
                     }}
-                    onClick={handleDelete}
+                //      onClick={handleDelete}
                 >
-                    <span style={{ color: "red" }}>Xóa</span>
+                    <span style={{ color: "red" }}></span>
                 </button>
             </TableCell>
         </TableRow>

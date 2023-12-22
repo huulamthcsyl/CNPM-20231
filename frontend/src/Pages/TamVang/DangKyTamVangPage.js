@@ -98,6 +98,7 @@ function DangKyTamVangPage() {
       code: person.identityCardNumber,
       personId: person.personId,
       residenceId: person.residenceId,
+      address: person.homeTown,
       gender: person.gender,
       birth: person.dateOfBirth,
       phone: person.phoneNumber
@@ -110,7 +111,8 @@ function DangKyTamVangPage() {
       "personId": personId,
       "startTime": timeFrom,
       "endTime": timeTo,
-      "reason": reason
+      "reason": reason,
+      "temporaryStay": address2
     }).then((resp) => {
       toast.success('Đăng ký tạm vắng  thành công')
     }).catch((error) => {
@@ -127,6 +129,7 @@ function DangKyTamVangPage() {
     setGender(value.gender ? 'Nam' : 'Nữ')
     setBirth(dayjs(value.birth))
     setPhoneNumber(value.phone)
+    setAddress1(value.address)
     setPersonId(value.personId)
   }
   return (
@@ -144,9 +147,9 @@ function DangKyTamVangPage() {
             xs={12}
             alignItems="center"
             wrap="wrap"
-            columnSpacing={8}
+          // columnSpacing={8}
           >
-            <Grid item xs={2}>
+            <Grid item xs={2.8}>
               <Typography variant="h4">Họ và tên</Typography>
             </Grid>
             <Grid item>
@@ -165,8 +168,8 @@ function DangKyTamVangPage() {
             wrap="wrap"
             alignItems="center"
           >
-            <Grid item container xs={6} wrap="nowrap">
-              <Grid item xs={3}>
+            <Grid item container xs={12} wrap="nowrap">
+              <Grid item xs={2.8}>
                 <Typography variant="h4">Giới tính</Typography>
               </Grid>
               <Grid item alignItems="center">
@@ -178,6 +181,7 @@ function DangKyTamVangPage() {
                   value='Nam'
                   checked={gender == 'Nam' ? true : false}
                   onClick={() => { setGender('Nam') }}
+                  disabled
                 ></input>
                 <label
                   htmlFor="radio1"
@@ -188,6 +192,7 @@ function DangKyTamVangPage() {
               </Grid>
               <Grid item alignItems="center">
                 <input
+                  disabled
                   id="radio2"
                   type="radio"
                   name="gender"
@@ -208,7 +213,7 @@ function DangKyTamVangPage() {
             </Grid>
           </Grid>
           <Grid item container wrap="wrap" alignItems="center">
-            <Grid item style={{ marginRight: "30px" }}>
+            <Grid item xs={2.8}>
               <Typography variant="h4">Ngày, tháng, năm sinh</Typography>
             </Grid>
             <Grid item>
@@ -223,7 +228,7 @@ function DangKyTamVangPage() {
                 onChange={(value) => {
                   setBirth(value)
                 }}
-
+                disabled
               />
             </Grid>
           </Grid>
@@ -234,13 +239,13 @@ function DangKyTamVangPage() {
             xs={12}
             alignItems="center"
             wrap="wrap"
-            columnSpacing={12}
+          // columnSpacing={12}
           >
-            <Grid item xs={1.8}>
+            <Grid item xs={2.8}>
               <Typography variant="h4">CCCD</Typography>
             </Grid>
             <Grid item>
-              <TextField value={cccd}></TextField>
+              <TextField value={cccd} disabled></TextField>
             </Grid>
           </Grid>
           <Grid
@@ -249,13 +254,13 @@ function DangKyTamVangPage() {
             xs={12}
             alignItems="center"
             wrap="wrap"
-            columnSpacing={3}
+          //    columnSpacing={3}
           >
-            <Grid item xs={2}>
+            <Grid item xs={2.8}>
               <Typography variant="h4">Số điện thoại</Typography>
             </Grid>
             <Grid item>
-              <TextField value={phoneNumber} onChange={(e) => { setPhoneNumber(e.target.value) }}></TextField>
+              <TextField value={phoneNumber} disabled onChange={(e) => { setPhoneNumber(e.target.value) }}></TextField>
             </Grid>
           </Grid>
           <Grid
@@ -264,13 +269,13 @@ function DangKyTamVangPage() {
             xs={12}
             alignItems="center"
             wrap="wrap"
-            columnSpacing={3}
+          //     columnSpacing={3}
           >
-            <Grid item xs={2}>
+            <Grid item xs={2.8}>
               <Typography variant="h4">Nơi thường trú</Typography>
             </Grid>
             <Grid item>
-              <TextField value={address1} onChange={(e) => { setAddress1(e.target.value) }}></TextField>
+              <TextField value={address1} disabled></TextField>
             </Grid>
           </Grid>
           <Grid
@@ -279,9 +284,9 @@ function DangKyTamVangPage() {
             xs={12}
             alignItems="center"
             wrap="wrap"
-            columnSpacing={3}
+          //   columnSpacing={3}
           >
-            <Grid item xs={2}>
+            <Grid item xs={2.8}>
               <Typography variant="h4">Nơi tạm trú</Typography>
             </Grid>
             <Grid item>
@@ -294,9 +299,9 @@ function DangKyTamVangPage() {
             xs={12}
             alignItems="center"
             wrap="wrap"
-            columnSpacing={3}
+          //    columnSpacing={3}
           >
-            <Grid item xs={2}>
+            <Grid item xs={2.8}>
               <Typography variant="h4">Thời gian</Typography>
             </Grid>
             <Grid item>
@@ -328,9 +333,9 @@ function DangKyTamVangPage() {
             xs={12}
             alignItems="center"
             wrap="wrap"
-            columnSpacing={3}
+          //      columnSpacing={3}
           >
-            <Grid item xs={2}>
+            <Grid item xs={2.8}>
               <Typography variant="h4">Lý do</Typography>
             </Grid>
             <Grid item>

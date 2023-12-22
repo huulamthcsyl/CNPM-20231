@@ -48,7 +48,7 @@ const tableHead = [
   { name: "Ghi chú" },
 ];
 function HoKhau() {
-  const [info, setInfo] = useState([{}, {}, {}, {}, {}, {}, {}]);
+  const [info, setInfo] = useState([]);
   useEffect(() => {
     ClassAPi.GetResidences().then((response) => {
       setInfo(response.data)

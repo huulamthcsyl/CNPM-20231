@@ -140,9 +140,9 @@ function ThemCuDan() {
           xs={12}
           alignItems="center"
           wrap="wrap"
-          columnSpacing={8}
+        //   columnSpacing={8}
         >
-          <Grid item xs="auto">
+          <Grid item xs={2.5}>
             <Typography variant="h4">Họ và tên</Typography>
           </Grid>
           <Grid item>
@@ -158,7 +158,7 @@ function ThemCuDan() {
           alignItems="center"
         >
           <Grid item container xs={6} wrap="nowrap">
-            <Grid item xs={3}>
+            <Grid item xs={5}>
               <Typography variant="h4">Giới tính</Typography>
             </Grid>
             <Grid item alignItems="center">
@@ -214,7 +214,7 @@ function ThemCuDan() {
           </Grid>
         </Grid>
         <Grid item container wrap="wrap" alignItems="center">
-          <Grid item style={{ marginRight: "30px" }}>
+          <Grid item xs={2.5}>
             <Typography variant="h4">Ngày, tháng, năm sinh</Typography>
           </Grid>
           <Grid item>
@@ -228,16 +228,16 @@ function ThemCuDan() {
         <Grid item xs={12}>
           <Typography variant="h4">Quê quán </Typography>
         </Grid>
-        <Grid item container wrap="wrap" columnSpacing={8}>
+        <Grid item container wrap="wrap" >
           <Grid
             item
             container
-            xs="auto"
+            xs={6}
             wrap="nowrap"
             alignItems="center"
-            spacing={3}
+          //  spacing={3}
           >
-            <Grid item>
+            <Grid item xs={5}>
               <Typography variant="h4">Tỉnh (Thành phố)</Typography>
             </Grid>
             <Grid item style={{ bottom: "7px", position: "relative" }}>
@@ -292,16 +292,16 @@ function ThemCuDan() {
         </Grid>
         <Grid
           item
-          xs="auto"
+          xs={12}
           container
           wrap="nowrap"
           alignItems="center"
-          spacing={3}
+        //    spacing={3}
         >
-          <Grid item>
+          <Grid item xs={2.5}>
             <Typography variant="h4">Xã (Phường)</Typography>
           </Grid>
-          <Grid item style={{ bottom: "7px", position: "relative" }}>
+          <Grid item style={{ bottom: "7px", position: "relative" }} >
             <InputLabel id="select-village">Xã (phường)</InputLabel>
             <Select
               labelId="select-village"
@@ -325,9 +325,9 @@ function ThemCuDan() {
           xs={12}
           alignItems="center"
           wrap="wrap"
-          columnSpacing={12}
+        //    columnSpacing={12}
         >
-          <Grid item xs="auto">
+          <Grid item xs={2.5}>
             <Typography variant="h4">CCCD</Typography>
           </Grid>
           <Grid item>
@@ -340,9 +340,9 @@ function ThemCuDan() {
           xs={12}
           alignItems="center"
           wrap="wrap"
-          columnSpacing={3}
+        //   columnSpacing={3}
         >
-          <Grid item xs="auto">
+          <Grid item xs={2.5}>
             <Typography variant="h4">Số điện thoại</Typography>
           </Grid>
           <Grid item>

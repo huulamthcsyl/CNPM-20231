@@ -16,6 +16,8 @@ import {
 import { useEffect, useState } from "react";
 import ClassApi from '../../Api/Api'
 import { NavLink, useParams } from "react-router-dom";
+import CustomRow from "../ThemHoDan/Row";
+import { toast } from "react-toastify";
 const headers = [
 
   "Họ và tên",
@@ -59,18 +61,57 @@ function ChiTietHoDan({ Hodan }) {
     })
   }, [idd])
   const [hodan, setHodan] = useState(Hodan);
+  const [listMember, setListMember] = useState([])
+  const [listMember2, setListMember2] = useState([])
   const [numberLine, setNumberLine] = useState(hodan.people.length);
-  var arr = [...Array(numberLine).keys()].map((i) => i + 1);
-  useEffect(() => {
-    arr = [...Array(numberLine).keys()].map((i) => i + 1);
-  }, [numberLine]);
-  console.log(arr);
+  const [address, setAddress] = useState('')
+  var deleterow = (index) => {
+    console.log(index)
+    const updatedList = [...listMember2];
+
+    // Xóa phần tử tại vị trí index trong bản sao
+    updatedList.splice(index, 1);
+
+    // Cập nhật state với mảng mới đã xóa phần tử
+    setListMember2(updatedList);
+    console.log(updatedList.length)
+
+    //  setNumberLine(numberLine - 1)
+  }
+  const changeRelation = (index, relaton) => {
+    let newlist = listMember2
+    newlist[index].ownerRelationship = relaton
+    setListMember2(newlist)
+  }
+
+  const handleDel = (index) => {
+    let newlist = [...listMember]
+    newlist.splice(index, 1)
+    setListMember(newlist)
+  }
   useEffect(() => {
     ClassApi.GetResidenceById(id).then((response) => {
       setHodan(response.data)
+      setListMember(response.data.people)
       setIdd(response.data.ownerId)
+      setAddress(response.data.address)
     })
   }, [])
+  const handlePut = () => {
+    ClassApi.PutResidence({
+      "residenceId": id,
+      "memberNumber": [...listMember, ...listMember2].filter(obj => obj.hasOwnProperty('personId')).length + 1,
+      "address": address,
+      "ownerId": id,
+      "people": [...listMember, ...listMember2]
+    }, id).then(
+      (response) => {
+        toast.success("Sửa hộ dân thành công!")
+      }
+    ).catch(() => {
+      toast.error('Sửa thất bại')
+    })
+  }
   return (
     <Grid container spacing={2} padding="50px">
       <Grid item xs={12}>
@@ -84,7 +125,7 @@ function ChiTietHoDan({ Hodan }) {
           direction="row"
           style={{ alignItems: "center" }}
         >
-          <Grid item style={{ marginTop: "30px" }}>
+          <Grid item xs={2.3}>
             <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
               Tên chủ hộ
             </Typography>
@@ -105,7 +146,7 @@ function ChiTietHoDan({ Hodan }) {
           direction="row"
           style={{ alignItems: "center" }}
         >
-          <Grid item>
+          <Grid item xs={2.3}>
             <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
               Nơi thường trú
             </Typography>
@@ -172,8 +213,8 @@ function ChiTietHoDan({ Hodan }) {
                   </Select>
                 </TableCell>
                 <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
-                  <NavLink to={'/chitietcudan/' + idd}>
-                    <span style={{ color: "blue" }}>Chi tiết</span>|
+                  <NavLink to={'/chitietcudan/' + idd} style={{ textDecoration: 'none' }}>
+                    <span style={{ color: "blue" }}>Chi tiết</span>
                   </NavLink>
                   <button
                     style={{
@@ -186,7 +227,7 @@ function ChiTietHoDan({ Hodan }) {
                   </button>
                 </TableCell>
               </TableRow>
-              {hodan.people.map((item, index) => (
+              {listMember.length > 0 && listMember.map((item, index) => (
                 <TableRow key={index}>
 
                   <TableCell>
@@ -200,6 +241,7 @@ function ChiTietHoDan({ Hodan }) {
                       value={
                         item.name
                       }
+                      disabled
                     />
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
@@ -210,6 +252,7 @@ function ChiTietHoDan({ Hodan }) {
                         item.dateOfBirth.slice(0, 10)
 
                       }
+                      disabled
                     />
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
@@ -220,6 +263,7 @@ function ChiTietHoDan({ Hodan }) {
                         width: "150px",
                       }}
                       type="text"
+                      disabled
                       value={
 
                         item.identityCardNumber
@@ -243,25 +287,72 @@ function ChiTietHoDan({ Hodan }) {
                   </TableCell>
                   <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
                     <span style={{ color: "blue" }}>Chi tiết</span>|
-                    <span style={{ color: "red" }}>Xóa</span>
+                    <button style={{ color: "red", backgroundColor: 'transparent', fontSize: '18px' }} onClick={() => { handleDel(index) }}>Xóa</button>
                   </TableCell>
                 </TableRow>
               ))}
+              {listMember2.length > 0 && listMember2.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell>
+                    <Typography style={{ fontSize: '20px' }}>{item.name}</Typography>
+                  </TableCell>
+                  <TableCell style={{ fontSize: "18px" }}>
+                    <input
+                      style={{ fontSize: "18px", border: "none" }}
+                      type="date"
+                      value={item.dateOfBirth.slice(0, 10)}
+                      //     onChange={(e) => { setBirth(e.target.value) }}
+                      disabled
+                    />
+                  </TableCell>
+                  <TableCell style={{ fontSize: "18px" }}>
+                    <input
+                      style={{
+                        fontSize: "18px",
+                        border: "none",
+                        width: "150px",
+                      }}
+                      type="text"
+                      value={item.identityCardNumber}
+                      disabled
+                    //   onChange={(e)=>setIdentityCardNumber(e.target.value)}
+                    ></input>
+                  </TableCell>
+                  <TableCell style={{ fontSize: "18px" }}>
+                    <Select style={{ fontSize: "18px", border: "none", width: '120px' }} onChange={(e) => { changeRelation(index, e.target.value) }}>
+                      <MenuItem value='Khác'>Khác</MenuItem>
+                      <MenuItem value='Vợ'>Vợ</MenuItem>
+                      <MenuItem value='Chồng'>Chồng</MenuItem>
+                      <MenuItem value='Con'>Con</MenuItem>
+                      <MenuItem value='Bố'>Bố</MenuItem>
+                      <MenuItem value='Mẹ'>Mẹ</MenuItem>
+                      <MenuItem value='Anh/chị/em'>Anh/chị/em</MenuItem>
+                    </Select>
+                  </TableCell>
+                  <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
+                    <NavLink to={'/chitietcudan/' + item.personId} style={{ textDecoration: 'none' }}>
+                      <span style={{ color: "blue" }}>Chi tiết</span>|
+                    </NavLink>
+                    <button
+                      style={{
+                        backgroundColor: "transparent",
+                        fontSize: "18px",
+                        color: 'red'
+                      }}
+                      onClick={() => deleterow(index)}
+                    >
+                      Xóa
+                    </button>
+                  </TableCell>
+                </TableRow>
+              ))}
+              <CustomRow listMember={listMember2} setListMember={setListMember2} />
             </TableBody>
           </Table>
         </TableContainer>
       </Grid>
       <Grid item xs={12}>
-        <button
-          style={{ backgroundColor: "transparent", cursor: "pointer" }}
-          onClick={() => {
-            setNumberLine(numberLine + 1);
-          }}
-        >
-          <Typography variant="h4" style={{ color: "red", cursor: "pointer" }}>
-            Thêm
-          </Typography>
-        </button>
+
       </Grid>
       <Grid item xs={12}>
         <button style={{ backgroundColor: "transparent", cursor: "pointer" }}>
@@ -274,6 +365,7 @@ function ChiTietHoDan({ Hodan }) {
         <Button
           variant="contained"
           style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+          onClick={handlePut}
         >
           <Typography variant="h4" style={{ color: "black" }}>
             Xác nhận

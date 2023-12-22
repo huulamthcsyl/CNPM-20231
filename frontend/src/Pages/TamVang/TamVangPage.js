@@ -127,7 +127,7 @@ function TamVangPage() {
                   </TableCell>
                   <TableCell>
                     {
-                      <NavLink to={"/chitietcudan/" + peop.person.personId}>
+                      <NavLink to={"/chitiettamvang/" + peop.absent.absentPersonId}>
                         <button
                           style={{
                             backgroundColor: "transparent",

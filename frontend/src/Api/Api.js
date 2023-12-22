@@ -141,6 +141,9 @@ class ClassApi {
   PostResidence(residence) {
     return axios.post(API_BASE_URL + "/residence", residence, { headers });
   }
+  PutResidence(residence, id) {
+    return axios.put(API_BASE_URL + '/residence/' + id, residence, { headers })
+  }
   //api nhan khau
   GetInfoPerson(id) {
     return axios.get(API_BASE_URL + "/person/" + id, { headers });
@@ -163,17 +166,17 @@ class ClassApi {
   GetAllAbsent() {
     return axios.get(API_BASE_URL + "/absent/all", { headers });
   }
-  //api postabsent
-  PostAbsent(absent) {
-    return axios.post(API_BASE_URL + "/absent", absent, { headers });
-  }
+  GetAbsentById(id) { return axios.get(API_BASE_URL + '/absent?id=' + id, { headers }) }
+  //api postabsent 
+  PostAbsent(absent) { return axios.post(API_BASE_URL + "/absent", absent, { headers }); }
+  PutAbsent(absent, id) { return axios.put(API_BASE_URL + '/absent/' + id, absent, { headers }) }
   FindAbsent(name) {
     return axios.get(API_BASE_URL + "/absent/person?name=" + name, { headers });
   }
   //**
   //Api phuong tien
   //*** */
-  
+
   GetAllVehicles() {
     return axios.get(API_BASE_URL + "/vehicle/all", { headers });
   }
