@@ -17,6 +17,33 @@ import { toast } from "react-toastify";
 import { format } from 'date-fns';
 
 function ChiTietThuPhiPhuongtienPage() {
+  const searchParams = new URLSearchParams(window.location.search);
+  const vehicleFeeId = searchParams.get("vehicleFeeId");
+  const pathname = window.location.pathname;
+  const nextPagePathname =
+    pathname.substr(0, pathname.indexOf("/")) +
+    "/chitietphieuthuphuongtien/?vehicleReceiptId=";
+
+  const [fee, setFee] = useState({});
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [vehicleReceipts, setVehicleReceipts] = useState([]);
+  const [lisensePlate, setLisensePlate] = useState('');
+  const [name, setName] = useState('');
+  const [starttime, setStarttime] = useState();
+  const [endtime, setEndtime] = useState();
+
+  const CustomizedDatePicker = styled(DatePicker)`
+  & .MuiInputBase-input {
+    font-size: 18px;
+    width: 150px;
+  }
+  .MuiInputLabel-root {
+    font-size: 20px;
+  }
+`;
+
+
   const fields = [{ label: "Biển kiểm soát" }]
   const columnNames = ["Số thứ tự", "Biển kiểm soát", "Chủ sở hữu", "Số tiền đã đóng (đồng)", "Ngày thu", "Ghi chú"];
   const tableHeadName = [
@@ -26,16 +53,40 @@ function ChiTietThuPhiPhuongtienPage() {
     { name: "Số tiền đã đóng" },
     { name: "Ghi chú" },
   ];
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
-  const [vehicleReceipts, setVehicleReceipts] = useState([]);
-  const [lisensePlate, setLisensePlate] = useState('');
-  const [starttime, setStarttime] = useState();
-  const [endtime, setEndtime] = useState();
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
 
-  const handleSearch = (lisensePlate, starttime, endtime) => {
-    console.log(starttime, endtime);
+  useEffect(() => {
+    ClassApi.GetVehicleFee(vehicleFeeId)
+      .then((res) => {
+        setFee(res.data);
+        // console.log(res.data);
+      })
+      .catch((err) => {
+        toast.error(err.response.data);
+        console.log(err);
+      });
+    ClassApi.FindVehicleReceiptByFeeId("", "", "", "", vehicleFeeId)
+      .then((res) => {
+        setVehicleReceipts(res.data);
+        // console.log(res.data);
+      })
+      .catch((err) => {
+        toast.error(err.response.data);
+        console.log(err);
+      });
+  }, [vehicleFeeId]);
 
+  const handleSearch = () => {
+    // console.log(starttime, endtime);
+    setPage(0);
     var startTime, endTime;
 
     if (starttime === undefined || !starttime.isValid()) startTime = "";
@@ -53,40 +104,18 @@ function ChiTietThuPhiPhuongtienPage() {
       endTime = endTime.slice(1, endTime.length - 1);
     }
 
-    console.log(startTime, endTime);
-    ClassApi.FindVehicleReceipt(lisensePlate, startTime, endTime)
+    // console.log(startTime, endTime);
+    console.log(lisensePlate);
+    ClassApi.FindVehicleReceiptByFeeId(lisensePlate, name, startTime, endTime, vehicleFeeId)
       .then((res) => {
         setVehicleReceipts(res.data);
         console.log(res.data);
       })
       .catch((err) => {
-        toast.error("lỗi");
+        toast.error(err.response.data);
         console.log(err);
       });
   };
-
-
-
-
-  const CustomizedDatePicker = styled(DatePicker)`
-    & .MuiInputBase-input {
-      font-size: 18px;
-      width: 150px;
-    }
-    .MuiInputLabel-root {
-      font-size: 20px;
-    }
-  `;
-  useEffect(() => {
-    ClassApi.GetAllVehicleReceipt()
-      .then((res) => {
-        setVehicleReceipts(res.data);
-      })
-      .catch((error) => {
-        toast.error("lỗi");
-        console.log(error);
-      });
-  }, []);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -94,19 +123,19 @@ function ChiTietThuPhiPhuongtienPage() {
 
         <Grid item xs={12}>
           <h1 style={{ fontSize: "40px" }}>
-            Chi tiết Phí gửi xe tháng 10
+            Chi tiết {fee.name}
           </h1>
         </Grid>
 
         <Grid item xs={6}>
           <Typography style={{ fontSize: "24px", marginRight: "50px" }}>
-            Số phương tiện đã đóng: 10
+            Số phương tiện đã đóng: {fee.paidQuantity}
           </Typography>
         </Grid>
 
         <Grid item xs={6}>
           <Typography style={{ fontSize: "24px", marginRight: "50px" }}>
-            Tổng số tiền: 3.000.000 đồng
+            Tổng số tiền: {fee.total && fee.total.toLocaleString("en-US", { style: "decimal" })} {" "} đồng
           </Typography>
         </Grid>
 
@@ -116,11 +145,11 @@ function ChiTietThuPhiPhuongtienPage() {
           </h2>
         </Grid>
 
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <Typography style={{ fontSize: "24px", marginRight: "50px" }}>
             Tìm kiếm
           </Typography>
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12}>
           <FormControl>
@@ -142,6 +171,14 @@ function ChiTietThuPhiPhuongtienPage() {
                 inputProps={{ style: { fontSize: "18px" } }}
                 InputLabelProps={{ style: { fontSize: "20px" } }}
                 onChange={(e) => setLisensePlate(e.target.value)}
+              />
+              <TextField
+                label="Chủ sở hữu"
+                variant="filled"
+                style={{ marginRight: "35px" }}
+                inputProps={{ style: { fontSize: "18px" } }}
+                InputLabelProps={{ style: { fontSize: "20px" } }}
+                onChange={(e) => setName(e.target.value)}
               />
 
               <CustomizedDatePicker
@@ -169,7 +206,7 @@ function ChiTietThuPhiPhuongtienPage() {
           <Button
             variant="contained"
             style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
-            onClick={() => handleSearch(lisensePlate, starttime, endtime)}
+            onClick={() => handleSearch()}
           >
             <Typography variant="h4" style={{ color: "black" }}>
               Tìm kiếm
@@ -204,31 +241,40 @@ function ChiTietThuPhiPhuongtienPage() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {vehicleReceipts.map((column, index) => (
-                  <TableRow>
-                    <TableCell style={{ fontSize: "18px" }}>
-                      {index + 1}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "18px" }}>
-                      {column.lisensePlate}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "18px" }}>
-                      {column.name}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "18px" }}>
-                      {column.amount}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "18px" }}>
-                      {column.dateCreated}
-                    </TableCell>
-                    <TableCell>
-                      <NavLink to="/chitietphieuthuphuongtien">
-                        <Typography style={{ fontSize: "18px" }}>Chi Tiết</Typography>
-                      </NavLink>
-                    </TableCell>
+                {vehicleReceipts &&
+                  (rowsPerPage > 0
+                    ? vehicleReceipts.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                    : vehicleReceipts
+                  ).map((vehicleReceipt, index) => (
+                    <TableRow>
+                      <TableCell style={{ fontSize: "18px" }}>
+                        {index + 1}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "18px" }}>
+                        {vehicleReceipt.licensePlate}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "18px" }}>
+                        {vehicleReceipt.personName}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "18px" }}>
+                        {vehicleReceipt.amount.toLocaleString("en-US", {
+                          style: "decimal",
+                        })}{" "}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "18px" }}>
+                        {new Date(vehicleReceipt.dateCreated).toLocaleDateString("en-GB")}
+                      </TableCell>
+                      <TableCell>
+                        <NavLink to="/chitietphieuthuphuongtien">
+                          <Typography style={{ fontSize: "18px" }}>Chi Tiết</Typography>
+                        </NavLink>
+                      </TableCell>
 
-                  </TableRow>
-                ))}
+                    </TableRow>
+                  ))}
 
               </TableBody>
             </Table>

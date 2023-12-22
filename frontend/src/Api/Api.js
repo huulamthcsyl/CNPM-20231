@@ -204,25 +204,50 @@ class ClassApi {
   GetAllVehicleFees() {
     return axios.get(API_BASE_URL + "/vehiclefee/all", { headers });
   }
-
+  GetVehicleFee(id) {
+    return axios.get(API_BASE_URL + "/vehiclefee/" + id, { headers });
+  }
   GetAllVehicleReceipt() {
     return axios.get(API_BASE_URL + "/vehiclereceipt/all", { headers });
   }
-  FindVehicleReceipt(lisensePlate, starttime, endtime) {
+  GetVehicleFeeByName(name) {
+    return axios.get(API_BASE_URL + "/vehiclefee/?name=" + name, { headers });
+  }
+  FindVehicleReceiptByFeeId(
+    lisensePlate,
+    name,
+    starttime,
+    endtime,
+    vehicleFeeId,
+  ) {
     return axios.get(
       API_BASE_URL +
-      "/vehicle?licenseplate=" +
+      "/vehiclereceipt/feeid" +
+      "?licenseplate=" +
       lisensePlate +
+      "&name=" +
+      name +
       "&starttime=" +
       starttime +
       "&endtime=" +
-      endtime,
+      endtime +
+      "&id=" +
+      vehicleFeeId,
       { headers }
     );
   }
+
+
+
+
   PostVehicleReceipt(vehicleReceipt) {
     return axios.post(API_BASE_URL + "/vehiclereceipt", vehicleReceipt, { headers });
   }
+
+
+
+
+
   /***** */
   //Api doi mat khau
   PutPassword(id, pass) {

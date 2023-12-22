@@ -23,7 +23,7 @@ function QuanLyThuPhiPhuongtienPage() {
   const [fees, setFees] = useState([]);
   const [totalCost, setTotalCost] = useState(0);
   const [description, setDescription] = useState("");
-  const [isValid, setIsValid] = useState(true);
+  const [vehicleId, setVehicleID] = useState("");
   const feeShrinkList = [];
 
   const CustomizedDatePicker = styled(DatePicker)`
@@ -42,14 +42,14 @@ function QuanLyThuPhiPhuongtienPage() {
         setVehicleList(res.data);
       })
       .catch((err) => {
-        toast.error("Lỗi 1");
+        toast.error(err.response.data);
       });
     ClassApi.GetAllVehicleFees()
       .then((res) => {
         setFees(res.data);
       })
       .catch((err) => {
-        toast.error("Lỗi 2");
+        toast.error(err.response.data);
       });
   }, []);
 
@@ -62,10 +62,12 @@ function QuanLyThuPhiPhuongtienPage() {
   });
   const handleChangeVehicle = (event, value) => {
     setSelectedVehicle(value);
+    setVehicleID(value.vehicleId);
+    console.log(value);
   };
 
   const handleAddPayment = () => {
-    setPayments([...payments, { label: "", cost: null, vehicleFeeId: "" }]);
+    setPayments([...payments, { label: "", cost: "", vehicleFeeId: "" }]);
   };
   const handleDeletePayment = (id) => {
     const updatePayments = payments.filter((_, index) => index !== id);
@@ -133,7 +135,7 @@ function QuanLyThuPhiPhuongtienPage() {
       });
     });
     const newVehicleReceipt = new VehicleReceipt(
-      selectedVehicle.vehicleID,
+      vehicleId,
       dateCreated,
       totalCost,
       description,
@@ -145,7 +147,7 @@ function QuanLyThuPhiPhuongtienPage() {
         toast.success("Tạo phiếu thu thành công!");
       })
       .catch((error) => {
-        toast.error(error.response);
+        toast.error(error.response.data);
       });
   };
   return (
