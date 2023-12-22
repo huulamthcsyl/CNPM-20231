@@ -127,8 +127,8 @@ export default function TaoPhieuThu() {
   };
   const handleChangeCost = (index) => (event, value) => {
     let newPayments = [...payments];
-    console.log(event.target.value);
-    console.log(parseInt(event.target.value));
+    // console.log(event.target.value);
+    // console.log(parseInt(event.target.value));
     let newCost = event.target.value === "" ? 0 : parseInt(event.target.value);
 
     if (newCost !== 0) {
@@ -302,6 +302,7 @@ export default function TaoPhieuThu() {
                               autoHighlight
                               options={feeShrinkList}
                               onChange={handleChangeFee(index)}
+                              value={payment.label}
                               sx={{
                                 "& .MuiAutocomplete-input": {
                                   fontSize: 20,
@@ -318,8 +319,6 @@ export default function TaoPhieuThu() {
                                   {...params}
                                   label=""
                                   required={true}
-                                // value={memoizedLabels[index]}
-
                                 />
                               )}
                             />
@@ -334,9 +333,6 @@ export default function TaoPhieuThu() {
                               }}
                               value={
                                 payment.cost &&
-                                // parseInt(payment.cost).toLocaleString("en-US", {
-                                //   style: "decimal",
-                                // })
                                 payment.cost
                               }
                               onChange={handleChangeCost(index)}
