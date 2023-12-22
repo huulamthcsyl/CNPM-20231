@@ -102,7 +102,7 @@ function ChiTietHoDan({ Hodan }) {
       "residenceId": id,
       "memberNumber": [...listMember, ...listMember2].filter(obj => obj.hasOwnProperty('personId')).length + 1,
       "address": address,
-      "ownerId": id,
+      "ownerId": idd,
       "people": [...listMember, ...listMember2]
     }, id).then(
       (response) => {
