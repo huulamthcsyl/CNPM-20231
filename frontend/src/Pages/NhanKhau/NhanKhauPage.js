@@ -12,6 +12,7 @@ import {
   createTheme,
 } from "@mui/material";
 import ButtonAdd from "../../Layout/component/ButtonAdd";
+import { TablePagination } from "@mui/material";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -48,19 +49,7 @@ const headTable = [
   "",
 ];
 const people = [
-  {
-    name: "Nguyen Van A",
-    dateOfBirth
-      : "01/01/1970",
-    identityCardNumber: "0123456789",
-  },
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
+
 
 ];
 
@@ -68,7 +57,18 @@ const people = [
 function NhanKhau() {
   const [allPeople, setAllPeople] = useState([])
   const [person, setPerson] = useState('')
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   const searchPerson = () => {
+    setPage(0);
     if (person.length > 0) {
       ClassApi.GetPerson(person).then((response) => {
         setAllPeople(response.data)
@@ -128,38 +128,81 @@ function NhanKhau() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {allPeople.map((peop, index) => (
-                <TableRow key={index}>
-                  <TableCell>
-                    <Typography variant="h5">{index + 1}</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h5">{peop.name}</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h5">{new Date(peop.dateOfBirth).toLocaleDateString()}</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h5">{peop.identityCardNumber}</Typography>
-                  </TableCell>
-                  <TableCell>
-                    {
-                      <NavLink to={"/chitietcudan/" + peop.personId}>
-                        <button
-                          style={{
-                            backgroundColor: "transparent",
-                            color: "blue",
-                            textDecoration: "underline",
-                          }}
-                        >
-                          Chi tiết
-                        </button>
-                      </NavLink>
-                    }
-                  </TableCell>
-                </TableRow>
-              ))}
+              {allPeople &&
+                (rowsPerPage > 0
+                  ? allPeople.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                  : allPeople
+                ).map(
+                  (peop, index) =>
+                    peop &&
+                    peop.personId !== null && (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <Typography variant="h5"> {page * rowsPerPage + index + 1}</Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Typography variant="h5">{peop.name}</Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Typography variant="h5">{new Date(peop.dateOfBirth).toLocaleDateString()}</Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Typography variant="h5">{peop.identityCardNumber}</Typography>
+                        </TableCell>
+                        <TableCell>
+                          {
+                            <NavLink to={"/chitietcudan/" + peop.personId}>
+                              <button
+                                style={{
+                                  backgroundColor: "transparent",
+                                  color: "blue",
+                                  textDecoration: "underline",
+                                }}
+                              >
+                                Chi tiết
+                              </button>
+                            </NavLink>
+                          }
+                        </TableCell>
+                      </TableRow>
+                    ))}
             </TableBody>
+            <tfoot>
+              <tr>
+                <TablePagination
+                  rowsPerPageOptions={[5, 8, 10, { label: "All", value: -1 }]}
+                  colSpan={6}
+                  count={allPeople.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  slotProps={{
+                    select: {
+                      "aria-label": "rows per page",
+                    },
+                    actions: {
+                      showFirstButton: true,
+                      showLastButton: true,
+                    },
+                  }}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  sx={{
+                    "& .MuiTablePagination-input": {
+                      fontSize: "16px",
+                    },
+                    "& .MuiTablePagination-displayedRows": {
+                      fontSize: "16px",
+                    },
+                    "& .MuiTablePagination-selectLabel": {
+                      fontSize: "16px",
+                    },
+                  }}
+                />
+              </tr>
+            </tfoot>
           </Table>
         </TableContainer>
       </Grid>

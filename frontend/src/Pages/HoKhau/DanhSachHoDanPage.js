@@ -6,6 +6,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
   TextField,
   ThemeProvider,
@@ -56,8 +57,18 @@ function HoKhau() {
   }, [])
   const [ownerName, setOwnerName] = useState('')
   const [address, setAddress] = useState('')
-  const handleSearch = () => {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+  const handleSearch = () => {
+    setPage(0)
     ClassAPi.FindResidence(ownerName, address).then((response) => {
       setInfo(response.data)
     })
@@ -119,42 +130,85 @@ function HoKhau() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {info.map((colume, index) => (
-                <TableRow key={index}>
-                  <TableCell>
-                    <Typography
-                      variant="h5"
-                      style={{ fontWeight: "500" }}
-                      padding={0}
-                    >
-                      {index}
-                    </Typography>
-                  </TableCell>
-                  <TableCell style={{ fontSize: '20px' }}>{colume.ownerName}</TableCell>
-                  <TableCell style={{ fontSize: '20px' }}>{colume.address}</TableCell>
-                  <TableCell style={{ fontSize: '20px' }}>{colume.memberNumber}</TableCell>
-                  <TableCell>
-                    <NavLink to={"/chitiethodan/" + colume.residenceId}>
-                      <button
-                        style={{
-                          backgroundColor: "transparent",
-                          cursor: "pointer",
-                        }}
-                      >
-                        <Typography
-                          variant="h5"
-                          style={{ fontWeight: "500" }}
-                          padding={0}
-                          color="#3454FC"
-                        >
-                          Chi tiết
-                        </Typography>
-                      </button>
-                    </NavLink>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {info &&
+                (rowsPerPage > 0
+                  ? info.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                  : info
+                ).map(
+                  (colume, index) =>
+                    colume &&
+                    colume.ownerName !== null && (
+                      <TableRow key={index}>
+                        <TableCell >
+                          <Typography
+                            variant="h5"
+                            style={{ fontWeight: "500" }}
+                            padding={0}
+                          >
+                            {page * rowsPerPage + index + 1}
+                          </Typography>
+                        </TableCell>
+                        <TableCell style={{ fontSize: '17px' }}>{colume.ownerName}</TableCell>
+                        <TableCell style={{ fontSize: '17px' }}>{colume.address}</TableCell>
+                        <TableCell style={{ fontSize: '17px' }}>{colume.memberNumber}</TableCell>
+                        <TableCell>
+                          <NavLink to={"/chitiethodan/" + colume.residenceId}>
+                            <button
+                              style={{
+                                backgroundColor: "transparent",
+                                cursor: "pointer",
+                              }}
+                            >
+                              <Typography
+                                variant="h5"
+                                style={{ fontWeight: "500" }}
+                                padding={0}
+                                color="#3454FC"
+                              >
+                                Chi tiết
+                              </Typography>
+                            </button>
+                          </NavLink>
+                        </TableCell>
+                      </TableRow>
+                    ))}
             </TableBody>
+            <tfoot>
+              <tr>
+                <TablePagination
+                  rowsPerPageOptions={[5, 8, 10, { label: "All", value: -1 }]}
+                  colSpan={6}
+                  count={info.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  slotProps={{
+                    select: {
+                      "aria-label": "rows per page",
+                    },
+                    actions: {
+                      showFirstButton: true,
+                      showLastButton: true,
+                    },
+                  }}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  sx={{
+                    "& .MuiTablePagination-input": {
+                      fontSize: "16px",
+                    },
+                    "& .MuiTablePagination-displayedRows": {
+                      fontSize: "16px",
+                    },
+                    "& .MuiTablePagination-selectLabel": {
+                      fontSize: "16px",
+                    },
+                  }}
+                />
+              </tr>
+            </tfoot>
           </Table>
         </TableContainer>
       </Grid>
