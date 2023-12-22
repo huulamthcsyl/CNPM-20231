@@ -7,7 +7,7 @@ import ClassApi from '../../Api/Api'
 import { NavLink } from "react-router-dom";
 import { useListMember } from "./listMemberContext";
 
-function CustomRow({ index, listMember, setListMember, changeRelation, personId }) {
+function CustomRow({ index, listMember, setListMember, changeRelation, personId, ownerId, listMember2 }) {
     //  const { listMember, setListMember } = useListMember();
     const personShrinkList = [];
     const [name, setName] = useState()
@@ -62,9 +62,22 @@ function CustomRow({ index, listMember, setListMember, changeRelation, personId 
     // console.log(arr);
     const handleChangeName = (event, value) => {
         if (value != null && value.person != null) {
-            var personn = value.person
-            personn.ownerRelationship = relation
-            setListMember([...listMember, value.person])
+            const foundObject = listMember.find(obj => obj.personId == value.person.personId);
+            if (listMember2) {
+                const foundObject2 = listMember2.find(obj => obj.personId == value.person.personId);
+                if (foundObject2) {
+                    toast.warning('Người này đã có trong danh sách')
+                    return
+                }
+            }
+            if (foundObject || value.person.personId == ownerId) {
+                toast.warning('Người này đã có trong danh sách')
+            } else {
+                var personn = value.person
+                personn.ownerRelationship = relation
+                setListMember([...listMember, value.person])
+            }
+
         }
     };
     const handleChangeBirth = (event) => {

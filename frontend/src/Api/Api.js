@@ -144,6 +144,10 @@ class ClassApi {
   PutResidence(residence, id) {
     return axios.put(API_BASE_URL + '/residence/' + id, residence, { headers })
   }
+
+  GetRecord(id) {
+    return axios.get(API_BASE_URL + '/record/residence/' + id, { headers })
+  }
   //api nhan khau
   GetInfoPerson(id) {
     return axios.get(API_BASE_URL + "/person/" + id, { headers });

@@ -41,6 +41,8 @@ function ThemHoDan() {
   const [identityCardNumber, setIdentityCardNumber] = useState('')
   const [birth, setBirth] = useState('')
   const personShrinkList = [];
+  const [disabled, setDisabled] = useState(false)
+
   // const ListMemberContext = createContext();
   useEffect(() => {
     ClassApi.GetAllPeople()
@@ -63,13 +65,16 @@ function ThemHoDan() {
       person: person
     });
   });
-  const handlePost = () => {
-    ClassApi.PostResidence({
+  const handlePost = async () => {
+    var chunha = owner
+    chunha.ownerRelationship = "Chủ nhà"
+    await setDisabled(true)
+    await ClassApi.PostResidence({
       "residenceId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       "memberNumber": listMember.filter(obj => obj.hasOwnProperty('personId')).length + 1,
       "address": address,
       "ownerId": id,
-      "people": listMember.length == 0 ? [] : listMember.filter(obj => obj.hasOwnProperty('personId'))
+      "people": listMember.length == 0 ? [chunha] : [chunha, ...listMember.filter(obj => obj.hasOwnProperty('personId'))]
     }).then((response) => {
       toast.info('Thành công')
     }).catch((res) => {
@@ -117,24 +122,33 @@ function ThemHoDan() {
     setListMember(newlist)
   }
   const pushMember = (person) => {
-    let newlist = [...listMember]
-    newlist = [...newlist, person]
-    setListMember(newlist)
+    const foundObject = listMember.find(obj => obj.personId == person.personId);
+    if (foundObject) {
+      toast.warning('Người này đã có trong danh sách')
+    } else {
+      let newlist = [...listMember]
+      newlist = [...newlist, person]
+      setListMember(newlist)
+    }
   }
   const handleChangeName2 = (event, value) => {
     if (value == null || value.person == null) {
       return
     } else {
       //     let newArray = listMember;
-
-      setOwner(value.person)
-
-      setName(value.label)
-      setId(value.personId)
-      setAddress(value.address)
-      setIdentityCardNumber(value.code)
-      setBirth(value.birth)
-      console.log(value)
+      //setPerson(person)
+      const foundObject = listMember.find(obj => obj.personId == value.person.personId);
+      if (foundObject) {
+        toast.warning('Người này đã có trong danh sách')
+      } else {
+        setOwner(value.person)
+        setName(value.label)
+        setId(value.personId)
+        setAddress(value.address)
+        setIdentityCardNumber(value.code)
+        setBirth(value.birth)
+        console.log(value)
+      }
     }
   };
   return (
@@ -285,7 +299,7 @@ function ThemHoDan() {
                     <TableCell style={{ fontSize: "18px" }}>
                       <Select style={{ fontSize: "18px", border: "none", width: '120px' }} onChange={(e) => { changeRelation(index, e.target.value) }}>
                         <MenuItem value='Khác'>Khác</MenuItem>
-                        <MenuItem value='Chủ hộ'>Chủ hộ</MenuItem>
+
                         <MenuItem value='Vợ'>Vợ</MenuItem>
                         <MenuItem value='Chồng'>Chồng</MenuItem>
                         <MenuItem value='Con'>Con</MenuItem>
@@ -313,7 +327,7 @@ function ThemHoDan() {
                 ))}
                 <CustomRow ondelete={deleterow} handleAdd={pushMember}
                   setListMember={setListMember} changeRelation={changeRelation}
-                  listMember={listMember} personId={listMember.personId} />
+                  listMember={listMember} personId={listMember.personId} ownerId={owner.personId} />
               </TableBody>
             </Table>
           </TableContainer>
@@ -324,6 +338,7 @@ function ThemHoDan() {
             variant="contained"
             style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
             onClick={handlePost}
+            disabled={disabled}
           >
             <Typography variant="h4" style={{ color: "black" }}>
               Xác nhận
