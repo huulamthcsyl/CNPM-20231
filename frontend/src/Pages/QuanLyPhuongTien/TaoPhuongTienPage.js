@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { Select, MenuItem } from '@mui/material';
 import { Autocomplete } from "@mui/material";
 import { Vehicle } from '../../Models/Vehicle';
+import AutoComplete from '../../Layout/component/AutoCompleteSearch';
 
 function TaoPhuongTienPage() {
   let PhuongTien = {}
@@ -16,7 +17,7 @@ function TaoPhuongTienPage() {
   const [personList, setPersonList] = useState([]);
   const [selectedPerson, setSelectedPerson] = useState(null);
   const [isValid, setIsValid] = useState(true);
-
+  const personShrinkList = [];
   useEffect(() => {
     ClassApi.GetAllPeople()
       .then((res) => {
@@ -26,8 +27,16 @@ function TaoPhuongTienPage() {
         toast.error(err.name);
       })
   }, [])
+  personList.map((person, index) => {
+    personShrinkList.push({
+      label: person.name,
+      code: person.identityCardNumber,
+      personId: person.personId,
+      residenceId: person.residenceId,
+    });
+  });
   const handleChangeName = (e, value) => {
-    setSelectedPerson(value);
+    setPersonId(value);
   }
   const handleAdd = () => {
 
@@ -37,7 +46,7 @@ function TaoPhuongTienPage() {
     }
 
 
-    const newVehicle = new Vehicle(selectedPerson.personId, category, lisensePlate);
+    const newVehicle = new Vehicle(personId, category, lisensePlate);
 
     ClassApi.PostVehicle(newVehicle)
       .then(
@@ -90,8 +99,8 @@ function TaoPhuongTienPage() {
           Chủ sở hữu
         </Typography>
 
-        {/* <AutoComplete optionList={personShrinkList} onChange={handleChangeName}></AutoComplete> */}
-        <Autocomplete
+        <AutoComplete optionList={personShrinkList} onChange={handleChangeName}></AutoComplete>
+        {/* <Autocomplete
           disablePortal
           autoHighlight
           options={personList}
@@ -107,7 +116,7 @@ function TaoPhuongTienPage() {
           renderInput={(params) => (
             <TextField {...params} />
           )}
-        />
+          />*/}
       </Grid>
 
       <Grid item>

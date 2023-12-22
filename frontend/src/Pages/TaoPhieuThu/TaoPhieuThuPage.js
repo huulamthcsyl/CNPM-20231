@@ -318,8 +318,8 @@ export default function TaoPhieuThu() {
                                   {...params}
                                   label=""
                                   required={true}
-                                 // value={memoizedLabels[index]}
-                                  
+                                // value={memoizedLabels[index]}
+
                                 />
                               )}
                             />

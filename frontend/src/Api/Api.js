@@ -220,7 +220,9 @@ class ClassApi {
       { headers }
     );
   }
-
+  PostVehicleReceipt(vehicleReceipt) {
+    return axios.post(API_BASE_URL + "/vehiclereceipt", vehicleReceipt, { headers });
+  }
   /***** */
   //Api doi mat khau
   PutPassword(id, pass) {
