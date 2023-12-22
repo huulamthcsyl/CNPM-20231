@@ -60,7 +60,7 @@ export default function ChiTietKhoanThu() {
         console.log(res.data);
       })
       .catch((err) => {
-        toast.error(err.response);
+        toast.error(err.response.data);
         console.log(err);
       });
     ClassApi.FindResidenceReceiptByFeeId("", "", "", "", residenceFeeId)
@@ -69,7 +69,7 @@ export default function ChiTietKhoanThu() {
         console.log(res.data);
       })
       .catch((err) => {
-        toast.error(err.response);
+        toast.error(err.response.data);
         console.log(err);
       });
   }, [residenceFeeId]);
@@ -104,7 +104,7 @@ export default function ChiTietKhoanThu() {
         console.log(res.data);
       })
       .catch((err) => {
-        toast.error(err.response);
+        toast.error(err.response.data);
         console.log(err);
       });
   };

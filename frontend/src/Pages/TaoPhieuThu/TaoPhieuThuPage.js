@@ -51,14 +51,14 @@ export default function TaoPhieuThu() {
         setPersonList(res.data);
       })
       .catch((err) => {
-        toast.error(err.response);
+        toast.error(err.response.data);
       });
     ClassApi.GetAllResidenceFee()
       .then((res) => {
         setFees(res.data);
       })
       .catch((err) => {
-        toast.error(err.response);
+        toast.error(err.response.data);
       });
   }, []);
   personList.map((person, index) => {
@@ -98,7 +98,7 @@ export default function TaoPhieuThu() {
             setAddress(res.data.address);
           })
           .catch((err) => {
-            toast.error(err.response);
+            toast.error(err.response.data);
           });
       }
       setFullName(value.label);
@@ -113,7 +113,7 @@ export default function TaoPhieuThu() {
     if (value !== null) {
       newPayments[index] = {
         label: value.label,
-        cost: String(value.cost),
+        cost: value.cost === null ? "" : String(value.cost),
         residenceFeeId: value.residenceFeeId,
       };
       if (payments[index].cost !== "")
@@ -127,9 +127,9 @@ export default function TaoPhieuThu() {
   };
   const handleChangeCost = (index) => (event, value) => {
     let newPayments = [...payments];
-    // console.log(event.target.value);
-    // console.log(parseInt(event.target.value));
-    let newCost = parseInt(event.target.value);
+    console.log(event.target.value);
+    console.log(parseInt(event.target.value));
+    let newCost = event.target.value === "" ? 0 : parseInt(event.target.value);
 
     if (newCost !== 0) {
       newPayments[index].cost = String(newCost);
@@ -198,7 +198,7 @@ export default function TaoPhieuThu() {
         toast.success("Tạo phiếu thu thành công!");
       })
       .catch((error) => {
-        toast.error(error.response);
+        toast.error(error.response.data);
       });
   };
 

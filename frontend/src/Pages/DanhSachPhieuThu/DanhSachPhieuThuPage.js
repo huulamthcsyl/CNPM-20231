@@ -70,7 +70,7 @@ export default function DanhSachPhieuThu() {
         console.log(res.data);
       })
       .catch((err) => {
-        toast.error(err.response);
+        toast.error(err.response.data);
         console.log(err);
       });
   };
@@ -90,7 +90,7 @@ export default function DanhSachPhieuThu() {
         setResidenceReceipts(res.data);
       })
       .catch((error) => {
-        toast.error(error.response);
+        toast.error(error.response.data);
         console.log(error);
       });
   }, []);

@@ -19,7 +19,7 @@ export default function ChiTietPhieuThu() {
         setPayments(res.data.listPayment);
       })
       .catch((error) => {
-        toast.error(error.response);
+        toast.error(error.response.data);
         console.log(error);
       });
   }, []);

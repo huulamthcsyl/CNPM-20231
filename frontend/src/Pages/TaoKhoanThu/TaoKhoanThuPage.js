@@ -11,21 +11,25 @@ import { toast } from "react-toastify";
 export default function TaoKhoanThu() {
   const [isObligatory, setIsObligatory] = useState(true);
   const [name, setName] = useState("");
-  const [cost, setCost] = useState(0);
+  const [cost, setCost] = useState("");
   const handleChangeObligatory = (event) => {
     setIsObligatory(event.target.value);
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    const newResidenceFee = new ResidenceFee(name, Boolean(isObligatory), parseInt(cost));
+    const newResidenceFee = new ResidenceFee(name, Boolean(isObligatory), cost === "" ? null : parseInt(cost));
+    console.log(newResidenceFee);
+    if (Boolean(isObligatory) === true && cost === "") {
+      toast.error("Vui lòng nhập số tiền cho khoản thu bắt buộc!");
+      return ;
+    }
     ClassApi.PostResidenceFee(newResidenceFee)
       .then((res) => {
         
         toast.success("Tạo khoản thu thành công!");
       })
       .catch((err) => {
-        toast.error(err.response);
+        toast.error(err.response.data);  
       });
   };
 
@@ -60,7 +64,7 @@ export default function TaoKhoanThu() {
             </Typography>
             <TextField
               style={{ width: "500px" }}
-              inputProps={{ style: { fontSize: "18px" }, required: true }}
+              inputProps={{ style: { fontSize: "18px" }}}
               onChange={(e) => setCost(e.target.value)}
             ></TextField>
           </Grid>
@@ -77,19 +81,19 @@ export default function TaoKhoanThu() {
             </Typography>
             <RadioGroup
               name="radio-buttons-group"
-              value={isObligatory}
-              onChange={handleChangeObligatory}
+             value={isObligatory}
+              onChange={() => isObligatory === true ? setIsObligatory(false) : setIsObligatory(true)}
               style={{ display: "inline" }}
             >
               <FormControlLabel
-                value={true}
+               value={true}
                 control={<Radio />}
                 label=<Typography variant="h4" fontWeight={400}>
                   Có
                 </Typography>
               />
               <FormControlLabel
-                value={false}
+               value={false}
                 control={<Radio />}
                 label=<Typography variant="h4" fontWeight={400}>
                   Không
