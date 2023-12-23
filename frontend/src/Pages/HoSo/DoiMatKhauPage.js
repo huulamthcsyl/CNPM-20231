@@ -13,12 +13,28 @@ function DoiMatKhauPage() {
     const [newPassWord, setNewPassWord] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [printError, setPrintError] = useState(null);
-
-    const handleChange = () => {
+    const [printError1, setPrintError1] = useState(null);
+    const [printError2, setPrintError2] = useState(null);
+    const handleChange = (event) => {
+        event.preventDefault();
         const id = localStorage.getItem('user')
+        if (!oldPassWord) {
+            setPrintError1("Chưa nhập mật khẩu cũ!");
+            return;
+        } else {
+            setPrintError1("");
+        }
+        if (!newPassWord) {
+            setPrintError2("Chưa nhập mật khẩu mới!");
+            return;
+        } else {
+            setPrintError2("");
+        }
         if (newPassWord !== confirmPassword) {
             setPrintError("Mật khẩu không khớp!");
             return;
+        } else {
+            setPrintError("");
         }
         ClassApi.PutPassword(id, {
             'id': id,
@@ -43,6 +59,9 @@ function DoiMatKhauPage() {
                     required type="password"
                     style={{ width: "500px" }}
                     inputProps={{ style: { fontSize: "18px" } }}
+                    FormHelperTextProps={{ style: { fontSize: "18px" } }}
+                    error={printError1 != null}
+                    helperText={printError1}
                     value={oldPassWord}
                     onChange={(e) => { setOldPassWord(e.target.value) }}
                 ></TextField>
@@ -55,6 +74,9 @@ function DoiMatKhauPage() {
                     required type="password"
                     style={{ width: "500px" }}
                     inputProps={{ style: { fontSize: "18px" } }}
+                    FormHelperTextProps={{ style: { fontSize: "18px" } }}
+                    error={printError2 != null}
+                    helperText={printError2}
                     value={newPassWord}
                     onChange={(e) => { setNewPassWord(e.target.value) }}
                 ></TextField>

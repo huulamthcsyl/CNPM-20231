@@ -57,7 +57,7 @@ function TaoPhuongTienPage() {
       return;
     }
     if (!ownerName) {
-      toast.error("Chưa nhập Chủ sở hữu")
+      toast.error("Chưa chọn Chủ sở hữu")
       return;
     }
     ClassApi.PostVehicle(new Vehicle(personId, category, lisensePlate))

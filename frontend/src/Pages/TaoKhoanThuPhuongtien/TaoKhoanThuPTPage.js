@@ -6,10 +6,12 @@ import ClassApi from "../../Api/Api";
 
 function TaoKhoanThuPTPage() {
   const [name, setName] = useState('');
-  // const [cost, setCost] = useState('');
-
+  const [printError, setPrintError] = useState(null);
   const handleAdd = () => {
-
+    if (!name) {
+      setPrintError("Vui lòng nhập Tên khoản thu!");
+      return;
+    }
     ClassApi.PostVehicleFee({
       "name": name,
       "cost": 0,
@@ -37,6 +39,9 @@ function TaoKhoanThuPTPage() {
           <TextField
             style={{ width: "500px" }}
             inputProps={{ style: { fontSize: "18px" }, required: true }}
+            FormHelperTextProps={{ style: { fontSize: "18px" } }}
+            error={printError != null}
+            helperText={printError}
             value={name}
             onChange={(e) => { setName(e.target.value) }}
           ></TextField>
