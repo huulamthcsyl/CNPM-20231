@@ -84,7 +84,8 @@ namespace Project.Controllers.ReceiptController
                 listPayment.Add(new
                 {
                     amount = payment.Amount,
-                    feeName = payment.VehicleFee.Name
+                    feeName = payment.VehicleFee.Name,
+                    feeId = payment.VehicleFeeId
                 });
             };
 
@@ -95,6 +96,7 @@ namespace Project.Controllers.ReceiptController
                 amount = vehicleReceipt.Amount,
                 description = vehicleReceipt.Description,
                 licensePlate = vehicleReceipt.Vehicle.LicensePlate,
+                vehicleId = vehicleReceipt.VehicleId,
                 personName = vehicleReceipt.Vehicle.Person.Name,
                 listPayment = listPayment
             };

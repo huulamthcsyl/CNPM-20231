@@ -165,7 +165,8 @@ namespace Project.Controllers.ReceiptController
                 listPayment.Add(new 
                 {
                     amount = payment.Amount,
-                    feeName = payment.ResidenceFee.Name
+                    feeName = payment.ResidenceFee.Name,
+                    feeId = payment.ResidenceFeeId,
                 });
             };
 
@@ -175,6 +176,7 @@ namespace Project.Controllers.ReceiptController
                 address = residenceReceipt.Address,
                 dateCreated = residenceReceipt.DateCreated,
                 person = residenceReceipt.Person.Name,
+                personId = residenceReceipt.PersonId,
                 amount = residenceReceipt.Amount,
                 description = residenceReceipt.Description,
                 listPayment = listPayment
