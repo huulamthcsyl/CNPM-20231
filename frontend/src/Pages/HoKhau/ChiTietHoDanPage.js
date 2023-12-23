@@ -53,19 +53,20 @@ function ChiTietHoDan({ Hodan }) {
       }
     ]
   };
-  useEffect(() => {
-    ClassApi.GetInfoPerson(idd).then((response) => {
-      setName(response.data.name)
-      setBirth(response.data.dateOfBirth ? response.data.dateOfBirth.slice(0, 10) : '')
-      setIdentityCardNumber(response.data.identityCardNumber)
-    })
-  }, [idd])
+
   const [hodan, setHodan] = useState(Hodan);
   const [listMember, setListMember] = useState([])
   const [listMember2, setListMember2] = useState([])
   const [numberLine, setNumberLine] = useState(hodan.people.length);
   const [address, setAddress] = useState('')
   const [owner, setOwner] = useState({ personId: '' })
+  useEffect(() => {
+    //  ClassApi.GetInfoPerson(idd).then((response) => {
+    setName(owner.name ? owner.name : '')
+    setBirth(owner.dateOfBirth ? owner.dateOfBirth.slice(0, 10) : '')
+    setIdentityCardNumber(owner.identityCardNumber ? owner.identityCardNumber : '')
+    //   })
+  }, [owner])
   var deleterow = (index) => {
     console.log(index)
     const updatedList = [...listMember2];
@@ -97,7 +98,7 @@ function ChiTietHoDan({ Hodan }) {
       var own = response.data.people.find(obj => obj.ownerRelationship == 'Chủ nhà')
       setOwner(own)
       setListMember(newlist)
-      setIdd(response.data.ownerId)
+      setIdd(own.personId)
       setAddress(response.data.address)
     })
   }, [])

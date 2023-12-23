@@ -1,7 +1,7 @@
-import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import ClassApi from '../../Api/Api'
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 const headers = [
     "STT",
     "Họ và tên",
@@ -16,23 +16,28 @@ function LichSuPage() {
     const [name, setName] = useState()
     const [address, setAddress] = useState()
     const [listRecord, setListRecord] = useState([])
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
     useEffect(() => {
-        ClassApi.GetResidenceById(id).then((response) => {
-            const own = response.data.people.find(item => item.ownerRelationship == "Chủ nhà")
-            setAddress(response.data.address)
-            if (own) {
-                setName(own.name)
-            }
-        })
         ClassApi.GetRecord(id).then((response) => {
-            setListRecord(response.data)
-            console.log(response.data)
+            setName(response.data.ownerName)
+            setAddress(response.data.address)
+            setListRecord(response.data.records)
+            console.log(response.data.records)
         })
     }, [])
     return (
         <Grid container paddingLeft='50px' paddingTop='40px' rowSpacing={2}>
             <Grid item xs={12}>
-                <Typography variant="h2">Lịch sử thay đổi nhân khẩu hộ Nguyễn Văn A</Typography>
+                <Typography variant="h2">Lịch sử thay đổi nhân khẩu hộ <span style={{ color: 'red' }}>{name}</span></Typography>
             </Grid>
             <Grid item container xs={12} alignItems='center'>
                 <Grid item xs={2.5}>
@@ -75,32 +80,90 @@ function LichSuPage() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow>
-                            <TableCell>
-                                <Typography style={{ fontSize: '20px' }}></Typography>
-                            </TableCell>
-                            <TableCell>
-                                <Typography style={{ fontSize: '20px' }}></Typography>
-                            </TableCell>
-                            <TableCell>
-                                <Typography style={{ fontSize: '20px' }}></Typography>
-                            </TableCell>
-                            <TableCell>
-                                <Typography style={{ fontSize: '20px' }}></Typography>
-                            </TableCell>
-                            <TableCell>
-                                <Typography style={{ fontSize: '20px' }}></Typography>
-                            </TableCell>
-                            <TableCell>
-                                <Typography style={{ fontSize: '20px' }}></Typography>
-                            </TableCell>
-                            <TableCell>
-                                <Typography style={{ fontSize: '20px' }}></Typography>
-                            </TableCell>
-                        </TableRow>
+                        {listRecord &&
+                            (rowsPerPage > 0
+                                ? listRecord.slice(
+                                    page * rowsPerPage,
+                                    page * rowsPerPage + rowsPerPage
+                                )
+                                : listRecord
+                            ).map(
+                                (item, index) =>
+                                    item &&
+                                    item.personName !== null && (
+                                        <TableRow key={index}>
+                                            <TableCell>
+                                                <Typography style={{ fontSize: '20px' }}>{page * rowsPerPage + index + 1}</Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography style={{ fontSize: '20px' }}>{item.personName}</Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography style={{ fontSize: '20px' }}>{item.dateOfBirth.slice(0, 10)}</Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography style={{ fontSize: '20px' }}>{item.identityCardNumber}</Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography style={{ fontSize: '20px' }}>{item.ownerRelationship}</Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography style={{ fontSize: '20px' }}>{item.datecreated.slice(0, 19)}</Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography style={{ fontSize: '20px' }}>{item.action}</Typography>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
                     </TableBody>
+                    <tfoot>
+                        <tr>
+                            <TablePagination
+                                rowsPerPageOptions={[5, 8, 10, { label: "All", value: -1 }]}
+                                colSpan={6}
+                                count={listRecord.length}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                slotProps={{
+                                    select: {
+                                        "aria-label": "rows per page",
+                                    },
+                                    actions: {
+                                        showFirstButton: true,
+                                        showLastButton: true,
+                                    },
+                                }}
+                                onPageChange={handleChangePage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                                sx={{
+                                    "& .MuiTablePagination-input": {
+                                        fontSize: "16px",
+                                    },
+                                    "& .MuiTablePagination-displayedRows": {
+                                        fontSize: "16px",
+                                    },
+                                    "& .MuiTablePagination-selectLabel": {
+                                        fontSize: "16px",
+                                    },
+                                }}
+                            />
+                        </tr>
+                    </tfoot>
                 </Table>
             </TableContainer>
+            <Grid item xs={12}>
+                <NavLink to={'/chitiethodan/' + id}>
+                    <Button
+                        variant="contained"
+                        style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+
+                    >
+                        <Typography variant="h4" style={{ color: "black" }}>
+                            Xác nhận
+                        </Typography>
+                    </Button>
+                </NavLink>
+            </Grid>
         </Grid>
     );
 }
