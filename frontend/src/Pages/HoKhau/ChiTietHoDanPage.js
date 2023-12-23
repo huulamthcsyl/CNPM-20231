@@ -19,7 +19,7 @@ import { NavLink, useParams } from "react-router-dom";
 import CustomRow from "../ThemHoDan/Row";
 import { toast } from "react-toastify";
 const headers = [
-
+  "STT",
   "Họ và tên",
   "Ngày, tháng, năm sinh",
   "Số CMT/CCCD",
@@ -196,6 +196,9 @@ function ChiTietHoDan({ Hodan }) {
             <TableBody>
               <TableRow>
                 <TableCell>
+                  <Typography style={{ fontSize: '20px' }}>1</Typography>
+                </TableCell>
+                <TableCell>
                   <Typography style={{ fontSize: '20px' }}>{name}</Typography>
                 </TableCell>
                 <TableCell style={{ fontSize: "18px" }}>
@@ -242,7 +245,9 @@ function ChiTietHoDan({ Hodan }) {
               </TableRow>
               {listMember.length > 0 && listMember.map((item, index) => (
                 <TableRow key={index}>
-
+                  <TableCell>
+                    <Typography style={{ fontSize: '20px' }}>{index + 2}</Typography>
+                  </TableCell>
                   <TableCell>
                     <input
                       style={{

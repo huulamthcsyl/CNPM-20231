@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import AutoComplete from "../../Layout/component/AutoCompleteSearch";
-import { MenuItem, Select, TableCell, TableRow } from "@mui/material";
+import { MenuItem, Select, TableCell, TableRow, Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import ClassApi from '../../Api/Api'
 
@@ -85,7 +85,10 @@ function CustomRow({ index, listMember, setListMember, changeRelation, personId,
     };
     return (
         <TableRow key={index}>
+            <TableCell>
+                <Typography style={{ fontSize: '15px', color: 'blue' }}>Thêm</Typography>
 
+            </TableCell>
             <TableCell>
 
                 <AutoComplete

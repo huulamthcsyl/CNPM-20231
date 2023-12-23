@@ -21,6 +21,7 @@ import CustomRow from "./Row";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { ListMemberProvider, useListMember } from "./listMemberContext";
 const headers = [
+  "STT",
   "Họ và tên",
   "Ngày, tháng, năm sinh",
   "Số CMT/CCCD",
@@ -66,6 +67,10 @@ function ThemHoDan() {
     });
   });
   const handlePost = async () => {
+    if (owner.personId == null) {
+      toast.warn('Hãy thêm chủ nhà!')
+      return
+    }
     var chunha = owner
     chunha.ownerRelationship = "Chủ nhà"
     await setDisabled(true)
@@ -224,6 +229,9 @@ function ThemHoDan() {
               <TableBody>
                 <TableRow>
                   <TableCell>
+                    <Typography style={{ fontSize: '20px' }}>1</Typography>
+                  </TableCell>
+                  <TableCell>
                     <Typography style={{ fontSize: '20px' }}>{name}</Typography>
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
@@ -271,6 +279,9 @@ function ThemHoDan() {
                 </TableRow>
                 {listMember.length > 0 && listMember.map((item, index) => (
                   <TableRow key={index}>
+                    <TableCell>
+                      <Typography style={{ fontSize: '20px' }}>{index + 2}</Typography>
+                    </TableCell>
                     <TableCell>
                       <Typography style={{ fontSize: '20px' }}>{item.name}</Typography>
                     </TableCell>
