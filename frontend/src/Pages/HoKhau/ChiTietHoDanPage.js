@@ -378,16 +378,33 @@ function ChiTietHoDan({ Hodan }) {
           </button>
         </NavLink>
       </Grid>
-      <Grid item>
+      <Grid item xs={12}>
         <Button
           variant="contained"
-          style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+          style={{ backgroundColor: "#79C9FF", margin: "30px 0px", marginRight: '30px' }}
           onClick={handlePut}
         >
           <Typography variant="h4" style={{ color: "black" }}>
             Xác nhận
           </Typography>
         </Button>
+        <NavLink to="/hokhau">
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: "#f48888",
+              //  width: "120px",
+              margin: "30px 0px",
+            }}
+          >
+            <Typography variant="h4" style={{ color: "black" }}>
+              Quay lại
+            </Typography>
+          </Button>
+        </NavLink>
+      </Grid>
+      <Grid>
+
       </Grid>
     </Grid>
   );

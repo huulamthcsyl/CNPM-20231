@@ -1,4 +1,5 @@
 import {
+  Button,
   Grid,
   TextField,
   ThemeProvider,
@@ -345,7 +346,20 @@ function DangKyTamVangPage() {
           <Grid item xs={12}>
 
             <ButtonSearch onclick={handleAdd} title="Xác nhận" border="none"></ButtonSearch>
-
+            <NavLink to="/tamvang">
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#f48888",
+                  //  width: "120px",
+                  margin: "30px 20px",
+                }}
+              >
+                <Typography variant="h4" style={{ color: "black" }}>
+                  Quay lại
+                </Typography>
+              </Button>
+            </NavLink>
           </Grid>
         </ThemeProvider>
       </Grid>

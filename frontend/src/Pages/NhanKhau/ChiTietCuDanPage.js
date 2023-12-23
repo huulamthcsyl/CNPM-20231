@@ -424,12 +424,12 @@ function ThemCuDan() {
                 variant="contained"
                 style={{
                   backgroundColor: "#f48888",
-                  width: "100px",
+                  //  width: "120px",
                   margin: "30px 0px",
                 }}
               >
                 <Typography variant="h4" style={{ color: "black" }}>
-                  Xóa
+                  Quay lại
                 </Typography>
               </Button>
             </NavLink>

@@ -1,4 +1,5 @@
 import {
+  Button,
   Grid,
   InputLabel,
   MenuItem,
@@ -350,8 +351,21 @@ function ThemCuDan() {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <NavLink to="#">
-            <ButtonSearch title="Xác nhận" border="none" onclick={addPerson}></ButtonSearch>
+
+          <ButtonSearch title="Xác nhận" border="none" onclick={addPerson}></ButtonSearch>
+          <NavLink to="/nhankhau">
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#f48888",
+                //  width: "120px",
+                margin: "30px 30px",
+              }}
+            >
+              <Typography variant="h4" style={{ color: "black" }}>
+                Quay lại
+              </Typography>
+            </Button>
           </NavLink>
         </Grid>
       </ThemeProvider>
