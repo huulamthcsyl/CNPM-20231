@@ -6,7 +6,7 @@ namespace Project.Models.Models
     {
         // Primary key
         public Guid? VehicleFeeId { get; set; }
-        public Guid VehicleReceiptId { get; set; }
+        public Guid? VehicleReceiptId { get; set; }
 
         // Properties
         public int Amount { get; set; }
