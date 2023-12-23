@@ -61,11 +61,13 @@ function ThemCuDan() {
   const [person, setPerson] = useState({
     name: "Nguyễn Văn A",
     gender: true,
+    residenceId: "2a45cc44-bc34-4d71-8f09-cda87205ada6",
     status: "Thường trú",
     dateOfBirth: "2021-05-04T00:00:00",
     province: "Hà Nội",
     district: "Quận Hai Bà Trưng",
     village: "Phường Bách Khoa",
+    ownerRelationship: "Chủ nhà",
     phoneNumber: '0123456789',
     identityCardNumber: '189931832'
   });
@@ -83,6 +85,8 @@ function ThemCuDan() {
   const [province, setProvince] = useState(person.province);
   const [birth, setBirth] = useState(dayjs('2021-05-04T00:00:00'))
   const [addr, setAddr] = useState('')
+  const [resid, setResid] = useState('')
+  const [relation, setRelation] = useState('')
   const handleChange2 = (event) => {
     setProvince(event.target.value);
     setVillages([])
@@ -113,6 +117,8 @@ function ThemCuDan() {
       setStatus(response.data.status)
       setBirth(dayjs(response.data.dateOfBirth))
       setPhoneNumber(response.data.phoneNumber)
+      setResid(response.data.residenceId)
+      setRelation(response.data.ownerRelationship)
       let address = response.data.homeTown.split(',')
       setProvince(address[2].trim())
       setAddr(address)
@@ -122,11 +128,13 @@ function ThemCuDan() {
     ClassApi.PutPerson({
       "personId": param.id,
       "name": name,
+      "residenceId": resid,
       "dateOfBirth": birth,
       "identityCardNumber": cccd,
       "gender": gender,
       "phoneNumber": phoneNumber,
       "homeTown": village + ', ' + district + ', ' + province,
+      "ownerRelationship": relation,
       "status": status
     }).then(() => {
       toast.success('Sửa thông tin thành công')
