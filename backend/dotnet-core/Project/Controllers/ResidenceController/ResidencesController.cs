@@ -184,10 +184,6 @@ namespace Project.Controllers.ResidenceController
 
             foreach (var p in removedPeople)
             {
-                // Update residence of removed person
-                p.ResidenceId = null;
-                p.OwnerRelationship = null;
-
                 // Insert remove action to Records
                 _context.Records.Add(new Record
                 {
@@ -195,17 +191,17 @@ namespace Project.Controllers.ResidenceController
                     ResidenceId = id,
                     PersonId = p.PersonId,
                     DateCreated = DateTime.Now,
-                    Action = "Tách Khẩu"
+                    Action = "Tách Khẩu",
+                    OwnerRelationship = p.OwnerRelationship
                 });
+
+                // Update residence of removed person
+                p.ResidenceId = null;
+                p.OwnerRelationship = null;
             }
 
             foreach (var p in addedPeople)
             {
-                // Update residence of added person
-                var person = await _context.People.FindAsync(p.PersonId);
-                person.ResidenceId = id;
-                person.OwnerRelationship = p.OwnerRelationship;
-
                 // Insert add action to Records
                 _context.Records.Add(new Record
                 {
@@ -213,8 +209,14 @@ namespace Project.Controllers.ResidenceController
                     ResidenceId = id,
                     PersonId = p.PersonId,
                     DateCreated = DateTime.Now,
-                    Action = "Nhập khẩu"
+                    Action = "Nhập khẩu",
+                    OwnerRelationship = p.OwnerRelationship
                 });
+
+                // Update residence of added person
+                var person = await _context.People.FindAsync(p.PersonId);
+                person.ResidenceId = id;
+                person.OwnerRelationship = p.OwnerRelationship;
             }
 
             // Save DB_Context
@@ -281,7 +283,8 @@ namespace Project.Controllers.ResidenceController
                     ResidenceId = residence.ResidenceId,
                     PersonId = p.PersonId,
                     DateCreated = DateTime.Now,
-                    Action = "Nhập khẩu"
+                    Action = "Nhập khẩu",
+                    OwnerRelationship = p.OwnerRelationship
                 });
             }
             // Save Db_Context

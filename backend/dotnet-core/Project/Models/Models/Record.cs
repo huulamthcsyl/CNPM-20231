@@ -13,6 +13,7 @@ namespace Project.Models.Models
 
         // Properties
         public string Action { get; set; }
+        public string OwnerRelationship { get; set; }
         public DateTime DateCreated { get; set; }
 
         // Navigation properties

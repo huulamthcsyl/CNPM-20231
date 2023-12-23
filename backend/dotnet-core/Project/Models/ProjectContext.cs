@@ -112,6 +112,8 @@ namespace Project.Models
 
                 e.Property(e => e.RecordId).ValueGeneratedNever();
 
+                e.Property(e => e.OwnerRelationship).IsUnicode(true);
+
                 e.Property(e => e.Action).IsUnicode(true);
 
                 e.HasOne(e => e.Person)
