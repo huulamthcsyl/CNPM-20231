@@ -75,7 +75,7 @@ function ChiTietPhuongTien() {
         <NavLink to="/quanlyphuongtien">
           <Button
             variant="contained"
-            style={{ backgroundColor: "red", margin: "30px 30px" }}
+            style={{ backgroundColor: "#FA7070", margin: "30px 30px" }}
           >
             <Typography variant="h4" style={{ color: "black" }}>
               Xóa phương tiện

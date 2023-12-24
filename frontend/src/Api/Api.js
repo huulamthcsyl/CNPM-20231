@@ -105,6 +105,13 @@ class ClassApi {
       { headers }
     );
   }
+  PutResidenceReceipt(residenceReceiptData, id) {
+    return axios.put(
+      API_BASE_URL + "/residencereceipt/" + id,
+      residenceReceiptData,
+      { headers }
+    );
+  }
   GetResidenceFee(id) {
     return axios.get(API_BASE_URL + "/residencefee/" + id, { headers });
   }

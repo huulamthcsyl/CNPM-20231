@@ -37,7 +37,7 @@ function TaoKhoanThuPTPage() {
             Tên khoản thu
           </Typography>
           <TextField
-            style={{ width: "500px" }}
+            style={{ width: "400px" }}
             inputProps={{ style: { fontSize: "18px" }, required: true }}
             FormHelperTextProps={{ style: { fontSize: "18px" } }}
             error={printError != null}
@@ -47,24 +47,11 @@ function TaoKhoanThuPTPage() {
           ></TextField>
         </Grid>
 
-        {/* <Grid item container direction="row" alignItems="center">
-        <Typography style={{ fontSize: "24px", marginRight: "95px" }}>
-          Giá tiền
-        </Typography>
-        <TextField
-          style={{ width: "500px" }}
-          inputProps={{ style: { fontSize: "18px" } }}
-          value={cost}
-          onChange={(e) => { setCost(e.target.value) }}
-        ></TextField>
-      </Grid> */}
-
         <Grid item>
-
           <Button
             variant="contained"
             style={{
-              backgroundColor: "#79C9FF", margin: "30px 0px", fontSize: "20px",
+              backgroundColor: "#79C9FF", margin: "30px 0px", fontSize: "20px", fontWeight: "400",
               color: "black",
             }}
             type='submit'
@@ -78,7 +65,7 @@ function TaoKhoanThuPTPage() {
             <Button
               variant="contained"
               style={{
-                backgroundColor: "#79C9FF", marginLeft: "30px", fontSize: "20px",
+                backgroundColor: "#FA7070", marginLeft: "30px", fontSize: "20px", fontWeight: "400",
                 color: "black",
               }}
               size="large"

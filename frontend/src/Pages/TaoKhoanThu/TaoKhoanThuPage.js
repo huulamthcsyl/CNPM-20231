@@ -111,6 +111,7 @@ export default function TaoKhoanThu() {
                 margin: "30px 0px",
                 fontSize: "20px",
                 color: "black",
+                fontWeight: "400",
               }}
               type="submit"
               size="large"
@@ -121,10 +122,11 @@ export default function TaoKhoanThu() {
             <Button
               variant="contained"
               style={{
-                backgroundColor: "#79C9FF",
+                backgroundColor: "#FA7070",
                 marginLeft: "30px",
                 fontSize: "20px",
                 color: "black",
+                fontWeight: "400"
               }}
               size="large"
             >

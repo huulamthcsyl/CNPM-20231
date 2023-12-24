@@ -73,7 +73,7 @@ function ThuPhiPTPage() {
         <NavLink to="/taokhoanthuphuongtien">
           <Button
             variant="contained"
-            style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+            style={{ backgroundColor: "#79C9FF" }}
           >
             <Typography style={{ marginRight: "8px" }}>
               <img
@@ -93,7 +93,7 @@ function ThuPhiPTPage() {
         <NavLink to="/quanlythuphiphuongtien">
           <Button
             variant="contained"
-            style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+            style={{ backgroundColor: "#79C9FF", marginLeft: "30px" }}
           >
             <Typography style={{ marginRight: "8px" }}>
               <img
@@ -109,14 +109,14 @@ function ThuPhiPTPage() {
         </NavLink>
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid item xs={12} sx={{mt: 2}}>
         <FormControl>
           <Grid item container direction="row" alignItems="center">
             <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
-              Tên phí thu
+              Tên khoản thu
             </Typography>
             <TextField
-              style={{ width: "500px" }}
+              style={{ width: "400px" }}
               inputProps={{ style: { fontSize: "18px" } }}
               onChange={(event) => setName(event.target.value)}
             ></TextField>
@@ -124,39 +124,19 @@ function ThuPhiPTPage() {
         </FormControl>
       </Grid>
 
-      <Grid item>
+      <Grid item sx={{mt: 2}}>
         <Button
           variant="contained"
-          style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+          style={{ backgroundColor: "#79C9FF" }}
           onClick={handleSearchName}
         >
           <Typography variant="h4" style={{ color: "black" }}>
-            Tìm kiếm
+            Tìm kiếm khoản thu
           </Typography>
         </Button>
       </Grid>
 
-      {/* <Grid item container direction={"row"} xs={12} alignItems={"center"}>
-        <TextField
-          label={"Tên phí thu"}
-          variant="filled"
-          style={{ marginRight: "35px" }}
-          inputProps={{ style: { fontSize: "18px" } }}
-          InputLabelProps={{ style: { fontSize: "20px" } }}
-          onChange={(event) => setName(event.target.value)}
-        />
-        <Button
-          variant="contained"
-          style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
-          onClick={handleSearchName}
-        >
-          <Typography variant="h4" style={{ color: "black" }}>
-            Tìm kiếm phí thu
-          </Typography>
-        </Button>
-      </Grid> */}
-
-      <Grid item xs={12}>
+      <Grid item xs={12} sx={{mt: 2}}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }}>
             <TableHead>

@@ -43,7 +43,7 @@ export default function TaoPhieuThu() {
   const [totalCost, setTotalCost] = useState(0);
   const [personList, setPersonList] = useState([]);
   const personShrinkList = [];
-  const [isValid, setIsValid] = useState(true);
+  let isValid = true;
 
   useEffect(() => {
     ClassApi.GetAllPeople()
@@ -81,9 +81,7 @@ export default function TaoPhieuThu() {
     setPayments([...payments, { label: "", cost: "", residenceFeeId: "" }]);
   };
   const handleDeletePayment = (id) => {
-    // console.log(payments);
     const updatePayments = payments.filter((_, index) => index !== id);
-    // console.log(updatePayments);
     if (payments[id].cost !== "")
       setTotalCost(totalCost - parseInt(payments[id].cost));
 
@@ -109,6 +107,7 @@ export default function TaoPhieuThu() {
   };
 
   const handleChangeFee = (index) => (event, value) => {
+   // console.log(value);
     let newPayments = [...payments];
     if (value !== null) {
       newPayments[index] = {
@@ -120,15 +119,15 @@ export default function TaoPhieuThu() {
         setTotalCost(totalCost - parseInt(payments[index].cost) + value.cost);
       else setTotalCost(totalCost + value.cost);
     } else {
+     // console.log(payments[index]);
       newPayments[index] = { label: "", cost: "", residenceFeeId: "" };
-      setTotalCost(totalCost - parseInt(payments[index].cost));
+      if (payments[index].cost !== "")
+        setTotalCost(totalCost - parseInt(payments[index].cost));
     }
     setPayments(newPayments);
   };
   const handleChangeCost = (index) => (event, value) => {
     let newPayments = [...payments];
-    // console.log(event.target.value);
-    // console.log(parseInt(event.target.value));
     let newCost = event.target.value === "" ? 0 : parseInt(event.target.value);
 
     if (newCost !== 0) {
@@ -137,7 +136,6 @@ export default function TaoPhieuThu() {
       newPayments[index].cost = "";
     }
     setPayments(newPayments);
-    // console.log(payments);
     let newTotalCost = 0;
     if (payments.length > 0) {
       payments.map((payment, index) => {
@@ -159,17 +157,16 @@ export default function TaoPhieuThu() {
     payments.map((payment1, index1) => {
       payments.map((payment2, index2) => {
         if (
-          payment1.label !== "" &&
-          payment2.label !== "" &&
-          payment1.label === payment2.label &&
+          payment1.residenceFeeId === payment2.residenceFeeId &&
           index1 !== index2
         ) {
-          setIsValid(false);
+          isValid = false;
         }
       });
     });
     if (!isValid) {
       toast.error("Tồn tại khoản thu lại lặp trong phiếu thu!");
+      isValid = true;
       return;
     }
 
@@ -184,13 +181,15 @@ export default function TaoPhieuThu() {
         amount: parseInt(payment.cost),
       });
     });
+
     const newResidenceReceipt = new ResidenceReceipt(
       dateCreated,
       totalCost,
       description,
       residencePayments,
       personId,
-      address
+      address,
+      "798786ea-2ef0-429b-a318-bdddcfe6dbef"
     );
     console.log(newResidenceReceipt);
     ClassApi.PostResidenceReceipt(newResidenceReceipt)
@@ -211,7 +210,7 @@ export default function TaoPhieuThu() {
         <Grid item>
           <form onSubmit={handleSubmit}>
             <Grid item container direction="row" alignItems="center">
-              <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
+              <Typography style={{ fontSize: "24px", marginRight: "23px" }}>
                 Họ và tên
               </Typography>
 
@@ -227,7 +226,7 @@ export default function TaoPhieuThu() {
               alignItems="center"
               sx={{ mt: 2 }}
             >
-              <Typography style={{ fontSize: "24px", marginRight: "54px" }}>
+              <Typography style={{ fontSize: "24px", marginRight: "52px" }}>
                 Địa chỉ
               </Typography>
               <TextField
@@ -342,6 +341,7 @@ export default function TaoPhieuThu() {
                             <button
                               onClick={() => handleDeletePayment(index)}
                               style={{ fontSize: "18px", color: "red" }}
+                              type="button"
                             >
                               Xóa
                             </button>
@@ -376,6 +376,7 @@ export default function TaoPhieuThu() {
                 <button
                   onClick={() => handleAddPayment()}
                   style={{ fontSize: "18px", color: "red" }}
+                  type="button"
                 >
                   Thêm
                 </button>
@@ -406,6 +407,7 @@ export default function TaoPhieuThu() {
                   margin: "30px 0px",
                   fontSize: "20px",
                   color: "black",
+                  fontWeight: "400"
                 }}
                 type="submit"
                 size="large"
@@ -416,10 +418,11 @@ export default function TaoPhieuThu() {
                 <Button
                   variant="contained"
                   style={{
-                    backgroundColor: "#79C9FF",
+                    backgroundColor: "#FA7070",
                     marginLeft: "30px",
                     fontSize: "20px",
                     color: "black",
+                    fontWeight: "400"
                   }}
                   size="large"
                 >

@@ -1,19 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import { Grid, Button, Typography, TextField, Paper, Link } from "@mui/material";
-import { Table, TableBody, TableCell, TableRow, TableHead, TableContainer } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import {
+  Grid,
+  Button,
+  Typography,
+  TextField,
+  Paper,
+  Link,
+} from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  TableHead,
+  TableContainer,
+} from "@mui/material";
 import { NavLink } from "react-router-dom";
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { styled } from "@mui/system";
-import { DatePicker } from '@mui/x-date-pickers';
+import { DatePicker } from "@mui/x-date-pickers";
 import { Autocomplete } from "@mui/material";
 import ClassApi from "../../Api/Api";
 import { toast } from "react-toastify";
 import { Box } from "@mui/material";
-import { VehicleReceipt } from '../../Models/VehicleReceipt';
+import { VehicleReceipt } from "../../Models/VehicleReceipt";
 
 function QuanLyThuPhiPhuongtienPage() {
-  const columnNames = ["Số thứ tự", "Tên khoản thu", "Số tiền (đồng)", "Ghi chú"];
+  const columnNames = [
+    "Số thứ tự",
+    "Tên khoản thu",
+    "Số tiền (đồng)",
+    "Ghi chú",
+  ];
 
   //const [vehicleID, setVehicleID] = useState('');
   const [vehicleList, setVehicleList] = useState([]);
@@ -25,6 +44,7 @@ function QuanLyThuPhiPhuongtienPage() {
   const [description, setDescription] = useState("");
   const [vehicleId, setVehicleID] = useState("");
   const feeShrinkList = [];
+  let isValid = true;
 
   const CustomizedDatePicker = styled(DatePicker)`
     & .MuiInputBase-input {
@@ -89,7 +109,8 @@ function QuanLyThuPhiPhuongtienPage() {
       else setTotalCost(totalCost + value.cost);
     } else {
       newPayments[index] = { label: "", cost: "", vehicleFeeId: "" };
-      setTotalCost(totalCost - parseInt(payments[index].cost));
+      if (payments[index].cost !== "")
+        setTotalCost(totalCost - parseInt(payments[index].cost));
     }
     setPayments(newPayments);
   };
@@ -123,6 +144,23 @@ function QuanLyThuPhiPhuongtienPage() {
       return;
     }
 
+    payments.map((payment1, index1) => {
+      payments.map((payment2, index2) => {
+        if (
+          payment1.residenceFeeId === payment2.residenceFeeId &&
+          index1 !== index2
+        ) {
+          isValid = false;
+        }
+      });
+    });
+    if (!isValid) {
+      toast.error("Tồn tại khoản thu lại lặp trong phiếu thu!");
+      isValid = true;
+      return;
+    }
+
+
     var dateCreatedJson = new Date(dateCreated);
     dateCreatedJson.setDate(dateCreatedJson.getDate() + 1);
     dateCreatedJson = JSON.stringify(dateCreatedJson);
@@ -139,7 +177,7 @@ function QuanLyThuPhiPhuongtienPage() {
       dateCreated,
       totalCost,
       description,
-      vehiclePayments,
+      vehiclePayments
     );
     console.log(newVehicleReceipt);
     ClassApi.PostVehicleReceipt(newVehicleReceipt)
@@ -154,9 +192,7 @@ function QuanLyThuPhiPhuongtienPage() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={2} padding={"50px"}>
         <Grid item xs={12}>
-          <h1 style={{ fontSize: "40px" }}>
-            Thu phí phương tiện
-          </h1>
+          <h1 style={{ fontSize: "40px" }}>Thu phí phương tiện</h1>
         </Grid>
         <Grid item>
           <form onSubmit={handleSubmit}>
@@ -168,7 +204,7 @@ function QuanLyThuPhiPhuongtienPage() {
                 disablePortal
                 autoHighlight
                 options={vehicleList}
-                getOptionLabel={(option) => option.licensePlate || ''}
+                getOptionLabel={(option) => option.licensePlate || ""}
                 value={selectedVehicle}
                 onChange={handleChangeVehicle}
                 sx={{
@@ -177,14 +213,18 @@ function QuanLyThuPhiPhuongtienPage() {
                   },
                   width: 500,
                 }}
-                renderInput={(params) => (
-                  <TextField {...params} />
-                )}
+                renderInput={(params) => <TextField {...params} />}
               />
             </Grid>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <Grid item container direction="row" alignItems="center">
-                <Typography style={{ fontSize: "24px", marginRight: "28px", marginTop: "10px" }}>
+                <Typography
+                  style={{
+                    fontSize: "24px",
+                    marginRight: "28px",
+                    marginTop: "10px",
+                  }}
+                >
                   Ngày thu
                 </Typography>
                 <CustomizedDatePicker
@@ -197,7 +237,13 @@ function QuanLyThuPhiPhuongtienPage() {
             </LocalizationProvider>
 
             <Grid item xs={12}>
-              <Typography style={{ fontSize: "24px", marginRight: "25px", marginTop: "10px" }}>
+              <Typography
+                style={{
+                  fontSize: "24px",
+                  marginRight: "25px",
+                  marginTop: "10px",
+                }}
+              >
                 Danh sách khoản thu
               </Typography>
             </Grid>
@@ -216,7 +262,10 @@ function QuanLyThuPhiPhuongtienPage() {
                     <TableRow>
                       {columnNames.map((name, index) => (
                         <TableCell key={index}>
-                          <Typography variant="h4" style={{ fontWeight: "bold" }}>
+                          <Typography
+                            variant="h4"
+                            style={{ fontWeight: "bold" }}
+                          >
                             {name}
                           </Typography>
                         </TableCell>
@@ -224,59 +273,61 @@ function QuanLyThuPhiPhuongtienPage() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {payments && payments.map((payment, index) => (
-                      <TableRow>
-                        <TableCell style={{ fontSize: "18px" }}>
-                          {index + 1}
-                        </TableCell>
-                        <TableCell style={{ fontSize: "18px" }}>
-                          <Autocomplete
-                            disablePortal
-                            autoHighlight
-                            options={feeShrinkList}
-                            onChange={handleChangeFee(index)}
-                            sx={{
-                              "& .MuiAutocomplete-input": {
-                                fontSize: 20,
-                              },
-                              width: 500,
-                            }}
-                            renderOption={(props, option) => (
-                              <Box component="li" {...props}>
-                                {option.label}
-                              </Box>
-                            )}
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                label=""
-                                required={true}
-                              />
-                            )}
-                          />
-                        </TableCell>
-                        <TableCell
-                          style={{ fontSize: "18px", width: "360px" }}
-                        >
-                          <TextField
-                            inputProps={{
-                              style: { fontSize: "18px" },
-                              required: true,
-                            }}
-                            value={payment.cost}
-                            onChange={handleChangeCost(index)}
-                          ></TextField>
-                        </TableCell>
-                        <TableCell>
-                          <button
-                            onClick={() => handleDeletePayment(index)}
-                            style={{ fontSize: "18px", color: "red" }}
+                    {payments &&
+                      payments.map((payment, index) => (
+                        <TableRow>
+                          <TableCell style={{ fontSize: "18px" }}>
+                            {index + 1}
+                          </TableCell>
+                          <TableCell style={{ fontSize: "18px" }}>
+                            <Autocomplete
+                              disablePortal
+                              autoHighlight
+                              options={feeShrinkList}
+                              onChange={handleChangeFee(index)}
+                              sx={{
+                                "& .MuiAutocomplete-input": {
+                                  fontSize: 20,
+                                },
+                                width: 500,
+                              }}
+                              renderOption={(props, option) => (
+                                <Box component="li" {...props}>
+                                  {option.label}
+                                </Box>
+                              )}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label=""
+                                  required={true}
+                                />
+                              )}
+                            />
+                          </TableCell>
+                          <TableCell
+                            style={{ fontSize: "18px", width: "360px" }}
                           >
-                            Xóa
-                          </button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                            <TextField
+                              inputProps={{
+                                style: { fontSize: "18px" },
+                                required: true,
+                              }}
+                              value={payment.cost}
+                              onChange={handleChangeCost(index)}
+                            ></TextField>
+                          </TableCell>
+                          <TableCell>
+                            <button
+                              onClick={() => handleDeletePayment(index)}
+                              style={{ fontSize: "18px", color: "red" }}
+                              type="button"
+                            >
+                              Xóa
+                            </button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
                     <TableRow>
                       <TableCell
                         colSpan={2}
@@ -305,12 +356,13 @@ function QuanLyThuPhiPhuongtienPage() {
                 <button
                   onClick={() => handleAddPayment()}
                   style={{ fontSize: "18px", color: "red" }}
+                  type="button"
                 >
                   Thêm
                 </button>
               </Typography>
             </Grid>
-            <Grid item container direction="row" alignItems="center" >
+            <Grid item container direction="row" alignItems="center">
               <Typography style={{ fontSize: "24px", marginRight: "46px" }}>
                 Ghi chú
               </Typography>
@@ -322,28 +374,17 @@ function QuanLyThuPhiPhuongtienPage() {
               ></TextField>
             </Grid>
 
-            {/* <Grid item>
-              <NavLink to="/thuphiphuongtien">
-                <Button
-                  variant="contained"
-                  style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
-                >
-                  <Typography variant="h4" style={{ color: "black" }}>
-                    Xác nhận
-                  </Typography>
-                </Button>
-              </NavLink>
-            </Grid> */}
-
             <Grid item>
-
               <Button
                 variant="contained"
                 style={{
-                  backgroundColor: "#79C9FF", margin: "30px 0px", fontSize: "20px",
+                  backgroundColor: "#79C9FF",
+                  margin: "30px 0px",
+                  fontSize: "20px",
+                  fontWeight: "400",
                   color: "black",
                 }}
-                type='submit'
+                type="submit"
                 size="large"
               >
                 Xác nhận
@@ -352,11 +393,13 @@ function QuanLyThuPhiPhuongtienPage() {
                 <Button
                   variant="contained"
                   style={{
-                    backgroundColor: "#79C9FF", marginLeft: "30px", fontSize: "20px",
+                    backgroundColor: "#FA7070",
+                    marginLeft: "30px",
+                    fontSize: "20px",
+                    fontWeight: "400",
                     color: "black",
                   }}
                   size="large"
-
                 >
                   Hủy
                 </Button>
@@ -364,8 +407,8 @@ function QuanLyThuPhiPhuongtienPage() {
             </Grid>
           </form>
         </Grid>
-      </Grid >
-    </LocalizationProvider >
+      </Grid>
+    </LocalizationProvider>
   );
 }
 

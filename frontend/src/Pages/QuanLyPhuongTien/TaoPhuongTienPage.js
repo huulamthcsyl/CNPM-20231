@@ -131,7 +131,7 @@ function TaoPhuongTienPage() {
         <NavLink to="/quanlyphuongtien">
           <Button
             variant="contained"
-            style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+            style={{ backgroundColor: "#FA7070", margin: "30px 0px" }}
           >
             <Typography variant="h4" style={{ color: "black" }}>
               Hủy

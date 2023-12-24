@@ -81,23 +81,6 @@ function QuanLyPTPage() {
         </NavLink>
       </Grid>
 
-      {/* <Grid item xs={12}>
-          <FormControl>
-            <FormGroup row>
-              {fields.map((field, index) => (
-                <TextField
-                  key={index}
-                  label={field.label}
-                  variant="filled"
-                  style={{ marginRight: "35px" }}
-                  inputProps={{ style: { fontSize: "18px" } }}
-                  InputLabelProps={{ style: { fontSize: "20px" } }}
-                />
-              ))}
-            </FormGroup>
-          </FormControl>
-        </Grid> */}
-
       <Grid item xs={3} container direction="row" alignItems="center">
         <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
           Biển kiểm soát
@@ -149,7 +132,7 @@ function QuanLyPTPage() {
           onClick={search}
         >
           <Typography variant="h4" style={{ color: "black" }}>
-            Tìm kiếm
+            Tìm kiếm phương tiện
           </Typography>
         </Button>
       </Grid>
