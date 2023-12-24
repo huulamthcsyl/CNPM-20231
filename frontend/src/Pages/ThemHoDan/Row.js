@@ -106,11 +106,12 @@ function CustomRow({ index, listMember, setListMember, changeRelation, personId,
                         fontSize: "18px",
                         border: "none",
                         width: "150px",
+                        backgroundColor: 'transparent'
                     }}
                     type="text"
                     value={identityCardNumber}
                     disabled
-                //   onChange={(e)=>setIdentityCardNumber(e.target.value)}
+                //   onChange={(e) => setIdentityCardNumber(e.target.value)}
                 ></input>
             </TableCell>
             <TableCell style={{ fontSize: "18px" }}>
@@ -130,7 +131,7 @@ function CustomRow({ index, listMember, setListMember, changeRelation, personId,
                     <span style={{ color: "red" }}></span>
                 </button>
             </TableCell>
-        </TableRow>
+        </TableRow >
     );
 }
 

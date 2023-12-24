@@ -135,17 +135,17 @@ function TamVangPage() {
                     peop &&
                     peop.personId !== null && (
                       <TableRow key={index}>
-                        <TableCell>
+                        <TableCell >
                           <Typography variant="h5">{page * rowsPerPage + index + 1}</Typography>
                         </TableCell>
-                        <TableCell>
+                        <TableCell style={{ width: '300px' }}>
                           <Typography variant="h5">{peop.person ? peop.person.name : ''}</Typography>
                         </TableCell>
                         <TableCell>
-                          <Typography variant="h5">{peop.person ? new Date(peop.person.dateOfBirth).toLocaleDateString() : ''}</Typography>
+                          <Typography variant="h5" style={{ width: '200px' }}>{peop.person ? new Date(peop.person.dateOfBirth).toLocaleDateString() : ''}</Typography>
                         </TableCell>
                         <TableCell>
-                          <Typography variant="h5">{peop.person ? peop.person.identityCardNumber : ''}</Typography>
+                          <Typography variant="h5" style={{ width: '200px' }}>{peop.person ? peop.person.identityCardNumber : ''}</Typography>
                         </TableCell>
                         <TableCell>
                           {

@@ -220,11 +220,11 @@ function DangKyTamVangPage() {
             <Grid item>
               <CustomizedDatePicker
                 format="DD-MM-YYYY"
-                slotProps={{ textField: { variant: "filled" } }}
+                //     slotProps={{ textField: { variant: "filled" } }}
                 sx={{
                   marginRight: "35px",
                   width: "200px",
-                  paddingTop: "10px",
+                  //      paddingTop: "10px",
                 }}
                 value={birth}
                 onChange={(value) => {
@@ -310,8 +310,8 @@ function DangKyTamVangPage() {
               <CustomizedDatePicker
                 format="DD-MM-YYYY"
                 label="Từ ngày"
-                slotProps={{ textField: { variant: "filled" } }}
-                sx={{ marginRight: "35px", width: "200px", paddingTop: "10px" }}
+                //      slotProps={{ textField: { variant: "filled" } }}
+                sx={{ marginRight: "35px", width: "200px" }}
                 value={timeFrom}
                 onChange={(e) => { setTimeFrom(e) }}
               />
@@ -320,11 +320,11 @@ function DangKyTamVangPage() {
               <CustomizedDatePicker
                 format="DD-MM-YYYY"
                 label="Đến ngày"
-                slotProps={{ textField: { variant: "filled" } }}
+                //     slotProps={{ textField: { variant: "filled" } }}
                 sx={{
                   marginRight: "35px",
                   width: "200px",
-                  paddingTop: "10px",
+                  //       paddingTop: "10px",
                 }}
                 value={timeTo}
                 onChange={(e) => { setTimeTo(e) }}

@@ -121,12 +121,12 @@ function ChiTietHoDan({ Hodan }) {
         toast.success("Sửa hộ dân thành công!")
         window.location.reload()
       }
-    ).catch(() => {
-      toast.error('Sửa thất bại')
+    ).catch((error) => {
+      toast.warning(error.response.data)
     })
   }
   return (
-    <Grid container spacing={2} padding="50px">
+    <Grid container spacing={1} padding="50px">
       <Grid item xs={12}>
         <Grid item xs={12}>
           <h1 style={{ fontSize: "40px" }}>Chi tiết hộ {hodan.chuho}</h1>
@@ -146,7 +146,7 @@ function ChiTietHoDan({ Hodan }) {
           <Grid item>
             <TextField
               style={{ width: "300px" }}
-              inputProps={{ style: { fontSize: "13px" } }}
+              inputProps={{ style: { fontSize: "16px" } }}
               value={name}
               disabled
             ></TextField>
@@ -157,17 +157,17 @@ function ChiTietHoDan({ Hodan }) {
           container
           xs={12}
           direction="row"
-          style={{ alignItems: "center" }}
+          style={{ alignItems: "center", padding: '10px 0px' }}
         >
           <Grid item xs={2.3}>
             <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
               Nơi thường trú
             </Typography>
           </Grid>
-          <Grid item style={{ marginTop: "30px", marginBottom: "30px" }}>
+          <Grid item >
             <TextField
               style={{ width: "500px" }}
-              inputProps={{ style: { fontSize: "13px" } }}
+              inputProps={{ style: { fontSize: "16px" } }}
               value={hodan.address}
               disabled
             ></TextField>
@@ -203,11 +203,12 @@ function ChiTietHoDan({ Hodan }) {
                 </TableCell>
                 <TableCell style={{ fontSize: "18px" }}>
                   <input
-                    style={{ fontSize: "18px", border: "none" }}
+                    style={{ fontSize: "18px", border: "none", backgroundColor: 'transparent' }}
                     type="date"
                     value={birth}
                     //     onChange={(e) => { setBirth(e.target.value) }}
                     disabled
+
                   />
                 </TableCell>
                 <TableCell style={{ fontSize: "18px" }}>
@@ -215,7 +216,7 @@ function ChiTietHoDan({ Hodan }) {
                     style={{
                       fontSize: "18px",
                       border: "none",
-                      width: "150px",
+                      width: "150px", backgroundColor: 'transparent'
                     }}
                     type="text"
                     value={identityCardNumber}
@@ -224,7 +225,7 @@ function ChiTietHoDan({ Hodan }) {
                   ></input>
                 </TableCell>
                 <TableCell style={{ fontSize: "18px" }}>
-                  <Select style={{ fontSize: "18px", border: "none", width: '120px' }} value='Chủ hộ' >
+                  <Select style={{ fontSize: "18px", border: "none", width: '120px' }} value='Chủ hộ' readOnly>
                     <MenuItem value='Chủ hộ'>Chủ hộ</MenuItem>
                   </Select>
                 </TableCell>
@@ -253,7 +254,7 @@ function ChiTietHoDan({ Hodan }) {
                       style={{
                         fontSize: "18px",
                         border: "none",
-                        width: "150px",
+                        width: "150px", backgroundColor: 'transparent'
                       }}
                       type="text"
                       value={
@@ -264,7 +265,7 @@ function ChiTietHoDan({ Hodan }) {
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
                     <input
-                      style={{ fontSize: "18px", border: "none" }}
+                      style={{ fontSize: "18px", border: "none", backgroundColor: 'transparent' }}
                       type="date"
                       value={
                         item.dateOfBirth.slice(0, 10)
@@ -278,7 +279,7 @@ function ChiTietHoDan({ Hodan }) {
                       style={{
                         fontSize: "18px",
                         border: "none",
-                        width: "150px",
+                        width: "150px", backgroundColor: 'transparent'
                       }}
                       type="text"
                       disabled
@@ -292,7 +293,7 @@ function ChiTietHoDan({ Hodan }) {
                   <TableCell style={{ fontSize: "18px" }}>
                     <Select style={{ fontSize: "18px", border: "none", width: '120px' }} value={
                       item.ownerRelationship
-                    } disabled>
+                    } readOnly>
                       <MenuItem value='Khác'>Khác</MenuItem>
                       <MenuItem value='Chủ hộ'>Chủ hộ</MenuItem>
                       <MenuItem value='Vợ'>Vợ</MenuItem>
@@ -321,7 +322,7 @@ function ChiTietHoDan({ Hodan }) {
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
                     <input
-                      style={{ fontSize: "18px", border: "none" }}
+                      style={{ fontSize: "18px", border: "none", backgroundColor: 'transparent' }}
                       type="date"
                       value={item.dateOfBirth.slice(0, 10)}
                       //     onChange={(e) => { setBirth(e.target.value) }}
@@ -333,7 +334,7 @@ function ChiTietHoDan({ Hodan }) {
                       style={{
                         fontSize: "18px",
                         border: "none",
-                        width: "150px",
+                        width: "150px", backgroundColor: 'transparent'
                       }}
                       type="text"
                       value={item.identityCardNumber}

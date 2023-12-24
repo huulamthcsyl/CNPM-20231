@@ -143,13 +143,13 @@ function NhanKhau() {
                         <TableCell>
                           <Typography variant="h5"> {page * rowsPerPage + index + 1}</Typography>
                         </TableCell>
-                        <TableCell>
+                        <TableCell style={{ width: '300px' }}>
                           <Typography variant="h5">{peop.name}</Typography>
                         </TableCell>
-                        <TableCell>
+                        <TableCell style={{ width: '200px' }}>
                           <Typography variant="h5">{new Date(peop.dateOfBirth).toLocaleDateString()}</Typography>
                         </TableCell>
-                        <TableCell>
+                        <TableCell style={{ width: '200px' }}>
                           <Typography variant="h5">{peop.identityCardNumber}</Typography>
                         </TableCell>
                         <TableCell>

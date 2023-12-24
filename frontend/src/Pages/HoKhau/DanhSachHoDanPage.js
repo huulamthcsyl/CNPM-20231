@@ -151,8 +151,8 @@ function HoKhau() {
                             {page * rowsPerPage + index + 1}
                           </Typography>
                         </TableCell>
-                        <TableCell style={{ fontSize: '17px' }}>{colume.ownerName}</TableCell>
-                        <TableCell style={{ fontSize: '17px' }}>{colume.address}</TableCell>
+                        <TableCell style={{ fontSize: '17px', width: '260px' }}>{colume.ownerName}</TableCell>
+                        <TableCell style={{ fontSize: '17px', width: '300px' }}>{colume.address}</TableCell>
                         <TableCell style={{ fontSize: '17px' }}>{colume.memberNumber}</TableCell>
                         <TableCell>
                           <NavLink to={"/chitiethodan/" + colume.residenceId}>

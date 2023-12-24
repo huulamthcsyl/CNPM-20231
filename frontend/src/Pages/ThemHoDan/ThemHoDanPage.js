@@ -82,8 +82,11 @@ function ThemHoDan() {
       "people": listMember.length == 0 ? [chunha] : [chunha, ...listMember.filter(obj => obj.hasOwnProperty('personId'))]
     }).then((response) => {
       toast.info('Thành công')
-    }).catch((res) => {
-      toast.error('lỗi')
+    }).catch(error => {
+      // Xử lý lỗi nếu có
+      if (error.response && error.response.status === 400) {
+        toast.warning(error.response.data)
+      }
     })
   }
   var deleterow = (index) => {
@@ -196,7 +199,7 @@ function ThemHoDan() {
                 Nơi thường trú
               </Typography>
             </Grid>
-            <Grid item style={{ marginTop: "30px", marginBottom: "30px" }}>
+            <Grid item style={{ marginTop: "10px", marginBottom: "10px" }}>
               <TextField
                 style={{ width: "500px" }}
                 inputProps={{ style: { fontSize: "15px" } }}
@@ -236,11 +239,12 @@ function ThemHoDan() {
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
                     <input
-                      style={{ fontSize: "18px", border: "none" }}
+                      style={{ fontSize: "18px", border: "none", backgroundColor: 'transparent' }}
                       type="date"
                       value={birth}
                       //     onChange={(e) => { setBirth(e.target.value) }}
                       disabled
+
                     />
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
@@ -249,11 +253,12 @@ function ThemHoDan() {
                         fontSize: "18px",
                         border: "none",
                         width: "150px",
+                        backgroundColor: 'transparent'
                       }}
                       type="text"
                       value={identityCardNumber}
                       disabled
-                    //   onChange={(e)=>setIdentityCardNumber(e.target.value)}
+                    //   onChange={(e) => setIdentityCardNumber(e.target.value)}
                     ></input>
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
@@ -287,7 +292,7 @@ function ThemHoDan() {
                     </TableCell>
                     <TableCell style={{ fontSize: "18px" }}>
                       <input
-                        style={{ fontSize: "18px", border: "none" }}
+                        style={{ fontSize: "18px", border: "none", backgroundColor: 'transparent' }}
                         type="date"
                         value={item.dateOfBirth.slice(0, 10)}
                         //     onChange={(e) => { setBirth(e.target.value) }}
@@ -299,7 +304,7 @@ function ThemHoDan() {
                         style={{
                           fontSize: "18px",
                           border: "none",
-                          width: "150px",
+                          width: "150px", backgroundColor: 'transparent'
                         }}
                         type="text"
                         value={item.identityCardNumber}
@@ -349,7 +354,7 @@ function ThemHoDan() {
             variant="contained"
             style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
             onClick={handlePost}
-            disabled={disabled}
+          //      disabled={disabled}
           >
             <Typography variant="h4" style={{ color: "black" }}>
               Xác nhận
@@ -371,7 +376,7 @@ function ThemHoDan() {
           </NavLink>
         </Grid>
       </Grid>
-    </ListMemberProvider>
+    </ListMemberProvider >
   );
 }
 
