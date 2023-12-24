@@ -314,6 +314,9 @@ function ChiTietHoDan({ Hodan }) {
               {listMember2.length > 0 && listMember2.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell>
+                    <Typography style={{ fontSize: '20px' }}>{index + listMember.length + 2}</Typography>
+                  </TableCell>
+                  <TableCell>
                     <Typography style={{ fontSize: '20px' }}>{item.name}</Typography>
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>

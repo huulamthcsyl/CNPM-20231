@@ -142,7 +142,7 @@ function TamVangPage() {
                           <Typography variant="h5">{peop.person ? peop.person.name : ''}</Typography>
                         </TableCell>
                         <TableCell>
-                          <Typography variant="h5">{peop.person ? peop.person.dateOfBirth : ''}</Typography>
+                          <Typography variant="h5">{peop.person ? new Date(peop.person.dateOfBirth).toLocaleDateString() : ''}</Typography>
                         </TableCell>
                         <TableCell>
                           <Typography variant="h5">{peop.person ? peop.person.identityCardNumber : ''}</Typography>

@@ -202,6 +202,7 @@ function ChiTietTamVangPage() {
                         </Grid>
                         <Grid item>
                             <CustomizedDatePicker
+                                format="DD-MM-YYYY"
                                 slotProps={{ textField: { variant: "filled" } }}
                                 sx={{
                                     marginRight: "35px",
@@ -290,6 +291,7 @@ function ChiTietTamVangPage() {
                         </Grid>
                         <Grid item>
                             <CustomizedDatePicker
+                                format="DD-MM-YYYY"
                                 label="Từ ngày"
                                 slotProps={{ textField: { variant: "filled" } }}
                                 sx={{ marginRight: "35px", width: "200px", paddingTop: "10px" }}
@@ -299,6 +301,7 @@ function ChiTietTamVangPage() {
                         </Grid>
                         <Grid item>
                             <CustomizedDatePicker
+                                format="DD-MM-YYYY"
                                 label="Đến ngày"
                                 slotProps={{ textField: { variant: "filled" } }}
                                 sx={{

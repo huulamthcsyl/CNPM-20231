@@ -22,6 +22,7 @@ import styled from "@emotion/styled";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
 import { toast } from "react-toastify";
+import vi from 'date-fns/locale/vi'
 
 const API_ADDRESS = 'https://provinces.open-api.vn/';
 const theme = createTheme({
@@ -116,6 +117,8 @@ function ThemCuDan() {
       setCccd(response.data.identityCardNumber)
       setStatus(response.data.status)
       setBirth(dayjs(response.data.dateOfBirth))
+      console.log(dayjs(response.data.dateOfBirth))
+      console.log(response.data.dateOfBirth)
       setPhoneNumber(response.data.phoneNumber)
       setResid(response.data.residenceId)
       setRelation(response.data.ownerRelationship)
@@ -184,7 +187,7 @@ function ThemCuDan() {
     }
   }, [district]);
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="vi">
       <Grid container spacing={1} style={{ padding: "50px" }}>
         <ThemeProvider theme={theme}>
           <Grid item xs={12}>
@@ -295,7 +298,7 @@ function ThemCuDan() {
                 }}
                 value={birth}
                 onChange={(value) => { setBirth(value) }}
-
+                format="DD-MM-YYYY"
               />
             </Grid>
           </Grid>
