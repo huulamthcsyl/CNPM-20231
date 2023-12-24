@@ -175,12 +175,18 @@ namespace Project.Controllers.ResidenceController
 
             // Find removed person, added person 
             var removedPeople = currentResidence.People
-                .Where(p => !newResidence.People.Any(newPerson => newPerson.PersonId == p.PersonId))
-                .ToList();
+                                .Where(p => !newResidence.People.Any(newPerson => newPerson.PersonId == p.PersonId))
+                                .ToList();
 
             var addedPeople = newResidence.People
-                .Where(p => !currentResidence.People.Any(oldPerson => oldPerson.PersonId == p.PersonId))
-                .ToList();
+                                .Where(p => !currentResidence.People.Any(oldPerson => oldPerson.PersonId == p.PersonId))
+                                .ToList();
+
+            var changePeople = currentResidence.People
+                                .Where(p => newResidence.People
+                                .Any(newPerson => (newPerson.PersonId == p.PersonId 
+                                && newPerson.OwnerRelationship != p.OwnerRelationship)))
+                                .ToList();
 
             foreach (var p in removedPeople)
             {
@@ -217,6 +223,28 @@ namespace Project.Controllers.ResidenceController
                 var person = await _context.People.FindAsync(p.PersonId);
                 person.ResidenceId = id;
                 person.OwnerRelationship = p.OwnerRelationship;
+            }
+
+            foreach (var p in changePeople)
+            {
+                _context.Records.Add(new Record
+                {
+                    RecordId = Guid.NewGuid(),
+                    ResidenceId = id,
+                    PersonId = p.PersonId,
+                    DateCreated = DateTime.Now,
+                    Action = "Thay đổi quan hệ nhân khẩu",
+                    OwnerRelationship = p.OwnerRelationship
+                });
+                foreach (var newP in newResidence.People)
+                {
+                    if (p.PersonId == newP.PersonId)
+                    {
+                        p.OwnerRelationship = newP.OwnerRelationship;
+                        break;
+                    }
+                }
+
             }
 
             // Save DB_Context

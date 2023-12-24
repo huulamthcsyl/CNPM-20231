@@ -173,7 +173,7 @@ namespace Project.Models
                     .WithMany(p => p.ResidenceReceipts)
                     .HasForeignKey(e => e.PersonId)
                     .HasConstraintName("Fk_ResidenceReceipt_PersonId")
-                    .OnDelete(DeleteBehavior.SetNull);
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Vehicle>(e => 
@@ -190,7 +190,7 @@ namespace Project.Models
                     .WithMany(p => p.Vehicles)
                     .HasForeignKey(e => e.PersonId)
                     .HasConstraintName("Fk_Vehicle_PersonId")
-                    .OnDelete(DeleteBehavior.SetNull);
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<VehicleReceipt>(e => 
@@ -207,7 +207,7 @@ namespace Project.Models
                     .WithMany(v => v.VehicleReceipts)
                     .HasForeignKey(e => e.VehicleId)
                     .HasConstraintName("Fk_VehicleReceipt_VehicleId")
-                    .OnDelete(DeleteBehavior.SetNull);
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<VehiclePayment>(e =>
