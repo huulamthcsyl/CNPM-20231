@@ -6,15 +6,21 @@ import ClassApi from "../../Api/Api";
 
 function TaoKhoanThuPTPage() {
   const [name, setName] = useState('');
-  const [printError, setPrintError] = useState(null);
+  const [cost, setCost] = useState('');
+  const [printError1, setPrintError1] = useState(null);
+  const [printError2, setPrintError2] = useState(null);
   const handleAdd = () => {
     if (!name) {
-      setPrintError("Vui lòng nhập Tên khoản thu!");
+      setPrintError1("Vui lòng nhập Tên khoản thu!");
+      return;
+    }
+    if (!cost) {
+      setPrintError2("Vui lòng nhập Số tiền!");
       return;
     }
     ClassApi.PostVehicleFee({
-      "name": name,
-      "cost": 0,
+      name: name,
+      cost: cost,
     }).then(
       (response) => {
         toast.success('Thêm khoản thu thành công');
@@ -27,7 +33,7 @@ function TaoKhoanThuPTPage() {
   return (
     <Grid container spacing={2} padding={"50px"}>
       <Grid item xs={12}>
-        <h1 style={{ fontSize: "40px" }}>Tạo khoản thu phương tiện mới</h1>
+        <h1 style={{ fontSize: "40px" }}>Tạo khoản thu Phương tiện mới</h1>
       </Grid>
       <Grid item>
         {/* <form onSubmit={handleAdd}> */}
@@ -40,13 +46,27 @@ function TaoKhoanThuPTPage() {
             style={{ width: "400px" }}
             inputProps={{ style: { fontSize: "18px" }, required: true }}
             FormHelperTextProps={{ style: { fontSize: "18px" } }}
-            error={printError != null}
-            helperText={printError}
+            error={printError1 != null}
+            helperText={printError1}
             value={name}
             onChange={(e) => { setName(e.target.value) }}
           ></TextField>
         </Grid>
 
+        <Grid item container direction="row" alignItems="center" sx={{ mt: 2 }}>
+          <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
+            Số tiền
+          </Typography>
+          <TextField
+            style={{ width: "400px", marginLeft: "80px" }}
+            inputProps={{ style: { fontSize: "18px" }, required: true }}
+            FormHelperTextProps={{ style: { fontSize: "18px" } }}
+            error={printError2 != null}
+            helperText={printError2}
+            value={cost}
+            onChange={(e) => { setCost(e.target.value) }}
+          ></TextField>
+        </Grid>
         <Grid item>
           <Button
             variant="contained"
@@ -61,7 +81,7 @@ function TaoKhoanThuPTPage() {
             Xác nhận
           </Button>
 
-          <NavLink to="/thuphiphuongtien">
+          <NavLink to="/quanlyphuongtien">
             <Button
               variant="contained"
               style={{

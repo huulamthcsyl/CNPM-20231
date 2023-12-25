@@ -12,7 +12,7 @@ import ClassApi from "../../Api/Api"
 import { all } from "axios";
 
 
-function QuanLyPTPage() {
+function QuanLyPhuongTienPage() {
 
   const tableHeadName = [
     { name: "Số thứ tự" },
@@ -224,4 +224,4 @@ function QuanLyPTPage() {
     </Grid>
   );
 }
-export default QuanLyPTPage;
+export default QuanLyPhuongTienPage;

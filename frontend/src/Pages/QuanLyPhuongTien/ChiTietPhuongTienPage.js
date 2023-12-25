@@ -78,7 +78,7 @@ function ChiTietPhuongTien() {
             style={{ backgroundColor: "#FA7070", margin: "30px 30px" }}
           >
             <Typography variant="h4" style={{ color: "black" }}>
-              Hủy
+              Xóa
             </Typography>
           </Button>
         </NavLink>

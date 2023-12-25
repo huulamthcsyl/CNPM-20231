@@ -12,7 +12,7 @@ import DangNhapPage from "../Pages/Home/DangNhapPage.js";
 import NoneLayout from "../Layout/NoneLayout.js";
 import HoSoPage from "../Pages/HoSo/HoSoPage";
 import DoiMatKhauPage from "../Pages/HoSo/DoiMatKhauPage";
-import QuanLyPTPage from "../Pages/QuanLyPhuongTien/QuanLyPTPage.js";
+import QuanLyPhuongTienPage from "../Pages/QuanLyPhuongTien/QuanLyPhuongTienPage.js";
 import KhoanThuPhuongTienPage from "../Pages/KhoanThuPhuongtien/KhoanThuPhuongTienPage.js";
 import TaoPhuongTienPage from "../Pages/QuanLyPhuongTien/TaoPhuongTienPage.js";
 import ChiTietPhieuThu from "../Pages/ChiTietPhieuThu/ChiTietPhieuThuPage";
@@ -45,7 +45,7 @@ const publicRoutes = [
   { path: "/home", component: Home },
   { path: "/hosoadmin", component: HoSoPage },
   { path: "/doimatkhau", component: DoiMatKhauPage },
-  { path: "/quanlyphuongtien", component: QuanLyPTPage },
+  { path: "/quanlyphuongtien", component: QuanLyPhuongTienPage },
   { path: "/danhsachkhoanthuphuongtien", component: KhoanThuPhuongTienPage },
   { path: "/taophuongtien", component: TaoPhuongTienPage },
   { path: "/chitietphieuthu", component: ChiTietPhieuThu },
