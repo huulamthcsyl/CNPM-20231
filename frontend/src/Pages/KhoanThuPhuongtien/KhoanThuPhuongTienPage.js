@@ -11,11 +11,11 @@ import ClassApi from "../../Api/Api";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 
-function ThuPhiPTPage() {
+function KhoanThuPhuongTienPage() {
   const pathname = window.location.pathname;
   const nextPagePathName =
     pathname.substr(0, pathname.indexOf("/")) +
-    "/chitietthuphiphuongtien/?vehicleFeeId=";
+    "/chitietkhoanthuphuongtien/?vehicleFeeId=";
 
   const tableHeadName = [
     { name: "Số thứ tự" },
@@ -69,7 +69,7 @@ function ThuPhiPTPage() {
         <h1 style={{ fontSize: "48px" }}> Quản lý Thu phí phương tiện </h1>
       </Grid>
 
-      <Grid item xs={6}>
+      <Grid item xs={12}>
         <NavLink to="/taokhoanthuphuongtien">
           <Button
             variant="contained"
@@ -89,27 +89,7 @@ function ThuPhiPTPage() {
         </NavLink>
       </Grid>
 
-      <Grid item xs={6}>
-        <NavLink to="/quanlythuphiphuongtien">
-          <Button
-            variant="contained"
-            style={{ backgroundColor: "#79C9FF", marginLeft: "30px" }}
-          >
-            <Typography style={{ marginRight: "8px" }}>
-              <img
-                src={ThuPhi}
-                style={{ width: "26px", height: "26px" }}
-                alt=""
-              />
-            </Typography>
-            <Typography variant="h4" style={{ color: "black" }}>
-              Thu phí phương tiện
-            </Typography>
-          </Button>
-        </NavLink>
-      </Grid>
-
-      <Grid item xs={12} sx={{mt: 2}}>
+      <Grid item xs={12} sx={{ mt: 2 }}>
         <FormControl>
           <Grid item container direction="row" alignItems="center">
             <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
@@ -124,7 +104,7 @@ function ThuPhiPTPage() {
         </FormControl>
       </Grid>
 
-      <Grid item sx={{mt: 2}}>
+      <Grid item sx={{ mt: 2 }}>
         <Button
           variant="contained"
           style={{ backgroundColor: "#79C9FF" }}
@@ -136,7 +116,7 @@ function ThuPhiPTPage() {
         </Button>
       </Grid>
 
-      <Grid item xs={12} sx={{mt: 2}}>
+      <Grid item xs={12} sx={{ mt: 2 }}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }}>
             <TableHead>
@@ -265,4 +245,4 @@ function ThuPhiPTPage() {
   );
 }
 
-export default ThuPhiPTPage;
+export default KhoanThuPhuongTienPage;

@@ -228,6 +228,22 @@ class ClassApi {
   GetVehicleFeeByName(name) {
     return axios.get(API_BASE_URL + "/vehiclefee/?name=" + name, { headers });
   }
+  FindVehicleReceipt(lisensePlate, name, starttime, endtime) {
+    return axios.get(
+      API_BASE_URL +
+      "/vehiclereceipt?licenseplate=" +
+      lisensePlate +
+      "&name=" +
+      name +
+      "&starttime=" +
+      starttime +
+      "&endtime=" +
+      endtime,
+      { headers }
+    );
+  }
+
+
   FindVehicleReceiptByFeeId(
     lisensePlate,
     name,

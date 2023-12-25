@@ -12,24 +12,25 @@ import DangNhapPage from "../Pages/Home/DangNhapPage.js";
 import NoneLayout from "../Layout/NoneLayout.js";
 import HoSoPage from "../Pages/HoSo/HoSoPage";
 import DoiMatKhauPage from "../Pages/HoSo/DoiMatKhauPage";
-import QuanLyPTPage from "../Pages/PhuongTien/QuanLyPTPage";
-import ThuPhiPTPage from "../Pages/PhuongTien/ThuPhiPTPage";
-import TaoPhuongTienPage from "../Pages/QuanLyPhuongTien/TaoPhuongTienPage";
+import QuanLyPTPage from "../Pages/QuanLyPhuongTien/QuanLyPTPage.js";
+import KhoanThuPhuongTienPage from "../Pages/KhoanThuPhuongtien/KhoanThuPhuongTienPage.js";
+import TaoPhuongTienPage from "../Pages/QuanLyPhuongTien/TaoPhuongTienPage.js";
 import ChiTietPhieuThu from "../Pages/ChiTietPhieuThu/ChiTietPhieuThuPage";
 import ChiTietKhoanThu from "../Pages/ChiTietKhoanThu/ChiTietKhoanThuPage";
 import ChiTietHoDan from "../Pages/HoKhau/ChiTietHoDanPage";
-import ChiTietPhuongTien from "../Pages/QuanLyPhuongTien/ChiTietPhuongTienPage";
-import TaoKhoanThuPTPage from "../Pages/TaoKhoanThuPhuongtien/TaoKhoanThuPTPage";
+import ChiTietPhuongTien from "../Pages/QuanLyPhuongTien/ChiTietPhuongTienPage.js";
+import TaoKhoanThuPTPage from "../Pages/KhoanThuPhuongtien/TaoKhoanThuPTPage.js";
 import ChiTietCuDanPage from "../Pages/NhanKhau/ChiTietCuDanPage";
 import DangKyTamVangPage from "../Pages/TamVang/DangKyTamVangPage";
-import ChiTietPhieuThuPhuongTienPage from "../Pages/ThuPhiPhuongTien/ChiTietPhieuThuPhuongTienPage";
-import ChiTietThuPhiPhuongtienPage from "../Pages/ThuPhiPhuongTien/ChiTietThuPhiPhuongtienPage";
-import QuanLyThuPhiPhuongtienPage from "../Pages/ThuPhiPhuongTien/QuanLyThuPhiPhuongtienPage";
+import ChiTietPhieuThuPhuongTienPage from "../Pages/ChiTietKhoanThuPhuongTien/ChiTietPhieuThuPhuongTienPage.js";
+import ChiTietKhoanThuPhuongtienPage from "../Pages/ChiTietKhoanThuPhuongTien/ChiTietKhoanThuPhuongtienPage.js";
+import TaoPhieuThuPhuongtienPage from "../Pages/PhieuThuPhuongTien/TaoPhieuThuPhuongtienPage.js";
 import QTVLayout from "../Layout/QTVLayout.js";
 import QTVPage from "../Pages/QTVHeThong/QTVPage.js";
 import ThemQTVPage from "../Pages/QTVHeThong/ThemQTVPage.js";
 import ChiTietTamVangPage from "../Pages/TamVang/ChiTietTamVangPage.js";
 import LichSuPage from "../Pages/HoKhau/LishSuPage.js";
+import PhieuThuPhuongTienPage from "../Pages/PhieuThuPhuongTien/PhieuThuPhuongTienPage.js";
 const publicRoutes = [
   { path: "/", component: DangNhapPage, layout: NoneLayout },
   { path: "/danhmucthu", component: DanhMucThu },
@@ -45,7 +46,7 @@ const publicRoutes = [
   { path: "/hosoadmin", component: HoSoPage },
   { path: "/doimatkhau", component: DoiMatKhauPage },
   { path: "/quanlyphuongtien", component: QuanLyPTPage },
-  { path: "/thuphiphuongtien", component: ThuPhiPTPage },
+  { path: "/danhsachkhoanthuphuongtien", component: KhoanThuPhuongTienPage },
   { path: "/taophuongtien", component: TaoPhuongTienPage },
   { path: "/chitietphieuthu", component: ChiTietPhieuThu },
   { path: "/chitietkhoanthu", component: ChiTietKhoanThu },
@@ -54,13 +55,14 @@ const publicRoutes = [
   { path: '/chitiettamvang/:id', component: ChiTietTamVangPage },
   { path: "/chitietphuongtien/:id", component: ChiTietPhuongTien },
   { path: "/taokhoanthuphuongtien", component: TaoKhoanThuPTPage },
-  { path: "/chitietthuphiphuongtien", component: ChiTietThuPhiPhuongtienPage },
-  { path: "/quanlythuphiphuongtien", component: QuanLyThuPhiPhuongtienPage },
+  { path: "/chitietkhoanthuphuongtien", component: ChiTietKhoanThuPhuongtienPage },
+  { path: "/taophieuthuphuongtien", component: TaoPhieuThuPhuongtienPage },
   { path: "/chitietcudan/:id", component: ChiTietCuDanPage },
   { path: "/dangkytamvang", component: DangKyTamVangPage },
   { path: "/chitietphieuthuphuongtien", component: ChiTietPhieuThuPhuongTienPage },
   { path: '/quantrivien', component: QTVPage, layout: QTVLayout },
-  { path: '/themquantrivien', component: ThemQTVPage, layout: QTVLayout }
+  { path: '/themquantrivien', component: ThemQTVPage, layout: QTVLayout },
+  { path: "/danhsachphieuthuphuongtien", component: PhieuThuPhuongTienPage }
 ];
 
 export { publicRoutes };  

@@ -26,7 +26,7 @@ import { toast } from "react-toastify";
 import { Box } from "@mui/material";
 import { VehicleReceipt } from "../../Models/VehicleReceipt";
 
-function QuanLyThuPhiPhuongtienPage() {
+function TaoPhieuThuPhuongtienPage() {
   const columnNames = [
     "Số thứ tự",
     "Tên khoản thu",
@@ -192,7 +192,7 @@ function QuanLyThuPhiPhuongtienPage() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={2} padding={"50px"}>
         <Grid item xs={12}>
-          <h1 style={{ fontSize: "40px" }}>Thu phí phương tiện</h1>
+          <h1 style={{ fontSize: "40px" }}>Phiếu thu Phương tiện</h1>
         </Grid>
         <Grid item>
           <form onSubmit={handleSubmit}>
@@ -213,7 +213,7 @@ function QuanLyThuPhiPhuongtienPage() {
                   },
                   width: 500,
                 }}
-                renderInput={(params) => <TextField {...params} />}
+                renderInput={(params) => <TextField {...params} required />}
               />
             </Grid>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -232,6 +232,12 @@ function QuanLyThuPhiPhuongtienPage() {
                   value={dateCreated}
                   onChange={(date) => setDateCreated(date)}
                   format="DD-MM-YYYY"
+                // slotProps={{
+                //   textField: {
+                //     required: true,
+                //   },
+                // }}  
+
                 ></CustomizedDatePicker>
               </Grid>
             </LocalizationProvider>
@@ -390,7 +396,7 @@ function QuanLyThuPhiPhuongtienPage() {
               >
                 Xác nhận
               </Button>
-              <NavLink to="/thuphiphuongtien">
+              <NavLink to="/danhsachphieuthuphuongtien">
                 <Button
                   variant="contained"
                   style={{
@@ -413,4 +419,4 @@ function QuanLyThuPhiPhuongtienPage() {
   );
 }
 
-export default QuanLyThuPhiPhuongtienPage;
+export default TaoPhieuThuPhuongtienPage;

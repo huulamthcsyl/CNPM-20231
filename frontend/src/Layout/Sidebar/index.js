@@ -93,12 +93,20 @@ function Sidebar() {
               <Item title="Quản lý" />
             </NavLink>
             <NavLink
-              to="/thuphiphuongtien"
+              to="/danhsachkhoanthuphuongtien"
               className={(nav) => {
                 cx({ active: nav.isActive });
               }}
             >
-              <Item title="Thu phí" />
+              <Item title="Khoản thu" />
+            </NavLink>
+            <NavLink
+              to="/danhsachphieuthuphuongtien"
+              className={(nav) => {
+                cx({ active: nav.isActive });
+              }}
+            >
+              <Item title="Phiếu thu" />
             </NavLink>
           </ButtonMenu>
         </div>
