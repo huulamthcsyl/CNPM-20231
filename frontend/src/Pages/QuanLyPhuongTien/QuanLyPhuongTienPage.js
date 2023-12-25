@@ -58,7 +58,7 @@ function QuanLyPhuongTienPage() {
   return (
     <Grid container spacing={2} style={{ padding: "50px" }}>
       <Grid item xs={12}>
-        <h1 style={{ fontSize: "48px" }}> Quản lý phương tiện </h1>
+        <h1 style={{ fontSize: "48px" }}> Quản lý Phương tiện </h1>
       </Grid>
 
       <Grid item xs={12}>
