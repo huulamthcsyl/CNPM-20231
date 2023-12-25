@@ -129,7 +129,7 @@ namespace Project.Controllers.UserController
         // POST: api/account/register
         [HttpPost("register")]
         [Authorize(Roles = "admin")]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public async Task<IActionResult> PostUserAccount(UserAccount userAccount)
         {
             if (_context.UserAccounts == null)
