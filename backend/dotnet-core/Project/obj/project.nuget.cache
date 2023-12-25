@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
+  "dgSpecHash": "OXD9syIA+vYEcaa1oUUnPb6lwEX5T9AUW86/06wzin0h4kj0n9Ga8Cu0G4sxylu01Df5vaDYT5UiAKPrZux/rg==",
+  "success": true,
+  "projectFilePath": "D:\\Hust Study\\Fundament\\Software Technology\\BaiTapLonCNPM 2023.1\\CNPM-20231\\backend\\dotnet-core\\project\\Project.csproj",
+=======
   "dgSpecHash": "WLh82I/4JWyqmuOkpO1hmy8TWNmDHylSTUoP1K/Sw24pYuRzykcKcTnZ75f1WOWypCSOAoDS6nWNCRZAuYoqoA==",
   "success": true,
   "projectFilePath": "D:\\CNPM-20231\\backend\\dotnet-core\\Project\\Project.csproj",
+>>>>>>> 75a4f89031c411341d0909439b9414789633ae99
   "expectedPackageFiles": [
     "C:\\Users\\huula\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\huula\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

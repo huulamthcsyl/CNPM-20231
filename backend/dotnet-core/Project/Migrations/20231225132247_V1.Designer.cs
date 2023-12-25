@@ -12,7 +12,7 @@ using Project.Models;
 namespace Project.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20231221150853_V1")]
+    [Migration("20231225132247_V1")]
     partial class V1
     {
         /// <inheritdoc />
@@ -112,6 +112,11 @@ namespace Project.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("OwnerRelationship")
+                        .IsRequired()
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
@@ -174,10 +179,10 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.Models.ResidencePayment", b =>
                 {
-                    b.Property<Guid>("ResidenceReceiptId")
+                    b.Property<Guid?>("ResidenceReceiptId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ResidenceFeeId")
+                    b.Property<Guid?>("ResidenceFeeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Amount")
@@ -321,7 +326,7 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.Models.VehiclePayment", b =>
                 {
-                    b.Property<Guid>("VehicleReceiptId")
+                    b.Property<Guid?>("VehicleReceiptId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("VehicleFeeId")
@@ -430,7 +435,7 @@ namespace Project.Migrations
                     b.HasOne("Project.Models.Models.Person", "Person")
                         .WithMany("ResidenceReceipts")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("Fk_ResidenceReceipt_PersonId");
 
                     b.Navigation("Person");
@@ -452,7 +457,7 @@ namespace Project.Migrations
                     b.HasOne("Project.Models.Models.Person", "Person")
                         .WithMany("Vehicles")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("Fk_Vehicle_PersonId");
 
                     b.Navigation("Person");
@@ -484,7 +489,7 @@ namespace Project.Migrations
                     b.HasOne("Project.Models.Models.Vehicle", "Vehicle")
                         .WithMany("VehicleReceipts")
                         .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("Fk_VehicleReceipt_VehicleId");
 
                     b.Navigation("Vehicle");

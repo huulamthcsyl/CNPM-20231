@@ -145,6 +145,7 @@ namespace Project.Migrations
                     ResidenceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Action = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OwnerRelationship = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -183,7 +184,7 @@ namespace Project.Migrations
                         column: x => x.PersonId,
                         principalTable: "Person",
                         principalColumn: "PersonId",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,7 +204,7 @@ namespace Project.Migrations
                         column: x => x.PersonId,
                         principalTable: "Person",
                         principalColumn: "PersonId",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -249,7 +250,7 @@ namespace Project.Migrations
                         column: x => x.VehicleId,
                         principalTable: "Vehicle",
                         principalColumn: "VehicleId",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

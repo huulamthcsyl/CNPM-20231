@@ -1,6 +1,19 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
+    "D:\\Hust Study\\Fundament\\Software Technology\\BaiTapLonCNPM 2023.1\\CNPM-20231\\backend\\dotnet-core\\project\\Project.csproj": {}
+  },
+  "projects": {
+    "D:\\Hust Study\\Fundament\\Software Technology\\BaiTapLonCNPM 2023.1\\CNPM-20231\\backend\\dotnet-core\\project\\Project.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Hust Study\\Fundament\\Software Technology\\BaiTapLonCNPM 2023.1\\CNPM-20231\\backend\\dotnet-core\\project\\Project.csproj",
+        "projectName": "Project",
+        "projectPath": "D:\\Hust Study\\Fundament\\Software Technology\\BaiTapLonCNPM 2023.1\\CNPM-20231\\backend\\dotnet-core\\project\\Project.csproj",
+        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
+        "outputPath": "D:\\Hust Study\\Fundament\\Software Technology\\BaiTapLonCNPM 2023.1\\CNPM-20231\\backend\\dotnet-core\\project\\obj\\",
+=======
     "D:\\CNPM-20231\\backend\\dotnet-core\\Project\\Project.csproj": {}
   },
   "projects": {
@@ -12,6 +25,7 @@
         "projectPath": "D:\\CNPM-20231\\backend\\dotnet-core\\Project\\Project.csproj",
         "packagesPath": "C:\\Users\\huula\\.nuget\\packages\\",
         "outputPath": "D:\\CNPM-20231\\backend\\dotnet-core\\Project\\obj\\",
+>>>>>>> 75a4f89031c411341d0909439b9414789633ae99
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\huula\\AppData\\Roaming\\NuGet\\NuGet.Config",

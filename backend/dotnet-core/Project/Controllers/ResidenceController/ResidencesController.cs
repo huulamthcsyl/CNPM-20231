@@ -151,18 +151,18 @@ namespace Project.Controllers.ResidenceController
             }
             // Check wheather person is in another residence ??
             var people = newResidence.People.ToList();
-            bool check = false;
+            string check = "";
             foreach (var person in people)
             {
                 if (person.ResidenceId != null && person.ResidenceId != id)
                 {
-                    check = true;
+                    check = person.Name;
                     break;
                 }
             }
-            if (check == true)
+            if (check != "")
             {
-                return StatusCode(400, "Cư dân hiên đang trong hộ khẩu khác");
+                return StatusCode(400, $"Cư dân {check} hiện đang trong hộ khẩu khác");
             }
 
             // Update new residence
@@ -278,19 +278,20 @@ namespace Project.Controllers.ResidenceController
             }
             // Check wheather person is in another residence ??
             var people = residence.People.ToList();
-            bool check = false;
+            string check = "";
             foreach (var person in people)
             {
                 if (person.ResidenceId != null)
                 {
-                    check = true;
+                    check = person.Name;
                     break;
                 }
             }
-            if (check == true)
+            if (check != "")
             {
-                return StatusCode(400, "Cư dân hiên đang trong hộ khẩu khác");
+                return StatusCode(400, $"Cư dân {check} hiện đang trong hộ khẩu khác");
             }
+
 
             // Insert residence
             residence.ResidenceId = Guid.NewGuid();
