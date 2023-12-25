@@ -12,14 +12,18 @@ class ClassApi {
   //****** ******/
   //Api Quan tri vien
 
-  getUser() {
+  getAllUser() {
     return axios.get(API_BASE_URL + "/account/all", { headers: headers });
+  }
+
+  getUserById(id){
+    return axios.get(API_BASE_URL + `/user/${id}`, {headers : headers})
   }
 
   registerUser(username, password) {
     return axios.post(
       API_BASE_URL + "/account/register",
-      { username: username, password: password },
+      { username: username, password: password, role: "user" },
       { headers: headers }
     );
   }

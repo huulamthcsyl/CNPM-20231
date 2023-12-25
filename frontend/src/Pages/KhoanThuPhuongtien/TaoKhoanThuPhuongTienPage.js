@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import ClassApi from "../../Api/Api";
 
-function TaoKhoanThuPTPage() {
+function TaoKhoanThuPhuongTienPage() {
   const [name, setName] = useState('');
   const [cost, setCost] = useState('');
   const [printError1, setPrintError1] = useState(null);
@@ -81,7 +81,7 @@ function TaoKhoanThuPTPage() {
             Xác nhận
           </Button>
 
-          <NavLink to="/quanlyphuongtien">
+          <NavLink to="/danhsachkhoanthuphuongtien">
             <Button
               variant="contained"
               style={{
@@ -102,4 +102,4 @@ function TaoKhoanThuPTPage() {
   );
 }
 
-export default TaoKhoanThuPTPage;
+export default TaoKhoanThuPhuongTienPage;

@@ -31,8 +31,6 @@ function SidebarQTV() {
 
 
                 <div className={cx("user")}>
-
-                    {(user && localStorage.getItem("user") != "null") ? (
                         <Button
                             style={{
                                 backgroundColor: "#f9bf89",
@@ -46,30 +44,13 @@ function SidebarQTV() {
                             }}
                             onClick={() => {
                                 setUser("");
-                                localStorage.setItem("user", null)
+                                localStorage.setItem("user", null);
+                                navigate("/");
                             }}
                             startIcon={<LogoutIcon />}
                         >
                             Đăng xuất
                         </Button>
-                    ) : (
-                        <Button
-                            style={{
-                                backgroundColor: "#f9bf89",
-                                width: "80%",
-                                marginLeft: "10px",
-                                borderRadius: "10px",
-                                fontSize: "25px",
-                                padding: "0px 5px",
-                                textAlign: "center",
-                                color: "black",
-                            }}
-                            onClick={handleLogin}
-                            startIcon={<LoginIcon />}
-                        >
-                            Đăng nhập
-                        </Button>
-                    )}
                 </div>
             </div>
         </div>

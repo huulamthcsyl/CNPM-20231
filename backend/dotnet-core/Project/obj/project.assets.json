@@ -11926,19 +11926,27 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ASUS\\.nuget\\packages\\": {}
+    "C:\\Users\\huula\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "D:\\Hust Study\\Fundament\\Software Technology\\BaiTapLonCNPM 2023.1\\CNPM-20231\\backend\\dotnet-core\\project\\Project.csproj",
       "projectName": "Project",
       "projectPath": "D:\\Hust Study\\Fundament\\Software Technology\\BaiTapLonCNPM 2023.1\\CNPM-20231\\backend\\dotnet-core\\project\\Project.csproj",
       "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
       "outputPath": "D:\\Hust Study\\Fundament\\Software Technology\\BaiTapLonCNPM 2023.1\\CNPM-20231\\backend\\dotnet-core\\project\\obj\\",
+=======
+      "projectUniqueName": "D:\\CNPM-20231\\backend\\dotnet-core\\Project\\Project.csproj",
+      "projectName": "Project",
+      "projectPath": "D:\\CNPM-20231\\backend\\dotnet-core\\Project\\Project.csproj",
+      "packagesPath": "C:\\Users\\huula\\.nuget\\packages\\",
+      "outputPath": "D:\\CNPM-20231\\backend\\dotnet-core\\Project\\obj\\",
+>>>>>>> 75a4f89031c411341d0909439b9414789633ae99
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\huula\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -12028,7 +12036,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   },
