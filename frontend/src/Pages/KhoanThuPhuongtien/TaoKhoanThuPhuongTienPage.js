@@ -41,6 +41,7 @@ function TaoKhoanThuPhuongTienPage() {
         <Grid item container direction="row" alignItems="center">
           <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
             Tên khoản thu
+            <span style={{ color: 'red' }}>  (*)  </span>
           </Typography>
           <TextField
             style={{ width: "400px" }}
@@ -56,6 +57,7 @@ function TaoKhoanThuPhuongTienPage() {
         <Grid item container direction="row" alignItems="center" sx={{ mt: 2 }}>
           <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
             Số tiền
+            <span style={{ color: 'red' }}>  (*)  </span>
           </Typography>
           <TextField
             style={{ width: "400px", marginLeft: "80px" }}
