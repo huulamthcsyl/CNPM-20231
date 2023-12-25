@@ -8,11 +8,9 @@ export default function QTVPage() {
   const [accounts, setAccounts] = useState([]);
 
   useEffect(() => {
-    
-    ClassApi.getUser()
+    ClassApi.getAllUser()
     .then(res => setAccounts(res.data))
     .catch(err => console.log(err));
-    
   }, [])
   
 
@@ -35,7 +33,7 @@ export default function QTVPage() {
                 <TableRow>
                   <TableCell style={{fontSize: 18}}>{index + 1}</TableCell>
                   <TableCell style={{fontSize: 18}}>{data.userName}</TableCell>
-                  <TableCell style={{fontSize: 18}}><a href='#'>Chi tiết</a></TableCell>
+                  <TableCell style={{fontSize: 18}}><a href={'/chitietquantrivien/' + data.userId}>Chi tiết</a></TableCell>
                 </TableRow>
               )}
             </TableBody>

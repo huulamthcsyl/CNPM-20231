@@ -36,11 +36,14 @@ const styles = {
 };
 function DangNhapPage() {
   const navigate = useNavigate();
-  const user = localStorage.getItem("user")
+  const user = localStorage.getItem("user");
+  const role = localStorage.getItem("role");
   const [message, setMessage] = useState('')
   useEffect(() => {
     if (user != "null") {
-      navigate('/home')
+      if(role == "user"){
+        navigate("/home")
+      } else navigate("/quantrivien")
     }
   }, [])
   const [account, setAccount] = useState('')
@@ -58,9 +61,12 @@ function DangNhapPage() {
       if (response.data.message === "Success") {
 
         localStorage.setItem('user', response.data.data.id);
+        localStorage.setItem('role', response.data.role);
         localStorage.setItem('token', response.data.data.token);
 
-        navigate("/home");
+      if(response.data.role == "user"){
+        navigate("/home")
+      } else navigate("/quantrivien")
 
       } else {
         setMessage(response.data.message)
