@@ -147,7 +147,7 @@ function QuanLyThuPhiPhuongtienPage() {
     payments.map((payment1, index1) => {
       payments.map((payment2, index2) => {
         if (
-          payment1.residenceFeeId === payment2.residenceFeeId &&
+          payment1.vehicleFeeId === payment2.vehicleFeeId &&
           index1 !== index2
         ) {
           isValid = false;
@@ -285,6 +285,7 @@ function QuanLyThuPhiPhuongtienPage() {
                               autoHighlight
                               options={feeShrinkList}
                               onChange={handleChangeFee(index)}
+                              value={payment.label}
                               sx={{
                                 "& .MuiAutocomplete-input": {
                                   fontSize: 20,
