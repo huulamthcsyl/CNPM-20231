@@ -103,7 +103,10 @@ function ChiTietHoDan({ Hodan }) {
     })
   }, [])
   const handlePut = () => {
-
+    if (address == '') {
+      toast.warn('Hãy điền địa chỉ!')
+      return
+    }
     const updatedList = listMember2.map(item => {
       if (item.ownerRelationship === '') {
         return { ...item, ownerRelationship: 'Khác' };
@@ -140,7 +143,7 @@ function ChiTietHoDan({ Hodan }) {
         >
           <Grid item xs={2.3}>
             <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
-              Tên chủ hộ
+              Tên chủ hộ<span style={{ color: 'red' }}> *</span>
             </Typography>
           </Grid>
           <Grid item>
@@ -161,15 +164,16 @@ function ChiTietHoDan({ Hodan }) {
         >
           <Grid item xs={2.3}>
             <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
-              Nơi thường trú
+              Nơi thường trú<span style={{ color: 'red' }}> *</span>
             </Typography>
           </Grid>
           <Grid item >
             <TextField
               style={{ width: "500px" }}
               inputProps={{ style: { fontSize: "16px" } }}
-              value={hodan.address}
-              disabled
+              value={address}
+              onChange={(e) => { setAddress(e.target.value) }}
+            //        disabled
             ></TextField>
           </Grid>
         </Grid>

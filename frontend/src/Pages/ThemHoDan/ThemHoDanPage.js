@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 import CustomRow from "./Row";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { ListMemberProvider, useListMember } from "./listMemberContext";
+import ErrorIcon from '@mui/icons-material/Error';
 const headers = [
   "STT",
   "Họ và tên",
@@ -69,6 +70,10 @@ function ThemHoDan() {
   const handlePost = async () => {
     if (owner.personId == null) {
       toast.warn('Hãy thêm chủ nhà!')
+      return
+    }
+    if (address == null || address == '') {
+      toast.warn('Hãy nhập địa chỉ!')
       return
     }
     var chunha = owner
@@ -152,7 +157,7 @@ function ThemHoDan() {
         setOwner(value.person)
         setName(value.label)
         setId(value.personId)
-        setAddress(value.address)
+        //      setAddress(value.address)
         setIdentityCardNumber(value.code)
         setBirth(value.birth)
         console.log(value)
@@ -175,7 +180,7 @@ function ThemHoDan() {
           >
             <Grid item xs={5} sm={2.2}>
               <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
-                Tên chủ hộ
+                Tên chủ hộ<span style={{ color: 'red' }}> *</span>
               </Typography>
             </Grid>
             <Grid item >
@@ -184,8 +189,8 @@ function ThemHoDan() {
                 onChange={handleChangeName2}
                 width={400}
               ></AutoComplete>
-
             </Grid>
+
           </Grid>
           <Grid
             item
@@ -196,7 +201,7 @@ function ThemHoDan() {
           >
             <Grid item xs={5} sm={2.2}>
               <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
-                Nơi thường trú
+                Nơi thường trú<span style={{ color: 'red' }}> *</span>
               </Typography>
             </Grid>
             <Grid item style={{ marginTop: "10px", marginBottom: "10px" }}>
@@ -205,7 +210,6 @@ function ThemHoDan() {
                 inputProps={{ style: { fontSize: "15px" } }}
                 value={address}
                 onChange={(e) => { setAddress(e.target.value) }}
-                disabled
               ></TextField>
             </Grid>
           </Grid>
@@ -313,9 +317,8 @@ function ThemHoDan() {
                       ></input>
                     </TableCell>
                     <TableCell style={{ fontSize: "18px" }}>
-                      <Select style={{ fontSize: "18px", border: "none", width: '120px' }} onChange={(e) => { changeRelation(index, e.target.value) }}>
+                      <Select style={{ fontSize: "18px", border: "none", width: '120px' }} defaultValue='Khác' onChange={(e) => { changeRelation(index, e.target.value) }} title="Khác">
                         <MenuItem value='Khác'>Khác</MenuItem>
-
                         <MenuItem value='Vợ'>Vợ</MenuItem>
                         <MenuItem value='Chồng'>Chồng</MenuItem>
                         <MenuItem value='Con'>Con</MenuItem>
