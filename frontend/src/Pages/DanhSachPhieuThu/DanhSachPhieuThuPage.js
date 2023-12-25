@@ -188,9 +188,9 @@ export default function DanhSachPhieuThu() {
                 {residenceReceipts &&
                   (rowsPerPage > 0
                     ? residenceReceipts.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
                     : residenceReceipts
                   ).map(
                     (residenceReceipt, index) =>

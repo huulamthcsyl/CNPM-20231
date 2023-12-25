@@ -16,7 +16,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { format } from 'date-fns';
 
-function ChiTietThuPhiPhuongtienPage() {
+function ChiTietKhoanThuPhuongtienPage() {
   const searchParams = new URLSearchParams(window.location.search);
   const vehicleFeeId = searchParams.get("vehicleFeeId");
   const pathname = window.location.pathname;
@@ -324,4 +324,4 @@ function ChiTietThuPhiPhuongtienPage() {
   );
 }
 
-export default ChiTietThuPhiPhuongtienPage;
+export default ChiTietKhoanThuPhuongtienPage;
