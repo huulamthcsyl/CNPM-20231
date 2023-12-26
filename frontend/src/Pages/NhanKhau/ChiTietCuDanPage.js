@@ -60,17 +60,17 @@ const CustomizedDatePicker = styled(DatePicker)`
 `;
 function ThemCuDan() {
   const [person, setPerson] = useState({
-    name: "Nguyễn Văn A",
+    name: "",
     gender: true,
-    residenceId: "2a45cc44-bc34-4d71-8f09-cda87205ada6",
+    residenceId: "",
     status: "Thường trú",
     dateOfBirth: "2021-05-04T00:00:00",
     province: "Hà Nội",
     district: "Quận Hai Bà Trưng",
     village: "Phường Bách Khoa",
     ownerRelationship: "Chủ nhà",
-    phoneNumber: '0123456789',
-    identityCardNumber: '189931832'
+    phoneNumber: '',
+    identityCardNumber: ''
   });
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
@@ -128,6 +128,30 @@ function ThemCuDan() {
     })
   }, [])
   const handleChangeInfo = () => {
+    if (name == null || name == '') {
+      toast.warn('Hãy nhập họ và tên!')
+      return
+    }
+    if (status == null || status == '') {
+      toast.warn('Hãy chọn trạng thái cư trú!')
+      return
+    }
+    if (birth == null || birth == '') {
+      toast.warn('Hãy chọn ngày sinh!')
+      return
+    }
+    if (province == null || province == '' || provinces.length == 0) {
+      toast.warn('Hãy chọn tỉnh thành!')
+      return
+    }
+    if (district == null || district == '' || districts.length == 0) {
+      toast.warn('Hãy chọn quận huyện!')
+      return
+    }
+    if (village == null || village == '' || villages.length == 0) {
+      toast.warn('Hãy chọn xã-phường!')
+      return
+    }
     ClassApi.PutPerson({
       "personId": param.id,
       "name": name,
@@ -153,6 +177,7 @@ function ThemCuDan() {
       });
   }, []);
   useEffect(() => {
+
     if (province) {
       axios.get(API_ADDRESS + 'api/p/search/?q=' + province).then((res) => {
         // console.log(provin)
@@ -170,6 +195,7 @@ function ThemCuDan() {
     }
   }, [province]);
   useEffect(() => {
+
     if (district) {
       axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
       axios.get(API_ADDRESS + 'api/d/search/?q=' + district).then((res) => {
@@ -204,7 +230,7 @@ function ThemCuDan() {
           //        columnSpacing={8}
           >
             <Grid item xs={2.5}>
-              <Typography variant="h4">Họ và tên</Typography>
+              <Typography variant="h4">Họ và tên<span style={{ color: 'red' }}> *</span></Typography>
             </Grid>
             <Grid item>
               <TextField onChange={handleChangeName} value={name}></TextField>
@@ -220,7 +246,7 @@ function ThemCuDan() {
           >
             <Grid item container xs={6} wrap="nowrap" alignItems="center">
               <Grid item xs={5}>
-                <Typography variant="h4">Giới tính</Typography>
+                <Typography variant="h4">Giới tính<span style={{ color: 'red' }}> *</span></Typography>
               </Grid>
               <RadioGroup
                 name="radio-buttons-group"
@@ -246,7 +272,7 @@ function ThemCuDan() {
             </Grid>
             <Grid item container alignItems="center" xs={6} spacing={2}>
               <Grid item>
-                <Typography variant="h4">Trạng thái cư trú</Typography>
+                <Typography variant="h4">Trạng thái cư trú<span style={{ color: 'red' }}> *</span></Typography>
               </Grid>
               <Grid item style={{ bottom: "7px", position: "relative" }}>
                 <InputLabel id="demo-select-small-label">Trạng thái</InputLabel>
@@ -285,7 +311,7 @@ function ThemCuDan() {
           </Grid>
           <Grid item container wrap="wrap" alignItems="center">
             <Grid item xs={2.5}>
-              <Typography variant="h4">Ngày, tháng, năm sinh</Typography>
+              <Typography variant="h4">Ngày, tháng, năm sinh<span style={{ color: 'red' }}>*</span></Typography>
             </Grid>
             <Grid item>
 
@@ -303,7 +329,7 @@ function ThemCuDan() {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Typography variant="h4">Quê quán </Typography>
+            <Typography variant="h4">Quê quán <span style={{ color: 'red' }}> *</span></Typography>
           </Grid>
           <Grid item container wrap="wrap" >
             <Grid
@@ -315,7 +341,7 @@ function ThemCuDan() {
             //  spacing={3}
             >
               <Grid item xs={5}>
-                <Typography variant="h4">Tỉnh (Thành phố)</Typography>
+                <Typography variant="h4">Tỉnh (Thành phố)<span style={{ color: 'red' }}> *</span></Typography>
               </Grid>
               <Grid item style={{ bottom: "7px", position: "relative" }}>
                 <InputLabel id="select-province">Tỉnh (thành phố)</InputLabel>
@@ -344,7 +370,7 @@ function ThemCuDan() {
               spacing={3}
             >
               <Grid item >
-                <Typography variant="h4" >Huyện (Quận)</Typography>
+                <Typography variant="h4" >Huyện (Quận)<span style={{ color: 'red' }}> *</span></Typography>
               </Grid>
               <Grid item style={{ bottom: "7px", position: "relative" }}>
                 <InputLabel id="select-district">Huyện (quận)</InputLabel>
@@ -374,7 +400,7 @@ function ThemCuDan() {
           //     spacing={3}
           >
             <Grid item xs={2.5}>
-              <Typography variant="h4">Xã (Phường)</Typography>
+              <Typography variant="h4">Xã (Phường)<span style={{ color: 'red' }}> *</span></Typography>
             </Grid>
             <Grid item style={{ bottom: "7px", position: "relative" }}>
               <InputLabel id="select-village">Xã (phường)</InputLabel>

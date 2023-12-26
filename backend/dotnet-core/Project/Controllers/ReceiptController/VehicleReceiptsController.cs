@@ -173,17 +173,29 @@ namespace Project.Controllers.ReceiptController
 
             var listReceipt = new List<object>();
 
+            var check = 0;
+
             foreach (var receipt in vehicleReceipts)
             {
-                listReceipt.Add(new
+                if (check == 1) break;
+                foreach (var payment in receipt.VehiclePayments)
                 {
-                    vehicleReceiptId = receipt.VehicleReceiptId,
-                    dateCreated = receipt.DateCreated,
-                    amount = receipt.Amount,
-                    description = receipt.Description,
-                    licensePlate = receipt.Vehicle.LicensePlate,
-                    personName = receipt.Vehicle.Person.Name
-                });
+                    if (payment.VehicleFeeId == id)
+                    {
+                        listReceipt.Add(new
+                        {
+                            vehicleReceiptId = receipt.VehicleReceiptId,
+                            dateCreated = receipt.DateCreated,
+                            amount = payment.Amount,
+                            description = receipt.Description,
+                            licensePlate = receipt.Vehicle.LicensePlate,
+                            personName = receipt.Vehicle.Person.Name
+                        });
+                        check = 1;
+                        break;
+                    }
+                }
+                
             }
 
             return listReceipt;

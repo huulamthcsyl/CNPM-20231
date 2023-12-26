@@ -101,11 +101,7 @@ namespace Project.Controllers.UserController
             var userAccount = await _context.UserAccounts.FindAsync(id);
             if (userAccount.Password != EncryptMD5(password.OldPassword))
             {
-                return StatusCode(201, new
-                {
-                    Success = false,
-                    Message = "Invalid old password"
-                });
+                return StatusCode(400, "Mật khẩu cũ không hợp lệ");
             }
             else
             {
@@ -118,11 +114,7 @@ namespace Project.Controllers.UserController
                 {
                     return StatusCode(400, ex.Message);
                 }
-                return StatusCode(201, new
-                {
-                    Success = true,
-                    Message = "Success"
-                });
+                return StatusCode(201);
             }
         }
 

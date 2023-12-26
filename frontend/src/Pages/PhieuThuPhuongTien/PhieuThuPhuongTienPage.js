@@ -103,14 +103,13 @@ function PhieuThuPhuongTienPage() {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Grid container spacing={2} style={{ padding: "50px" }}>
                 <Grid item xs={12}>
-                    <div style={{ fontSize: "48px" }}> Danh sách phiếu thu Phương tiện</div>
+                    <h1 style={{ fontSize: "48px" }}> Danh sách phiếu thu Phương tiện </h1>
                 </Grid>
-
-                <Grid item>
+                <Grid item xs={12}>
                     <NavLink to="/taophieuthuphuongtien">
                         <Button
                             variant="contained"
-                            style={{ backgroundColor: "#79C9FF" }}
+                            style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
                         >
                             <Typography style={{ marginRight: "8px" }}>
                                 <img

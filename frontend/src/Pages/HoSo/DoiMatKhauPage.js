@@ -42,7 +42,11 @@ function DoiMatKhauPage() {
             "newPassWord": newPassWord,
         }).then(
             (response) => { toast.success('Đổi mật khẩu thành công') }
+<<<<<<< HEAD
         ).catch(err => toast.error(err.response.data));
+=======
+        ).catch((err) => toast.error(err.response.data));
+>>>>>>> bb519e1f6fef383f25af45bf54681316cd7ab12b
     }
     return (
         <Grid container spacing={2} padding={"50px"}>

@@ -10,23 +10,15 @@ import { useEffect, useState } from "react";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
 import { NavLink } from "react-router-dom";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import styled from "@emotion/styled";
+import { styled } from "@mui/system";
+
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import ClassApi from '../../Api/Api'
 import { toast } from "react-toastify";
 import AutoComplete from "../../Layout/component/AutoCompleteSearch";
 import dayjs from "dayjs";
-const CustomizedDatePicker = styled(DatePicker)`
-  & .MuiInputBase-input {
-    font-size: 18px;
-    width: 150px;
-    height: 40px;
-  }
-  .MuiInputLabel-root {
-    font-size: 20px;
-  }
-`;
+
 const theme = createTheme({
   components: {
     MuiTypography: {
@@ -51,6 +43,15 @@ const theme = createTheme({
   },
 });
 function DangKyTamVangPage() {
+  const CustomizedDatePicker = styled(DatePicker)`
+  & .MuiInputBase-input {
+    font-size: 15px;
+    width: 150px;
+  }
+  .MuiInputLabel-root {
+    font-size: 20px;
+  }
+`;
   const [status, setStatus] = useState("");
 
   const handleChange = (event) => {
@@ -106,7 +107,22 @@ function DangKyTamVangPage() {
     });
   });
   const handleAdd = () => {
-
+    if (name == '' || name == null) {
+      toast.warn('Hãy nhập họ tên!')
+      return
+    }
+    if (address2 == null || address2 == '') {
+      toast.warn('Hãy nhập nơi tạm trú!')
+      return
+    }
+    if (timeFrom == null || timeTo == '' || timeTo == null || timeTo == '') {
+      toast.warn('Hãy nhập thời gian ')
+      return
+    }
+    if (timeFrom.diff(timeTo, 'days') > 0) {
+      toast.warn('Thời gian bắt đầu không thể lớn hơn thời gian kết thúc!')
+      return
+    }
     ClassApi.PostAbsent({
       "absentPersonId": "934a9ac4-42ef-4713-a9f7-88e9308b7ae4",
       "personId": personId,
@@ -151,7 +167,7 @@ function DangKyTamVangPage() {
           // columnSpacing={8}
           >
             <Grid item xs={2.8}>
-              <Typography variant="h4">Họ và tên</Typography>
+              <Typography variant="h4">Họ và tên <span style={{ color: 'red' }}>*</span></Typography>
             </Grid>
             <Grid item>
               <AutoComplete
@@ -171,7 +187,7 @@ function DangKyTamVangPage() {
           >
             <Grid item container xs={12} wrap="nowrap">
               <Grid item xs={2.8}>
-                <Typography variant="h4">Giới tính</Typography>
+                <Typography variant="h4">Giới tính <span style={{ color: 'red' }}>*</span></Typography>
               </Grid>
               <Grid item alignItems="center">
                 <input
@@ -215,12 +231,12 @@ function DangKyTamVangPage() {
           </Grid>
           <Grid item container wrap="wrap" alignItems="center">
             <Grid item xs={2.8}>
-              <Typography variant="h4">Ngày, tháng, năm sinh</Typography>
+              <Typography variant="h4">Ngày, tháng, năm sinh <span style={{ color: 'red' }}>*</span></Typography>
             </Grid>
             <Grid item>
               <CustomizedDatePicker
                 format="DD-MM-YYYY"
-                //     slotProps={{ textField: { variant: "filled" } }}
+                slotProps={{ textField: { variant: "outlined" } }}
                 sx={{
                   marginRight: "35px",
                   width: "200px",
@@ -274,7 +290,7 @@ function DangKyTamVangPage() {
           //     columnSpacing={3}
           >
             <Grid item xs={2.8}>
-              <Typography variant="h4">Nơi thường trú</Typography>
+              <Typography variant="h4">Nơi thường trú <span style={{ color: 'red' }}>*</span></Typography>
             </Grid>
             <Grid item>
               <TextField value={address1} disabled></TextField>
@@ -289,7 +305,7 @@ function DangKyTamVangPage() {
           //   columnSpacing={3}
           >
             <Grid item xs={2.8}>
-              <Typography variant="h4">Nơi tạm trú</Typography>
+              <Typography variant="h4">Nơi tạm trú <span style={{ color: 'red' }}>*</span></Typography>
             </Grid>
             <Grid item>
               <TextField value={address2} onChange={(e) => { setAddress2(e.target.value) }}></TextField>
@@ -303,14 +319,14 @@ function DangKyTamVangPage() {
             wrap="wrap"
           //    columnSpacing={3}
           >
-            <Grid item xs={2.8}>
-              <Typography variant="h4">Thời gian</Typography>
+            <Grid item xs={2.8} paddingTop='10px'>
+              <Typography variant="h4">Thời gian <span style={{ color: 'red' }}>*</span></Typography>
             </Grid>
             <Grid item>
               <CustomizedDatePicker
                 format="DD-MM-YYYY"
                 label="Từ ngày"
-                //      slotProps={{ textField: { variant: "filled" } }}
+                slotProps={{ textField: { variant: "standard", } }}
                 sx={{ marginRight: "35px", width: "200px" }}
                 value={timeFrom}
                 onChange={(e) => { setTimeFrom(e) }}
@@ -320,7 +336,7 @@ function DangKyTamVangPage() {
               <CustomizedDatePicker
                 format="DD-MM-YYYY"
                 label="Đến ngày"
-                //     slotProps={{ textField: { variant: "filled" } }}
+                slotProps={{ textField: { variant: "standard" } }}
                 sx={{
                   marginRight: "35px",
                   width: "200px",

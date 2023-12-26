@@ -73,7 +73,7 @@ function KhoanThuPhuongTienPage() {
         <NavLink to="/taokhoanthuphuongtien">
           <Button
             variant="contained"
-            style={{ backgroundColor: "#79C9FF" }}
+            style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
           >
             <Typography style={{ marginRight: "8px" }}>
               <img
@@ -89,7 +89,7 @@ function KhoanThuPhuongTienPage() {
         </NavLink>
       </Grid>
 
-      <Grid item xs={12} sx={{ mt: 2 }}>
+      <Grid item xs={12}>
         <FormControl>
           <Grid item container direction="row" alignItems="center">
             <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
@@ -241,7 +241,7 @@ function KhoanThuPhuongTienPage() {
         </TableContainer>
       </Grid>
 
-    </Grid>
+    </Grid >
   );
 }
 

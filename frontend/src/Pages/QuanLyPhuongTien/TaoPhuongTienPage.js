@@ -78,6 +78,7 @@ function TaoPhuongTienPage() {
       <Grid item container direction="row" alignItems="center">
         <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
           Biển kiểm soát
+          <span style={{ color: 'red' }}>  (*)  </span>
         </Typography>
         <TextField
           style={{ width: "500px" }}
@@ -90,6 +91,7 @@ function TaoPhuongTienPage() {
       <Grid item container direction="row" alignItems="center">
         <Typography style={{ fontSize: "24px", marginRight: "110px" }}>
           Loại xe
+          <span style={{ color: 'red' }}>  (*)  </span>
         </Typography>
         <Select
           style={{ width: "500px", fontSize: "18px" }}
@@ -109,6 +111,7 @@ function TaoPhuongTienPage() {
       <Grid item container direction="row" alignItems="center">
         <Typography style={{ fontSize: "24px", marginRight: "65px" }}>
           Chủ sở hữu
+          <span style={{ color: 'red' }}>  (*)  </span>
         </Typography>
         <AutoComplete
           optionList={personShrinkList}

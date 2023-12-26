@@ -199,6 +199,7 @@ function TaoPhieuThuPhuongtienPage() {
             <Grid item container direction="row" alignItems="center">
               <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
                 Biển kiểm soát
+                <span style={{ color: 'red' }}>  (*)  </span>
               </Typography>
               <Autocomplete
                 disablePortal
@@ -226,6 +227,7 @@ function TaoPhieuThuPhuongtienPage() {
                   }}
                 >
                   Ngày thu
+                  <span style={{ color: 'red' }}>  (*)  </span>
                 </Typography>
                 <CustomizedDatePicker
                   sx={{ marginLeft: "60px", marginTop: "10px" }}

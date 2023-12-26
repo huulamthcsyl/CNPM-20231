@@ -121,18 +121,28 @@ namespace Project.Controllers.ReceiptController
                                         .ToListAsync();
 
             var listReceipt = new List<object>();
+            var check = 0; 
 
             foreach (var receipt in residenceReceipts)
             {
-                listReceipt.Add(new
+                if (check == 1) break;
+                foreach (var payment in receipt.ResidencePayments)
                 {
-                    residenceReceiptsId = receipt.ResidenceReceiptId,
-                    address = receipt.Address,
-                    dateCreated = receipt.DateCreated,
-                    amount = receipt.Amount,
-                    description = receipt.Description,
-                    personName = receipt.Person.Name
-                });
+                    if (payment.ResidenceFeeId == id)
+                    {
+                        listReceipt.Add(new
+                        {
+                            residenceReceiptsId = receipt.ResidenceReceiptId,
+                            address = receipt.Address,
+                            dateCreated = receipt.DateCreated,
+                            amount = payment.Amount,
+                            description = receipt.Description,
+                            personName = receipt.Person.Name
+                        });
+                        check = 1; 
+                        break;
+                    }
+                }
             }
 
             return listReceipt;

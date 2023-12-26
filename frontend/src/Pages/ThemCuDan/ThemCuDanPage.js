@@ -64,7 +64,10 @@ function ThemCuDan() {
   const [birth, setBirth] = useState()
   const addPerson = () => {
     var gender = true;
+
     var radioElement = document.getElementById("radio1");
+    var radioElement2 = document.getElementById("radio2");
+
     if (radioElement.checked) {
     } else {
       gender = false
@@ -73,6 +76,34 @@ function ThemCuDan() {
     var namePerson = document.getElementById('name')
     var identityCardNumber = document.getElementById('cccd')
     var phoneNumber = document.getElementById('phoneNumber')
+    if (namePerson.value == null || namePerson.value == '') {
+      toast.warn('Hãy nhập họ và tên!')
+      return
+    }
+    if (!radioElement.checked && !radioElement2.checked) {
+      toast.warn('Hãy chọn giới tính!')
+      return
+    }
+    if (status == null || status == '') {
+      toast.warn('Hãy chọn trạng thái cư trú!')
+      return
+    }
+    if (birth == null || birth == '') {
+      toast.warn('Hãy chọn ngày sinh!')
+      return
+    }
+    if (province == null || province == '') {
+      toast.warn('Hãy chọn tỉnh thành!')
+      return
+    }
+    if (district == null || district == '') {
+      toast.warn('Hãy chọn quận huyện!')
+      return
+    }
+    if (village == null || village == '') {
+      toast.warn('Hãy chọn xã-phường!')
+      return
+    }
     // const updatedDate = dayjs(birth).add(7, 'hour');
     const person = {
       "residenceId": null, "name": namePerson.value,
@@ -168,7 +199,7 @@ function ThemCuDan() {
             //   columnSpacing={8}
             >
               <Grid item xs={2.5}>
-                <Typography variant="h4">Họ và tên</Typography>
+                <Typography variant="h4">Họ và tên<span style={{ color: 'red' }}> *</span></Typography>
               </Grid>
               <Grid item>
                 <TextField id='name'></TextField>
@@ -184,7 +215,7 @@ function ThemCuDan() {
             >
               <Grid item container xs={6} wrap="nowrap">
                 <Grid item xs={5}>
-                  <Typography variant="h4">Giới tính</Typography>
+                  <Typography variant="h4">Giới tính<span style={{ color: 'red' }}> *</span></Typography>
                 </Grid>
                 <Grid item alignItems="center">
                   <input
@@ -217,7 +248,7 @@ function ThemCuDan() {
               </Grid>
               <Grid item container alignItems="center" xs={6} spacing={2}>
                 <Grid item>
-                  <Typography variant="h4">Trạng thái cư trú</Typography>
+                  <Typography variant="h4">Trạng thái cư trú<span style={{ color: 'red' }}> *</span></Typography>
                 </Grid>
                 <Grid item style={{ bottom: "7px", position: "relative" }}>
                   <InputLabel id="demo-select-small-label">Trạng thái</InputLabel>
@@ -240,7 +271,7 @@ function ThemCuDan() {
             </Grid>
             <Grid item container wrap="wrap" alignItems="center">
               <Grid item xs={2.5}>
-                <Typography variant="h4">Ngày, tháng, năm sinh</Typography>
+                <Typography variant="h4">Ngày, tháng, năm sinh<span style={{ color: 'red' }}> *</span></Typography>
               </Grid>
               <Grid item>
                 <CustomizedDatePicker
@@ -262,7 +293,7 @@ function ThemCuDan() {
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="h4">Quê quán </Typography>
+              <Typography variant="h4">Quê quán <span style={{ color: 'red' }}> *</span></Typography>
             </Grid>
             <Grid item container wrap="wrap" >
               <Grid
@@ -274,7 +305,7 @@ function ThemCuDan() {
               //  spacing={3}
               >
                 <Grid item xs={5}>
-                  <Typography variant="h4">Tỉnh (Thành phố)</Typography>
+                  <Typography variant="h4">Tỉnh (Thành phố)<span style={{ color: 'red' }}> *</span></Typography>
                 </Grid>
                 <Grid item style={{ bottom: "7px", position: "relative" }}>
                   <InputLabel id="select-province">Tỉnh (thành phố)</InputLabel>
@@ -305,7 +336,7 @@ function ThemCuDan() {
                 spacing={3}
               >
                 <Grid item>
-                  <Typography variant="h4">Huyện (Quận)</Typography>
+                  <Typography variant="h4">Huyện (Quận)<span style={{ color: 'red' }}> *</span></Typography>
                 </Grid>
                 <Grid item style={{ bottom: "7px", position: "relative" }}>
                   <InputLabel id="select-district">Huyện (quận)</InputLabel>
@@ -335,7 +366,7 @@ function ThemCuDan() {
             //    spacing={3}
             >
               <Grid item xs={2.5}>
-                <Typography variant="h4">Xã (Phường)</Typography>
+                <Typography variant="h4">Xã (Phường)<span style={{ color: 'red' }}> *</span></Typography>
               </Grid>
               <Grid item style={{ bottom: "7px", position: "relative" }} >
                 <InputLabel id="select-village">Xã (phường)</InputLabel>
