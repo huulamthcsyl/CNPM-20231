@@ -22,7 +22,7 @@ import ChiTietPhuongTien from "../Pages/QuanLyPhuongTien/ChiTietPhuongTienPage.j
 import TaoKhoanThuPhuongTienPage from "../Pages/KhoanThuPhuongtien/TaoKhoanThuPhuongTienPage.js";
 import ChiTietCuDanPage from "../Pages/NhanKhau/ChiTietCuDanPage";
 import DangKyTamVangPage from "../Pages/TamVang/DangKyTamVangPage";
-import ChiTietPhieuThuPhuongTienPage from "../Pages/ChiTietKhoanThuPhuongTien/ChiTietPhieuThuPhuongTienPage.js";
+import ChiTietPhieuThuPhuongTienPage from "../Pages/ChiTietPhieuThuPhuongTien/ChiTietPhieuThuPhuongTienPage.js";
 import ChiTietKhoanThuPhuongtienPage from "../Pages/ChiTietKhoanThuPhuongTien/ChiTietKhoanThuPhuongtienPage.js";
 import TaoPhieuThuPhuongtienPage from "../Pages/PhieuThuPhuongTien/TaoPhieuThuPhuongtienPage.js";
 import QTVLayout from "../Layout/QTVLayout.js";

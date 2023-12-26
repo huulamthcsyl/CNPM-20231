@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import ClassApi from "../../Api/Api";
 import { toast } from "react-toastify";
 
-
 export default function ChiTietPhieuThuPhuongTienPage() {
 
     const searchParams = new URLSearchParams(window.location.search);
