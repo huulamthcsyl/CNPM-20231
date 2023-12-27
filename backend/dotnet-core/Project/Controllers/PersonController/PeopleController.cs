@@ -52,6 +52,21 @@ namespace Project.Controllers.PersonController
                 return NotFound();
             }
 
+            if (person.Status == "Tạm Vắng")
+            {
+                var check = 0;
+                var absents = await _context.AbsentPeople.Where(ap => ap.PersonId == person.PersonId).ToListAsync();
+                foreach (var absent in absents)
+                {
+                    if (DateTime.Now >= absent.StartTime && DateTime.Now <= absent.EndTime)
+                    {
+                        check = 1;
+                        break;
+                    }
+                }
+                if (check == 0) person.Status = "Thường trú";
+            }
+
             return person;
         }
 

@@ -173,11 +173,8 @@ namespace Project.Controllers.ReceiptController
 
             var listReceipt = new List<object>();
 
-            var check = 0;
-
             foreach (var receipt in vehicleReceipts)
             {
-                if (check == 1) break;
                 foreach (var payment in receipt.VehiclePayments)
                 {
                     if (payment.VehicleFeeId == id)
@@ -191,7 +188,6 @@ namespace Project.Controllers.ReceiptController
                             licensePlate = receipt.Vehicle.LicensePlate,
                             personName = receipt.Vehicle.Person.Name
                         });
-                        check = 1;
                         break;
                     }
                 }

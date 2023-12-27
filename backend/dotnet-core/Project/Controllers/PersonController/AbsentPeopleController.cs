@@ -130,14 +130,29 @@ namespace Project.Controllers.PersonController
             {
                 return Problem("Entity set 'ProjectContext.AbsentPeople'  is null.");
             }
-            absentPerson.AbsentPersonId = Guid.NewGuid();
-            _context.AbsentPeople.Add(absentPerson);
             var person = await _context.People.FindAsync(absentPerson.PersonId);
+
+            if (person == null)
+            {
+                return NotFound();
+            }
+
+            if (person.Status == "Tạm trú")
+            {
+                return StatusCode(400, "Không thể đăng kí tạm vắng cho cư dân đang tạm trú");
+            }
+
             person.Status = "Tạm Vắng";
+
+            absentPerson.AbsentPersonId = Guid.NewGuid();
+
+            _context.AbsentPeople.Add(absentPerson);
+
             try
             {
                 await _context.SaveChangesAsync();
             }
+
             catch (DbUpdateException)
             {
                 if (AbsentPersonExists(absentPerson.AbsentPersonId))

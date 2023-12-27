@@ -121,11 +121,9 @@ namespace Project.Controllers.ReceiptController
                                         .ToListAsync();
 
             var listReceipt = new List<object>();
-            var check = 0; 
 
             foreach (var receipt in residenceReceipts)
             {
-                if (check == 1) break;
                 foreach (var payment in receipt.ResidencePayments)
                 {
                     if (payment.ResidenceFeeId == id)
@@ -139,7 +137,6 @@ namespace Project.Controllers.ReceiptController
                             description = receipt.Description,
                             personName = receipt.Person.Name
                         });
-                        check = 1; 
                         break;
                     }
                 }

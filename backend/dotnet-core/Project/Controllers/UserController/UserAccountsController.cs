@@ -44,6 +44,24 @@ namespace Project.Controllers.UserController
             return userAccounts;
         }
 
+        [HttpGet()]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<UserAccount>> GetUserAccounts(Guid id)
+        {
+            if (_context.UserAccounts == null)
+            {
+                return NotFound();
+            }
+            var userAccount = await _context.UserAccounts.FindAsync(id);
+
+            if (userAccount == null)
+            {
+                return NotFound();
+            }
+
+            return userAccount;
+        }
+
         [HttpPost("Login")]
         [AllowAnonymous]
         public async Task<IActionResult> Logins(Login account)
