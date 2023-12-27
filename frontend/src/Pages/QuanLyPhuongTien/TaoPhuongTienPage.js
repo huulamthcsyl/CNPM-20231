@@ -49,7 +49,7 @@ function TaoPhuongTienPage() {
       setOwnerName(value.label)
       setPersonId(value.personId);
     } else {
-      setOwnerName("");
+      setOwnerName(null);
     }
 
   }
