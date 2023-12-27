@@ -3,12 +3,24 @@ import { Grid, Button, Typography, TextField } from "@mui/material";
 import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import ClassApi from "../../Api/Api";
-
+import { useEffect } from 'react';
 function TaoKhoanThuPhuongTienPage() {
   const [name, setName] = useState('');
   const [cost, setCost] = useState('');
   const [printError1, setPrintError1] = useState(null);
   const [printError2, setPrintError2] = useState(null);
+  const [vehicleFeeList, setVehicleFeeList] = useState([]);
+
+  useEffect(() => {
+
+    ClassApi.GetAllVehicleFees()
+      .then((res) => {
+        setVehicleFeeList(res.data);
+      })
+      .catch((err) => {
+        toast.error(err.response.data);
+      });
+  }, [])
   const handleAdd = () => {
     if (!name) {
       setPrintError1("Vui lòng nhập Tên khoản thu!");
@@ -16,6 +28,11 @@ function TaoKhoanThuPhuongTienPage() {
     }
     if (!cost) {
       setPrintError2("Vui lòng nhập Số tiền!");
+      return;
+    }
+    const existingVehicleFee = vehicleFeeList.find((fee) => fee.name === name);
+    if (existingVehicleFee) {
+      toast.error("Khoản thu Phương tiện đã tồn tại");
       return;
     }
     ClassApi.PostVehicleFee({
