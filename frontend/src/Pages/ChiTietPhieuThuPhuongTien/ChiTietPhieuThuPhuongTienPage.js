@@ -51,9 +51,17 @@ export default function ChiTietPhieuThuPhuongTienPage() {
                     value={vehicleReceipt.licensePlate}
                     inputProps={{ style: { fontSize: "18px" } }}
                 ></TextField>
-
             </Grid>
-
+            <Grid item container direction="row" alignItems="center">
+                <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
+                    Ngày thu
+                </Typography>
+                <TextField
+                    style={{ width: "500px", marginLeft: "65px" }}
+                    value={new Date(vehicleReceipt.dateCreated).toLocaleDateString("en-GB")}
+                    inputProps={{ style: { fontSize: "18px" } }}
+                ></TextField>
+            </Grid>
             <Grid item xs={12}>
                 <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
                     Danh sách khoản thu
