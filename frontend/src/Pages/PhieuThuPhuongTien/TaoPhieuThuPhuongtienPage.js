@@ -172,8 +172,8 @@ function TaoPhieuThuPhuongtienPage() {
 
     var dateCreatedJson = new Date(dateCreated);
     dateCreatedJson.setDate(dateCreatedJson.getDate() + 1);
-    dateCreatedJson = JSON.stringify(dateCreatedJson);
-    dateCreatedJson = dateCreatedJson.slice(1, dateCreatedJson.length - 1);
+    dateCreatedJson = dateCreatedJson.toISOString();
+   
     let vehiclePayments = [];
     payments.map((payment) => {
       vehiclePayments.push({
@@ -183,7 +183,7 @@ function TaoPhieuThuPhuongtienPage() {
     });
     const newVehicleReceipt = new VehicleReceipt(
       vehicleId,
-      dateCreated,
+      dateCreatedJson,
       totalCost,
       description,
       vehiclePayments

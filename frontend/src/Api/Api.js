@@ -280,8 +280,13 @@ class ClassApi {
   PostVehicleReceipt(vehicleReceipt) {
     return axios.post(API_BASE_URL + "/vehiclereceipt", vehicleReceipt, { headers });
   }
-
-
+  PutVehicleReceipt(vehicleReceiptData, id) {
+    return axios.put(
+      API_BASE_URL + "/vehiclereceipt/" + id,
+      vehicleReceiptData,
+      { headers }
+    );
+  }
 
 
 

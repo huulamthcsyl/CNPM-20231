@@ -172,6 +172,7 @@ export default function ChiTietPhieuThu() {
         residenceReceiptId: residenceReceiptId,
       });
     });
+    
     console.log(residencePayments);
     const newResidenceReceipt = new ResidenceReceipt(
       dateCreated,
