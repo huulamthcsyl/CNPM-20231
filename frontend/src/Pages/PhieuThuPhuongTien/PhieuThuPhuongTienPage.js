@@ -127,7 +127,7 @@ function PhieuThuPhuongTienPage() {
                     <FormControl>
                         <FormGroup row>
                             <TextField
-                                label="Biển Kiểm Soát"
+                                label="Biển kiểm soát"
                                 variant="filled"
                                 style={{ marginRight: "35px" }}
                                 inputProps={{ style: { fontSize: "18px" } }}
