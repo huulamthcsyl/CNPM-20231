@@ -41,23 +41,23 @@ function TamVangPage() {
   const [people, setPeople] = useState([
     {
       "absent": {
-        "absentPersonId": "3f380bb3-a6c7-48be-9cf0-617b999e31e1",
-        "personId": "dbbaf13c-def6-428d-bee9-ec2f00e93e4e",
-        "startTime": "2023-12-20T17:00:00",
-        "endTime": "2023-12-24T17:00:00",
-        "reason": "abc"
+        "absentPersonId": "",
+        "personId": "",
+        "startTime": "",
+        "endTime": "",
+        "reason": ""
       },
       "person": {
-        "personId": "dbbaf13c-def6-428d-bee9-ec2f00e93e4e",
+        "personId": "",
         "residenceId": null,
-        "name": "Phùng Thanh Đăng",
-        "dateOfBirth": "2023-12-01T10:00:00",
-        "identityCardNumber": "123456789",
+        "name": "",
+        "dateOfBirth": "",
+        "identityCardNumber": "",
         "gender": false,
-        "phoneNumber": "546321",
-        "homeTown": "Xã Văn Tiến, Huyện Yên Lạc, Tỉnh Vĩnh Phúc",
+        "phoneNumber": "",
+        "homeTown": "",
         "ownerRelationship": null,
-        "status": "Tạm Vắng"
+        "status": ""
       }
     },
   ]);

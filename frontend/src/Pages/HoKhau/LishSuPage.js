@@ -95,11 +95,11 @@ function LichSuPage() {
                                             <TableCell>
                                                 <Typography style={{ fontSize: '20px' }}>{page * rowsPerPage + index + 1}</Typography>
                                             </TableCell>
-                                            <TableCell>
+                                            <TableCell style={{ width: '420px' }}>
                                                 <Typography style={{ fontSize: '20px' }}>{item.personName}</Typography>
                                             </TableCell>
                                             <TableCell>
-                                                <Typography style={{ fontSize: '20px' }}>{item.dateOfBirth.slice(0, 10)}</Typography>
+                                                <Typography style={{ fontSize: '20px' }}>{item.dateOfBirth.substring(8, 10) + '/' + item.dateOfBirth.substring(5, 7) + '/' + item.dateOfBirth.substring(0, 4)}</Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography style={{ fontSize: '20px' }}>{item.identityCardNumber}</Typography>
@@ -110,7 +110,7 @@ function LichSuPage() {
                                             <TableCell>
                                                 <Typography style={{ fontSize: '20px' }}>{item.datecreated.substring(8, 10) + '/' + item.datecreated.substring(5, 7) + '/' + item.datecreated.substring(0, 4)}</Typography>
                                             </TableCell>
-                                            <TableCell>
+                                            <TableCell style={{ width: '230px' }}>
                                                 <Typography style={{ fontSize: '20px' }}>{item.action}</Typography>
                                             </TableCell>
                                         </TableRow>
