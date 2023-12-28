@@ -105,10 +105,14 @@ function HoSoPage() {
   //   setDate(e.target.value); // Cập nhật giá trị ngày khi người dùng chọn ngày mới
   // };
   const handleSend = () => {
+    var dateCreatedJson = new Date(date);
+    dateCreatedJson.setDate(dateCreatedJson.getDate() + 1);
+    dateCreatedJson = dateCreatedJson.toISOString();
+
     ClassApi.PutHoSo(localStorage.getItem('user'),
       {
         userId: localStorage.getItem('user'), name: name, identityCardNumber: cccd,
-        address: address, dateOfBirth: date, gender: (value == 'Nam' ? true : false), phoneNumber: phoneNumber
+        address: address, dateOfBirth: dateCreatedJson, gender: (value == 'Nam' ? true : false), phoneNumber: phoneNumber
       }).then(
         (response) => {
           toast.success('Sửa thông tin thành công')
@@ -206,7 +210,7 @@ function HoSoPage() {
                       <CustomizedDatePicker
                         style={{ height: '30px', width: '150px' }}
                         value={date}
-                        // onChange={handleDateChange}
+                        //onChange={handleDateChange}
                         onChange={(date) => setDate(date)}
                         format="DD-MM-YYYY"
                       ></CustomizedDatePicker>
@@ -272,71 +276,6 @@ function HoSoPage() {
             </FormControl>
           </ThemeProvider>
           <Divider style={{ margin: "30px 0px", backgroundColor: "black" }} />
-          {/* <ThemeProvider theme={theme2}>
-            <FormControl>
-              <FormGroup>
-                <Typography variant="h4" fontWeight={600}>
-                  Đổi mật khẩu
-                </Typography>
-                <Grid
-                  container
-                  direction="row"
-                  wrap="wrap"
-                  alignItems="center"
-                  paddingTop={2}
-                  columnSpacing={10}
-                  rowSpacing={2}
-                >
-                  <Grid item>
-                    <Typography variant="h4" fontWeight={400}>
-                      Mật khẩu cũ
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <TextField></TextField>
-                  </Grid>
-                </Grid>
-                <Grid
-                  container
-                  direction="row"
-                  wrap="wrap"
-                  alignItems="center"
-                  paddingTop={2}
-                  columnSpacing={8.4}
-                  rowSpacing={2}
-                >
-                  <Grid item>
-                    <Typography variant="h4" fontWeight={400}>
-                      Mật khẩu mới
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <TextField></TextField>
-                  </Grid>
-
-                  <Grid item>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Typography
-                        variant="h4"
-                        fontWeight={400}
-                        marginRight="30px"
-                      >
-                        Xác nhận mật khẩu mới
-                      </Typography>
-
-                      <TextField></TextField>
-                    </div>
-                  </Grid>
-                </Grid>
-              </FormGroup>
-            </FormControl>
-          </ThemeProvider> */}
         </Grid>
 
         <Grid item xs={2}>

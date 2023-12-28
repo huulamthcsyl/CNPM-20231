@@ -100,7 +100,7 @@ function DoiMatKhauPage() {
                 ></TextField>
             </Grid>
 
-            <Grid item xs={2}>
+            <Grid item>
                 <Button
                     variant="contained"
                     style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
@@ -111,7 +111,7 @@ function DoiMatKhauPage() {
                     </Typography>
                 </Button>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item>
                 <NavLink to="/hosoadmin">
                     <Button
                         variant="contained"
