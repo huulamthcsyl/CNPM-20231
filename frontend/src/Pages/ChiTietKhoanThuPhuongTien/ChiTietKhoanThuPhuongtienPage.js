@@ -103,7 +103,7 @@ function ChiTietKhoanThuPhuongtienPage() {
       endTime.setDate(endTime.getDate() + 1);
       // endTime = JSON.stringify(endTime);
       // endTime = endTime.slice(1, endTime.length - 1);
-      startTime = startTime.toISOString();
+      endTime = endTime.toISOString();
     }
 
     // console.log(startTime, endTime);
