@@ -108,7 +108,7 @@ function LichSuPage() {
                                                 <Typography style={{ fontSize: '20px' }}>{item.ownerRelationship}</Typography>
                                             </TableCell>
                                             <TableCell>
-                                                <Typography style={{ fontSize: '20px' }}>{item.datecreated.slice(0, 19)}</Typography>
+                                                <Typography style={{ fontSize: '20px' }}>{item.datecreated.substring(8, 10) + '/' + item.datecreated.substring(5, 7) + '/' + item.datecreated.substring(0, 4)}</Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography style={{ fontSize: '20px' }}>{item.action}</Typography>

@@ -147,7 +147,7 @@ function NhanKhau() {
                           <Typography variant="h5">{peop.name}</Typography>
                         </TableCell>
                         <TableCell style={{ width: '200px' }}>
-                          <Typography variant="h5">{new Date(peop.dateOfBirth).toLocaleDateString()}</Typography>
+                          <Typography variant="h5">{peop.dateOfBirth.substring(8, 10) + '/' + peop.dateOfBirth.substring(5, 7) + '/' + peop.dateOfBirth.substring(0, 4)}</Typography>
                         </TableCell>
                         <TableCell style={{ width: '200px' }}>
                           <Typography variant="h5">{peop.identityCardNumber}</Typography>

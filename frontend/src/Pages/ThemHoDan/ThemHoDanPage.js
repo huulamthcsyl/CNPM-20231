@@ -241,20 +241,14 @@ function ThemHoDan() {
                   <TableCell>
                     <Typography style={{ fontSize: '20px' }}>{name}</Typography>
                   </TableCell>
-                  <TableCell style={{ fontSize: "18px" }}>
-                    <input
-                      style={{ fontSize: "18px", border: "none", backgroundColor: 'transparent' }}
-                      type="date"
-                      value={birth}
-                      //     onChange={(e) => { setBirth(e.target.value) }}
-                      disabled
+                  <TableCell style={{ fontSize: "20px" }}>
+                    <Typography style={{ fontSize: '20px' }}>{owner.dateOfBirth ? owner.dateOfBirth.substring(8, 10) + '/' + owner.dateOfBirth.substring(5, 7) + '/' + owner.dateOfBirth.substring(0, 4) : ''}</Typography>
 
-                    />
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
                     <input
                       style={{
-                        fontSize: "18px",
+                        fontSize: "20px",
                         border: "none",
                         width: "150px",
                         backgroundColor: 'transparent'
@@ -273,7 +267,7 @@ function ThemHoDan() {
                     </Select>
                   </TableCell>
                   <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
-                    <NavLink to={'/chitietcudan/' + id}>
+                    <NavLink to={'/chitietcudan/' + id} style={{ textDecoration: 'none' }}>
                       <span style={{ color: "blue" }}>Chi tiết</span>
                     </NavLink>
                     <button
@@ -295,18 +289,13 @@ function ThemHoDan() {
                       <Typography style={{ fontSize: '20px' }}>{item.name}</Typography>
                     </TableCell>
                     <TableCell style={{ fontSize: "18px" }}>
-                      <input
-                        style={{ fontSize: "18px", border: "none", backgroundColor: 'transparent' }}
-                        type="date"
-                        value={item.dateOfBirth.slice(0, 10)}
-                        //     onChange={(e) => { setBirth(e.target.value) }}
-                        disabled
-                      />
+                      <Typography style={{ fontSize: '20px' }}>{item.dateOfBirth.substring(8, 10) + '/' + item.dateOfBirth.substring(5, 7) + '/' + item.dateOfBirth.substring(0, 4)}</Typography>
+
                     </TableCell>
                     <TableCell style={{ fontSize: "18px" }}>
                       <input
                         style={{
-                          fontSize: "18px",
+                          fontSize: "20px",
                           border: "none",
                           width: "150px", backgroundColor: 'transparent'
                         }}

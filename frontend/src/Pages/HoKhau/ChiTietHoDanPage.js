@@ -206,19 +206,12 @@ function ChiTietHoDan({ Hodan }) {
                   <Typography style={{ fontSize: '20px' }}>{name}</Typography>
                 </TableCell>
                 <TableCell style={{ fontSize: "18px" }}>
-                  <input
-                    style={{ fontSize: "18px", border: "none", backgroundColor: 'transparent' }}
-                    type="date"
-                    value={birth}
-                    //     onChange={(e) => { setBirth(e.target.value) }}
-                    disabled
-
-                  />
+                  <Typography style={{ fontSize: '20px' }}>{owner.dateOfBirth ? owner.dateOfBirth.substring(8, 10) + '/' + owner.dateOfBirth.substring(5, 7) + '/' + owner.dateOfBirth.substring(0, 4) : ''}</Typography>
                 </TableCell>
                 <TableCell style={{ fontSize: "18px" }}>
                   <input
                     style={{
-                      fontSize: "18px",
+                      fontSize: "20px",
                       border: "none",
                       width: "150px", backgroundColor: 'transparent'
                     }}
@@ -254,34 +247,15 @@ function ChiTietHoDan({ Hodan }) {
                     <Typography style={{ fontSize: '20px' }}>{index + 2}</Typography>
                   </TableCell>
                   <TableCell>
-                    <input
-                      style={{
-                        fontSize: "18px",
-                        border: "none",
-                        width: "150px", backgroundColor: 'transparent'
-                      }}
-                      type="text"
-                      value={
-                        item.name
-                      }
-                      disabled
-                    />
+                    <Typography style={{ fontSize: '20px' }}>{item.name}</Typography>
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
-                    <input
-                      style={{ fontSize: "18px", border: "none", backgroundColor: 'transparent' }}
-                      type="date"
-                      value={
-                        item.dateOfBirth.slice(0, 10)
-
-                      }
-                      disabled
-                    />
+                    <Typography style={{ fontSize: '20px' }}>{item.dateOfBirth.substring(8, 10) + '/' + item.dateOfBirth.substring(5, 7) + '/' + item.dateOfBirth.substring(0, 4)}</Typography>
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
                     <input
                       style={{
-                        fontSize: "18px",
+                        fontSize: "20px",
                         border: "none",
                         width: "150px", backgroundColor: 'transparent'
                       }}
@@ -325,18 +299,13 @@ function ChiTietHoDan({ Hodan }) {
                     <Typography style={{ fontSize: '20px' }}>{item.name}</Typography>
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
-                    <input
-                      style={{ fontSize: "18px", border: "none", backgroundColor: 'transparent' }}
-                      type="date"
-                      value={item.dateOfBirth.slice(0, 10)}
-                      //     onChange={(e) => { setBirth(e.target.value) }}
-                      disabled
-                    />
+
+                    <Typography style={{ fontSize: '20px' }}>{item.dateOfBirth.substring(8, 10) + '/' + item.dateOfBirth.substring(5, 7) + '/' + item.dateOfBirth.substring(0, 4)}</Typography>
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
                     <input
                       style={{
-                        fontSize: "18px",
+                        fontSize: "20px",
                         border: "none",
                         width: "150px", backgroundColor: 'transparent'
                       }}
@@ -347,7 +316,7 @@ function ChiTietHoDan({ Hodan }) {
                     ></input>
                   </TableCell>
                   <TableCell style={{ fontSize: "18px" }}>
-                    <Select style={{ fontSize: "18px", border: "none", width: '120px' }} onChange={(e) => { changeRelation(index, e.target.value) }}>
+                    <Select defaultValue='Khác' style={{ fontSize: "18px", border: "none", width: '120px' }} onChange={(e) => { changeRelation(index, e.target.value) }}>
                       <MenuItem value='Khác'>Khác</MenuItem>
                       <MenuItem value='Vợ'>Vợ</MenuItem>
                       <MenuItem value='Chồng'>Chồng</MenuItem>

@@ -142,7 +142,7 @@ function TamVangPage() {
                           <Typography variant="h5">{peop.person ? peop.person.name : ''}</Typography>
                         </TableCell>
                         <TableCell>
-                          <Typography variant="h5" style={{ width: '200px' }}>{peop.person ? new Date(peop.person.dateOfBirth).toLocaleDateString() : ''}</Typography>
+                          <Typography variant="h5" style={{ width: '200px' }}>{peop.person ? peop.person.dateOfBirth.substring(8, 10) + '/' + peop.person.dateOfBirth.substring(5, 7) + '/' + peop.person.dateOfBirth.substring(0, 4) : ''}</Typography>
                         </TableCell>
                         <TableCell>
                           <Typography variant="h5" style={{ width: '200px' }}>{peop.person ? peop.person.identityCardNumber : ''}</Typography>
