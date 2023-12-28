@@ -143,7 +143,7 @@ function ChiTietHoDan({ Hodan }) {
         >
           <Grid item xs={2.3}>
             <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
-              Tên chủ hộ<span style={{ color: 'red' }}> *</span>
+              Tên chủ hộ<span style={{ color: 'red' }}> (*)</span>
             </Typography>
           </Grid>
           <Grid item>
@@ -164,7 +164,7 @@ function ChiTietHoDan({ Hodan }) {
         >
           <Grid item xs={2.3}>
             <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
-              Nơi thường trú<span style={{ color: 'red' }}> *</span>
+              Nơi thường trú<span style={{ color: 'red' }}>(*)</span>
             </Typography>
           </Grid>
           <Grid item >

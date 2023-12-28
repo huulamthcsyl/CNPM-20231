@@ -199,7 +199,7 @@ function ThemCuDan() {
             //   columnSpacing={8}
             >
               <Grid item xs={2.5}>
-                <Typography variant="h4">Họ và tên<span style={{ color: 'red' }}> *</span></Typography>
+                <Typography variant="h4">Họ và tên<span style={{ color: 'red' }}> (*)</span></Typography>
               </Grid>
               <Grid item>
                 <TextField id='name'></TextField>
@@ -215,7 +215,7 @@ function ThemCuDan() {
             >
               <Grid item container xs={6} wrap="nowrap">
                 <Grid item xs={5}>
-                  <Typography variant="h4">Giới tính<span style={{ color: 'red' }}> *</span></Typography>
+                  <Typography variant="h4">Giới tính<span style={{ color: 'red' }}> (*)</span></Typography>
                 </Grid>
                 <Grid item alignItems="center">
                   <input
@@ -248,7 +248,7 @@ function ThemCuDan() {
               </Grid>
               <Grid item container alignItems="center" xs={6} spacing={2}>
                 <Grid item>
-                  <Typography variant="h4">Trạng thái cư trú<span style={{ color: 'red' }}> *</span></Typography>
+                  <Typography variant="h4">Trạng thái cư trú<span style={{ color: 'red' }}> (*)</span></Typography>
                 </Grid>
                 <Grid item style={{ bottom: "7px", position: "relative" }}>
                   <InputLabel id="demo-select-small-label">Trạng thái</InputLabel>
@@ -271,7 +271,7 @@ function ThemCuDan() {
             </Grid>
             <Grid item container wrap="wrap" alignItems="center">
               <Grid item xs={2.5}>
-                <Typography variant="h4">Ngày, tháng, năm sinh<span style={{ color: 'red' }}> *</span></Typography>
+                <Typography variant="h4">Ngày, tháng, năm sinh<span style={{ color: 'red' }}> (*)</span></Typography>
               </Grid>
               <Grid item>
                 <CustomizedDatePicker
@@ -293,7 +293,7 @@ function ThemCuDan() {
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="h4">Quê quán <span style={{ color: 'red' }}> *</span></Typography>
+              <Typography variant="h4">Quê quán <span style={{ color: 'red' }}> (*)</span></Typography>
             </Grid>
             <Grid item container wrap="wrap" >
               <Grid
@@ -305,7 +305,7 @@ function ThemCuDan() {
               //  spacing={3}
               >
                 <Grid item xs={5}>
-                  <Typography variant="h4">Tỉnh (Thành phố)<span style={{ color: 'red' }}> *</span></Typography>
+                  <Typography variant="h4">Tỉnh (Thành phố)<span style={{ color: 'red' }}> (*)</span></Typography>
                 </Grid>
                 <Grid item style={{ bottom: "7px", position: "relative" }}>
                   <InputLabel id="select-province">Tỉnh (thành phố)</InputLabel>
@@ -336,7 +336,7 @@ function ThemCuDan() {
                 spacing={3}
               >
                 <Grid item>
-                  <Typography variant="h4">Huyện (Quận)<span style={{ color: 'red' }}> *</span></Typography>
+                  <Typography variant="h4">Huyện (Quận)<span style={{ color: 'red' }}> (*)</span></Typography>
                 </Grid>
                 <Grid item style={{ bottom: "7px", position: "relative" }}>
                   <InputLabel id="select-district">Huyện (quận)</InputLabel>
@@ -366,7 +366,7 @@ function ThemCuDan() {
             //    spacing={3}
             >
               <Grid item xs={2.5}>
-                <Typography variant="h4">Xã (Phường)<span style={{ color: 'red' }}> *</span></Typography>
+                <Typography variant="h4">Xã (Phường)<span style={{ color: 'red' }}> (*)</span></Typography>
               </Grid>
               <Grid item style={{ bottom: "7px", position: "relative" }} >
                 <InputLabel id="select-village">Xã (phường)</InputLabel>

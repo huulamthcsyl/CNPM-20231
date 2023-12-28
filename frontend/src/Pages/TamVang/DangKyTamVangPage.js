@@ -167,7 +167,7 @@ function DangKyTamVangPage() {
           // columnSpacing={8}
           >
             <Grid item xs={2.8}>
-              <Typography variant="h4">Họ và tên <span style={{ color: 'red' }}>*</span></Typography>
+              <Typography variant="h4">Họ và tên <span style={{ color: 'red' }}>(*)</span></Typography>
             </Grid>
             <Grid item>
               <AutoComplete
@@ -187,7 +187,7 @@ function DangKyTamVangPage() {
           >
             <Grid item container xs={12} wrap="nowrap">
               <Grid item xs={2.8}>
-                <Typography variant="h4">Giới tính <span style={{ color: 'red' }}>*</span></Typography>
+                <Typography variant="h4">Giới tính <span style={{ color: 'red' }}>(*)</span></Typography>
               </Grid>
               <Grid item alignItems="center">
                 <input
@@ -231,7 +231,7 @@ function DangKyTamVangPage() {
           </Grid>
           <Grid item container wrap="wrap" alignItems="center">
             <Grid item xs={2.8}>
-              <Typography variant="h4">Ngày, tháng, năm sinh <span style={{ color: 'red' }}>*</span></Typography>
+              <Typography variant="h4">Ngày, tháng, năm sinh <span style={{ color: 'red' }}>(*)</span></Typography>
             </Grid>
             <Grid item>
               <CustomizedDatePicker
@@ -290,7 +290,7 @@ function DangKyTamVangPage() {
           //     columnSpacing={3}
           >
             <Grid item xs={2.8}>
-              <Typography variant="h4">Nơi thường trú <span style={{ color: 'red' }}>*</span></Typography>
+              <Typography variant="h4">Nơi thường trú <span style={{ color: 'red' }}>(*)</span></Typography>
             </Grid>
             <Grid item>
               <TextField value={address1} disabled></TextField>
@@ -305,7 +305,7 @@ function DangKyTamVangPage() {
           //   columnSpacing={3}
           >
             <Grid item xs={2.8}>
-              <Typography variant="h4">Nơi tạm trú <span style={{ color: 'red' }}>*</span></Typography>
+              <Typography variant="h4">Nơi tạm trú <span style={{ color: 'red' }}>(*)</span></Typography>
             </Grid>
             <Grid item>
               <TextField value={address2} onChange={(e) => { setAddress2(e.target.value) }}></TextField>
@@ -320,7 +320,7 @@ function DangKyTamVangPage() {
           //    columnSpacing={3}
           >
             <Grid item xs={2.8} paddingTop='10px'>
-              <Typography variant="h4">Thời gian <span style={{ color: 'red' }}>*</span></Typography>
+              <Typography variant="h4">Thời gian <span style={{ color: 'red' }}>(*)</span></Typography>
             </Grid>
             <Grid item>
               <CustomizedDatePicker

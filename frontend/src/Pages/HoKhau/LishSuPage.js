@@ -37,7 +37,7 @@ function LichSuPage() {
     return (
         <Grid container paddingLeft='50px' paddingTop='40px' rowSpacing={2}>
             <Grid item xs={12}>
-                <Typography variant="h2">Lịch sử thay đổi nhân khẩu hộ <span style={{ color: 'red' }}>{name}</span></Typography>
+                <Typography variant="h2">Lịch sử thay đổi nhân khẩu hộ {name}</Typography>
             </Grid>
             <Grid item container xs={12} alignItems='center'>
                 <Grid item xs={2.5}>
