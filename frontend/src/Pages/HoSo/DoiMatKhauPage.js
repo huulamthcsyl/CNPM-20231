@@ -17,24 +17,27 @@ function DoiMatKhauPage() {
     const [printError2, setPrintError2] = useState(null);
     const handleChange = (event) => {
         event.preventDefault();
+        setPrintError1(null);
+        setPrintError2(null);
+        setPrintError(null);
         const id = localStorage.getItem('user')
         if (!oldPassWord) {
             setPrintError1("Chưa nhập mật khẩu cũ!");
             return;
         } else {
-            setPrintError1("");
+            setPrintError1(null);
         }
         if (!newPassWord) {
             setPrintError2("Chưa nhập mật khẩu mới!");
             return;
         } else {
-            setPrintError2("");
+            setPrintError2(null);
         }
         if (newPassWord !== confirmPassword) {
             setPrintError("Mật khẩu không khớp!");
             return;
         } else {
-            setPrintError("");
+            setPrintError(null);
         }
         ClassApi.PutPassword(id, {
             'id': id,

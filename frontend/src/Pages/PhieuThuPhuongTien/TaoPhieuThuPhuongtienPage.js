@@ -41,8 +41,8 @@ function TaoPhieuThuPhuongtienPage() {
   const [payments, setPayments] = useState([]);
   const [fees, setFees] = useState([]);
   const [totalCost, setTotalCost] = useState(0);
-  const [description, setDescription] = useState("");
-  const [vehicleId, setVehicleID] = useState("");
+  const [description, setDescription] = useState('');
+  const [vehicleId, setVehicleID] = useState('');
   const feeShrinkList = [];
   let isValid = true;
 
@@ -81,9 +81,12 @@ function TaoPhieuThuPhuongtienPage() {
     });
   });
   const handleChangeVehicle = (event, value) => {
-    setSelectedVehicle(value);
-    setVehicleID(value.vehicleId);
-    console.log(value);
+    if (value !== null) {
+      setSelectedVehicle(value);
+      setVehicleID(value.vehicleId);
+    } else {
+      setSelectedVehicle(null);
+    }
   };
 
   const handleAddPayment = () => {
@@ -135,6 +138,12 @@ function TaoPhieuThuPhuongtienPage() {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (!selectedVehicle) {
+      toast.error("Vui lòng chọn Biển kiểm soát!");
+      return;
+    }
+
+
     if (dateCreated === undefined || !dateCreated.isValid()) {
       toast.error("Ngày thu không hợp lệ!");
       return;
@@ -155,7 +164,7 @@ function TaoPhieuThuPhuongtienPage() {
       });
     });
     if (!isValid) {
-      toast.error("Tồn tại khoản thu lại lặp trong phiếu thu!");
+      toast.error("Tồn tại khoản thu lặp lại trong phiếu thu Phương tiện!");
       isValid = true;
       return;
     }
@@ -163,8 +172,8 @@ function TaoPhieuThuPhuongtienPage() {
 
     var dateCreatedJson = new Date(dateCreated);
     dateCreatedJson.setDate(dateCreatedJson.getDate() + 1);
-    dateCreatedJson = JSON.stringify(dateCreatedJson);
-    dateCreatedJson = dateCreatedJson.slice(1, dateCreatedJson.length - 1);
+    dateCreatedJson = dateCreatedJson.toISOString();
+   
     let vehiclePayments = [];
     payments.map((payment) => {
       vehiclePayments.push({
@@ -174,7 +183,7 @@ function TaoPhieuThuPhuongtienPage() {
     });
     const newVehicleReceipt = new VehicleReceipt(
       vehicleId,
-      dateCreated,
+      dateCreatedJson,
       totalCost,
       description,
       vehiclePayments
@@ -214,7 +223,8 @@ function TaoPhieuThuPhuongtienPage() {
                   },
                   width: 500,
                 }}
-                renderInput={(params) => <TextField {...params} required />}
+                renderInput={(params) => <TextField {...params} />}
+              //renderInput={(params) => <TextField {...params} required />}
               />
             </Grid>
             <LocalizationProvider dateAdapter={AdapterDayjs}>

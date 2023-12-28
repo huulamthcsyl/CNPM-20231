@@ -208,7 +208,9 @@ namespace Project.Controllers.ReceiptController
             }
 
 
-            var currentReceipt = await _context.VehicleReceipts.FindAsync(id);
+            var currentReceipt = await _context.VehicleReceipts
+                                .Include(r => r.VehiclePayments)
+                                .FirstOrDefaultAsync(r => r.VehicleReceiptId == id);
 
             // Update new receipt's attributes
             currentReceipt.VehicleReceiptId = newReceipt.VehicleReceiptId;
@@ -218,15 +220,15 @@ namespace Project.Controllers.ReceiptController
 
             // Get removed | added payments
             var removedPayments = currentReceipt.VehiclePayments
-                                    .Where(oldR => newReceipt.VehiclePayments
-                                    .Any(newR => newR.VehicleFeeId != oldR.VehicleFeeId
-                                                 || newR.Amount != oldR.Amount))
+                                    .Where(oldR => !newReceipt.VehiclePayments
+                                    .Any(newR => newR.VehicleFeeId == oldR.VehicleFeeId
+                                                 && newR.Amount == oldR.Amount))
                                     .ToList();
 
             var addedPayments = newReceipt.VehiclePayments
-                                    .Where(newR => currentReceipt.VehiclePayments
-                                    .Any(oldR => oldR.VehicleFeeId != newR.VehicleFeeId
-                                                 || oldR.Amount != newR.Amount))
+                                    .Where(newR => !currentReceipt.VehiclePayments
+                                    .Any(oldR => oldR.VehicleFeeId == newR.VehicleFeeId
+                                                 && oldR.Amount == newR.Amount))
                                     .ToList();
 
             // Remove | Add payments in context

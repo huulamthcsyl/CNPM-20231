@@ -107,7 +107,7 @@ export default function TaoPhieuThu() {
   };
 
   const handleChangeFee = (index) => (event, value) => {
-   // console.log(value);
+    // console.log(value);
     let newPayments = [...payments];
     if (value !== null) {
       newPayments[index] = {
@@ -119,7 +119,7 @@ export default function TaoPhieuThu() {
         setTotalCost(totalCost - parseInt(payments[index].cost) + value.cost);
       else setTotalCost(totalCost + value.cost);
     } else {
-     // console.log(payments[index]);
+      // console.log(payments[index]);
       newPayments[index] = { label: "", cost: "", residenceFeeId: "" };
       if (payments[index].cost !== "")
         setTotalCost(totalCost - parseInt(payments[index].cost));
@@ -172,8 +172,7 @@ export default function TaoPhieuThu() {
 
     var dateCreatedJson = new Date(dateCreated);
     dateCreatedJson.setDate(dateCreatedJson.getDate() + 1);
-    dateCreatedJson = JSON.stringify(dateCreatedJson);
-    dateCreatedJson = dateCreatedJson.slice(1, dateCreatedJson.length - 1);
+    dateCreatedJson = dateCreatedJson.toISOString();
     let residencePayments = [];
     payments.map((payment) => {
       residencePayments.push({
@@ -183,7 +182,7 @@ export default function TaoPhieuThu() {
     });
 
     const newResidenceReceipt = new ResidenceReceipt(
-      dateCreated,
+      dateCreatedJson,
       totalCost,
       description,
       residencePayments,
@@ -212,6 +211,7 @@ export default function TaoPhieuThu() {
             <Grid item container direction="row" alignItems="center">
               <Typography style={{ fontSize: "24px", marginRight: "23px" }}>
                 Họ và tên
+                <span style={{ color: "red" }}> (*) </span>
               </Typography>
 
               <AutoComplete
@@ -228,6 +228,7 @@ export default function TaoPhieuThu() {
             >
               <Typography style={{ fontSize: "24px", marginRight: "52px" }}>
                 Địa chỉ
+                <span style={{ color: "red" }}> (*) </span>
               </Typography>
               <TextField
                 style={{ width: "500px" }}
@@ -246,8 +247,9 @@ export default function TaoPhieuThu() {
               alignItems="center"
               sx={{ mt: 2 }}
             >
-              <Typography style={{ fontSize: "24px", marginRight: "28px" }}>
+              <Typography style={{ fontSize: "24px", marginRight: "26px" }}>
                 Ngày thu
+                <span style={{ color: "red" }}> (*) </span>
               </Typography>
               <CustomizedDatePicker
                 sx={{ marginLeft: "4px", required: true }}
@@ -330,10 +332,7 @@ export default function TaoPhieuThu() {
                                 style: { fontSize: "18px" },
                                 required: true,
                               }}
-                              value={
-                                payment.cost &&
-                                payment.cost
-                              }
+                              value={payment.cost && payment.cost}
                               onChange={handleChangeCost(index)}
                             ></TextField>
                           </TableCell>
@@ -407,7 +406,7 @@ export default function TaoPhieuThu() {
                   margin: "30px 0px",
                   fontSize: "20px",
                   color: "black",
-                  fontWeight: "400"
+                  fontWeight: "400",
                 }}
                 type="submit"
                 size="large"
@@ -422,7 +421,7 @@ export default function TaoPhieuThu() {
                     marginLeft: "30px",
                     fontSize: "20px",
                     color: "black",
-                    fontWeight: "400"
+                    fontWeight: "400",
                   }}
                   size="large"
                 >

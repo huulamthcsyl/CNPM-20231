@@ -15,7 +15,7 @@ function TaoPhuongTienPage() {
   const [category, setCategory] = useState('');
   const [ownerName, setOwnerName] = useState("");
   const [personList, setPersonList] = useState([]);
-
+  const [vehicleList, setVehicleList] = useState([]);
   const personShrinkList = [];
 
   useEffect(() => {
@@ -25,7 +25,14 @@ function TaoPhuongTienPage() {
       })
       .catch((err) => {
         toast.error(err.response.data);
+      });
+    ClassApi.GetAllVehicles()
+      .then((res) => {
+        setVehicleList(res.data);
       })
+      .catch((err) => {
+        toast.error(err.response.data);
+      });
   }, [])
 
   personList.map((person, index) => {
@@ -42,7 +49,7 @@ function TaoPhuongTienPage() {
       setOwnerName(value.label)
       setPersonId(value.personId);
     } else {
-      setOwnerName("");
+      setOwnerName(null);
     }
 
   }
@@ -60,6 +67,12 @@ function TaoPhuongTienPage() {
       toast.error("Chưa chọn Chủ sở hữu")
       return;
     }
+    const existingVehicle = vehicleList.find((vehicle) => vehicle.licensePlate === lisensePlate);
+    if (existingVehicle) {
+      toast.error("Phương tiện đã tồn tại");
+      return;
+    }
+
     ClassApi.PostVehicle(new Vehicle(personId, category, lisensePlate))
       .then(
         (response) => {

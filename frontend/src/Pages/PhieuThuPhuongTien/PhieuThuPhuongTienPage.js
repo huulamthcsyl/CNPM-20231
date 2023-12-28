@@ -55,15 +55,13 @@ function PhieuThuPhuongTienPage() {
         else {
             startTime = new Date(starttime);
             startTime.setDate(startTime.getDate() + 1);
-            startTime = JSON.stringify(startTime);
-            startTime = startTime.slice(1, startTime.length - 1);
+            startTime = startTime.toISOString();
         }
         if (endtime === undefined || !endtime.isValid()) endTime = "";
         else {
             endTime = new Date(endtime);
             endTime.setDate(endTime.getDate() + 1);
-            endTime = JSON.stringify(endTime);
-            endTime = endTime.slice(1, endTime.length - 1);
+            endTime = endTime.toISOString();
         }
 
         console.log(startTime, endTime);
@@ -129,7 +127,7 @@ function PhieuThuPhuongTienPage() {
                     <FormControl>
                         <FormGroup row>
                             <TextField
-                                label="Biển Kiểm Soát"
+                                label="Biển kiểm soát"
                                 variant="filled"
                                 style={{ marginRight: "35px" }}
                                 inputProps={{ style: { fontSize: "18px" } }}
