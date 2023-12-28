@@ -178,7 +178,7 @@ function ThemHoDan() {
             direction="row"
             style={{ alignItems: "center", alignContent: 'center  ' }}
           >
-            <Grid item xs={5} sm={2.3}>
+            <Grid item xs={5} sm={3.2}>
               <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
                 Tên chủ hộ<span style={{ color: 'red' }}> (*)</span>
               </Typography>
@@ -199,7 +199,7 @@ function ThemHoDan() {
             direction="row"
             style={{ alignItems: "center" }}
           >
-            <Grid item xs={5} sm={2.3}>
+            <Grid item xs={5} sm={3.2}>
               <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
                 Nơi thường trú<span style={{ color: 'red' }}>(*)</span>
               </Typography>
