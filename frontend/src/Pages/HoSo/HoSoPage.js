@@ -20,7 +20,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-
+import dayjs from "dayjs";
 import { toast } from "react-toastify";
 
 const theme = createTheme({
@@ -59,11 +59,23 @@ const theme2 = createTheme({
 function HoSoPage() {
   let Admin = {}
   const [value, setValue] = useState('');
-  const [name, setName] = useState('')
-  const [address, setAddress] = useState('')
-  const [cccd, setCccd] = useState()
-  const [phoneNumber, setPhoneNumber] = useState()
-  const [date, setDate] = useState()
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
+  const [cccd, setCccd] = useState();
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [date, setDate] = useState();
+
+  const CustomizedDatePicker = styled(DatePicker)`
+  & .MuiInputBase-input {
+    font-size: 18px;
+    width: 445px;
+  }
+  & .MuiInputLabel-root {
+    font-size: 20px;
+  }
+  margin-left: 30px;
+`;
+
   useEffect(() => {
     ClassApi.GetHoSo(localStorage.getItem('user')).then((response) => {
       Admin = response.data
@@ -72,13 +84,16 @@ function HoSoPage() {
       setAddress(Admin.address)
       setCccd(Admin.identityCardNumber)
       setPhoneNumber(Admin.phoneNumber)
-      const dateObj = new Date(Admin.dateOfBirth);
-      const day = dateObj.getDate().toString().padStart(2, '0');
-      const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
-      const year = dateObj.getFullYear();
 
-      const formattedDate = '${day}/${month}/${year}';
-      setDate(year + '-' + month + '-' + day);
+      // const dateObj = new Date(Admin.dateOfBirth);
+      // const day = dateObj.getDate().toString().padStart(2, '0');
+      // const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+      // const year = dateObj.getFullYear();
+
+      // const formattedDate = `${day}/${month}/${year}`;
+      // setDate(year + '-' + month + '-' + day);
+
+      setDate(dayjs(Admin.dateOfBirth))
       const gender = (Admin.gender == true) ? 'Nam' : 'Nữ'
       setValue(gender)
     })
@@ -86,9 +101,9 @@ function HoSoPage() {
   const handleChange = (event) => {
     setValue(event.target.value);
   };
-  const handleDateChange = (e) => {
-    setDate(e.target.value); // Cập nhật giá trị ngày khi người dùng chọn ngày mới
-  };
+  // const handleDateChange = (e) => {
+  //   setDate(e.target.value); // Cập nhật giá trị ngày khi người dùng chọn ngày mới
+  // };
   const handleSend = () => {
     ClassApi.PutHoSo(localStorage.getItem('user'),
       {
@@ -96,7 +111,7 @@ function HoSoPage() {
         address: address, dateOfBirth: date, gender: (value == 'Nam' ? true : false), phoneNumber: phoneNumber
       }).then(
         (response) => {
-          toast.success('thành công')
+          toast.success('Sửa thông tin thành công')
         }
       ).catch(() => {
         toast.error('lỗi')
@@ -169,14 +184,35 @@ function HoSoPage() {
                       />
                     </RadioGroup>
                   </Grid>
-                  <Grid item>
+                  {/* <Grid item>
                     <Typography variant="h4" fontWeight={400}>
                       Ngày, tháng, năm sinh
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <input type="date" value={date} onChange={handleDateChange} style={{ height: '30px', width: '150px' }} />
-                  </Grid>
+                    <input User
+                      type="date"
+                      value={date}
+                      onChange={handleDateChange}
+                      style={{ height: '30px', width: '150px' }}
+                      pattern="\d{1,2}/\d{1,2}/\d{4}"
+                    />
+                  </Grid> */}
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <Grid item container direction="row" alignItems="center">
+                      <Typography variant="h4" fontWeight={400}>
+                        Ngày, tháng, năm sinh
+                      </Typography>
+                      <CustomizedDatePicker
+                        style={{ height: '30px', width: '150px' }}
+                        value={date}
+                        // onChange={handleDateChange}
+                        onChange={(date) => setDate(date)}
+                        format="DD-MM-YYYY"
+                      ></CustomizedDatePicker>
+                    </Grid>
+                  </LocalizationProvider>
+
                 </Grid>
                 <Grid
                   container
