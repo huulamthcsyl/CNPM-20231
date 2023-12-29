@@ -63,7 +63,8 @@ const publicRoutes = [
   { path: "/chitietphieuthuphuongtien", component: ChiTietPhieuThuPhuongTienPage },
   { path: "/danhsachphieuthuphuongtien", component: PhieuThuPhuongTienPage },
   { path: '/quantrivien', component: QTVPage, layout: QTVLayout },
-  { path: '/themquantrivien', component: ThemQTVPage, layout: QTVLayout }
+  { path: '/themquantrivien', component: ThemQTVPage, layout: QTVLayout },
+  { path: '/chitietquantrivien/:id', component: ChiTietQTVPage, layout: QTVLayout }
 ];
 
 export { publicRoutes };  

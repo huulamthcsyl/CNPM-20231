@@ -20,7 +20,7 @@ function DoiMatKhauPage() {
         setPrintError1(null);
         setPrintError2(null);
         setPrintError(null);
-        const id = localStorage.getItem('user')
+        const id = sessionStorage.getItem('user')
         if (!oldPassWord) {
             setPrintError1("Chưa nhập mật khẩu cũ!");
             return;

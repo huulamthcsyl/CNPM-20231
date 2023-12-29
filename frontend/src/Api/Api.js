@@ -17,7 +17,17 @@ class ClassApi {
   }
 
   getUserById(id) {
-    return axios.get(API_BASE_URL + `/user/${id}`, {
+    return axios.get(API_BASE_URL + `/account/${id}`, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    })
+  }
+
+  resetPassword(id) {
+    return axios.get(API_BASE_URL + `/account/reset/${id}`, {
       headers: {
         "access-control-allow-origin": "*",
         "content-type": "application/json; charset=utf-8 ",

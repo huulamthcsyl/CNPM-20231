@@ -58,10 +58,8 @@ function DangNhapPage() {
         sessionStorage.setItem('token', response.data.data.token);
 
         setTimeout(function(){
-          // delay wait for local storage
+          // delay wait for session storage
         }, 1000);
-
-        console.log(sessionStorage)
 
         if(response.data.role == "user"){
           navigate("/home")
