@@ -5,7 +5,7 @@ import { Typography } from "@mui/material";
 import SidebarQTV from "./SidebarQTV/SideBarQTV";
 const cx = classNames.bind(styles);
 function QTVLayout({ children }) {
-    const user = localStorage.getItem("user")
+    const user = sessionStorage.getItem("user")
     return (
         <div className={cx("wrapper")}>
             <SidebarQTV className={cx("sidebar")} />

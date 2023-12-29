@@ -1,7 +1,7 @@
 import { Api, Password } from "@mui/icons-material";
 import { Alert, Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ClassApi, { API_BASE_URL } from "../../Api/Api";
 import 'react-toastify/dist/ReactToastify.css'
@@ -36,16 +36,9 @@ const styles = {
 };
 function DangNhapPage() {
   const navigate = useNavigate();
-  const user = localStorage.getItem("user");
-  const role = localStorage.getItem("role");
+  const user = sessionStorage.getItem("user");
+  const role = sessionStorage.getItem("role");
   const [message, setMessage] = useState('')
-  useEffect(() => {
-    if (user != "null") {
-      if(role == "user"){
-        navigate("/home")
-      } else navigate("/quantrivien")
-    }
-  }, [])
   const [account, setAccount] = useState('')
   const [password, setPassword] = useState('')
   const changeAccount = (e) => {
@@ -60,13 +53,19 @@ function DangNhapPage() {
 
       if (response.data.message === "Success") {
 
-        localStorage.setItem('user', response.data.data.id);
-        localStorage.setItem('role', response.data.role);
-        localStorage.setItem('token', response.data.data.token);
+        sessionStorage.setItem('user', response.data.data.id);
+        sessionStorage.setItem('role', response.data.role);
+        sessionStorage.setItem('token', response.data.data.token);
 
-      if(response.data.role == "user"){
-        navigate("/home")
-      } else navigate("/quantrivien")
+        setTimeout(function(){
+          // delay wait for local storage
+        }, 1000);
+
+        console.log(sessionStorage)
+
+        if(response.data.role == "user"){
+          navigate("/home")
+        } else navigate("/quantrivien")
 
       } else {
         setMessage(response.data.message)
@@ -74,7 +73,7 @@ function DangNhapPage() {
       }
 
     }).catch((error) => {
-      toast.error("lỗi")
+      toast.error("Lỗi đăng nhập")
       console.error('Error fetching data:', error);
 
     });

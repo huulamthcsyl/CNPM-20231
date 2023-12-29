@@ -132,7 +132,7 @@ function Sidebar() {
               Hồ sơ
             </Button>
           </NavLink>
-          {(user && localStorage.getItem("user") != "null") ? (
+          {(user && sessionStorage.getItem("user") != "null") ? (
             <Button
               style={{
                 backgroundColor: "#f9bf89",
@@ -146,7 +146,7 @@ function Sidebar() {
               }}
               onClick={() => {
                 setUser("");
-                localStorage.setItem("user", null);
+                sessionStorage.setItem("user", null);
                 navigate('/')
               }}
               startIcon={<LogoutIcon />}

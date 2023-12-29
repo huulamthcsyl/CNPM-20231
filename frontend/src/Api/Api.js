@@ -2,29 +2,41 @@ import axios from "axios";
 
 const newLocal = "https://localhost:7030/api";
 export const API_BASE_URL = newLocal;
-let token = localStorage.getItem("token");
-const headers = {
-  "access-control-allow-origin": "*",
-  "content-type": "application/json; charset=utf-8 ",
-  Authorization: "Bearer " + token,
-};
 class ClassApi {
   //****** ******/
   //Api Quan tri vien
 
   getAllUser() {
-    return axios.get(API_BASE_URL + "/account/all", { headers: headers });
+    return axios.get(API_BASE_URL + "/account/all", {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
 
-  getUserById(id){
-    return axios.get(API_BASE_URL + `/user/${id}`, {headers : headers})
+  getUserById(id) {
+    return axios.get(API_BASE_URL + `/user/${id}`, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    })
   }
 
   registerUser(username, password) {
     return axios.post(
       API_BASE_URL + "/account/register",
       { username: username, password: password, role: "user" },
-      { headers: headers }
+      {
+        headers: {
+          "access-control-allow-origin": "*",
+          "content-type": "application/json; charset=utf-8 ",
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        }
+      }
     );
   }
 
@@ -43,27 +55,57 @@ class ClassApi {
         oldpassword: oldpassword,
         newpassword: newpassword,
       },
-      { headers }
+      {
+        headers: {
+          "access-control-allow-origin": "*",
+          "content-type": "application/json; charset=utf-8 ",
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        }
+      }
     );
   }
 
   /***** */
   //Api ho so
   GetHoSo(id) {
-    return axios.get(API_BASE_URL + "/user/" + id, { headers });
+    return axios.get(API_BASE_URL + "/user/" + id, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   PutHoSo(id, admin) {
-    return axios.put(API_BASE_URL + "/user/" + id, admin, { headers });
+    return axios.put(API_BASE_URL + "/user/" + id, admin, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   /****** */
 
   /******** */
   //Api quan ly thu
   GetAllResidenceReceipt() {
-    return axios.get(API_BASE_URL + "/residencereceipt/all", { headers });
+    return axios.get(API_BASE_URL + "/residencereceipt/all", {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   GetResidenceReceipt(id) {
-    return axios.get(API_BASE_URL + "/residencereceipt/" + id, { headers });
+    return axios.get(API_BASE_URL + "/residencereceipt/" + id, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   FindResidenceReceipt(name, address, starttime, endtime) {
     return axios.get(
@@ -76,7 +118,11 @@ class ClassApi {
       starttime +
       "&endtime=" +
       endtime,
-      { headers }
+      {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
     );
   }
   FindResidenceReceiptByFeeId(
@@ -99,35 +145,69 @@ class ClassApi {
       endtime +
       "&id=" +
       residenceFeeId,
-      { headers }
+      {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
     );
   }
   PostResidenceReceipt(residenceReceiptData) {
     return axios.post(
       API_BASE_URL + "/residencereceipt",
       residenceReceiptData,
-      { headers }
+      {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
     );
   }
   PutResidenceReceipt(residenceReceiptData, id) {
     return axios.put(
       API_BASE_URL + "/residencereceipt/" + id,
       residenceReceiptData,
-      { headers }
+      {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
     );
   }
   GetResidenceFee(id) {
-    return axios.get(API_BASE_URL + "/residencefee/" + id, { headers });
+    return axios.get(API_BASE_URL + "/residencefee/" + id, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   GetResidenceFeeByName(name) {
-    return axios.get(API_BASE_URL + "/residencefee/?name=" + name, { headers });
+    return axios.get(API_BASE_URL + "/residencefee/?name=" + name, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   GetAllResidenceFee() {
-    return axios.get(API_BASE_URL + "/residencefee/all", { headers });
+    return axios.get(API_BASE_URL + "/residencefee/all", {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   PostResidenceFee(residenceFeeData) {
     return axios.post(API_BASE_URL + "/residencefee/", residenceFeeData, {
-      headers,
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
     });
   }
 
@@ -138,65 +218,175 @@ class ClassApi {
   /****** */
   //api ho khau
   GetResidences() {
-    return axios.get(API_BASE_URL + "/residence/all", { headers });
+    return axios.get(API_BASE_URL + "/residence/all", {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   GetResidenceById(id) {
-    return axios.get(API_BASE_URL + "/residence/" + id, { headers });
+    return axios.get(API_BASE_URL + "/residence/" + id, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   FindResidence(name, address) {
     return axios.get(
       API_BASE_URL + "/residence?name=" + name + "&address=" + address,
-      { headers }
+      {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
     );
   }
   PostResidence(residence) {
-    return axios.post(API_BASE_URL + "/residence", residence, { headers });
+    return axios.post(API_BASE_URL + "/residence", residence, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   PutResidence(residence, id) {
-    return axios.put(API_BASE_URL + '/residence/' + id, residence, { headers })
+    return axios.put(API_BASE_URL + '/residence/' + id, residence, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    })
   }
 
   GetRecord(id) {
-    return axios.get(API_BASE_URL + '/record/residence/' + id, { headers })
+    return axios.get(API_BASE_URL + '/record/residence/' + id, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    })
   }
   //api nhan khau
   GetInfoPerson(id) {
-    return axios.get(API_BASE_URL + "/person/" + id, { headers });
+    return axios.get(API_BASE_URL + "/person/" + id, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   GetPerson(person) {
-    return axios.get(API_BASE_URL + "/person?name=" + person, { headers });
+    return axios.get(API_BASE_URL + "/person?name=" + person, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   GetAllPeople() {
-    return axios.get(API_BASE_URL + "/person/all", { headers });
+    return axios.get(API_BASE_URL + "/person/all", {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   PostPerson(person) {
-    return axios.post(API_BASE_URL + "/person", person, { headers });
+    return axios.post(API_BASE_URL + "/person", person, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   PutPerson(person) {
     return axios.put(API_BASE_URL + "/person/" + person.personId, person, {
-      headers,
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
     });
   }
   //api tạm vắng
   GetAllAbsent() {
-    return axios.get(API_BASE_URL + "/absent/all", { headers });
+    return axios.get(API_BASE_URL + "/absent/all", {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
-  GetAbsentById(id) { return axios.get(API_BASE_URL + '/absent?id=' + id, { headers }) }
+  GetAbsentById(id) {
+    return axios.get(API_BASE_URL + '/absent?id=' + id, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    })
+  }
   //api postabsent 
-  PostAbsent(absent) { return axios.post(API_BASE_URL + "/absent", absent, { headers }); }
-  PutAbsent(absent, id) { return axios.put(API_BASE_URL + '/absent/' + id, absent, { headers }) }
+  PostAbsent(absent) {
+    return axios.post(API_BASE_URL + "/absent", absent, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
+  }
+  PutAbsent(absent, id) {
+    return axios.put(API_BASE_URL + '/absent/' + id, absent, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    })
+  }
   FindAbsent(name) {
-    return axios.get(API_BASE_URL + "/absent/person?name=" + name, { headers });
+    return axios.get(API_BASE_URL + "/absent/person?name=" + name, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   //**
   //Api phuong tien
   //*** */
 
   GetAllVehicles() {
-    return axios.get(API_BASE_URL + "/vehicle/all", { headers });
+    return axios.get(API_BASE_URL + "/vehicle/all", {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   GetVehicleById(id) {
-    return axios.get(API_BASE_URL + "/vehicle/id?id=" + id, { headers });
+    return axios.get(API_BASE_URL + "/vehicle/id?id=" + id, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   FindVehicle(licenseplate, ownerName, category) {
     return axios.get(
@@ -207,30 +397,76 @@ class ClassApi {
       ownerName +
       "&category=" +
       category,
-      { headers }
+      {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
     );
   }
   GetVehicle(id) {
-    return axios.get(API_BASE_URL + "/vehicle/" + id, { headers });
+    return axios.get(API_BASE_URL + "/vehicle/" + id, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   PostVehicle(vehicle) {
-    return axios.post(API_BASE_URL + "/vehicle", vehicle, { headers });
+    return axios.post(API_BASE_URL + "/vehicle", vehicle, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
 
   PostVehicleFee(vehiclefee) {
-    return axios.post(API_BASE_URL + "/vehiclefee", vehiclefee, { headers });
+    return axios.post(API_BASE_URL + "/vehiclefee", vehiclefee, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   GetAllVehicleFees() {
-    return axios.get(API_BASE_URL + "/vehiclefee/all", { headers });
+    return axios.get(API_BASE_URL + "/vehiclefee/all", {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   GetVehicleFee(id) {
-    return axios.get(API_BASE_URL + "/vehiclefee/" + id, { headers });
+    return axios.get(API_BASE_URL + "/vehiclefee/" + id, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   GetAllVehicleReceipt() {
-    return axios.get(API_BASE_URL + "/vehiclereceipt/all", { headers });
+    return axios.get(API_BASE_URL + "/vehiclereceipt/all", {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   GetVehicleFeeByName(name) {
-    return axios.get(API_BASE_URL + "/vehiclefee/?name=" + name, { headers });
+    return axios.get(API_BASE_URL + "/vehiclefee/?name=" + name, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   FindVehicleReceipt(lisensePlate, name, starttime, endtime) {
     return axios.get(
@@ -243,7 +479,11 @@ class ClassApi {
       starttime +
       "&endtime=" +
       endtime,
-      { headers }
+      {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
     );
   }
 
@@ -268,23 +508,43 @@ class ClassApi {
       endtime +
       "&id=" +
       vehicleFeeId,
-      { headers }
+      {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
     );
   }
 
 
 
   GetVehicleReceipt(id) {
-    return axios.get(API_BASE_URL + "/vehiclereceipt/" + id, { headers });
+    return axios.get(API_BASE_URL + "/vehiclereceipt/" + id, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   PostVehicleReceipt(vehicleReceipt) {
-    return axios.post(API_BASE_URL + "/vehiclereceipt", vehicleReceipt, { headers });
+    return axios.post(API_BASE_URL + "/vehiclereceipt", vehicleReceipt, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   PutVehicleReceipt(vehicleReceiptData, id) {
     return axios.put(
       API_BASE_URL + "/vehiclereceipt/" + id,
       vehicleReceiptData,
-      { headers }
+      {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
     );
   }
 
@@ -293,7 +553,13 @@ class ClassApi {
   /***** */
   //Api doi mat khau
   PutPassword(id, pass) {
-    return axios.put(API_BASE_URL + "/account/" + id, pass, { headers });
+    return axios.put(API_BASE_URL + "/account/" + id, pass, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    });
   }
   /****** */
 }

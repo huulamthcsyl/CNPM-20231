@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Typography } from "@mui/material";
 const cx = classNames.bind(styles);
 function DefaultLayout({ children }) {
-  const user = localStorage.getItem("user")
+  const user = sessionStorage.getItem("user")
 
   return (
 

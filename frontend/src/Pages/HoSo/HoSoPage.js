@@ -77,9 +77,8 @@ function HoSoPage() {
 `;
 
   useEffect(() => {
-    ClassApi.GetHoSo(localStorage.getItem('user')).then((response) => {
+    ClassApi.GetHoSo(sessionStorage.getItem('user')).then((response) => {
       Admin = response.data
-      console.log(Admin)
       setName(Admin.name)
       setAddress(Admin.address)
       setCccd(Admin.identityCardNumber)
@@ -109,9 +108,9 @@ function HoSoPage() {
     dateCreatedJson.setDate(dateCreatedJson.getDate() + 1);
     dateCreatedJson = dateCreatedJson.toISOString();
 
-    ClassApi.PutHoSo(localStorage.getItem('user'),
+    ClassApi.PutHoSo(sessionStorage.getItem('user'),
       {
-        userId: localStorage.getItem('user'), name: name, identityCardNumber: cccd,
+        userId: sessionStorage.getItem('user'), name: name, identityCardNumber: cccd,
         address: address, dateOfBirth: dateCreatedJson, gender: (value == 'Nam' ? true : false), phoneNumber: phoneNumber
       }).then(
         (response) => {

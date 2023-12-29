@@ -38,7 +38,7 @@ export default function TaoKhoanThu() {
 
   return (
     <Grid container spacing={2} padding={"50px"}>
-      <Grid item>
+      <Grid item xs={12}>
         <div style={{ fontSize: "40px" }}>Tạo khoản thu dân cư mới</div>
       </Grid>
       <Grid item>
