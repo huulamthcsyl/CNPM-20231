@@ -44,7 +44,7 @@ namespace Project.Controllers.UserController
             return userAccounts;
         }
 
-        [HttpGet()]
+        [HttpGet("{id}")]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<UserAccount>> GetUserAccounts(Guid id)
         {
@@ -237,7 +237,7 @@ namespace Project.Controllers.UserController
                     new Claim("TokenId", Guid.NewGuid().ToString()),
                     new Claim(ClaimTypes.Role, userAccount.Role)
                 }),
-                Expires = DateTime.UtcNow.AddDays(1),
+                Expires = DateTime.UtcNow.AddYears(1),
                 SigningCredentials = new SigningCredentials
                 (new SymmetricSecurityKey(secretKeyBytes), SecurityAlgorithms.HmacSha256Signature)
             };
