@@ -50,6 +50,16 @@ class ClassApi {
     );
   }
 
+  deleteUser(id) {
+    return axios.delete(API_BASE_URL + `/account/${id}`, {
+      headers: {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json; charset=utf-8 ",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      }
+    })
+  }
+
   //********** */
   //Api dang nhap
   PostLogin(account, password) {

@@ -1,12 +1,13 @@
-import { Container, TextField, Grid } from '@mui/material';
+import { Container, TextField, Grid, Button, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import ClassApi from '../../Api/Api'
 
 export default function ChiTietQTVPage() {
 
   const params = useParams();
   const userId = params.id;
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [newPassword, setNewPassword] = useState(null);
 
@@ -19,6 +20,12 @@ export default function ChiTietQTVPage() {
   const handleResetPassword = () => {
     ClassApi.resetPassword(userId)
     .then(res => setNewPassword(res.data))
+    .catch(err => console.log(err));
+  }
+
+  const handleDeleteAccount = () => {
+    ClassApi.deleteUser(userId)
+    .then(res => navigate("/quantrivien"))
     .catch(err => console.log(err));
   }
 
@@ -41,6 +48,11 @@ export default function ChiTietQTVPage() {
           <h3>Mật khẩu mới: {newPassword}</h3>
         </div>
       }
+      <Button variant="contained" color='error' onClick={handleDeleteAccount}>
+        <Typography variant='h4'>
+          Xoá tài khoản
+        </Typography>
+      </Button>
     </Container>
   )
 }
