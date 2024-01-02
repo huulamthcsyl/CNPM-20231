@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const newLocal = "https://localhost:7030/api";
+const newLocal = "https://cnpm20231.azurewebsites.net/api";
 export const API_BASE_URL = newLocal;
 class ClassApi {
   //****** ******/
