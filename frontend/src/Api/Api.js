@@ -129,9 +129,11 @@ class ClassApi {
       "&endtime=" +
       endtime,
       {
-        "access-control-allow-origin": "*",
-        "content-type": "application/json; charset=utf-8 ",
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        headers: {
+          "access-control-allow-origin": "*",
+          "content-type": "application/json; charset=utf-8 ",
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        }
       }
     );
   }
@@ -156,9 +158,11 @@ class ClassApi {
       "&id=" +
       residenceFeeId,
       {
-        "access-control-allow-origin": "*",
-        "content-type": "application/json; charset=utf-8 ",
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        headers: {
+          "access-control-allow-origin": "*",
+          "content-type": "application/json; charset=utf-8 ",
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        }
       }
     );
   }
@@ -167,9 +171,11 @@ class ClassApi {
       API_BASE_URL + "/residencereceipt",
       residenceReceiptData,
       {
-        "access-control-allow-origin": "*",
-        "content-type": "application/json; charset=utf-8 ",
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        headers: {
+          "access-control-allow-origin": "*",
+          "content-type": "application/json; charset=utf-8 ",
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        }
       }
     );
   }
@@ -178,9 +184,11 @@ class ClassApi {
       API_BASE_URL + "/residencereceipt/" + id,
       residenceReceiptData,
       {
-        "access-control-allow-origin": "*",
-        "content-type": "application/json; charset=utf-8 ",
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        headers: {
+          "access-control-allow-origin": "*",
+          "content-type": "application/json; charset=utf-8 ",
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        }
       }
     );
   }
@@ -249,9 +257,11 @@ class ClassApi {
     return axios.get(
       API_BASE_URL + "/residence?name=" + name + "&address=" + address,
       {
-        "access-control-allow-origin": "*",
-        "content-type": "application/json; charset=utf-8 ",
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        headers: {
+          "access-control-allow-origin": "*",
+          "content-type": "application/json; charset=utf-8 ",
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        }
       }
     );
   }
@@ -408,9 +418,11 @@ class ClassApi {
       "&category=" +
       category,
       {
-        "access-control-allow-origin": "*",
-        "content-type": "application/json; charset=utf-8 ",
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        headers: {
+          "access-control-allow-origin": "*",
+          "content-type": "application/json; charset=utf-8 ",
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        }
       }
     );
   }
@@ -490,9 +502,11 @@ class ClassApi {
       "&endtime=" +
       endtime,
       {
-        "access-control-allow-origin": "*",
-        "content-type": "application/json; charset=utf-8 ",
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        headers: {
+          "access-control-allow-origin": "*",
+          "content-type": "application/json; charset=utf-8 ",
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        }
       }
     );
   }
@@ -519,9 +533,11 @@ class ClassApi {
       "&id=" +
       vehicleFeeId,
       {
-        "access-control-allow-origin": "*",
-        "content-type": "application/json; charset=utf-8 ",
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        headers: {
+          "access-control-allow-origin": "*",
+          "content-type": "application/json; charset=utf-8 ",
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        }
       }
     );
   }
@@ -551,9 +567,11 @@ class ClassApi {
       API_BASE_URL + "/vehiclereceipt/" + id,
       vehicleReceiptData,
       {
-        "access-control-allow-origin": "*",
-        "content-type": "application/json; charset=utf-8 ",
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        headers: {
+          "access-control-allow-origin": "*",
+          "content-type": "application/json; charset=utf-8 ",
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        }
       }
     );
   }
