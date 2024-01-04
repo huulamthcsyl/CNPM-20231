@@ -16,9 +16,9 @@ export default function QTVPage() {
 
   return (
     <Container style={{paddingTop: 30}}>
-        <h1>Quản lý tài khoản quản trị viên</h1>
+        <h1 style={{marginBottom: 20}}>Quản lý tài khoản quản trị viên</h1>
         <ButtonAdd title="Tạo tài khoản" to={"/themquantrivien"}/>
-        <TableContainer component={Paper}>
+        <TableContainer style={{marginTop: 20}} component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
