@@ -66,14 +66,14 @@ function KhoanThuPhuongTienPage() {
   return (
     <Grid container spacing={2} style={{ padding: "50px" }}>
       <Grid item xs={12}>
-        <h1 style={{ fontSize: "48px" }}> Quản lý Thu phí phương tiện </h1>
+        <h1 style={{ fontSize: "48px" }}> Quản lý thu phí phương tiện </h1>
       </Grid>
 
       <Grid item xs={12}>
         <NavLink to="/taokhoanthuphuongtien">
           <Button
             variant="contained"
-            style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+            style={{ backgroundColor: "#79C9FF", marginBottom: 30 }}
           >
             <Typography style={{ marginRight: "8px" }}>
               <img
@@ -90,18 +90,14 @@ function KhoanThuPhuongTienPage() {
       </Grid>
 
       <Grid item xs={12}>
-        <FormControl>
-          <Grid item container direction="row" alignItems="center">
-            <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
-              Tên khoản thu
-            </Typography>
-            <TextField
-              style={{ width: "400px" }}
-              inputProps={{ style: { fontSize: "18px" } }}
-              onChange={(event) => setName(event.target.value)}
-            ></TextField>
-          </Grid>
-        </FormControl>
+      <TextField
+          label="Tên khoản thu"
+          variant="filled"
+          style={{ marginRight: "35px" }}
+          inputProps={{ style: { fontSize: "18px" } }}
+          InputLabelProps={{ style: { fontSize: "20px" } }}
+          onChange={(e) => setName(e.target.value)}
+        />
       </Grid>
 
       <Grid item sx={{ mt: 2 }}>

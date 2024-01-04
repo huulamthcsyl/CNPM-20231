@@ -73,7 +73,6 @@ function HoSoPage() {
   & .MuiInputLabel-root {
     font-size: 20px;
   }
-  margin-left: 30px;
 `;
 
   useEffect(() => {
@@ -104,14 +103,10 @@ function HoSoPage() {
   //   setDate(e.target.value); // Cập nhật giá trị ngày khi người dùng chọn ngày mới
   // };
   const handleSend = () => {
-    var dateCreatedJson = new Date(date);
-    dateCreatedJson.setDate(dateCreatedJson.getDate() + 1);
-    dateCreatedJson = dateCreatedJson.toISOString();
-
     ClassApi.PutHoSo(sessionStorage.getItem('user'),
       {
         userId: sessionStorage.getItem('user'), name: name, identityCardNumber: cccd,
-        address: address, dateOfBirth: dateCreatedJson, gender: (value == 'Nam' ? true : false), phoneNumber: phoneNumber
+        address: address, dateOfBirth: date.hour(12), gender: (value == 'Nam' ? true : false), phoneNumber: phoneNumber
       }).then(
         (response) => {
           toast.success('Sửa thông tin thành công')
@@ -122,162 +117,93 @@ function HoSoPage() {
   }
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Grid container style={{ padding: "60px ", marginTop: "20px" }}>
+      <Grid container rowSpacing={2} style={{ padding: "50px" }}>
         <Grid item xs={12}>
           <Typography variant="h2" fontWeight={700}>
             Hồ sơ quản trị viên
           </Typography>
         </Grid>
-        <Grid item xs={12}>
-          <ThemeProvider theme={theme}>
-            <FormControl>
-              <FormGroup>
-                <Grid
-                  container
-                  direction="row"
-                  wrap="wrap"
-                  alignItems="center"
-                  paddingTop={2}
-                  columnSpacing={10}
-                  rowSpacing={1}
-                >
-                  <Grid item>
-                    <Typography variant="h4" fontWeight={400}>
-                      Họ và tên
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <TextField value={name} onChange={(e) => { setName(e.target.value) }}></TextField>
-                  </Grid>
-                </Grid>
-                <Grid
-                  container
-                  direction="row"
-                  wrap="wrap"
-                  alignItems="center"
-                  paddingTop={2}
-                  columnSpacing={5}
-                  rowSpacing={1}
-                >
-                  <Grid item>
-                    <Typography variant="h4" fontWeight={400} style={{ marginRight: "50px" }}>
-                      Giới tính
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <RadioGroup
-                      name="radio-buttons-group"
-                      value={value}
-                      onChange={handleChange}
-                      style={{ display: "inline" }}
-                    >
-                      <FormControlLabel
-                        value="Nam"
-                        control={<Radio />}
-                        label=<Typography variant="h4" fontWeight={400}>
-                          Nam
-                        </Typography>
-                      />
-                      <FormControlLabel
-                        value="Nữ"
-                        control={<Radio />}
-                        label=<Typography variant="h4" fontWeight={400}>
-                          Nữ
-                        </Typography>
-                      />
-                    </RadioGroup>
-                  </Grid>
-                  {/* <Grid item>
-                    <Typography variant="h4" fontWeight={400}>
-                      Ngày, tháng, năm sinh
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <input User
-                      type="date"
-                      value={date}
-                      onChange={handleDateChange}
-                      style={{ height: '30px', width: '150px' }}
-                      pattern="\d{1,2}/\d{1,2}/\d{4}"
-                    />
-                  </Grid> */}
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <Grid item container direction="row" alignItems="center">
-                      <Typography variant="h4" fontWeight={400}>
-                        Ngày, tháng, năm sinh
-                      </Typography>
-                      <CustomizedDatePicker
-                        style={{ height: '30px', width: '150px' }}
-                        value={date}
-                        //onChange={handleDateChange}
-                        onChange={(date) => setDate(date)}
-                        format="DD-MM-YYYY"
-                      ></CustomizedDatePicker>
-                    </Grid>
-                  </LocalizationProvider>
+        <ThemeProvider theme={theme}>
+          <Grid item xs={2}>
+            <Typography variant="h4" fontWeight={400}>
+              Họ và tên
+            </Typography>
+          </Grid>
+          <Grid item xs={10}>
+            <TextField value={name} onChange={(e) => { setName(e.target.value) }}></TextField>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography variant="h4" fontWeight={400} style={{ marginRight: "50px" }}>
+              Giới tính
+            </Typography>
+          </Grid>
+          <Grid item xs={10}>
+            <RadioGroup
+              name="radio-buttons-group"
+              value={value}
+              onChange={handleChange}
+              style={{ display: "inline" }}
+            >
+              <FormControlLabel
+                value="Nam"
+                control={<Radio />}
+                label=<Typography variant="h4" fontWeight={400}>
+                  Nam
+                </Typography>
+              />
+              <FormControlLabel
+                value="Nữ"
+                control={<Radio />}
+                label=<Typography variant="h4" fontWeight={400}>
+                  Nữ
+                </Typography>
+              />
+            </RadioGroup>
+          </Grid>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Grid item xs={2}>
+              <Typography variant="h4" fontWeight={400}>
+                Ngày sinh
+              </Typography>
+            </Grid>
+            <Grid item xs={10}>
+              <CustomizedDatePicker
+                style={{ height: '30px' }}
+                value={date}
+                //onChange={handleDateChange}
+                onChange={(date) => setDate(date)}
+                format="DD-MM-YYYY"
+              ></CustomizedDatePicker>
+            </Grid>
+          </LocalizationProvider>
+            <Grid item xs={2}>
+              <Typography variant="h4" fontWeight={400}>
+                Địa chỉ&emsp;&ensp;
+              </Typography>
+            </Grid>
+            <Grid item xs={10}>
+              <TextField value={address} onChange={(e) => { setAddress(e.target.value) }}></TextField>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography variant="h4" fontWeight={400}>
+                CCCD&emsp;&ensp;&nbsp;
+              </Typography>
+            </Grid>
+            <Grid item xs={10}>
+              <TextField value={cccd} onChange={(e) => { setCccd(e.target.value) }}></TextField>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography variant="h4" fontWeight={400}>
+                Điện thoại
+              </Typography>
+            </Grid>
+            <Grid item xs={10}>
+              <TextField value={phoneNumber} onChange={(e) => { setPhoneNumber(e.target.value) }}></TextField>
+            </Grid>
+        </ThemeProvider>
+        <Divider style={{ margin: "30px 0px", backgroundColor: "black" }} />
 
-                </Grid>
-                <Grid
-                  container
-                  direction="row"
-                  wrap="wrap"
-                  alignItems="center"
-                  paddingTop={2}
-                  columnSpacing={10}
-                  rowSpacing={1}
-                >
-                  <Grid item>
-                    <Typography variant="h4" fontWeight={400}>
-                      Địa chỉ&emsp;&ensp;
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <TextField value={address} onChange={(e) => { setAddress(e.target.value) }}></TextField>
-                  </Grid>
-                </Grid>
-                <Grid
-                  container
-                  direction="row"
-                  wrap="wrap"
-                  alignItems="center"
-                  paddingTop={2}
-                  columnSpacing={10}
-                  rowSpacing={1}
-                >
-                  <Grid item>
-                    <Typography variant="h4" fontWeight={400}>
-                      CCCD&emsp;&ensp;&nbsp;
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <TextField value={cccd} onChange={(e) => { setCccd(e.target.value) }}></TextField>
-                  </Grid>
-                </Grid>
-                <Grid
-                  container
-                  direction="row"
-                  wrap="wrap"
-                  alignItems="center"
-                  paddingTop={2}
-                  columnSpacing={10}
-                  rowSpacing={1}
-                >
-                  <Grid item>
-                    <Typography variant="h4" fontWeight={400}>
-                      Điện thoại
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <TextField value={phoneNumber} onChange={(e) => { setPhoneNumber(e.target.value) }}></TextField>
-                  </Grid>
-                </Grid>
-              </FormGroup>
-            </FormControl>
-          </ThemeProvider>
-          <Divider style={{ margin: "30px 0px", backgroundColor: "black" }} />
-        </Grid>
-
-        <Grid item xs={2}>
+        <Grid item>
           <NavLink to="/doimatkhau">
             <Button
               variant="contained"
@@ -294,7 +220,7 @@ function HoSoPage() {
           </NavLink>
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item>
           <NavLink to="./">
             <Button
               variant="contained"

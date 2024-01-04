@@ -117,8 +117,8 @@ function ChiTietTamVangPage() {
         ClassApi.PutAbsent({
             "absentPersonId": id,
             "personId": personId,
-            "startTime": timeFrom,
-            "endTime": timeTo,
+            "startTime": timeFrom.hour(12),
+            "endTime": timeTo.hour(12),
             "reason": reason,
             "temporaryStay": address2 ? address2 : ""
         }, id).then((resp) => {
@@ -137,31 +137,14 @@ function ChiTietTamVangPage() {
                             Chi tiết tạm vắng
                         </Typography>
                     </Grid>
-                    <Grid
-                        item
-                        container
-                        xs={12}
-                        alignItems="center"
-                        wrap="wrap"
-                    //        columnSpacing={8}
-                    >
-                        <Grid item xs={2.8}>
+                        <Grid item xs={2}>
                             <Typography variant="h4">Họ và tên<span style={{ color: 'red' }}> (*)</span></Typography>
                         </Grid>
-                        <Grid item>
+                        <Grid item xs={10}>
                             <TextField value={name}></TextField>
                         </Grid>
-                    </Grid>
-                    <Grid
-                        item
-                        container
-                        xs={12}
-                        direction="row"
-                        wrap="wrap"
-                        alignItems="center"
-                    >
-                        <Grid item container xs={8} wrap="nowrap">
-                            <Grid item xs={4.3}>
+                        <Grid item container xs={12} wrap="nowrap">
+                            <Grid item xs={2}>
                                 <Typography variant="h4">Giới tính<span style={{ color: 'red' }}> (*)</span></Typography>
                             </Grid>
                             <Grid item alignItems="center">
@@ -197,18 +180,15 @@ function ChiTietTamVangPage() {
                                 <label
                                     htmlFor="radio2"
                                     style={{ fontSize: "24px", margin: "0px 12px" }}
-
                                 >
                                     Nữ
                                 </label>
                             </Grid>
                         </Grid>
-                    </Grid>
-                    <Grid item container wrap="wrap" alignItems="center">
-                        <Grid item xs={2.8}>
+                        <Grid item xs={2}>
                             <Typography variant="h4">Ngày sinh<span style={{ color: 'red' }}> (*)</span></Typography>
                         </Grid>
-                        <Grid item>
+                        <Grid item xs={10}>
                             <CustomizedDatePicker
                                 format="DD-MM-YYYY"
                                 slotProps={{ textField: { variant: "outlined", height: '58px' } }}
@@ -224,119 +204,65 @@ function ChiTietTamVangPage() {
                                 readOnly="true"
                             />
                         </Grid>
-                    </Grid>
-
-                    <Grid
-                        item
-                        container
-                        xs={12}
-                        alignItems="center"
-                        wrap="wrap"
-                    //          columnSpacing={12}
-                    >
-                        <Grid item xs={2.8}>
+                        <Grid item xs={2}>
                             <Typography variant="h4">CCCD</Typography>
                         </Grid>
-                        <Grid item>
+                        <Grid item xs={10}>
                             <TextField disabled value={cccd}></TextField>
                         </Grid>
-                    </Grid>
-                    <Grid
-                        item
-                        container
-                        xs={12}
-                        alignItems="center"
-                        wrap="wrap"
-                    //        columnSpacing={3}
-                    >
-                        <Grid item xs={2.8}>
+                        <Grid item xs={2}>
                             <Typography variant="h4">Số điện thoại</Typography>
                         </Grid>
-                        <Grid item>
+                        <Grid item xs={10}>
                             <TextField disabled value={phoneNumber} ></TextField>
                         </Grid>
-                    </Grid>
-                    <Grid
-                        item
-                        container
-                        xs={12}
-                        alignItems="center"
-                        wrap="wrap"
-                    //         columnSpacing={3}
-                    >
-                        <Grid item xs={2.8}>
+                        <Grid item xs={2}>
                             <Typography variant="h4">Nơi thường trú<span style={{ color: 'red' }}> (*)</span></Typography>
                         </Grid>
-                        <Grid item>
+                        <Grid item xs={10}>
                             <TextField readOnly="true" value={address1} onChange={(e) => { setAddress1(e.target.value) }}></TextField>
                         </Grid>
-                    </Grid>
-                    <Grid
-                        item
-                        container
-                        xs={12}
-                        alignItems="center"
-                        wrap="wrap"
-                    //         columnSpacing={3}
-                    >
-                        <Grid item xs={2.8}>
+                        <Grid item xs={2}>
                             <Typography variant="h4">Nơi tạm trú<span style={{ color: 'red' }}> (*)</span></Typography>
                         </Grid>
-                        <Grid item>
+                        <Grid item xs={10}>
                             <TextField value={address2} onChange={(e) => { setAddress2(e.target.value) }}></TextField>
                         </Grid>
-                    </Grid>
-                    <Grid
-                        item
-                        container
-                        xs={12}
-                        alignItems="center"
-                        wrap="wrap"
-                    //   columnSpacing={3}
-                    >
-                        <Grid item xs={2.8}>
-                            <Typography variant="h4">Thời gian<span style={{ color: 'red' }}> (*)</span></Typography>
+                        <Grid container item xs={12}>
+                            <Grid item xs={2}>
+                                <Typography variant="h4">Thời gian<span style={{ color: 'red' }}> (*)</span></Typography>
+                            </Grid>
+                            <Grid item>
+                                <CustomizedDatePicker
+                                    format="DD-MM-YYYY"
+                                    label="Từ ngày"
+                                    slotProps={{ textField: { variant: "standard" } }}
+                                    sx={{ marginRight: "35px", width: "200px" }}
+                                    value={timeFrom}
+                                    onChange={(e) => { setTimeFrom(e) }}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <CustomizedDatePicker
+                                    format="DD-MM-YYYY"
+                                    label="Đến ngày"
+                                    slotProps={{ textField: { variant: "standard", height: '58px' } }}
+                                    sx={{
+                                        marginRight: "35px",
+                                        width: "200px",
+                                        //       paddingTop: "10px",
+                                    }}
+                                    value={timeTo}
+                                    onChange={(e) => { setTimeTo(e) }}
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid item>
-                            <CustomizedDatePicker
-                                format="DD-MM-YYYY"
-                                label="Từ ngày"
-                                slotProps={{ textField: { variant: "standard" } }}
-                                sx={{ marginRight: "35px", width: "200px" }}
-                                value={timeFrom}
-                                onChange={(e) => { setTimeFrom(e) }}
-                            />
-                        </Grid>
-                        <Grid item>
-                            <CustomizedDatePicker
-                                format="DD-MM-YYYY"
-                                label="Đến ngày"
-                                slotProps={{ textField: { variant: "standard", height: '58px' } }}
-                                sx={{
-                                    marginRight: "35px",
-                                    width: "200px",
-                                    //       paddingTop: "10px",
-                                }}
-                                value={timeTo}
-                                onChange={(e) => { setTimeTo(e) }}
-                            />
-                        </Grid>
-                    </Grid>
-                    <Grid
-                        item
-                        container
-                        xs={12}
-                        alignItems="center"
-                        wrap="wrap"
-                    //        columnSpacing={3}
-                    >
-                        <Grid item xs={2.8}>
+                        <Grid item xs={2}>
                             <Typography variant="h4">Lý do</Typography>
                         </Grid>
-                        <Grid item>
+                        <Grid item xs={10}>
                             <TextField value={reason} onChange={(e) => { setReason(e.target.value) }}></TextField>
                         </Grid>
-                    </Grid>
                     <Grid item xs={12}>
 
                         <ButtonSearch onclick={handleAdd} title="Xác nhận" border="none" ></ButtonSearch>

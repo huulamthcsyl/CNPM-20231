@@ -343,7 +343,7 @@ export default function ChiTietPhieuThu() {
               Sửa phiếu thu
             </Typography>
           </Button>
-          <NavLink to="/" onClick={() => window.history.back()}>
+          <NavLink onClick={() => window.history.back()}>
             <Button
               variant="contained"
               style={{ backgroundColor: "#FA7070", marginLeft: "30px" }}

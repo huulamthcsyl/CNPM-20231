@@ -5,29 +5,6 @@ import ButtonSearch from "../../Layout/component/ButtonSearch";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ClassApi from '../../Api/Api'
-const theme = createTheme({
-  components: {
-    MuiTypography: {
-      styleOverrides: {
-        root: {
-          fontWeight: "500",
-        },
-      },
-    },
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          padding: "0px 30px",
-          width: "430px",
-          "& .MuiInputBase-input": {
-            fontSize: "20px",
-            padding: "5px",
-          },
-        },
-      },
-    },
-  },
-});
 const headTable = [
   "Số thứ tự",
   "Họ và tên",
@@ -65,27 +42,30 @@ function TamVangPage() {
     }
   }
   return (
-    <Grid container spacing={1} style={{ padding: "50px" }}>
-      <ThemeProvider theme={theme}>
-        <Grid item xs={12}>
-          <Typography variant="h1" fontSize={48} fontWeight="400">
-            Danh sách tạm vắng
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <ButtonAdd
-            title="Đăng ký tạm vắng"
-            icon={src}
-            to="/dangkytamvang"
-          ></ButtonAdd>
-        </Grid>
-        <Grid item container xs={12} alignContent="center" alignItems="center">
-          <Grid item>
-            <Typography variant="h4">Tên cư dân</Typography>
-          </Grid>
-          <TextField value={name} onChange={(e) => { setName(e.target.value) }}></TextField>
-          <ButtonSearch title="Tìm kiếm" onclick={handleFind}></ButtonSearch>
-        </Grid></ThemeProvider>
+    <Grid container spacing={2} style={{ padding: "50px" }}>
+      <Grid item xs={12}>
+        <h1 style={{ fontSize: "48px" }}> Danh sách tạm vắng </h1>
+      </Grid>
+      <Grid item xs={12} style={{marginBottom: 30}}>
+        <ButtonAdd
+          title="Đăng ký tạm vắng"
+          icon={src}
+          to="/dangkytamvang"
+        ></ButtonAdd>
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          label="Tên cư dân"
+          variant="filled"
+          style={{ marginRight: "35px" }}
+          inputProps={{ style: { fontSize: "18px" } }}
+          InputLabelProps={{ style: { fontSize: "20px" } }}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <ButtonSearch title="Tìm kiếm" onclick={handleFind}></ButtonSearch>
+      </Grid>
       <Grid item xs={12}>
         <TableContainer>
           <Table sx={{ minWidth: 650 }}>

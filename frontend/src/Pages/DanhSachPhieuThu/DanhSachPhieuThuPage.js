@@ -97,13 +97,13 @@ export default function DanhSachPhieuThu() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={2} style={{ padding: "50px" }}>
         <Grid item xs={12}>
-          <div style={{ fontSize: "48px" }}> Danh sách phiếu thu </div>
+          <h1 style={{ fontSize: "48px" }}> Danh sách phiếu thu </h1>
         </Grid>
         <Grid item xs={6}>
           <NavLink to="/taophieuthu">
             <Button
               variant="contained"
-              style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+              style={{ backgroundColor: "#79C9FF", marginBottom: 30 }}
             >
               <Typography style={{ marginRight: "8px" }}>
                 <img

@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Button, Typography } from "@mui/material";
+import { Grid, Button, Typography, InputLabel } from "@mui/material";
 import { FormControl, FormGroup, TextField } from "@mui/material";
 import { Table, TableBody, TableCell, TablePagination } from "@mui/material";
 import { TableRow, TableHead, TableContainer } from "@mui/material";
@@ -60,12 +60,11 @@ function QuanLyPhuongTienPage() {
       <Grid item xs={12}>
         <h1 style={{ fontSize: "48px" }}> Quản lý Phương tiện </h1>
       </Grid>
-
       <Grid item xs={12}>
         <NavLink to="/taophuongtien">
           <Button
             variant="contained"
-            style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+            style={{ backgroundColor: "#79C9FF", marginBottom: 30 }}
           >
             <Typography style={{ marginRight: "8px" }}>
               <img
@@ -81,50 +80,41 @@ function QuanLyPhuongTienPage() {
         </NavLink>
       </Grid>
 
-      <Grid item xs={3} container direction="row" alignItems="center">
-        <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
-          Biển kiểm soát
-        </Typography>
+      <Grid item xs={12}>
         <TextField
-          style={{ width: "250px" }}
+          label="Biển kiểm soát"
+          variant="filled"
+          style={{ marginRight: "35px" }}
           inputProps={{ style: { fontSize: "18px" } }}
-          value={licensePlate}
-          onChange={(e) => { setLicensePlate(e.target.value) }}
-        ></TextField>
-      </Grid>
-
-      <Grid item xs={3} container direction="row" alignItems="center">
-        <Typography style={{ fontSize: "24px", marginRight: "110px" }}>
-          Loại xe
-        </Typography>
-        <Select
-          style={{ width: "250px", fontSize: "18px" }}
-          value={category}
-          onChange={(e) => { setCategory(e.target.value) }}
-        >
-          <MenuItem value="" disabled>
-            Chọn loại xe
-          </MenuItem>
-          <MenuItem value="">Tất cả</MenuItem>
-          <MenuItem value="Ô tô">Ô tô</MenuItem>
-          <MenuItem value="Xe máy">Xe máy</MenuItem>
-        </Select>
-      </Grid>
-
-
-
-      <Grid item xs={3} container direction="row" alignItems="center">
-        <Typography style={{ fontSize: "24px", marginRight: "65px" }}>
-          Chủ sở hữu
-        </Typography>
+          InputLabelProps={{ style: { fontSize: "20px" } }}
+          onChange={(e) => setLicensePlate(e.target.value)}
+        />
+        <FormControl style={{ marginRight: "35px" }}>
+          <InputLabel style={{fontSize: 18}} id="type">Loại xe</InputLabel>
+          <Select
+            labelId="type"
+            label="Loại xe"
+            style={{ width: "250px", fontSize: "18px" }}
+            value={category}
+            onChange={(e) => { setCategory(e.target.value) }}
+          >
+            <MenuItem value="" disabled>
+              Chọn loại xe
+            </MenuItem>
+            <MenuItem value="">Tất cả</MenuItem>
+            <MenuItem value="Ô tô">Ô tô</MenuItem>
+            <MenuItem value="Xe máy">Xe máy</MenuItem>
+          </Select>
+        </FormControl>
         <TextField
-          style={{ width: "250px" }}
+          label="Chủ sở hữu"
+          variant="filled"
+          style={{ marginRight: "35px" }}
           inputProps={{ style: { fontSize: "18px" } }}
-          value={ownerName}
-          onChange={(e) => { setOwnerName(e.target.value) }}
-        ></TextField>
+          InputLabelProps={{ style: { fontSize: "20px" } }}
+          onChange={(e) => setOwnerName(e.target.value)}
+        />
       </Grid>
-
       <Grid item xs={12}>
         <Button
           variant="contained"

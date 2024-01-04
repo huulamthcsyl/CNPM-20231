@@ -126,12 +126,12 @@ function DangKyTamVangPage() {
     ClassApi.PostAbsent({
       "absentPersonId": "934a9ac4-42ef-4713-a9f7-88e9308b7ae4",
       "personId": personId,
-      "startTime": timeFrom,
-      "endTime": timeTo,
+      "startTime": timeFrom.hour(12),
+      "endTime": timeTo.hour(12),
       "reason": reason,
       "temporaryStay": address2
     }).then((resp) => {
-      toast.success('Đăng ký tạm vắng  thành công')
+      toast.success('Đăng ký tạm vắng thành công')
     }).catch((error) => {
       toast.error('Đăng ký tạm vắng thất bại')
     })

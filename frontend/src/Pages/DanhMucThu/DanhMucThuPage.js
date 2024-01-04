@@ -73,7 +73,7 @@ export default function DanhMucThu() {
   return (
     <Grid container spacing={2} style={{ padding: "50px" }}>
       <Grid item xs={12}>
-        <div style={{ fontSize: "48px" }}> Danh mục thu </div>
+        <h1 style={{ fontSize: "48px" }}> Danh mục thu </h1>
       </Grid>
       <Grid item xs={6} style={{}}>
         <NavLink to="/taokhoanthu">

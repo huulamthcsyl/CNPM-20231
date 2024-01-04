@@ -108,7 +108,7 @@ function ThemCuDan() {
     const person = {
       residenceId: null,
       name: namePerson.value,
-      dateOfBirth: dayjs(birth).add(7, "hour"),
+      dateOfBirth: dayjs(birth).hour(12),
       identityCardNumber: identityCardNumber.value,
       gender: gender,
       phoneNumber: phoneNumber.value,
@@ -185,246 +185,166 @@ function ThemCuDan() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
       <DemoContainer components={["DateField", "DatePicker"]}>
-        <Grid container spacing={1} style={{ padding: "50px" }}>
+        <Grid container rowSpacing={2} style={{ padding: "50px", paddingTop: '10px' }}>
           <ThemeProvider theme={theme}>
             <Grid item xs={12}>
               <Typography variant="h1" fontSize={48}>
                 Thêm cư dân mới
               </Typography>
             </Grid>
-            <Grid
-              item
-              container
-              xs={12}
-              alignItems="center"
-              wrap="wrap"
-              //   columnSpacing={8}
-            >
-              <Grid item xs={2.5}>
+              <Grid item xs={2}>
                 <Typography variant="h4">
                   Họ và tên<span style={{ color: "red" }}> (*)</span>
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid item xs={10}>
                 <TextField id="name" style={{ width: "280px" }}></TextField>
               </Grid>
-            </Grid>
-            <Grid
-              item
-              container
-              xs={12}
-              direction="row"
-              wrap="wrap"
-              alignItems="center"
-            >
-              <Grid
-                item
-                container
-                xs={12}
-                wrap="nowrap"
-                alignItems={"center"}
-                style={{ marginTop: "10px", marginBottom: "16px" }}
-              >
-                <Grid item xs={2} style={{ marginRight: "48px" }}>
+                <Grid item xs={2}>
                   <Typography variant="h4">
                     Giới tính<span style={{ color: "red" }}> (*)</span>
                   </Typography>
                 </Grid>
-                <Grid item alignItems="center">
-                  <input
-                    id="radio1"
-                    type="radio"
-                    name="gender"
-                    style={{ cursor: "pointer", width: "20px", height: "20px" }}
-                  ></input>
-                  <label
-                    htmlFor="radio1"
-                    style={{ fontSize: "24px", margin: "0px 12px" }}
-                  >
-                    Nam
-                  </label>
+                <Grid container item xs={10}>
+                  <Grid item alignItems="center">
+                    <input
+                      id="radio1"
+                      type="radio"
+                      name="gender"
+                      style={{ cursor: "pointer", width: "20px", height: "20px" }}
+                    ></input>
+                    <label
+                      htmlFor="radio1"
+                      style={{ fontSize: "24px", margin: "0px 12px" }}
+                    >
+                      Nam
+                    </label>
+                  </Grid>
+                  <Grid item alignItems="center">
+                    <input
+                      id="radio2"
+                      type="radio"
+                      name="gender"
+                      style={{ cursor: "pointer", width: "20px", height: "20px" }}
+                    ></input>
+                    <label
+                      htmlFor="radio2"
+                      style={{ fontSize: "24px", margin: "0px 12px" }}
+                    >
+                      Nữ
+                    </label>
+                  </Grid>
                 </Grid>
-                <Grid item alignItems="center">
-                  <input
-                    id="radio2"
-                    type="radio"
-                    name="gender"
-                    style={{ cursor: "pointer", width: "20px", height: "20px" }}
-                  ></input>
-                  <label
-                    htmlFor="radio2"
-                    style={{ fontSize: "24px", margin: "0px 12px" }}
-                  >
-                    Nữ
-                  </label>
-                </Grid>
-              </Grid>
-              <Grid item container alignItems="center" xs={6} spacing={2}>
-                <Grid item>
-                  <Typography variant="h4">
-                    Trạng thái cư trú<span style={{ color: "red" }}> (*)</span>
-                  </Typography>
-                </Grid>
-                <Grid item style={{ marginLeft: "32px" }}>
-                  <Select
-                    labelId="demo-select-small-label"
-                    value={status}
-                    style={{ width: "280px" }}
-                    placeholder="trang thai"
-                    onChange={handleChange}
-                  >
-                    <MenuItem value="Thường trú">
-                      <Typography variant="h5">Thường trú</Typography>
-                    </MenuItem>
-                    <MenuItem value="Tạm trú">
-                      <Typography variant="h5">Tạm trú</Typography>
-                    </MenuItem>
-                  </Select>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid
-              item
-              container
-              wrap="wrap"
-              alignItems="center"
-              style={{ marginTop: "10px" }}
-            >
-              <Grid item xs={2.5}>
+              <Grid item xs={2}>
                 <Typography variant="h4">
-                  Ngày sinh
-                  <span style={{ color: "red" }}> (*)</span>
+                  Trạng thái cư trú<span style={{ color: "red" }}> (*)</span>
                 </Typography>
               </Grid>
-              <Grid item>
-                <CustomizedDatePicker
-                  sx={{
-                    marginRight: "35px",
-                    width: "280px",
-                    paddingTop: "10px",
-                  }}
-                  value={birth}
-                  onChange={(value) => {
-                    setBirth(value);
-                    console.log(value);
-                  }}
-                  format="DD-MM-YYYY"
-                />
-              </Grid>
-            </Grid>
-            <Grid item container wrap="wrap">
-              <Grid
-                item
-                container
-                xs={12}
-                alignItems="center"
-                style={{marginTop: "10px", marginBottom: "20px"}}
-              >
-                <Grid item xs={2.5}>
-                  <Typography variant="h4">
-                    Tỉnh (Thành phố)<span style={{ color: "red" }}> (*)</span>
-                  </Typography>
-                </Grid>
-                <Grid item >
-                  <Select
-                    labelId="select-province"
-                    value={province}
-                    style={{ width: "280px" }}
-                    onChange={handleChange2}
-                  >
-                    {provinces.map((provinc, index) => (
-                      <MenuItem value={provinc} key={index}>
-                        <Typography variant="h5">{provinc.name}</Typography>
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </Grid>
-              </Grid>
-              <Grid
-                item
-                xs="auto"
-                container
-                alignItems="center"
-                spacing={3}
-                style={{marginBottom: "12px"}}
-              >
-                <Grid item>
-                  <Typography variant="h4">
-                    Huyện (Quận)<span style={{ color: "red" }}> (*)</span>
-                  </Typography>
-                </Grid>
-                <Grid item style={{ marginLeft: "50px" }}>
-                  <Select
-                    labelId="select-district"
-                    value={district}
-                    style={{ width: "280px" }}
-                    onChange={handleChange3}
-                  >
-                    {districts.map((distric, index) => (
-                      <MenuItem value={distric} key={index}>
-                        <Typography variant="h5">{distric.name}</Typography>
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              container
-              wrap="nowrap"
-              alignItems="center"
-              style={{marginBottom: "12px"}}
-
-            >
-              <Grid item xs={2.5}>
-                <Typography variant="h4">
-                  Xã (Phường)<span style={{ color: "red" }}> (*)</span>
-                </Typography>
-              </Grid>
-              <Grid item >
+              <Grid item xs={10}>
                 <Select
-                  labelId="select-village"
-                  value={village}
+                  labelId="demo-select-small-label"
+                  value={status}
                   style={{ width: "280px" }}
-                  onChange={handleChange4}
+                  placeholder="trang thai"
+                  onChange={handleChange}
                 >
-                  {villages.map((villag, index) => (
-                    <MenuItem value={villag} key={index}>
-                      <Typography variant="h5">{villag.name}</Typography>
+                  <MenuItem value="Thường trú">
+                    <Typography variant="h5">Thường trú</Typography>
+                  </MenuItem>
+                  <MenuItem value="Tạm trú">
+                    <Typography variant="h5">Tạm trú</Typography>
+                  </MenuItem>
+                </Select>
+              </Grid>
+            <Grid item xs={2} style={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant="h4">
+                Ngày sinh
+                <span style={{ color: "red" }}> (*)</span>
+              </Typography>
+            </Grid>
+            <Grid item xs={10}>
+              <CustomizedDatePicker
+                sx={{
+                  marginRight: "35px",
+                  width: "200px",
+                  paddingTop: "10px",
+                }}
+                value={birth}
+                onChange={(value) => {
+                  setBirth(value);
+                  console.log(value);
+                }}
+                format="DD-MM-YYYY"
+              />
+            </Grid>
+              <Grid item xs={2}>
+                <Typography variant="h4">
+                  Tỉnh (Thành phố)<span style={{ color: "red" }}> (*)</span>
+                </Typography>
+              </Grid>
+              <Grid item xs={10}>
+                <Select
+                  labelId="select-province"
+                  value={province}
+                  style={{ width: "280px" }}
+                  onChange={handleChange2}
+                >
+                  {provinces.map((provinc, index) => (
+                    <MenuItem value={provinc} key={index}>
+                      <Typography variant="h5">{provinc.name}</Typography>
                     </MenuItem>
                   ))}
                 </Select>
               </Grid>
+              <Grid item xs={2}>
+                <Typography variant="h4">
+                  Huyện (Quận)<span style={{ color: "red" }}> (*)</span>
+                </Typography>
+              </Grid>
+              <Grid item xs={10}>
+                <Select
+                  labelId="select-district"
+                  value={district}
+                  style={{ width: "280px" }}
+                  onChange={handleChange3}
+                >
+                  {districts.map((distric, index) => (
+                    <MenuItem value={distric} key={index}>
+                      <Typography variant="h5">{distric.name}</Typography>
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+            <Grid item xs={2}>
+              <Typography variant="h4">
+                Xã (Phường)<span style={{ color: "red" }}> (*)</span>
+              </Typography>
             </Grid>
-            <Grid
-              item
-              container
-              xs={12}
-              alignItems="center"
-              style={{marginBottom: "12px"}}
-            >
-              <Grid item xs={2.5}>
-                <Typography variant="h4">CCCD</Typography>
-              </Grid>
-              <Grid item>
-                <TextField id="cccd" style={{width: "280px"}}></TextField>
-              </Grid>
+            <Grid item xs={10}>
+              <Select
+                labelId="select-village"
+                value={village}
+                style={{ width: "280px" }}
+                onChange={handleChange4}
+              >
+                {villages.map((villag, index) => (
+                  <MenuItem value={villag} key={index}>
+                    <Typography variant="h5">{villag.name}</Typography>
+                  </MenuItem>
+                ))}
+              </Select>
             </Grid>
-            <Grid
-              item
-              container
-              xs={12}
-              alignItems="center"
-              style={{marginBottom: "12px"}}
-            >
-              <Grid item xs={2.5}>
-                <Typography variant="h4">Số điện thoại</Typography>
-              </Grid>
-              <Grid item>
-                <TextField id="phoneNumber" style={{width: "280px"}}></TextField>
-              </Grid>
+            <Grid item xs={2}>
+              <Typography variant="h4">CCCD</Typography>
+            </Grid>
+            <Grid item xs={10}>
+              <TextField id="cccd" style={{ width: "280px" }}></TextField>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography variant="h4">Số điện thoại</Typography>
+            </Grid>
+            <Grid item xs={10}>
+              <TextField id="phoneNumber" style={{ width: "280px" }}></TextField>
             </Grid>
             <Grid item xs={12}>
               <ButtonSearch
@@ -441,7 +361,7 @@ function ThemCuDan() {
                     margin: "30px 30px",
                   }}
                 >
-                  <Typography variant="h4" style={{ color: "black", fontWeight: "400"}}>
+                  <Typography variant="h4" style={{ color: "black", fontWeight: "400" }}>
                     Quay lại
                   </Typography>
                 </Button>

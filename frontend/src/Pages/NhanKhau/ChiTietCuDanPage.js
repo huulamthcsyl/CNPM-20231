@@ -157,7 +157,7 @@ function ThemCuDan() {
       personId: param.id,
       name: name,
       residenceId: resid,
-      dateOfBirth: birth,
+      dateOfBirth: birth.hour(12),
       identityCardNumber: cccd,
       gender: gender,
       phoneNumber: phoneNumber,
@@ -214,135 +214,101 @@ function ThemCuDan() {
   }, [district]);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="vi">
-      {!loading && <Grid container spacing={1} style={{ padding: "50px" }}>
+      {!loading && <Grid container rowSpacing={2} style={{ padding: "50px" }}>
         <ThemeProvider theme={theme}>
           <Grid item xs={12}>
             <Typography variant="h1" fontSize={48}>
               Chi tiết cư dân
             </Typography>
           </Grid>
-          <Grid
-            item
-            container
-            xs={12}
-            alignItems="center"
-            wrap="wrap"
-          //        columnSpacing={8}
-          >
-            <Grid item xs={2.5}>
+          <Grid item xs={2}>
+            <Typography variant="h4">
+              Họ và tên<span style={{ color: "red" }}> (*)</span>
+            </Typography>
+          </Grid>
+          <Grid item xs={10}>
+            <TextField
+              onChange={handleChangeName}
+              value={name}
+              style={{ width: "280px" }}
+            ></TextField>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography variant="h4">
+              Giới tính<span style={{ color: "red" }}> (*)</span>
+            </Typography>
+          </Grid>
+          <Grid item xs={10}>
+            <RadioGroup
+              name="radio-buttons-group"
+              value={gender}
+              onChange={(e) => {
+                setGender(e.target.value);
+              }}
+              style={{ display: "inline" }}
+            >
+              <FormControlLabel
+                value={true}
+                control={<Radio />}
+                label=<Typography variant="h4" fontWeight={400}>
+                  Nam
+                </Typography>
+              />
+              <FormControlLabel
+                value={false}
+                control={<Radio />}
+                label=<Typography variant="h4" fontWeight={400}>
+                  Nữ
+                </Typography>
+              />
+            </RadioGroup>
+          </Grid>
+            <Grid item xs={2}>
               <Typography variant="h4">
-                Họ và tên<span style={{ color: "red" }}> (*)</span>
+                Trạng thái cư trú<span style={{ color: "red" }}> (*)</span>
               </Typography>
             </Grid>
-            <Grid item>
-              <TextField
-                onChange={handleChangeName}
-                value={name}
-                style={{ width: "280px" }}
-              ></TextField>
+            <Grid item xs={10}>
+              {status == "Tạm Vắng" ? (
+                <Select
+                  labelId="demo-select-small-label"
+                  value="Tạm Vắng"
+                  style={{ width: "280px" }}
+                  placeholder="trang thai"
+                  onChange={handleChange}
+                  disabled
+                >
+                  <MenuItem value="Tạm Vắng">
+                    <Typography variant="h5">Tạm vắng</Typography>
+                  </MenuItem>
+                </Select>
+              ) : (
+                <Select
+                  labelId="demo-select-small-label"
+                  value={status}
+                  style={{ width: "280px" }}
+                  placeholder="trang thai"
+                  onChange={handleChange}
+                >
+                  <MenuItem value="Thường trú">
+                    <Typography variant="h5">Thường trú</Typography>
+                  </MenuItem>
+                  <MenuItem value="Tạm trú">
+                    <Typography variant="h5">Tạm trú</Typography>
+                  </MenuItem>
+                </Select>
+              )}
             </Grid>
-          </Grid>
-          <Grid
-            item
-            container
-            xs={12}
-            direction="row"
-            wrap="wrap"
-            alignItems="center"
-          >
-            <Grid
-              item
-              container
-              xs={12}
-              wrap="nowrap"
-              alignItems="center"
-              style={{ marginTop: "10px", marginBottom: "16px" }}
-            >
-              <Grid item xs={2} style={{ marginRight: "48px" }}>
-                <Typography variant="h4">
-                  Giới tính<span style={{ color: "red" }}> (*)</span>
-                </Typography>
-              </Grid>
-              <RadioGroup
-                name="radio-buttons-group"
-                value={gender}
-                onChange={(e) => {
-                  setGender(e.target.value);
-                }}
-                style={{ display: "inline" }}
-              >
-                <FormControlLabel
-                  value={true}
-                  control={<Radio />}
-                  label=<Typography variant="h4" fontWeight={400}>
-                    Nam
-                  </Typography>
-                />
-                <FormControlLabel
-                  value={false}
-                  control={<Radio />}
-                  label=<Typography variant="h4" fontWeight={400}>
-                    Nữ
-                  </Typography>
-                />
-              </RadioGroup>
-            </Grid>
-            <Grid item container alignItems="center" xs={6} spacing={2}>
-              <Grid item>
-                <Typography variant="h4">
-                  Trạng thái cư trú<span style={{ color: "red" }}> (*)</span>
-                </Typography>
-              </Grid>
-              <Grid item style={{ marginLeft: "32px" }}>
-                {status == "Tạm Vắng" ? (
-                  <Select
-                    labelId="demo-select-small-label"
-                    value="Tạm Vắng"
-                    style={{ width: "280px" }}
-                    placeholder="trang thai"
-                    onChange={handleChange}
-                    disabled
-                  >
-                    <MenuItem value="Tạm Vắng">
-                      <Typography variant="h5">Tạm vắng</Typography>
-                    </MenuItem>
-                  </Select>
-                ) : (
-                  <Select
-                    labelId="demo-select-small-label"
-                    value={status}
-                    style={{ width: "280px" }}
-                    placeholder="trang thai"
-                    onChange={handleChange}
-                  >
-                    <MenuItem value="Thường trú">
-                      <Typography variant="h5">Thường trú</Typography>
-                    </MenuItem>
-                    <MenuItem value="Tạm trú">
-                      <Typography variant="h5">Tạm trú</Typography>
-                    </MenuItem>
-                  </Select>
-                )}
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid
-            item
-            container
-            alignItems="center"
-            style={{ marginTop: "10px", marginBottom: "10px" }}
-          >
-            <Grid item xs={2.5}>
+            <Grid item xs={2} style={{display: 'flex', alignItems: 'center'}}>
               <Typography variant="h4">
                 Ngày sinh<span style={{ color: "red" }}> (*)</span>
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid item xs={10}>
               <CustomizedDatePicker
                 sx={{
                   marginRight: "35px",
-                  width: "280px",
-                  // paddingTop: "10px",
+                  width: "200px",
                 }}
                 value={birth}
                 onChange={(value) => {
@@ -351,15 +317,12 @@ function ThemCuDan() {
                 format="DD-MM-YYYY"
               />
             </Grid>
-          </Grid>
-          <Grid item container>
-            <Grid item container xs={12} alignItems="center" style={{ marginBottom: "15px" }}>
-              <Grid item xs={2.5}>
+              <Grid item xs={2}>
                 <Typography variant="h4">
                   Tỉnh (Thành phố)<span style={{ color: "red" }}> (*)</span>
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid item xs={10}>
                 <Select
                   labelId="select-province"
                   value={province}
@@ -373,21 +336,12 @@ function ThemCuDan() {
                   ))}
                 </Select>
               </Grid>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              container
-              alignItems="center"
-              spacing={3}
-              style={{ marginBottom: "10px" }}
-            >
               <Grid item xs={2}>
                 <Typography variant="h4">
                   Huyện (Quận)<span style={{ color: "red" }}> (*)</span>
                 </Typography>
               </Grid>
-              <Grid item style={{ marginLeft: "43px" }}>
+              <Grid item xs={10}>
                 <Select
                   labelId="select-district"
                   value={district}
@@ -401,23 +355,12 @@ function ThemCuDan() {
                   ))}
                 </Select>
               </Grid>
-            </Grid>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            container
-            wrap="nowrap"
-            alignItems="center"
-            style={{ marginBottom: "10px" }}
-          //     spacing={3}
-          >
-            <Grid item xs={2.5}>
+            <Grid item xs={2}>
               <Typography variant="h4">
                 Xã (Phường)<span style={{ color: "red" }}> (*)</span>
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid item xs={10}>
               <Select
                 labelId="select-village"
                 value={village}
@@ -431,20 +374,10 @@ function ThemCuDan() {
                 ))}
               </Select>
             </Grid>
-          </Grid>
-          <Grid
-            item
-            container
-            xs={12}
-            alignItems="center"
-            wrap="wrap"
-            style={{ marginBottom: "10px" }}
-          //     columnSpacing={12}
-          >
-            <Grid item xs={2.5}>
+            <Grid item xs={2}>
               <Typography variant="h4">CCCD</Typography>
             </Grid>
-            <Grid item>
+            <Grid item xs={10}>
               <TextField
                 value={cccd}
                 onChange={(e) => {
@@ -453,19 +386,10 @@ function ThemCuDan() {
                 style={{ width: "280px" }}
               ></TextField>
             </Grid>
-          </Grid>
-          <Grid
-            item
-            container
-            xs={12}
-            alignItems="center"
-            wrap="wrap"
-          //        columnSpacing={3}
-          >
-            <Grid item xs={2.5}>
+            <Grid item xs={2}>
               <Typography variant="h4">Số điện thoại</Typography>
             </Grid>
-            <Grid item>
+            <Grid item xs={10}>
               <TextField
                 value={phoneNumber}
                 onChange={(e) => {
@@ -474,15 +398,14 @@ function ThemCuDan() {
                 style={{ width: "280px" }}
               ></TextField>
             </Grid>
-          </Grid>
-          <Grid xs={2}>
+          <Grid item xs={2}>
             <ButtonSearch
               title="Xác nhận"
               border="none"
               onclick={handleChangeInfo}
             ></ButtonSearch>
           </Grid>
-          <Grid>
+          <Grid item >
             <NavLink to="/nhankhau">
               <Button
                 variant="contained"

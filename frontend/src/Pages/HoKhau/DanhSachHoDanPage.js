@@ -18,29 +18,7 @@ import ButtonSearch from "../../Layout/component/ButtonSearch";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ClassAPi from '../../Api/Api'
-const theme = createTheme({
-  components: {
-    MuiTypography: {
-      styleOverrides: {
-        root: {
-          fontWeight: "500",
-        },
-      },
-    },
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          padding: "0px 30px",
-          width: "300px",
-          "& .MuiInputBase-input": {
-            fontSize: "20px",
-            padding: "5px",
-          },
-        },
-      },
-    },
-  },
-});
+
 const tableHead = [
   { name: "Số thứ tự" },
   { name: "Tên chủ hộ" },
@@ -76,38 +54,35 @@ function HoKhau() {
   }
   return (
     <Grid container spacing={2} style={{ padding: "50px" }}>
-      <ThemeProvider theme={theme}>
-        <Grid xs={12}>
-          <div style={{ fontSize: "48px", paddingLeft: "16px" }}>
-            Danh sách hộ dân
-          </div>
-        </Grid>
-        <Grid item xs={12}>
-          <ButtonAdd to="/themhodan" title="Thêm hộ dân"></ButtonAdd>
-        </Grid>
-        <Grid item xs={12}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              flexWrap: "wrap",
-            }}
-          >
-            <Typography variant="h4">Tên chủ hộ</Typography>
-            <TextField value={ownerName} onChange={(e) => { setOwnerName(e.target.value) }}></TextField>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Typography variant="h4">Nơi thường trú</Typography>
-              <TextField value={address} onChange={(e) => { setAddress(e.target.value) }}></TextField>
-            </div>
-            <ButtonSearch onclick={handleSearch} title="Tìm kiếm"></ButtonSearch>
-          </div>
-        </Grid>
-      </ThemeProvider>
+      <Grid item xs={12}>
+        <h1 style={{ fontSize: "48px" }}>
+          Danh sách hộ dân
+        </h1>
+      </Grid>
+      <Grid item xs={12} style={{marginBottom: 30}}>
+        <ButtonAdd to="/themhodan" title="Thêm hộ dân"></ButtonAdd>
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          label="Tên chủ hộ"
+          variant="filled"
+          style={{ marginRight: "35px" }}
+          inputProps={{ style: { fontSize: "18px" } }}
+          InputLabelProps={{ style: { fontSize: "20px" } }}
+          onChange={(e) => setOwnerName(e.target.value)}
+        />
+        <TextField
+          label="Nơi thường trú"
+          variant="filled"
+          style={{ marginRight: "35px" }}
+          inputProps={{ style: { fontSize: "18px" } }}
+          InputLabelProps={{ style: { fontSize: "20px" } }}
+          onChange={(e) => setOwnerName(e.target.value)}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <ButtonSearch onclick={handleSearch} title="Tìm kiếm"></ButtonSearch>
+      </Grid>
       <Grid item xs={12}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }}>

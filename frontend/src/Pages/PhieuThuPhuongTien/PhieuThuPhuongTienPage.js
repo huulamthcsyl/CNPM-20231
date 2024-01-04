@@ -107,7 +107,7 @@ function PhieuThuPhuongTienPage() {
                     <NavLink to="/taophieuthuphuongtien">
                         <Button
                             variant="contained"
-                            style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+                            style={{ backgroundColor: "#79C9FF", marginBottom: 30 }}
                         >
                             <Typography style={{ marginRight: "8px" }}>
                                 <img
