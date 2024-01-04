@@ -51,7 +51,7 @@ const theme = createTheme({
 });
 function ChiTietTamVangPage() {
     const [status, setStatus] = useState("");
-
+    const [loading, setLoading] = useState(true)
     const handleChange = (event) => {
         setStatus(event.target.value);
     };
@@ -99,6 +99,7 @@ function ChiTietTamVangPage() {
             setReason(info.absent.reason)
             setAddress1(info.person.homeTown)
             setPersonId(info.person.personId)
+            setLoading(false)
         })
     }, [])
 
@@ -129,7 +130,7 @@ function ChiTietTamVangPage() {
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Grid container spacing={1} style={{ padding: "50px" }} rowSpacing={2}>
+            {!loading && <Grid container spacing={1} style={{ padding: "50px" }} rowSpacing={2}>
                 <ThemeProvider theme={theme}>
                     <Grid item xs={12}>
                         <Typography variant="h1" fontSize={48}>
@@ -355,7 +356,8 @@ function ChiTietTamVangPage() {
                         </NavLink>
                     </Grid>
                 </ThemeProvider>
-            </Grid>
+            </Grid>}
+
         </LocalizationProvider>
     );
 }

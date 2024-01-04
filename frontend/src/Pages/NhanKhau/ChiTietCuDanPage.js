@@ -63,15 +63,16 @@ function ThemCuDan() {
     name: "",
     gender: true,
     residenceId: "",
-    status: "Thường trú",
-    dateOfBirth: "2021-05-04T00:00:00",
-    province: "Hà Nội",
-    district: "Quận Hai Bà Trưng",
-    village: "Phường Bách Khoa",
+    status: "",
+    dateOfBirth: "",
+    province: "",
+    district: "",
+    village: "",
     ownerRelationship: "Chủ nhà",
     phoneNumber: "",
     identityCardNumber: "",
   });
+  const [loading, setLoading] = useState(true)
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [villages, setVillages] = useState([]);
@@ -124,6 +125,7 @@ function ThemCuDan() {
       let address = response.data.homeTown.split(",");
       setProvince(address[2].trim());
       setAddr(address);
+      setLoading(false)
     });
   }, []);
   const handleChangeInfo = () => {
@@ -212,7 +214,7 @@ function ThemCuDan() {
   }, [district]);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="vi">
-      <Grid container spacing={1} style={{ padding: "50px" }}>
+      {!loading && <Grid container spacing={1} style={{ padding: "50px" }}>
         <ThemeProvider theme={theme}>
           <Grid item xs={12}>
             <Typography variant="h1" fontSize={48}>
@@ -225,7 +227,7 @@ function ThemCuDan() {
             xs={12}
             alignItems="center"
             wrap="wrap"
-            //        columnSpacing={8}
+          //        columnSpacing={8}
           >
             <Grid item xs={2.5}>
               <Typography variant="h4">
@@ -351,7 +353,7 @@ function ThemCuDan() {
             </Grid>
           </Grid>
           <Grid item container>
-            <Grid item container xs={12} alignItems="center" style={{marginBottom: "15px"}}>
+            <Grid item container xs={12} alignItems="center" style={{ marginBottom: "15px" }}>
               <Grid item xs={2.5}>
                 <Typography variant="h4">
                   Tỉnh (Thành phố)<span style={{ color: "red" }}> (*)</span>
@@ -378,7 +380,7 @@ function ThemCuDan() {
               container
               alignItems="center"
               spacing={3}
-              style={{marginBottom: "10px"}}
+              style={{ marginBottom: "10px" }}
             >
               <Grid item xs={2}>
                 <Typography variant="h4">
@@ -407,8 +409,8 @@ function ThemCuDan() {
             container
             wrap="nowrap"
             alignItems="center"
-            style={{marginBottom: "10px"}}
-            //     spacing={3}
+            style={{ marginBottom: "10px" }}
+          //     spacing={3}
           >
             <Grid item xs={2.5}>
               <Typography variant="h4">
@@ -436,8 +438,8 @@ function ThemCuDan() {
             xs={12}
             alignItems="center"
             wrap="wrap"
-            style={{marginBottom: "10px"}}
-            //     columnSpacing={12}
+            style={{ marginBottom: "10px" }}
+          //     columnSpacing={12}
           >
             <Grid item xs={2.5}>
               <Typography variant="h4">CCCD</Typography>
@@ -458,7 +460,7 @@ function ThemCuDan() {
             xs={12}
             alignItems="center"
             wrap="wrap"
-            //        columnSpacing={3}
+          //        columnSpacing={3}
           >
             <Grid item xs={2.5}>
               <Typography variant="h4">Số điện thoại</Typography>
@@ -500,7 +502,8 @@ function ThemCuDan() {
             </NavLink>
           </Grid>
         </ThemeProvider>
-      </Grid>
+      </Grid>}
+
     </LocalizationProvider>
   );
 }

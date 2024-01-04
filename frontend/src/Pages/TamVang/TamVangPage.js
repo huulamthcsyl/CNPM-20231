@@ -39,27 +39,6 @@ const headTable = [
 function TamVangPage() {
   const [name, setName] = useState('')
   const [people, setPeople] = useState([
-    {
-      "absent": {
-        "absentPersonId": "",
-        "personId": "",
-        "startTime": "",
-        "endTime": "",
-        "reason": ""
-      },
-      "person": {
-        "personId": "",
-        "residenceId": null,
-        "name": "",
-        "dateOfBirth": "",
-        "identityCardNumber": "",
-        "gender": false,
-        "phoneNumber": "",
-        "homeTown": "",
-        "ownerRelationship": null,
-        "status": ""
-      }
-    },
   ]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
