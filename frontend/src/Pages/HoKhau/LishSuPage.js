@@ -5,7 +5,7 @@ import { NavLink, useParams } from "react-router-dom";
 const headers = [
     "STT",
     "Họ và tên",
-    "Ngày, tháng, năm sinh",
+    "Ngày sinh",
     "Số CCCD",
     "Quan hệ với chủ hộ",
     "Ngày thay đổi",
@@ -48,7 +48,7 @@ function LichSuPage() {
                         style: {
                             fontSize: "18px", // Thiết lập kích thước chữ
                         },
-                    }} value={name} disabled>Nguyễn văn a</TextField>
+                    }} value={name} readOnly="true"></TextField>
                 </Grid>
             </Grid>
             <Grid item container xs={12} alignItems='center'>
@@ -56,11 +56,11 @@ function LichSuPage() {
                     <Typography style={{ fontSize: '22px' }}>Nơi thường trú</Typography>
                 </Grid>
                 <Grid item>
-                    <TextField style={{ width: '500px' }} InputProps={{
+                    <TextField style={{ width: '400px' }} InputProps={{
                         style: {
                             fontSize: "18px", // Thiết lập kích thước chữ
                         },
-                    }} value={address} disabled>P01.02.10</TextField>
+                    }} value={address} readOnly="true"></TextField>
                 </Grid>
             </Grid>
             <Grid container item xs={12}>
@@ -72,7 +72,7 @@ function LichSuPage() {
                         <TableRow>
                             {headers.map((column, index) => (
                                 <TableCell key={index}>
-                                    <Typography variant="h5" style={{ fontWeight: "bold" }}>
+                                    <Typography variant="h4" style={{ fontWeight: "bold" }}>
                                         {column}
                                     </Typography>
                                 </TableCell>
@@ -120,7 +120,7 @@ function LichSuPage() {
                         <tr>
                             <TablePagination
                                 rowsPerPageOptions={[5, 8, 10, { label: "All", value: -1 }]}
-                                colSpan={6}
+                                // colSpan={6}
                                 count={listRecord.length}
                                 rowsPerPage={rowsPerPage}
                                 page={page}

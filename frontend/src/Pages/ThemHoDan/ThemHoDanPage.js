@@ -24,7 +24,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 const headers = [
   "STT",
   "Họ và tên",
-  "Ngày, tháng, năm sinh",
+  "Ngày sinh",
   "Số CMT/CCCD",
   "Quan hệ với chủ hộ",
   " ",
@@ -187,7 +187,7 @@ function ThemHoDan() {
               <AutoComplete
                 optionList={personShrinkList}
                 onChange={handleChangeName2}
-                width={400}
+                width={500}
               ></AutoComplete>
             </Grid>
 
@@ -201,7 +201,7 @@ function ThemHoDan() {
           >
             <Grid item xs={5} sm={3.2}>
               <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
-                Nơi thường trú<span style={{ color: 'red' }}>(*)</span>
+                Nơi thường trú<span style={{ color: 'red' }}> (*)</span>
               </Typography>
             </Grid>
             <Grid item style={{ marginTop: "10px", marginBottom: "10px" }}>
@@ -226,7 +226,7 @@ function ThemHoDan() {
                 <TableRow>
                   {headers.map((column, index) => (
                     <TableCell key={index}>
-                      <Typography variant="h5" style={{ fontWeight: "bold" }}>
+                      <Typography variant="h4" style={{ fontWeight: "bold" }}>
                         {column}
                       </Typography>
                     </TableCell>

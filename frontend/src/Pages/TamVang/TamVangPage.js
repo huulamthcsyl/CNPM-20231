@@ -31,8 +31,8 @@ const theme = createTheme({
 const headTable = [
   "Số thứ tự",
   "Họ và tên",
-  "Ngày, tháng, năm sinh",
-  "Số CCCD",
+  "Ngày sinh",
+  "Số CMT/CCCD",
   "",
 ];
 
@@ -89,7 +89,7 @@ function TamVangPage() {
     <Grid container spacing={1} style={{ padding: "50px" }}>
       <ThemeProvider theme={theme}>
         <Grid item xs={12}>
-          <Typography variant="h1" fontSize={48} fontWeight="600">
+          <Typography variant="h1" fontSize={48} fontWeight="400">
             Danh sách tạm vắng
           </Typography>
         </Grid>
@@ -100,12 +100,9 @@ function TamVangPage() {
             to="/dangkytamvang"
           ></ButtonAdd>
         </Grid>
-        <Grid item xs={12}>
-          <Typography variant="h4">Tìm kiếm</Typography>
-        </Grid>
         <Grid item container xs={12} alignContent="center" alignItems="center">
           <Grid item>
-            <Typography variant="h4">Tên</Typography>
+            <Typography variant="h4">Tên cư dân</Typography>
           </Grid>
           <TextField value={name} onChange={(e) => { setName(e.target.value) }}></TextField>
           <ButtonSearch title="Tìm kiếm" onclick={handleFind}></ButtonSearch>
@@ -117,7 +114,7 @@ function TamVangPage() {
               <TableRow>
                 {headTable.map((item, index) => (
                   <TableCell key={index}>
-                    <Typography variant="h5">{item}</Typography>
+                    <Typography variant="h4" style={{ fontWeight: "bold" }}>{item}</Typography>
                   </TableCell>
                 ))}
               </TableRow>

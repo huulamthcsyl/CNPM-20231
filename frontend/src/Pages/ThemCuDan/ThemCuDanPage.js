@@ -20,9 +20,9 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { startOfDay } from "date-fns";
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import './date.css'
-const API_ADDRESS = 'https://provinces.open-api.vn/';
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import "./date.css";
+const API_ADDRESS = "https://provinces.open-api.vn/";
 const theme = createTheme({
   components: {
     MuiTypography: {
@@ -61,7 +61,7 @@ const CustomizedDatePicker = styled(DatePicker)`
  
 `;
 function ThemCuDan() {
-  const [birth, setBirth] = useState()
+  const [birth, setBirth] = useState();
   const addPerson = () => {
     var gender = true;
 
@@ -70,65 +70,68 @@ function ThemCuDan() {
 
     if (radioElement.checked) {
     } else {
-      gender = false
+      gender = false;
     }
-    var dateBirthElement = document.getElementById('datebirth')
-    var namePerson = document.getElementById('name')
-    var identityCardNumber = document.getElementById('cccd')
-    var phoneNumber = document.getElementById('phoneNumber')
-    if (namePerson.value == null || namePerson.value == '') {
-      toast.warn('Hãy nhập họ và tên!')
-      return
+    var dateBirthElement = document.getElementById("datebirth");
+    var namePerson = document.getElementById("name");
+    var identityCardNumber = document.getElementById("cccd");
+    var phoneNumber = document.getElementById("phoneNumber");
+    if (namePerson.value == null || namePerson.value == "") {
+      toast.warn("Hãy nhập họ và tên!");
+      return;
     }
     if (!radioElement.checked && !radioElement2.checked) {
-      toast.warn('Hãy chọn giới tính!')
-      return
+      toast.warn("Hãy chọn giới tính!");
+      return;
     }
-    if (status == null || status == '') {
-      toast.warn('Hãy chọn trạng thái cư trú!')
-      return
+    if (status == null || status == "") {
+      toast.warn("Hãy chọn trạng thái cư trú!");
+      return;
     }
-    if (birth == null || birth == '') {
-      toast.warn('Hãy chọn ngày sinh!')
-      return
+    if (birth == null || birth == "") {
+      toast.warn("Hãy chọn ngày sinh!");
+      return;
     }
-    if (province == null || province == '') {
-      toast.warn('Hãy chọn tỉnh thành!')
-      return
+    if (province == null || province == "") {
+      toast.warn("Hãy chọn tỉnh thành!");
+      return;
     }
-    if (district == null || district == '') {
-      toast.warn('Hãy chọn quận huyện!')
-      return
+    if (district == null || district == "") {
+      toast.warn("Hãy chọn quận huyện!");
+      return;
     }
-    if (village == null || village == '') {
-      toast.warn('Hãy chọn xã-phường!')
-      return
+    if (village == null || village == "") {
+      toast.warn("Hãy chọn xã-phường!");
+      return;
     }
     // const updatedDate = dayjs(birth).add(7, 'hour');
     const person = {
-      "residenceId": null, "name": namePerson.value,
-      "dateOfBirth": dayjs(birth).add(7, 'hour'),
-      "identityCardNumber": identityCardNumber.value,
-      "gender": gender,
-      "phoneNumber": phoneNumber.value,
-      "homeTown": village.name + ', ' + district.name + ', ' + province.name,
-      "ownerRelationship": null,
-      "status": status
-    }
+      residenceId: null,
+      name: namePerson.value,
+      dateOfBirth: dayjs(birth).add(7, "hour"),
+      identityCardNumber: identityCardNumber.value,
+      gender: gender,
+      phoneNumber: phoneNumber.value,
+      homeTown: village.name + ", " + district.name + ", " + province.name,
+      ownerRelationship: null,
+      status: status,
+    };
     // console.log(person)
     const headers = {
-      'access-control-allow-origin': '*',
-      'content-type': 'application/json; charset=utf-8 '
-    }
-    ClassApi.PostPerson(person).then((response) => {
-      console.log(person)
-      toast.success('thêm thành công')
-      // console.log(response.data)
-    }).catch((error) => {
-      toast.error('thêm thất bại')
-      console.error('Error fetching data:', error);
-    });
-  }
+      "access-control-allow-origin": "*",
+      "content-type": "application/json; charset=utf-8 ",
+    };
+    ClassApi.PostPerson(person)
+      .then((response) => {
+        console.log(person);
+        toast.success("thêm thành công");
+        // console.log(response.data)
+      })
+      .catch((error) => {
+        toast.error("thêm thất bại");
+        console.error("Error fetching data:", error);
+      });
+  };
   const [status, setStatus] = useState("");
 
   const handleChange = (event) => {
@@ -138,7 +141,7 @@ function ThemCuDan() {
 
   const handleChange2 = (event) => {
     setProvince(event.target.value);
-    setVillages([])
+    setVillages([]);
   };
   const [district, setDistrict] = useState(null);
 
@@ -150,20 +153,18 @@ function ThemCuDan() {
   const [districts, setDistricts] = useState([]);
   const [villages, setVillages] = useState([]);
   const headers = {
-    'Access-Control-Allow-Origin': '*'
+    "Access-Control-Allow-Origin": "*",
   };
   useEffect(() => {
-
-    axios.get(API_ADDRESS + "api/?depth=1")
-      .then(response => {
-        setProvinces(response.data);
-      });
+    axios.get(API_ADDRESS + "api/?depth=1").then((response) => {
+      setProvinces(response.data);
+    });
   }, []);
   useEffect(() => {
     if (province) {
-
-      axios.get(API_ADDRESS + "api/p/" + province.code + "?depth=2")
-        .then(response => {
+      axios
+        .get(API_ADDRESS + "api/p/" + province.code + "?depth=2")
+        .then((response) => {
           setDistricts(response.data.districts);
         });
     }
@@ -173,16 +174,17 @@ function ThemCuDan() {
   };
   useEffect(() => {
     if (district) {
-      axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-      axios.get(API_ADDRESS + "api/d/" + district.code + "?depth=2")
-        .then(response => {
+      axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
+      axios
+        .get(API_ADDRESS + "api/d/" + district.code + "?depth=2")
+        .then((response) => {
           setVillages(response.data.wards);
         });
     }
   }, [district]);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
-      <DemoContainer components={['DateField', 'DatePicker']}>
+      <DemoContainer components={["DateField", "DatePicker"]}>
         <Grid container spacing={1} style={{ padding: "50px" }}>
           <ThemeProvider theme={theme}>
             <Grid item xs={12}>
@@ -196,13 +198,15 @@ function ThemCuDan() {
               xs={12}
               alignItems="center"
               wrap="wrap"
-            //   columnSpacing={8}
+              //   columnSpacing={8}
             >
               <Grid item xs={2.5}>
-                <Typography variant="h4">Họ và tên<span style={{ color: 'red' }}> (*)</span></Typography>
+                <Typography variant="h4">
+                  Họ và tên<span style={{ color: "red" }}> (*)</span>
+                </Typography>
               </Grid>
               <Grid item>
-                <TextField id='name'></TextField>
+                <TextField id="name" style={{ width: "280px" }}></TextField>
               </Grid>
             </Grid>
             <Grid
@@ -213,9 +217,18 @@ function ThemCuDan() {
               wrap="wrap"
               alignItems="center"
             >
-              <Grid item container xs={6} wrap="nowrap">
-                <Grid item xs={5}>
-                  <Typography variant="h4">Giới tính<span style={{ color: 'red' }}> (*)</span></Typography>
+              <Grid
+                item
+                container
+                xs={12}
+                wrap="nowrap"
+                alignItems={"center"}
+                style={{ marginTop: "10px", marginBottom: "16px" }}
+              >
+                <Grid item xs={2} style={{ marginRight: "48px" }}>
+                  <Typography variant="h4">
+                    Giới tính<span style={{ color: "red" }}> (*)</span>
+                  </Typography>
                 </Grid>
                 <Grid item alignItems="center">
                   <input
@@ -248,14 +261,15 @@ function ThemCuDan() {
               </Grid>
               <Grid item container alignItems="center" xs={6} spacing={2}>
                 <Grid item>
-                  <Typography variant="h4">Trạng thái cư trú<span style={{ color: 'red' }}> (*)</span></Typography>
+                  <Typography variant="h4">
+                    Trạng thái cư trú<span style={{ color: "red" }}> (*)</span>
+                  </Typography>
                 </Grid>
-                <Grid item style={{ bottom: "7px", position: "relative" }}>
-                  <InputLabel id="demo-select-small-label">Trạng thái</InputLabel>
+                <Grid item style={{ marginLeft: "32px" }}>
                   <Select
                     labelId="demo-select-small-label"
                     value={status}
-                    style={{ width: "200px" }}
+                    style={{ width: "280px" }}
                     placeholder="trang thai"
                     onChange={handleChange}
                   >
@@ -269,61 +283,60 @@ function ThemCuDan() {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item container wrap="wrap" alignItems="center">
+            <Grid
+              item
+              container
+              wrap="wrap"
+              alignItems="center"
+              style={{ marginTop: "10px" }}
+            >
               <Grid item xs={2.5}>
-                <Typography variant="h4">Ngày, tháng, năm sinh<span style={{ color: 'red' }}> (*)</span></Typography>
+                <Typography variant="h4">
+                  Ngày sinh
+                  <span style={{ color: "red" }}> (*)</span>
+                </Typography>
               </Grid>
               <Grid item>
                 <CustomizedDatePicker
-                  // slotProps={{ textField: { variant: "filled" } }}
-
                   sx={{
                     marginRight: "35px",
-                    width: "200px",
+                    width: "280px",
                     paddingTop: "10px",
-
                   }}
                   value={birth}
                   onChange={(value) => {
-
-                    setBirth(value); console.log(value);
+                    setBirth(value);
+                    console.log(value);
                   }}
                   format="DD-MM-YYYY"
                 />
               </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h4">Quê quán <span style={{ color: 'red' }}> (*)</span></Typography>
-            </Grid>
-            <Grid item container wrap="wrap" >
+            <Grid item container wrap="wrap">
               <Grid
                 item
                 container
-                xs={6}
-                wrap="nowrap"
+                xs={12}
                 alignItems="center"
-              //  spacing={3}
+                style={{marginTop: "10px", marginBottom: "20px"}}
               >
-                <Grid item xs={5}>
-                  <Typography variant="h4">Tỉnh (Thành phố)<span style={{ color: 'red' }}> (*)</span></Typography>
+                <Grid item xs={2.5}>
+                  <Typography variant="h4">
+                    Tỉnh (Thành phố)<span style={{ color: "red" }}> (*)</span>
+                  </Typography>
                 </Grid>
-                <Grid item style={{ bottom: "7px", position: "relative" }}>
-                  <InputLabel id="select-province">Tỉnh (thành phố)</InputLabel>
+                <Grid item >
                   <Select
                     labelId="select-province"
                     value={province}
-                    style={{ width: "150px" }}
+                    style={{ width: "280px" }}
                     onChange={handleChange2}
                   >
-                    {
-                      provinces.map((provinc, index) => (
-                        <MenuItem value={provinc} key={index}>
-                          <Typography variant="h5">{provinc.name}</Typography>
-                        </MenuItem>
-                      ))
-                    }
-
-
+                    {provinces.map((provinc, index) => (
+                      <MenuItem value={provinc} key={index}>
+                        <Typography variant="h5">{provinc.name}</Typography>
+                      </MenuItem>
+                    ))}
                   </Select>
                 </Grid>
               </Grid>
@@ -331,19 +344,20 @@ function ThemCuDan() {
                 item
                 xs="auto"
                 container
-                wrap="nowrap"
                 alignItems="center"
                 spacing={3}
+                style={{marginBottom: "12px"}}
               >
                 <Grid item>
-                  <Typography variant="h4">Huyện (Quận)<span style={{ color: 'red' }}> (*)</span></Typography>
+                  <Typography variant="h4">
+                    Huyện (Quận)<span style={{ color: "red" }}> (*)</span>
+                  </Typography>
                 </Grid>
-                <Grid item style={{ bottom: "7px", position: "relative" }}>
-                  <InputLabel id="select-district">Huyện (quận)</InputLabel>
+                <Grid item style={{ marginLeft: "50px" }}>
                   <Select
                     labelId="select-district"
                     value={district}
-                    style={{ width: "250px" }}
+                    style={{ width: "280px" }}
                     onChange={handleChange3}
                   >
                     {districts.map((distric, index) => (
@@ -351,8 +365,6 @@ function ThemCuDan() {
                         <Typography variant="h5">{distric.name}</Typography>
                       </MenuItem>
                     ))}
-
-
                   </Select>
                 </Grid>
               </Grid>
@@ -363,13 +375,15 @@ function ThemCuDan() {
               container
               wrap="nowrap"
               alignItems="center"
-            //    spacing={3}
+              style={{marginBottom: "12px"}}
+
             >
               <Grid item xs={2.5}>
-                <Typography variant="h4">Xã (Phường)<span style={{ color: 'red' }}> (*)</span></Typography>
+                <Typography variant="h4">
+                  Xã (Phường)<span style={{ color: "red" }}> (*)</span>
+                </Typography>
               </Grid>
-              <Grid item style={{ bottom: "7px", position: "relative" }} >
-                <InputLabel id="select-village">Xã (phường)</InputLabel>
+              <Grid item >
                 <Select
                   labelId="select-village"
                   value={village}
@@ -381,8 +395,6 @@ function ThemCuDan() {
                       <Typography variant="h5">{villag.name}</Typography>
                     </MenuItem>
                   ))}
-
-
                 </Select>
               </Grid>
             </Grid>
@@ -391,14 +403,13 @@ function ThemCuDan() {
               container
               xs={12}
               alignItems="center"
-              wrap="wrap"
-            //    columnSpacing={12}
+              style={{marginBottom: "12px"}}
             >
               <Grid item xs={2.5}>
                 <Typography variant="h4">CCCD</Typography>
               </Grid>
               <Grid item>
-                <TextField id="cccd"></TextField>
+                <TextField id="cccd" style={{width: "280px"}}></TextField>
               </Grid>
             </Grid>
             <Grid
@@ -406,19 +417,21 @@ function ThemCuDan() {
               container
               xs={12}
               alignItems="center"
-              wrap="wrap"
-            //   columnSpacing={3}
+              style={{marginBottom: "12px"}}
             >
               <Grid item xs={2.5}>
                 <Typography variant="h4">Số điện thoại</Typography>
               </Grid>
               <Grid item>
-                <TextField id='phoneNumber'></TextField>
+                <TextField id="phoneNumber" style={{width: "280px"}}></TextField>
               </Grid>
             </Grid>
             <Grid item xs={12}>
-
-              <ButtonSearch title="Xác nhận" border="none" onclick={addPerson}></ButtonSearch>
+              <ButtonSearch
+                title="Xác nhận"
+                border="none"
+                onclick={addPerson}
+              ></ButtonSearch>
               <NavLink to="/nhankhau">
                 <Button
                   variant="contained"
@@ -428,7 +441,7 @@ function ThemCuDan() {
                     margin: "30px 30px",
                   }}
                 >
-                  <Typography variant="h4" style={{ color: "black" }}>
+                  <Typography variant="h4" style={{ color: "black", fontWeight: "400"}}>
                     Quay lại
                   </Typography>
                 </Button>

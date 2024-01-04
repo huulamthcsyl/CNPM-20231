@@ -15,16 +15,16 @@ import {
 import { useEffect, useState } from "react";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
 import { NavLink, useParams } from "react-router-dom";
-import ClassApi from '../../Api/Api'
+import ClassApi from "../../Api/Api";
 import dayjs from "dayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import styled from "@emotion/styled";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
 import { toast } from "react-toastify";
-import vi from 'date-fns/locale/vi'
+import vi from "date-fns/locale/vi";
 
-const API_ADDRESS = 'https://provinces.open-api.vn/';
+const API_ADDRESS = "https://provinces.open-api.vn/";
 const theme = createTheme({
   components: {
     MuiTypography: {
@@ -69,8 +69,8 @@ function ThemCuDan() {
     district: "Quận Hai Bà Trưng",
     village: "Phường Bách Khoa",
     ownerRelationship: "Chủ nhà",
-    phoneNumber: '',
-    identityCardNumber: ''
+    phoneNumber: "",
+    identityCardNumber: "",
   });
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
@@ -84,19 +84,18 @@ function ThemCuDan() {
     setGender(event.target.value);
   };
   const [province, setProvince] = useState(person.province);
-  const [birth, setBirth] = useState(dayjs('2021-05-04T00:00:00'))
-  const [addr, setAddr] = useState('')
-  const [resid, setResid] = useState('')
-  const [relation, setRelation] = useState('')
+  const [birth, setBirth] = useState(dayjs("2021-05-04T00:00:00"));
+  const [addr, setAddr] = useState("");
+  const [resid, setResid] = useState("");
+  const [relation, setRelation] = useState("");
   const handleChange2 = (event) => {
     setProvince(event.target.value);
-    setVillages([])
+    setVillages([]);
   };
   const [district, setDistrict] = useState(person.district);
 
   const handleChange3 = (event) => {
     setDistrict(event.target.value);
-
   };
   const [village, setVillage] = useState(person.village);
 
@@ -107,109 +106,108 @@ function ThemCuDan() {
   const handleChangeName = (event) => {
     setName(event.target.value);
   };
-  const [phoneNumber, setPhoneNumber] = useState(person.phoneNumber)
-  const [cccd, setCccd] = useState(person.identityCardNumber)
-  const param = useParams()
+  const [phoneNumber, setPhoneNumber] = useState(person.phoneNumber);
+  const [cccd, setCccd] = useState(person.identityCardNumber);
+  const param = useParams();
   useEffect(() => {
     ClassApi.GetInfoPerson(param.id).then((response) => {
-      setName(response.data.name)
-      setGender(response.data.gender)
-      setCccd(response.data.identityCardNumber)
-      setStatus(response.data.status)
-      setBirth(dayjs(response.data.dateOfBirth))
-      console.log(dayjs(response.data.dateOfBirth))
-      console.log(response.data.dateOfBirth)
-      setPhoneNumber(response.data.phoneNumber)
-      setResid(response.data.residenceId)
-      setRelation(response.data.ownerRelationship)
-      let address = response.data.homeTown.split(',')
-      setProvince(address[2].trim())
-      setAddr(address)
-    })
-  }, [])
+      setName(response.data.name);
+      setGender(response.data.gender);
+      setCccd(response.data.identityCardNumber);
+      setStatus(response.data.status);
+      setBirth(dayjs(response.data.dateOfBirth));
+      console.log(dayjs(response.data.dateOfBirth));
+      console.log(response.data.dateOfBirth);
+      setPhoneNumber(response.data.phoneNumber);
+      setResid(response.data.residenceId);
+      setRelation(response.data.ownerRelationship);
+      let address = response.data.homeTown.split(",");
+      setProvince(address[2].trim());
+      setAddr(address);
+    });
+  }, []);
   const handleChangeInfo = () => {
-    if (name == null || name == '') {
-      toast.warn('Hãy nhập họ và tên!')
-      return
+    if (name == null || name == "") {
+      toast.warn("Hãy nhập họ và tên!");
+      return;
     }
-    if (status == null || status == '') {
-      toast.warn('Hãy chọn trạng thái cư trú!')
-      return
+    if (status == null || status == "") {
+      toast.warn("Hãy chọn trạng thái cư trú!");
+      return;
     }
-    if (birth == null || birth == '') {
-      toast.warn('Hãy chọn ngày sinh!')
-      return
+    if (birth == null || birth == "") {
+      toast.warn("Hãy chọn ngày sinh!");
+      return;
     }
-    if (province == null || province == '' || provinces.length == 0) {
-      toast.warn('Hãy chọn tỉnh thành!')
-      return
+    if (province == null || province == "" || provinces.length == 0) {
+      toast.warn("Hãy chọn tỉnh thành!");
+      return;
     }
-    if (district == null || district == '' || districts.length == 0) {
-      toast.warn('Hãy chọn quận huyện!')
-      return
+    if (district == null || district == "" || districts.length == 0) {
+      toast.warn("Hãy chọn quận huyện!");
+      return;
     }
-    if (village == null || village == '' || villages.length == 0) {
-      toast.warn('Hãy chọn xã-phường!')
-      return
+    if (village == null || village == "" || villages.length == 0) {
+      toast.warn("Hãy chọn xã-phường!");
+      return;
     }
     ClassApi.PutPerson({
-      "personId": param.id,
-      "name": name,
-      "residenceId": resid,
-      "dateOfBirth": birth,
-      "identityCardNumber": cccd,
-      "gender": gender,
-      "phoneNumber": phoneNumber,
-      "homeTown": village + ', ' + district + ', ' + province,
-      "ownerRelationship": relation,
-      "status": status
-    }).then(() => {
-      toast.success('Sửa thông tin thành công')
-    }).catch(() => {
-      toast.error('Lỗi')
+      personId: param.id,
+      name: name,
+      residenceId: resid,
+      dateOfBirth: birth,
+      identityCardNumber: cccd,
+      gender: gender,
+      phoneNumber: phoneNumber,
+      homeTown: village + ", " + district + ", " + province,
+      ownerRelationship: relation,
+      status: status,
     })
-  }
-  useEffect(() => {
-
-    axios.get(API_ADDRESS + "api/?depth=1")
-      .then(response => {
-        setProvinces(response.data);
+      .then(() => {
+        toast.success("Sửa thông tin thành công");
+      })
+      .catch(() => {
+        toast.error("Lỗi");
       });
+  };
+  useEffect(() => {
+    axios.get(API_ADDRESS + "api/?depth=1").then((response) => {
+      setProvinces(response.data);
+    });
   }, []);
   useEffect(() => {
-
     if (province) {
-      axios.get(API_ADDRESS + 'api/p/search/?q=' + province).then((res) => {
+      axios.get(API_ADDRESS + "api/p/search/?q=" + province).then((res) => {
         // console.log(provin)
-        axios.get(API_ADDRESS + "api/p/" + (res.data)[0].code + "?depth=2")
-          .then(response => {
+        axios
+          .get(API_ADDRESS + "api/p/" + res.data[0].code + "?depth=2")
+          .then((response) => {
             setDistricts(response.data.districts);
             //  setDistrict(addr[1].trim())
-
-          }).finally(() => {
-            if (addr) {
-              setDistrict(addr[1].trim())
-            }
           })
-      })
+          .finally(() => {
+            if (addr) {
+              setDistrict(addr[1].trim());
+            }
+          });
+      });
     }
   }, [province]);
   useEffect(() => {
-
     if (district) {
-      axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-      axios.get(API_ADDRESS + 'api/d/search/?q=' + district).then((res) => {
-        axios.get(API_ADDRESS + "api/d/" + (res.data)[0].code + "?depth=2")
-          .then(response => {
+      axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
+      axios.get(API_ADDRESS + "api/d/search/?q=" + district).then((res) => {
+        axios
+          .get(API_ADDRESS + "api/d/" + res.data[0].code + "?depth=2")
+          .then((response) => {
             setVillages(response.data.wards);
-
-          }).finally(() => {
+          })
+          .finally(() => {
             if (addr) {
-              setVillage(addr[0].trim())
+              setVillage(addr[0].trim());
             }
           });
-      })
-
+      });
     }
   }, [district]);
   return (
@@ -227,13 +225,19 @@ function ThemCuDan() {
             xs={12}
             alignItems="center"
             wrap="wrap"
-          //        columnSpacing={8}
+            //        columnSpacing={8}
           >
             <Grid item xs={2.5}>
-              <Typography variant="h4">Họ và tên<span style={{ color: 'red' }}> (*)</span></Typography>
+              <Typography variant="h4">
+                Họ và tên<span style={{ color: "red" }}> (*)</span>
+              </Typography>
             </Grid>
             <Grid item>
-              <TextField onChange={handleChangeName} value={name}></TextField>
+              <TextField
+                onChange={handleChangeName}
+                value={name}
+                style={{ width: "280px" }}
+              ></TextField>
             </Grid>
           </Grid>
           <Grid
@@ -244,14 +248,25 @@ function ThemCuDan() {
             wrap="wrap"
             alignItems="center"
           >
-            <Grid item container xs={6} wrap="nowrap" alignItems="center">
-              <Grid item xs={5}>
-                <Typography variant="h4">Giới tính<span style={{ color: 'red' }}> (*)</span></Typography>
+            <Grid
+              item
+              container
+              xs={12}
+              wrap="nowrap"
+              alignItems="center"
+              style={{ marginTop: "10px", marginBottom: "16px" }}
+            >
+              <Grid item xs={2} style={{ marginRight: "48px" }}>
+                <Typography variant="h4">
+                  Giới tính<span style={{ color: "red" }}> (*)</span>
+                </Typography>
               </Grid>
               <RadioGroup
                 name="radio-buttons-group"
                 value={gender}
-                onChange={(e) => { setGender(e.target.value) }}
+                onChange={(e) => {
+                  setGender(e.target.value);
+                }}
                 style={{ display: "inline" }}
               >
                 <FormControlLabel
@@ -272,15 +287,16 @@ function ThemCuDan() {
             </Grid>
             <Grid item container alignItems="center" xs={6} spacing={2}>
               <Grid item>
-                <Typography variant="h4">Trạng thái cư trú<span style={{ color: 'red' }}> (*)</span></Typography>
+                <Typography variant="h4">
+                  Trạng thái cư trú<span style={{ color: "red" }}> (*)</span>
+                </Typography>
               </Grid>
-              <Grid item style={{ bottom: "7px", position: "relative" }}>
-                <InputLabel id="demo-select-small-label">Trạng thái</InputLabel>
-                {status == 'Tạm Vắng' ?
+              <Grid item style={{ marginLeft: "32px" }}>
+                {status == "Tạm Vắng" ? (
                   <Select
                     labelId="demo-select-small-label"
                     value="Tạm Vắng"
-                    style={{ width: "200px" }}
+                    style={{ width: "280px" }}
                     placeholder="trang thai"
                     onChange={handleChange}
                     disabled
@@ -288,12 +304,12 @@ function ThemCuDan() {
                     <MenuItem value="Tạm Vắng">
                       <Typography variant="h5">Tạm vắng</Typography>
                     </MenuItem>
-
-                  </Select> :
+                  </Select>
+                ) : (
                   <Select
                     labelId="demo-select-small-label"
                     value={status}
-                    style={{ width: "200px" }}
+                    style={{ width: "280px" }}
                     placeholder="trang thai"
                     onChange={handleChange}
                   >
@@ -303,81 +319,77 @@ function ThemCuDan() {
                     <MenuItem value="Tạm trú">
                       <Typography variant="h5">Tạm trú</Typography>
                     </MenuItem>
-
-                  </Select>}
-
+                  </Select>
+                )}
               </Grid>
             </Grid>
           </Grid>
-          <Grid item container wrap="wrap" alignItems="center">
+          <Grid
+            item
+            container
+            alignItems="center"
+            style={{ marginTop: "10px", marginBottom: "10px" }}
+          >
             <Grid item xs={2.5}>
-              <Typography variant="h4">Ngày, tháng, năm sinh<span style={{ color: 'red' }}>(*)</span></Typography>
+              <Typography variant="h4">
+                Ngày sinh<span style={{ color: "red" }}> (*)</span>
+              </Typography>
             </Grid>
             <Grid item>
-
               <CustomizedDatePicker
-                // slotProps={{ textField: { variant: "filled" } }}
                 sx={{
                   marginRight: "35px",
-                  width: "200px",
-                  paddingTop: "10px",
+                  width: "280px",
+                  // paddingTop: "10px",
                 }}
                 value={birth}
-                onChange={(value) => { setBirth(value) }}
+                onChange={(value) => {
+                  setBirth(value);
+                }}
                 format="DD-MM-YYYY"
               />
             </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h4">Quê quán <span style={{ color: 'red' }}> (*)</span></Typography>
-          </Grid>
-          <Grid item container wrap="wrap" >
-            <Grid
-              item
-              container
-              xs={6}
-              wrap="nowrap"
-              alignItems="center"
-            //  spacing={3}
-            >
-              <Grid item xs={5}>
-                <Typography variant="h4">Tỉnh (Thành phố)<span style={{ color: 'red' }}> (*)</span></Typography>
+          <Grid item container>
+            <Grid item container xs={12} alignItems="center" style={{marginBottom: "15px"}}>
+              <Grid item xs={2.5}>
+                <Typography variant="h4">
+                  Tỉnh (Thành phố)<span style={{ color: "red" }}> (*)</span>
+                </Typography>
               </Grid>
-              <Grid item style={{ bottom: "7px", position: "relative" }}>
-                <InputLabel id="select-province">Tỉnh (thành phố)</InputLabel>
+              <Grid item>
                 <Select
                   labelId="select-province"
                   value={province}
-                  style={{ width: "150px" }}
+                  style={{ width: "280px" }}
                   onChange={handleChange2}
                 >
-                  {
-                    provinces.map((provinc, index) => (
-                      <MenuItem value={provinc.name} key={index}>
-                        <Typography variant="h5">{provinc.name}</Typography>
-                      </MenuItem>
-                    ))
-                  }
+                  {provinces.map((provinc, index) => (
+                    <MenuItem value={provinc.name} key={index}>
+                      <Typography variant="h5">{provinc.name}</Typography>
+                    </MenuItem>
+                  ))}
                 </Select>
               </Grid>
             </Grid>
             <Grid
               item
-              xs={6}
+              xs={12}
               container
-              wrap="nowrap"
               alignItems="center"
               spacing={3}
+              style={{marginBottom: "10px"}}
             >
-              <Grid item >
-                <Typography variant="h4" >Huyện (Quận)<span style={{ color: 'red' }}> (*)</span></Typography>
+              <Grid item xs={2}>
+                <Typography variant="h4">
+                  Huyện (Quận)<span style={{ color: "red" }}> (*)</span>
+                </Typography>
               </Grid>
-              <Grid item style={{ bottom: "7px", position: "relative" }}>
-                <InputLabel id="select-district">Huyện (quận)</InputLabel>
+              <Grid item style={{ marginLeft: "43px" }}>
                 <Select
                   labelId="select-district"
                   value={district}
-                  style={{ width: "250px" }}
+                  style={{ width: "280px" }}
                   onChange={handleChange3}
                 >
                   {districts.map((distric, index) => (
@@ -385,8 +397,6 @@ function ThemCuDan() {
                       <Typography variant="h5">{distric.name}</Typography>
                     </MenuItem>
                   ))}
-
-
                 </Select>
               </Grid>
             </Grid>
@@ -397,13 +407,15 @@ function ThemCuDan() {
             container
             wrap="nowrap"
             alignItems="center"
-          //     spacing={3}
+            style={{marginBottom: "10px"}}
+            //     spacing={3}
           >
             <Grid item xs={2.5}>
-              <Typography variant="h4">Xã (Phường)<span style={{ color: 'red' }}> (*)</span></Typography>
+              <Typography variant="h4">
+                Xã (Phường)<span style={{ color: "red" }}> (*)</span>
+              </Typography>
             </Grid>
-            <Grid item style={{ bottom: "7px", position: "relative" }}>
-              <InputLabel id="select-village">Xã (phường)</InputLabel>
+            <Grid item>
               <Select
                 labelId="select-village"
                 value={village}
@@ -415,8 +427,6 @@ function ThemCuDan() {
                     <Typography variant="h5">{villag.name}</Typography>
                   </MenuItem>
                 ))}
-
-
               </Select>
             </Grid>
           </Grid>
@@ -426,13 +436,20 @@ function ThemCuDan() {
             xs={12}
             alignItems="center"
             wrap="wrap"
-          //     columnSpacing={12}
+            style={{marginBottom: "10px"}}
+            //     columnSpacing={12}
           >
             <Grid item xs={2.5}>
               <Typography variant="h4">CCCD</Typography>
             </Grid>
             <Grid item>
-              <TextField value={cccd} onChange={(e) => { setCccd(e.target.value) }}></TextField>
+              <TextField
+                value={cccd}
+                onChange={(e) => {
+                  setCccd(e.target.value);
+                }}
+                style={{ width: "280px" }}
+              ></TextField>
             </Grid>
           </Grid>
           <Grid
@@ -441,19 +458,27 @@ function ThemCuDan() {
             xs={12}
             alignItems="center"
             wrap="wrap"
-          //        columnSpacing={3}
+            //        columnSpacing={3}
           >
             <Grid item xs={2.5}>
               <Typography variant="h4">Số điện thoại</Typography>
             </Grid>
             <Grid item>
-              <TextField value={phoneNumber} onChange={(e) => { setPhoneNumber(e.target.value) }}></TextField>
+              <TextField
+                value={phoneNumber}
+                onChange={(e) => {
+                  setPhoneNumber(e.target.value);
+                }}
+                style={{ width: "280px" }}
+              ></TextField>
             </Grid>
           </Grid>
           <Grid xs={2}>
-
-            <ButtonSearch title="Xác nhận" border="none" onclick={handleChangeInfo}></ButtonSearch>
-
+            <ButtonSearch
+              title="Xác nhận"
+              border="none"
+              onclick={handleChangeInfo}
+            ></ButtonSearch>
           </Grid>
           <Grid>
             <NavLink to="/nhankhau">
@@ -465,7 +490,10 @@ function ThemCuDan() {
                   margin: "30px 0px",
                 }}
               >
-                <Typography variant="h4" style={{ color: "black" }}>
+                <Typography
+                  variant="h4"
+                  style={{ color: "black", fontWeight: "400" }}
+                >
                   Quay lại
                 </Typography>
               </Button>

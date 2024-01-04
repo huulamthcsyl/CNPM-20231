@@ -205,7 +205,7 @@ function ChiTietTamVangPage() {
                     </Grid>
                     <Grid item container wrap="wrap" alignItems="center">
                         <Grid item xs={2.8}>
-                            <Typography variant="h4">Ngày, tháng, năm sinh<span style={{ color: 'red' }}> (*)</span></Typography>
+                            <Typography variant="h4">Ngày sinh<span style={{ color: 'red' }}> (*)</span></Typography>
                         </Grid>
                         <Grid item>
                             <CustomizedDatePicker
@@ -220,7 +220,7 @@ function ChiTietTamVangPage() {
                                 onChange={(value) => {
                                     setBirth(value)
                                 }}
-                                disabled
+                                readOnly="true"
                             />
                         </Grid>
                     </Grid>
@@ -267,7 +267,7 @@ function ChiTietTamVangPage() {
                             <Typography variant="h4">Nơi thường trú<span style={{ color: 'red' }}> (*)</span></Typography>
                         </Grid>
                         <Grid item>
-                            <TextField disabled value={address1} onChange={(e) => { setAddress1(e.target.value) }}></TextField>
+                            <TextField readOnly="true" value={address1} onChange={(e) => { setAddress1(e.target.value) }}></TextField>
                         </Grid>
                     </Grid>
                     <Grid
@@ -348,7 +348,7 @@ function ChiTietTamVangPage() {
                                     margin: "30px 20px",
                                 }}
                             >
-                                <Typography variant="h4" style={{ color: "black" }}>
+                                <Typography variant="h4" style={{ color: "black", fontWeight: "400" }}>
                                     Quay lại
                                 </Typography>
                             </Button>

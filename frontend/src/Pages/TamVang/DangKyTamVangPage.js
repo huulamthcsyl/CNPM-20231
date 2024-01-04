@@ -374,7 +374,7 @@ function DangKyTamVangPage() {
                   margin: "30px 20px",
                 }}
               >
-                <Typography variant="h4" style={{ color: "black" }}>
+                <Typography variant="h4" style={{ color: "black", fontWeight: "400" }}>
                   Quay lại
                 </Typography>
               </Button>

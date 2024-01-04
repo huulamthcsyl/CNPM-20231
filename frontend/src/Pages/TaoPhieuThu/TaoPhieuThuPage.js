@@ -99,6 +99,8 @@ export default function TaoPhieuThu() {
             toast.error(err.response.data);
           });
       }
+      else
+        setAddress("");
       setFullName(value.label);
       setPersonId(value.personId);
     } else {

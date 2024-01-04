@@ -78,15 +78,12 @@ function HoKhau() {
     <Grid container spacing={2} style={{ padding: "50px" }}>
       <ThemeProvider theme={theme}>
         <Grid xs={12}>
-          <h1 style={{ fontSize: "48px", paddingLeft: "16px" }}>
+          <div style={{ fontSize: "48px", paddingLeft: "16px" }}>
             Danh sách hộ dân
-          </h1>
+          </div>
         </Grid>
         <Grid item xs={12}>
           <ButtonAdd to="/themhodan" title="Thêm hộ dân"></ButtonAdd>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography variant="h4">Tìm kiếm</Typography>
         </Grid>
         <Grid item xs={12}>
           <div

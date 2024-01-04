@@ -21,7 +21,7 @@ import { toast } from "react-toastify";
 const headers = [
   "STT",
   "Họ và tên",
-  "Ngày, tháng, năm sinh",
+  "Ngày sinh",
   "Số CMT/CCCD",
   "Quan hệ với chủ hộ",
   " ",
@@ -132,7 +132,7 @@ function ChiTietHoDan({ Hodan }) {
     <Grid container spacing={1} padding="50px">
       <Grid item xs={12}>
         <Grid item xs={12}>
-          <h1 style={{ fontSize: "40px" }}>Chi tiết hộ {hodan.chuho}</h1>
+          <h1 style={{ fontSize: "40px" }}>Chi tiết hộ dân</h1>
         </Grid>
         <Grid
           item
@@ -148,10 +148,11 @@ function ChiTietHoDan({ Hodan }) {
           </Grid>
           <Grid item>
             <TextField
-              style={{ width: "300px" }}
+              style={{ width: "400px" }}
               inputProps={{ style: { fontSize: "16px" } }}
               value={name}
-              disabled
+              //disabled
+              readOnly="true"
             ></TextField>
           </Grid>
         </Grid>
@@ -164,12 +165,12 @@ function ChiTietHoDan({ Hodan }) {
         >
           <Grid item xs={3.2}>
             <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
-              Nơi thường trú<span style={{ color: 'red' }}>(*)</span>
+              Nơi thường trú<span style={{ color: 'red' }}> (*)</span>
             </Typography>
           </Grid>
           <Grid item >
             <TextField
-              style={{ width: "500px" }}
+              style={{ width: "400px" }}
               inputProps={{ style: { fontSize: "16px" } }}
               value={address}
               onChange={(e) => { setAddress(e.target.value) }}
@@ -190,7 +191,7 @@ function ChiTietHoDan({ Hodan }) {
               <TableRow>
                 {headers.map((column, index) => (
                   <TableCell key={index}>
-                    <Typography variant="h5" style={{ fontWeight: "bold" }}>
+                    <Typography variant="h4" style={{ fontWeight: "bold" }}>
                       {column}
                     </Typography>
                   </TableCell>

@@ -7,7 +7,7 @@ function ButtonAdd({ to, title, icon }) {
     <NavLink to={to}>
       <Button
         variant="contained"
-        style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+        style={{ backgroundColor: "#79C9FF"}}
       >
         <Typography style={{ marginRight: "8px" }}>
           <img
@@ -16,7 +16,7 @@ function ButtonAdd({ to, title, icon }) {
             alt=""
           />
         </Typography>
-        <Typography variant="h4" style={{ color: "black" }}>
+        <Typography variant="h4" style={{ color: "black", fontWeight: "400" }}>
           {title}
         </Typography>
       </Button>
