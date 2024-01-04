@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import ClassApi from "../../Api/Api";
 import { toast } from "react-toastify";
 import { Autocomplete } from "@mui/material";
-import {VehicleReceiptPut} from "../../Models/VehicleReceiptPut"
+import { VehicleReceiptPut } from "../../Models/VehicleReceiptPut"
 
 export default function ChiTietPhieuThuPhuongTienPage() {
   const searchParams = new URLSearchParams(window.location.search);
@@ -25,6 +25,41 @@ export default function ChiTietPhieuThuPhuongTienPage() {
   const [fees, setFees] = useState([]);
   let isValid = true;
 
+  // useEffect(() => {
+  //   ClassApi.GetVehicleReceipt(vehicleReceiptId)
+  //     .then((res) => {
+  //       setVehicleReceipt(res.data);
+  //       setDateCreated(res.data.dateCreated);
+  //       setTotalCost(res.data.amount);
+  //       setDescription(res.data.description);
+  //       setVehicleId(res.data.vehicleId);
+  //       if (listPayment.length === 0) {
+  //         res.data.listPayment.map((payment) => {
+  //           listPayment.push({
+  //             label: payment.feeName,
+  //             cost: payment.amount,
+  //             vehicleFeeId: payment.feeId,
+  //           });
+  //           // console.log(listPayment);
+  //         });
+  //         setPayments(listPayment);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       toast.error(error.response.data);
+  //       console.log(error);
+  //     });
+  //   ClassApi.GetAllVehicleFees()
+  //     .then((res) => {
+  //       setFees(res.data);
+  //     })
+  //     .catch((err) => {
+  //       toast.error(err.response.data);
+  //       console.log(err);
+  //     });
+  // }, []);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     ClassApi.GetVehicleReceipt(vehicleReceiptId)
       .then((res) => {
@@ -33,6 +68,7 @@ export default function ChiTietPhieuThuPhuongTienPage() {
         setTotalCost(res.data.amount);
         setDescription(res.data.description);
         setVehicleId(res.data.vehicleId);
+
         if (listPayment.length === 0) {
           res.data.listPayment.map((payment) => {
             listPayment.push({
@@ -40,15 +76,18 @@ export default function ChiTietPhieuThuPhuongTienPage() {
               cost: payment.amount,
               vehicleFeeId: payment.feeId,
             });
-            // console.log(listPayment);
           });
           setPayments(listPayment);
         }
+
+        setLoading(false); // Set loading to false after data is fetched
       })
       .catch((error) => {
         toast.error(error.response.data);
         console.log(error);
+        setLoading(false); // Set loading to false even if there's an error
       });
+
     ClassApi.GetAllVehicleFees()
       .then((res) => {
         setFees(res.data);
@@ -56,8 +95,23 @@ export default function ChiTietPhieuThuPhuongTienPage() {
       .catch((err) => {
         toast.error(err.response.data);
         console.log(err);
+        setLoading(false); // Set loading to false even if there's an error
       });
   }, []);
+
+  // If loading, you can render a loading indicator or return null
+  if (loading) {
+    // return <div>Loading...</div>;
+    return null;
+  }
+
+  // If no data is available, return null
+  if (!vehicleReceipt || !fees || fees.length === 0) {
+    //return <div>No data available</div>;
+    return null;
+  }
+
+
   fees.map((fee, index) => {
     feeShrinkList.push({
       label: fee.name,
@@ -129,8 +183,8 @@ export default function ChiTietPhieuThuPhuongTienPage() {
           payment1.vehicleFeeId === payment2.vehicleFeeId &&
           index1 !== index2
         ) {
-            console.log(payment1.vehicleFeeId);
-            console.log(payment2.vehicleFeeId);
+          console.log(payment1.vehicleFeeId);
+          console.log(payment2.vehicleFeeId);
 
           isValid = false;
         }
@@ -150,7 +204,7 @@ export default function ChiTietPhieuThuPhuongTienPage() {
         vehicleReceiptId: vehicleReceiptId,
       });
     });
-    
+
     const newVehicleReceipt = new VehicleReceiptPut(
       vehicleId,
       dateCreated,
@@ -185,7 +239,7 @@ export default function ChiTietPhieuThuPhuongTienPage() {
           <h1 style={{ fontSize: "40px" }}>Chi tiết Phiếu thu Phương tiện</h1>
         </Grid>
 
-        <Grid item container direction="row" alignItems="center" sx={{mt: 2}}>
+        <Grid item container direction="row" alignItems="center" sx={{ mt: 2 }}>
           <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
             Biển kiểm soát
           </Typography>
@@ -195,7 +249,7 @@ export default function ChiTietPhieuThuPhuongTienPage() {
             inputProps={{ style: { fontSize: "18px" } }}
           ></TextField>
         </Grid>
-        <Grid item container direction="row" alignItems="center" sx={{mt: 2}}>
+        <Grid item container direction="row" alignItems="center" sx={{ mt: 2 }}>
           <Typography style={{ fontSize: "24px", marginRight: "88px" }}>
             Ngày thu
           </Typography>
@@ -206,13 +260,13 @@ export default function ChiTietPhieuThuPhuongTienPage() {
           ></TextField>
         </Grid>
 
-        <Grid item xs={12} sx={{mt: 2}}>
+        <Grid item xs={12} sx={{ mt: 2 }}>
           <Typography style={{ fontSize: "30px", marginRight: "25px" }}>
             Danh sách khoản thu
           </Typography>
         </Grid>
 
-        <Grid item xs={12} sx={{mt: 2}}>
+        <Grid item xs={12} sx={{ mt: 2 }}>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }}>
               <TableHead>

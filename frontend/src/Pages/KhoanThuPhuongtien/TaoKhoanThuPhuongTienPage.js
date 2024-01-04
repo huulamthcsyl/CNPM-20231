@@ -22,13 +22,19 @@ function TaoKhoanThuPhuongTienPage() {
       });
   }, [])
   const handleAdd = () => {
+    setPrintError1(null);
+    setPrintError2(null);
     if (!name) {
       setPrintError1("Vui lòng nhập Tên khoản thu!");
       return;
+    } else {
+      setPrintError1(null);
     }
     if (!cost) {
       setPrintError2("Vui lòng nhập Số tiền!");
       return;
+    } else {
+      setPrintError2(null);
     }
     const existingVehicleFee = vehicleFeeList.find((fee) => fee.name === name);
     if (existingVehicleFee) {

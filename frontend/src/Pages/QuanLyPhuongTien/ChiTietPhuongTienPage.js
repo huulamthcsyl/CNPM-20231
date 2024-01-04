@@ -4,18 +4,23 @@ import { TextField } from "@mui/material";
 import { NavLink, useParams } from 'react-router-dom';
 import ClassApi from '../../Api/Api'
 function ChiTietPhuongTien() {
-  const [PhuongTien, setPhuongTien] = useState({
-    "vehicleId": "aec3d7c5-1e17-4e8f-826c-01eff91ba981",
-    "category": "Xe máy",
-    "licensePlate": "88A-12345",
-    "ownerName": "Phùng Thanh Đăng"
-  })
+  // const [PhuongTien, setPhuongTien] = useState({
+  //   "vehicleId": "aec3d7c5-1e17-4e8f-826c-01eff91ba981",
+  //   "category": "Xe máy",
+  //   "licensePlate": "88A-12345",
+  //   "ownerName": "Phùng Thanh Đăng"
+  // })
+  const [PhuongTien, setPhuongTien] = useState(null);
   const param = useParams()
   useEffect(() => {
     ClassApi.GetVehicleById(param.id).then((response) => {
       setPhuongTien(response.data)
     })
   }, [])
+  if (!PhuongTien) {
+    // If PhuongTien is null, return null
+    return null;
+  }
   return (
     <Grid container spacing={2} padding={"50px"}>
       <Grid item xs={12}>
