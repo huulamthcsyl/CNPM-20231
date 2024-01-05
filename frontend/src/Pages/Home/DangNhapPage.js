@@ -87,7 +87,7 @@ function DangNhapPage() {
           <Typography variant="h4">Tài khoản</Typography>
         </Grid>
         <Grid item xs={8.5} sx={{ justifyContent: "center" }}>
-          <TextField margin="normal" sx={styles.input} size="small" value={account} onChange={e => changeAccount(e)} placeholder="user01" />
+          <TextField margin="normal" sx={styles.input} size="small" value={account} onChange={e => changeAccount(e)}/>
         </Grid>
         <Grid item xs={3.5} sx={{ textAlign: "center" }}>
           <Typography variant="h4">Mật khẩu</Typography>
@@ -100,7 +100,7 @@ function DangNhapPage() {
             size="small"
             value={password}
             onChange={e => changePassword(e)}
-            placeholder="123"
+
             onKeyDown={(e) => { if (e.key == "Enter") { handleLogin() } }}
           />
         </Grid>

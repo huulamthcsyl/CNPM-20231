@@ -90,7 +90,7 @@ function DoiMatKhauPage() {
         ></TextField>
       </Grid>
       <Grid item container direction="row" alignItems="center">
-        <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
+        <Typography style={{ fontSize: "24px", marginRight: "27px" }}>
           Xác nhận mật khẩu mới
         </Typography>
         <TextField

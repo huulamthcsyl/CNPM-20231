@@ -133,7 +133,7 @@ function DangKyTamVangPage() {
     }).then((resp) => {
       toast.success('Đăng ký tạm vắng thành công')
     }).catch((error) => {
-      toast.error('Đăng ký tạm vắng thất bại')
+      toast.error(error.response.data);
     })
   }
   const handleChangeName = (e, value) => {
