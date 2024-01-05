@@ -50,7 +50,7 @@ const theme = createTheme({
 });
 const CustomizedDatePicker = styled(DatePicker)`
   & .MuiInputBase-input {
-    font-size: 18px;
+    font-size: 20px;
     width: 150px;
     height: 40px;
   }
@@ -221,7 +221,7 @@ function ThemCuDan() {
               Chi tiết cư dân
             </Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2} container alignItems={"center"}>
             <Typography variant="h4">
               Họ và tên<span style={{ color: "red" }}> (*)</span>
             </Typography>
@@ -233,7 +233,7 @@ function ThemCuDan() {
               style={{ width: "280px" }}
             ></TextField>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2} container alignItems={"center"}>
             <Typography variant="h4">
               Giới tính<span style={{ color: "red" }}> (*)</span>
             </Typography>
@@ -250,20 +250,20 @@ function ThemCuDan() {
               <FormControlLabel
                 value={true}
                 control={<Radio />}
-                label=<Typography variant="h4" fontWeight={400}>
+                label=<Typography fontSize={"20px"} fontWeight={400}>
                   Nam
                 </Typography>
               />
               <FormControlLabel
                 value={false}
                 control={<Radio />}
-                label=<Typography variant="h4" fontWeight={400}>
+                label=<Typography fontSize={"20px"} fontWeight={400}>
                   Nữ
                 </Typography>
               />
             </RadioGroup>
           </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} container alignItems={"center"}>
               <Typography variant="h4">
                 Trạng thái cư trú<span style={{ color: "red" }}> (*)</span>
               </Typography>
@@ -279,7 +279,7 @@ function ThemCuDan() {
                   disabled
                 >
                   <MenuItem value="Tạm Vắng">
-                    <Typography variant="h5">Tạm vắng</Typography>
+                    <Typography fontSize={"20px"}>Tạm vắng</Typography>
                   </MenuItem>
                 </Select>
               ) : (
@@ -291,10 +291,10 @@ function ThemCuDan() {
                   onChange={handleChange}
                 >
                   <MenuItem value="Thường trú">
-                    <Typography variant="h5">Thường trú</Typography>
+                    <Typography fontSize={"20px"}>Thường trú</Typography>
                   </MenuItem>
                   <MenuItem value="Tạm trú">
-                    <Typography variant="h5">Tạm trú</Typography>
+                    <Typography fontSize={"20px"}>Tạm trú</Typography>
                   </MenuItem>
                 </Select>
               )}
@@ -317,7 +317,7 @@ function ThemCuDan() {
                 format="DD-MM-YYYY"
               />
             </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={2} container alignItems={"center"}>
                 <Typography variant="h4">
                   Tỉnh (Thành phố)<span style={{ color: "red" }}> (*)</span>
                 </Typography>
@@ -331,12 +331,12 @@ function ThemCuDan() {
                 >
                   {provinces.map((provinc, index) => (
                     <MenuItem value={provinc.name} key={index}>
-                      <Typography variant="h5">{provinc.name}</Typography>
+                      <Typography fontSize={"20px"}>{provinc.name}</Typography>
                     </MenuItem>
                   ))}
                 </Select>
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={2} container alignItems={"center"}>
                 <Typography variant="h4">
                   Huyện (Quận)<span style={{ color: "red" }}> (*)</span>
                 </Typography>
@@ -350,12 +350,12 @@ function ThemCuDan() {
                 >
                   {districts.map((distric, index) => (
                     <MenuItem value={distric.name} key={index}>
-                      <Typography variant="h5">{distric.name}</Typography>
+                      <Typography fontSize={"20px"}>{distric.name}</Typography>
                     </MenuItem>
                   ))}
                 </Select>
               </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} container alignItems={"center"}>
               <Typography variant="h4">
                 Xã (Phường)<span style={{ color: "red" }}> (*)</span>
               </Typography>
@@ -369,12 +369,12 @@ function ThemCuDan() {
               >
                 {villages.map((villag, index) => (
                   <MenuItem value={villag.name} key={index}>
-                    <Typography variant="h5">{villag.name}</Typography>
+                    <Typography fontSize={"20px"}>{villag.name}</Typography>
                   </MenuItem>
                 ))}
               </Select>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} container alignItems={"center"}>
               <Typography variant="h4">CCCD</Typography>
             </Grid>
             <Grid item xs={10}>
@@ -383,10 +383,10 @@ function ThemCuDan() {
                 onChange={(e) => {
                   setCccd(e.target.value);
                 }}
-                style={{ width: "280px" }}
+                style={{ width: "280px", fontSize: "20px"  }}
               ></TextField>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} container alignItems={"center"}>
               <Typography variant="h4">Số điện thoại</Typography>
             </Grid>
             <Grid item xs={10}>
@@ -395,7 +395,7 @@ function ThemCuDan() {
                 onChange={(e) => {
                   setPhoneNumber(e.target.value);
                 }}
-                style={{ width: "280px" }}
+                style={{ width: "280px", fontSize:"20px" }}
               ></TextField>
             </Grid>
           <Grid item xs={2}>

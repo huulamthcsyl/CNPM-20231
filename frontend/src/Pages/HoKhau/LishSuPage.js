@@ -37,11 +37,11 @@ function LichSuPage() {
     return (
         <Grid container paddingLeft='50px' paddingTop='40px' rowSpacing={2}>
             <Grid item xs={12}>
-                <Typography variant="h2">Lịch sử thay đổi nhân khẩu hộ {name}</Typography>
+                <Typography style={{fontWeight: "bold", fontSize: "40px"}}>Lịch sử thay đổi nhân khẩu hộ {name}</Typography>
             </Grid>
             <Grid item container xs={12} alignItems='center'>
                 <Grid item xs={2.5}>
-                    <Typography style={{ fontSize: '22px' }}>Tên chủ hộ</Typography>
+                    <Typography style={{ fontSize: '24px' }}>Tên chủ hộ</Typography>
                 </Grid>
                 <Grid item>
                     <TextField style={{ width: '400px' }} InputProps={{
@@ -53,7 +53,7 @@ function LichSuPage() {
             </Grid>
             <Grid item container xs={12} alignItems='center'>
                 <Grid item xs={2.5}>
-                    <Typography style={{ fontSize: '22px' }}>Nơi thường trú</Typography>
+                    <Typography style={{ fontSize: '24px' }}>Nơi thường trú</Typography>
                 </Grid>
                 <Grid item>
                     <TextField style={{ width: '400px' }} InputProps={{
@@ -64,7 +64,7 @@ function LichSuPage() {
                 </Grid>
             </Grid>
             <Grid container item xs={12}>
-                <Typography style={{ fontSize: '22px' }}>Lịch sử thay đổi</Typography>
+                <Typography style={{ fontSize: '24px' }}>Lịch sử thay đổi</Typography>
             </Grid>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650, maxWidth: 1100 }}>
@@ -93,25 +93,25 @@ function LichSuPage() {
                                     item.personName !== null && (
                                         <TableRow key={index}>
                                             <TableCell>
-                                                <Typography style={{ fontSize: '20px' }}>{page * rowsPerPage + index + 1}</Typography>
+                                                <Typography style={{ fontSize: '18px' }}>{page * rowsPerPage + index + 1}</Typography>
                                             </TableCell>
                                             <TableCell style={{ width: '420px' }}>
-                                                <Typography style={{ fontSize: '20px' }}>{item.personName}</Typography>
+                                                <Typography style={{ fontSize: '18px' }}>{item.personName}</Typography>
                                             </TableCell>
                                             <TableCell>
-                                                <Typography style={{ fontSize: '20px' }}>{item.dateOfBirth.substring(8, 10) + '/' + item.dateOfBirth.substring(5, 7) + '/' + item.dateOfBirth.substring(0, 4)}</Typography>
+                                                <Typography style={{ fontSize: '18px' }}>{item.dateOfBirth.substring(8, 10) + '/' + item.dateOfBirth.substring(5, 7) + '/' + item.dateOfBirth.substring(0, 4)}</Typography>
                                             </TableCell>
                                             <TableCell>
-                                                <Typography style={{ fontSize: '20px' }}>{item.identityCardNumber}</Typography>
+                                                <Typography style={{ fontSize: '18px' }}>{item.identityCardNumber}</Typography>
                                             </TableCell>
                                             <TableCell>
-                                                <Typography style={{ fontSize: '20px' }}>{item.ownerRelationship}</Typography>
+                                                <Typography style={{ fontSize: '18px' }}>{item.ownerRelationship}</Typography>
                                             </TableCell>
                                             <TableCell>
-                                                <Typography style={{ fontSize: '20px' }}>{item.datecreated.substring(8, 10) + '/' + item.datecreated.substring(5, 7) + '/' + item.datecreated.substring(0, 4)}</Typography>
+                                                <Typography style={{ fontSize: '18px' }}>{item.datecreated.substring(8, 10) + '/' + item.datecreated.substring(5, 7) + '/' + item.datecreated.substring(0, 4)}</Typography>
                                             </TableCell>
                                             <TableCell style={{ width: '230px' }}>
-                                                <Typography style={{ fontSize: '20px' }}>{item.action}</Typography>
+                                                <Typography style={{ fontSize: '18px' }}>{item.action}</Typography>
                                             </TableCell>
                                         </TableRow>
                                     ))}

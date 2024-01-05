@@ -81,7 +81,7 @@ function HoKhau() {
         />
       </Grid>
       <Grid item xs={12}>
-        <ButtonSearch onclick={handleSearch} title="Tìm kiếm"></ButtonSearch>
+        <ButtonSearch onclick={handleSearch} title="Tìm kiếm hộ dân"></ButtonSearch>
       </Grid>
       <Grid item xs={12}>
         <TableContainer component={Paper}>
@@ -123,9 +123,9 @@ function HoKhau() {
                             {page * rowsPerPage + index + 1}
                           </Typography>
                         </TableCell>
-                        <TableCell style={{ fontSize: '17px', width: '260px' }}>{colume.ownerName}</TableCell>
-                        <TableCell style={{ fontSize: '17px', width: '300px' }}>{colume.address}</TableCell>
-                        <TableCell style={{ fontSize: '17px' }}>{colume.memberNumber}</TableCell>
+                        <TableCell style={{ fontSize: '18px', width: '260px' }}>{colume.ownerName}</TableCell>
+                        <TableCell style={{ fontSize: '18px', width: '300px' }}>{colume.address}</TableCell>
+                        <TableCell style={{ fontSize: '18px' }}>{colume.memberNumber}</TableCell>
                         <TableCell>
                           <NavLink to={"/chitiethodan/" + colume.residenceId}>
                             <button
@@ -135,8 +135,8 @@ function HoKhau() {
                               }}
                             >
                               <Typography
-                                variant="h5"
-                                style={{ fontWeight: "500" }}
+                                // variant="h5"
+                                style={{ fontWeight: "500", fontSize: "18px"}}
                                 padding={0}
                                 color="#3454FC"
                               >

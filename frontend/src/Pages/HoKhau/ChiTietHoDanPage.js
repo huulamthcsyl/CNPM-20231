@@ -153,7 +153,7 @@ function ChiTietHoDan({ Hodan }) {
               <Grid item>
                 <TextField
                   style={{ width: "400px" }}
-                  inputProps={{ style: { fontSize: "16px" } }}
+                  inputProps={{ style: { fontSize: "18px" } }}
                   value={name}
                   //disabled
                   readOnly="true"
@@ -175,7 +175,7 @@ function ChiTietHoDan({ Hodan }) {
               <Grid item >
                 <TextField
                   style={{ width: "400px" }}
-                  inputProps={{ style: { fontSize: "16px" } }}
+                  inputProps={{ style: { fontSize: "18px" } }}
                   value={address}
                   onChange={(e) => { setAddress(e.target.value) }}
                 //        disabled
@@ -205,18 +205,18 @@ function ChiTietHoDan({ Hodan }) {
                 <TableBody>
                   <TableRow>
                     <TableCell>
-                      <Typography style={{ fontSize: '20px' }}>1</Typography>
+                      <Typography style={{ fontSize: '18px' }}>1</Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography style={{ fontSize: '20px' }}>{name}</Typography>
+                      <Typography style={{ fontSize: '18px' }}>{name}</Typography>
                     </TableCell>
                     <TableCell style={{ fontSize: "18px" }}>
-                      <Typography style={{ fontSize: '20px' }}>{owner.dateOfBirth ? owner.dateOfBirth.substring(8, 10) + '/' + owner.dateOfBirth.substring(5, 7) + '/' + owner.dateOfBirth.substring(0, 4) : ''}</Typography>
+                      <Typography style={{ fontSize: '18px' }}>{owner.dateOfBirth ? owner.dateOfBirth.substring(8, 10) + '/' + owner.dateOfBirth.substring(5, 7) + '/' + owner.dateOfBirth.substring(0, 4) : ''}</Typography>
                     </TableCell>
                     <TableCell style={{ fontSize: "18px" }}>
                       <input
                         style={{
-                          fontSize: "20px",
+                          fontSize: "18px",
                           border: "none",
                           width: "150px", backgroundColor: 'transparent'
                         }}
@@ -249,18 +249,18 @@ function ChiTietHoDan({ Hodan }) {
                   {listMember.length > 0 && listMember.map((item, index) => (
                     <TableRow key={index}>
                       <TableCell>
-                        <Typography style={{ fontSize: '20px' }}>{index + 2}</Typography>
+                        <Typography style={{ fontSize: '18px' }}>{index + 2}</Typography>
                       </TableCell>
                       <TableCell>
-                        <Typography style={{ fontSize: '20px' }}>{item.name}</Typography>
+                        <Typography style={{ fontSize: '18px' }}>{item.name}</Typography>
                       </TableCell>
                       <TableCell style={{ fontSize: "18px" }}>
-                        <Typography style={{ fontSize: '20px' }}>{item.dateOfBirth.substring(8, 10) + '/' + item.dateOfBirth.substring(5, 7) + '/' + item.dateOfBirth.substring(0, 4)}</Typography>
+                        <Typography style={{ fontSize: '18px' }}>{item.dateOfBirth.substring(8, 10) + '/' + item.dateOfBirth.substring(5, 7) + '/' + item.dateOfBirth.substring(0, 4)}</Typography>
                       </TableCell>
                       <TableCell style={{ fontSize: "18px" }}>
                         <input
                           style={{
-                            fontSize: "20px",
+                            fontSize: "18px",
                             border: "none",
                             width: "150px", backgroundColor: 'transparent'
                           }}
@@ -359,7 +359,7 @@ function ChiTietHoDan({ Hodan }) {
           <Grid item xs={12}>
             <NavLink to={"/lichsuthaydoi/" + id}>
               <button style={{ backgroundColor: "transparent", cursor: "pointer" }}>
-                <Typography variant="h4" style={{ color: "blue", cursor: "pointer" }}>
+                <Typography  style={{ color: "blue", cursor: "pointer", fontSize: "20px" }}>
                   Lịch sử thay đổi nhân khẩu
                 </Typography>
               </button>

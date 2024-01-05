@@ -86,7 +86,7 @@ function CustomRow({ index, listMember, setListMember, changeRelation, personId,
     return (
         <TableRow key={index}>
             <TableCell>
-                <Typography style={{ fontSize: '15px', color: 'blue' }}>Thêm</Typography>
+                <Typography style={{ fontSize: '18px', color: 'blue' }}>Thêm</Typography>
 
             </TableCell>
             <TableCell>

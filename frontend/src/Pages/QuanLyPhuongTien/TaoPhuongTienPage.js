@@ -89,7 +89,7 @@ function TaoPhuongTienPage() {
         <h1 style={{ fontSize: "40px" }}>Thêm phương tiện mới</h1>
       </Grid>
       <Grid item container direction="row" alignItems="center">
-        <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
+        <Typography style={{ fontSize: "24px", marginRight: "27px" }}>
           Biển kiểm soát
           <span style={{ color: 'red' }}>  (*)  </span>
         </Typography>

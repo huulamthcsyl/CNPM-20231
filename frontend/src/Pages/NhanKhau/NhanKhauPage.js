@@ -111,16 +111,16 @@ function NhanKhau() {
                     peop.personId !== null && (
                       <TableRow key={index}>
                         <TableCell>
-                          <Typography variant="h5">
+                          <Typography fontSize={"18px"}>
                             {" "}
                             {page * rowsPerPage + index + 1}
                           </Typography>
                         </TableCell>
                         <TableCell style={{ width: "300px" }}>
-                          <Typography variant="h5">{peop.name}</Typography>
+                          <Typography fontSize={"18px"}>{peop.name}</Typography>
                         </TableCell>
                         <TableCell style={{ width: "200px" }}>
-                          <Typography variant="h5">
+                          <Typography fontSize={"18px"}>
                             {peop.dateOfBirth.substring(8, 10) +
                               "/" +
                               peop.dateOfBirth.substring(5, 7) +
@@ -129,7 +129,7 @@ function NhanKhau() {
                           </Typography>
                         </TableCell>
                         <TableCell style={{ width: "200px" }}>
-                          <Typography variant="h5">
+                          <Typography fontSize={"18px"}>
                             {peop.identityCardNumber}
                           </Typography>
                         </TableCell>
@@ -141,6 +141,7 @@ function NhanKhau() {
                                   backgroundColor: "transparent",
                                   color: "blue",
                                   textDecoration: "underline",
+                                  fontSize: "18px"
                                 }}
                               >
                                 Chi tiết

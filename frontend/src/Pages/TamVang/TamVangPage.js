@@ -64,7 +64,7 @@ function TamVangPage() {
         />
       </Grid>
       <Grid item xs={12}>
-        <ButtonSearch title="Tìm kiếm" onclick={handleFind}></ButtonSearch>
+        <ButtonSearch title="Tìm kiếm cư dân" onclick={handleFind}></ButtonSearch>
       </Grid>
       <Grid item xs={12}>
         <TableContainer>
@@ -92,16 +92,16 @@ function TamVangPage() {
                     peop.personId !== null && (
                       <TableRow key={index}>
                         <TableCell >
-                          <Typography variant="h5">{page * rowsPerPage + index + 1}</Typography>
+                          <Typography fontSize={"18px"}>{page * rowsPerPage + index + 1}</Typography>
                         </TableCell>
                         <TableCell style={{ width: '300px' }}>
-                          <Typography variant="h5">{peop.person ? peop.person.name : ''}</Typography>
+                          <Typography fontSize={"18px"}>{peop.person ? peop.person.name : ''}</Typography>
                         </TableCell>
                         <TableCell>
-                          <Typography variant="h5" style={{ width: '200px' }}>{peop.person ? peop.person.dateOfBirth.substring(8, 10) + '/' + peop.person.dateOfBirth.substring(5, 7) + '/' + peop.person.dateOfBirth.substring(0, 4) : ''}</Typography>
+                          <Typography fontSize={"18px"} style={{ width: '200px' }}>{peop.person ? peop.person.dateOfBirth.substring(8, 10) + '/' + peop.person.dateOfBirth.substring(5, 7) + '/' + peop.person.dateOfBirth.substring(0, 4) : ''}</Typography>
                         </TableCell>
                         <TableCell>
-                          <Typography variant="h5" style={{ width: '200px' }}>{peop.person ? peop.person.identityCardNumber : ''}</Typography>
+                          <Typography fontSize={"18px"} style={{ width: '200px' }}>{peop.person ? peop.person.identityCardNumber : ''}</Typography>
                         </TableCell>
                         <TableCell>
                           {
@@ -111,6 +111,7 @@ function TamVangPage() {
                                   backgroundColor: "transparent",
                                   color: "blue",
                                   textDecoration: "underline",
+                                  fontSize:"18px"
                                 }}
                               >
                                 Chi tiết

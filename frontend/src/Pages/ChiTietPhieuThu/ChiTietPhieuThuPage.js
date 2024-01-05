@@ -23,6 +23,7 @@ export default function ChiTietPhieuThu() {
   const [address, setAddress] = useState("");
   const [dateCreated, setDateCreated] = useState("");
   let isValid = true;
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     ClassApi.GetResidenceReceipt(residenceReceiptId)
@@ -45,10 +46,12 @@ export default function ChiTietPhieuThu() {
           setPayments(listPayment);
         }
         //  console.log(res.data);
+        setLoading(false);
       })
       .catch((error) => {
         toast.error(error.response.data);
         console.log(error);
+        setLoading(false);
       });
     ClassApi.GetAllResidenceFee()
       .then((res) => {
@@ -57,8 +60,14 @@ export default function ChiTietPhieuThu() {
       .catch((err) => {
         toast.error(err.response.data);
         console.log(err);
+        setLoading(false); 
       });
   }, []);
+
+  if (loading) {
+    // return <div>Loading...</div>;
+    return null;
+  }
   fees.map((fee, index) => {
     feeShrinkList.push({
       label: fee.name,

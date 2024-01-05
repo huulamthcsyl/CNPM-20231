@@ -14,7 +14,7 @@ import PlusCircle from "../../Icons/PlusCircle.png";
 import ClassApi from "../../Api/Api";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 function ChiTietKhoanThuPhuongtienPage() {
   const searchParams = new URLSearchParams(window.location.search);
@@ -28,24 +28,30 @@ function ChiTietKhoanThuPhuongtienPage() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [vehicleReceipts, setVehicleReceipts] = useState([]);
-  const [lisensePlate, setLisensePlate] = useState('');
-  const [name, setName] = useState('');
+  const [lisensePlate, setLisensePlate] = useState("");
+  const [name, setName] = useState("");
   const [starttime, setStarttime] = useState();
   const [endtime, setEndtime] = useState();
 
   const CustomizedDatePicker = styled(DatePicker)`
-  & .MuiInputBase-input {
-    font-size: 18px;
-    width: 150px;
-  }
-  .MuiInputLabel-root {
-    font-size: 20px;
-  }
-`;
+    & .MuiInputBase-input {
+      font-size: 18px;
+      width: 150px;
+    }
+    .MuiInputLabel-root {
+      font-size: 20px;
+    }
+  `;
 
-
-  const fields = [{ label: "Biển kiểm soát" }]
-  const columnNames = ["Số thứ tự", "Biển kiểm soát", "Chủ sở hữu", "Số tiền đã đóng (đồng)", "Ngày thu", "Ghi chú"];
+  const fields = [{ label: "Biển kiểm soát" }];
+  const columnNames = [
+    "Số thứ tự",
+    "Biển kiểm soát",
+    "Chủ sở hữu",
+    "Số tiền đã đóng (đồng)",
+    "Ngày thu",
+    "Ghi chú",
+  ];
   const tableHeadName = [
     { name: "Số thứ tự" },
     { name: "Biển kiểm soát" },
@@ -61,7 +67,6 @@ function ChiTietKhoanThuPhuongtienPage() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
 
   useEffect(() => {
     ClassApi.GetVehicleFee(vehicleFeeId)
@@ -108,7 +113,13 @@ function ChiTietKhoanThuPhuongtienPage() {
 
     // console.log(startTime, endTime);
     console.log(lisensePlate);
-    ClassApi.FindVehicleReceiptByFeeId(lisensePlate, name, startTime, endTime, vehicleFeeId)
+    ClassApi.FindVehicleReceiptByFeeId(
+      lisensePlate,
+      name,
+      startTime,
+      endTime,
+      vehicleFeeId
+    )
       .then((res) => {
         setVehicleReceipts(res.data);
         console.log(res.data);
@@ -122,11 +133,8 @@ function ChiTietKhoanThuPhuongtienPage() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={2} padding={"50px"}>
-
         <Grid item xs={12}>
-          <h1 style={{ fontSize: "40px" }}>
-            Chi tiết {fee.name}
-          </h1>
+          <h1 style={{ fontSize: "40px" }}>Chi tiết {fee.name}</h1>
         </Grid>
 
         <Grid item xs={6}>
@@ -137,35 +145,16 @@ function ChiTietKhoanThuPhuongtienPage() {
 
         <Grid item xs={6}>
           <Typography style={{ fontSize: "24px", marginRight: "50px" }}>
-            Tổng số tiền: {fee.total && fee.total.toLocaleString("en-US", { style: "decimal" })} {" "} đồng
+            Tổng số tiền:{" "}
+            {fee.total &&
+              fee.total.toLocaleString("en-US", { style: "decimal" })}{" "}
+            đồng
           </Typography>
         </Grid>
-
-        <Grid item xs={6}>
-          <h2 style={{ fontSize: "24px" }}>
-            Danh sách thu
-          </h2>
-        </Grid>
-
-        {/* <Grid item xs={12}>
-          <Typography style={{ fontSize: "24px", marginRight: "50px" }}>
-            Tìm kiếm
-          </Typography>
-        </Grid> */}
 
         <Grid item xs={12}>
           <FormControl>
             <FormGroup row>
-              {/* {fields.map((field, index) => (
-                <TextField
-                  key={index}
-                  label={field.label}
-                  variant="filled"
-                  style={{ marginRight: "35px" }}
-                  inputProps={{ style: { fontSize: "18px" } }}
-                  InputLabelProps={{ style: { fontSize: "20px" } }}
-                />
-              ))} */}
               <TextField
                 label="Biển kiểm soát"
                 variant="filled"
@@ -204,33 +193,23 @@ function ChiTietKhoanThuPhuongtienPage() {
           </FormControl>
         </Grid>
 
-        <Grid item>
+        <Grid item xs={12} sx={{ mt: 2 }}>
           <Button
             variant="contained"
-            style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
+            style={{ backgroundColor: "#79C9FF" }}
             onClick={() => handleSearch()}
           >
             <Typography variant="h4" style={{ color: "black" }}>
-              Tìm kiếm
+              Tìm kiếm phiếu thu
             </Typography>
           </Button>
         </Grid>
-
+        <Grid item xs={6} sx={{ mt: 2 }}>
+          <h2 style={{ fontSize: "24px" }}>Danh sách phiếu thu</h2>
+        </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }}>
-              {/* <TableHead>
-                <TableRow>
-                  {tableHeadName.map((column, index) => (
-                    <TableCell key={index}>
-                      <Typography variant="h4" style={{ fontWeight: "bold" }}>
-                        {column.name}
-                      </Typography>
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead> */}
-
               <TableHead>
                 <TableRow>
                   {columnNames.map((name, index) => (
@@ -246,9 +225,9 @@ function ChiTietKhoanThuPhuongtienPage() {
                 {vehicleReceipts &&
                   (rowsPerPage > 0
                     ? vehicleReceipts.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
                     : vehicleReceipts
                   ).map((vehicleReceipt, index) => (
                     <TableRow>
@@ -267,19 +246,27 @@ function ChiTietKhoanThuPhuongtienPage() {
                         })}{" "}
                       </TableCell>
                       <TableCell style={{ fontSize: "18px" }}>
-                        {new Date(vehicleReceipt.dateCreated).toLocaleDateString("en-GB")}
+                        {new Date(
+                          vehicleReceipt.dateCreated
+                        ).toLocaleDateString("en-GB")}
                       </TableCell>
                       <TableCell>
                         {/* <NavLink to="/chitietphieuthuphuongtien">
                           <Typography style={{ fontSize: "18px" }}>Chi Tiết</Typography>
                         </NavLink> */}
-                        <a href={`${nextPagePathname}${vehicleReceipt.vehicleReceiptId}`}>
-                          <Typography style={{ fontSize: "18px", textDecoration: "underline" }}>
+                        <a
+                          href={`${nextPagePathname}${vehicleReceipt.vehicleReceiptId}`}
+                        >
+                          <Typography
+                            style={{
+                              fontSize: "18px",
+                              textDecoration: "underline",
+                            }}
+                          >
                             Chi Tiết
                           </Typography>
                         </a>
                       </TableCell>
-
                     </TableRow>
                   ))}
               </TableBody>
@@ -319,10 +306,8 @@ function ChiTietKhoanThuPhuongtienPage() {
             </Table>
           </TableContainer>
         </Grid>
-
       </Grid>
     </LocalizationProvider>
-
   );
 }
 

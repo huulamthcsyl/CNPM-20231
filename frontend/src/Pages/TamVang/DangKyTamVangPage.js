@@ -45,7 +45,7 @@ const theme = createTheme({
 function DangKyTamVangPage() {
   const CustomizedDatePicker = styled(DatePicker)`
   & .MuiInputBase-input {
-    font-size: 15px;
+    font-size: 20px;
     width: 150px;
   }
   .MuiInputLabel-root {
@@ -185,11 +185,11 @@ function DangKyTamVangPage() {
             wrap="wrap"
             alignItems="center"
           >
-            <Grid item container xs={12} wrap="nowrap">
-              <Grid item xs={2.8}>
+            <Grid item container xs={12} wrap="nowrap" alignItems={"center"}>
+              <Grid item xs={4.1}>
                 <Typography variant="h4">Giới tính <span style={{ color: 'red' }}>(*)</span></Typography>
               </Grid>
-              <Grid item alignItems="center">
+              <Grid item container alignItems="center" xs={1.5}>
                 <input
                   id="radio1"
                   type="radio"
@@ -202,12 +202,12 @@ function DangKyTamVangPage() {
                 ></input>
                 <label
                   htmlFor="radio1"
-                  style={{ fontSize: "24px", margin: "0px 12px" }}
+                  style={{ fontSize: "20px", margin: "0px 12px" }}
                 >
                   Nam
                 </label>
               </Grid>
-              <Grid item alignItems="center">
+              <Grid item container alignItems="center">
                 <input
                   disabled
                   id="radio2"
@@ -221,7 +221,7 @@ function DangKyTamVangPage() {
                 ></input>
                 <label
                   htmlFor="radio2"
-                  style={{ fontSize: "24px", margin: "0px 12px" }}
+                  style={{ fontSize: "20px", margin: "0px 12px" }}
 
                 >
                   Nữ
@@ -246,7 +246,7 @@ function DangKyTamVangPage() {
                 onChange={(value) => {
                   setBirth(value)
                 }}
-                disabled
+                readOnly={true}
               />
             </Grid>
           </Grid>
@@ -263,7 +263,7 @@ function DangKyTamVangPage() {
               <Typography variant="h4">CCCD</Typography>
             </Grid>
             <Grid item>
-              <TextField value={cccd} disabled></TextField>
+              <TextField value={cccd} readOnly="true"></TextField>
             </Grid>
           </Grid>
           <Grid
@@ -278,7 +278,7 @@ function DangKyTamVangPage() {
               <Typography variant="h4">Số điện thoại</Typography>
             </Grid>
             <Grid item>
-              <TextField value={phoneNumber} disabled onChange={(e) => { setPhoneNumber(e.target.value) }}></TextField>
+              <TextField value={phoneNumber} readOnly="true" onChange={(e) => { setPhoneNumber(e.target.value) }}></TextField>
             </Grid>
           </Grid>
           <Grid
@@ -293,7 +293,7 @@ function DangKyTamVangPage() {
               <Typography variant="h4">Nơi thường trú <span style={{ color: 'red' }}>(*)</span></Typography>
             </Grid>
             <Grid item>
-              <TextField value={address1} disabled></TextField>
+              <TextField value={address1} readOnly="true"></TextField>
             </Grid>
           </Grid>
           <Grid
