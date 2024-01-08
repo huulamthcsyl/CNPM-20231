@@ -17,6 +17,16 @@ import { toast } from "react-toastify";
 import { format } from "date-fns";
 import ThuPhi from "../../Icons/ThuPhi.png";
 
+const CustomizedDatePicker = styled(DatePicker)`
+    & .MuiInputBase-input {
+      font-size: 18px;
+      width: 150px;
+    }
+    .MuiInputLabel-root {
+      font-size: 20px;
+    }
+  `;
+
 function PhieuThuPhuongTienPage() {
     const pathname = window.location.pathname;
     const nextPagePathname =
@@ -26,8 +36,8 @@ function PhieuThuPhuongTienPage() {
     const [vehicleReceipts, setVehicleReceipts] = useState([]);
     const [lisensePlate, setLisensePlate] = useState("");
     const [name, setName] = useState("");
-    const [starttime, setStarttime] = useState();
-    const [endtime, setEndtime] = useState();
+    const [starttime, setStarttime] = useState(null);
+    const [endtime, setEndtime] = useState(null);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const tableHeadName = [
@@ -51,13 +61,13 @@ function PhieuThuPhuongTienPage() {
         setPage(0);
         var startTime, endTime;
 
-        if (starttime === undefined || !starttime.isValid()) startTime = "";
+        if (starttime === null || !starttime.isValid()) startTime = "";
         else {
             startTime = new Date(starttime);
             startTime.setDate(startTime.getDate() + 1);
             startTime = startTime.toISOString();
         }
-        if (endtime === undefined || !endtime.isValid()) endTime = "";
+        if (endtime === null || !endtime.isValid()) endTime = "";
         else {
             endTime = new Date(endtime);
             endTime.setDate(endTime.getDate() + 1);
@@ -78,15 +88,7 @@ function PhieuThuPhuongTienPage() {
                 console.log(err);
             });
     };
-    const CustomizedDatePicker = styled(DatePicker)`
-    & .MuiInputBase-input {
-      font-size: 18px;
-      width: 150px;
-    }
-    .MuiInputLabel-root {
-      font-size: 20px;
-    }
-  `;
+    
     useEffect(() => {
         ClassApi.GetAllVehicleReceipt()
             .then((res) => {

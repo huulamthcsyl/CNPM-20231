@@ -16,6 +16,17 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
 
+const CustomizedDatePicker = styled(DatePicker)`
+    & .MuiInputBase-input {
+      font-size: 18px;
+      width: 150px;
+    }
+    .MuiInputLabel-root {
+      font-size: 20px;
+    }
+  `;
+
+
 function ChiTietKhoanThuPhuongtienPage() {
   const searchParams = new URLSearchParams(window.location.search);
   const vehicleFeeId = searchParams.get("vehicleFeeId");
@@ -30,19 +41,10 @@ function ChiTietKhoanThuPhuongtienPage() {
   const [vehicleReceipts, setVehicleReceipts] = useState([]);
   const [lisensePlate, setLisensePlate] = useState("");
   const [name, setName] = useState("");
-  const [starttime, setStarttime] = useState();
-  const [endtime, setEndtime] = useState();
+  const [starttime, setStarttime] = useState(null);
+  const [endtime, setEndtime] = useState(null);
 
-  const CustomizedDatePicker = styled(DatePicker)`
-    & .MuiInputBase-input {
-      font-size: 18px;
-      width: 150px;
-    }
-    .MuiInputLabel-root {
-      font-size: 20px;
-    }
-  `;
-
+  
   const fields = [{ label: "Biển kiểm soát" }];
   const columnNames = [
     "Số thứ tự",
@@ -94,7 +96,7 @@ function ChiTietKhoanThuPhuongtienPage() {
     setPage(0);
     var startTime, endTime;
 
-    if (starttime === undefined || !starttime.isValid()) startTime = "";
+    if (starttime === null || !starttime.isValid()) startTime = "";
     else {
       startTime = new Date(starttime);
       startTime.setDate(startTime.getDate() + 1);
@@ -102,7 +104,7 @@ function ChiTietKhoanThuPhuongtienPage() {
       // startTime = startTime.slice(1, startTime.length - 1);
       startTime = startTime.toISOString();
     }
-    if (endtime === undefined || !endtime.isValid()) endTime = "";
+    if (endtime === null || !endtime.isValid()) endTime = "";
     else {
       endTime = new Date(endtime);
       endTime.setDate(endTime.getDate() + 1);

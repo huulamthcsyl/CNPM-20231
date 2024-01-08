@@ -56,6 +56,17 @@ const theme2 = createTheme({
   },
 });
 
+const CustomizedDatePicker = styled(DatePicker)`
+& .MuiInputBase-input {
+  font-size: 20px;
+  width: 445px;
+}
+& .MuiInputLabel-root {
+  font-size: 20px;
+}
+`;
+
+
 function HoSoPage() {
   let Admin = {};
   const [value, setValue] = useState("");
@@ -65,15 +76,6 @@ function HoSoPage() {
   const [phoneNumber, setPhoneNumber] = useState();
   const [date, setDate] = useState();
 
-  const CustomizedDatePicker = styled(DatePicker)`
-    & .MuiInputBase-input {
-      font-size: 20px;
-      width: 445px;
-    }
-    & .MuiInputLabel-root {
-      font-size: 20px;
-    }
-  `;
 
   useEffect(() => {
     ClassApi.GetHoSo(sessionStorage.getItem("user")).then((response) => {

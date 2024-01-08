@@ -26,6 +26,17 @@ import { toast } from "react-toastify";
 import { Box } from "@mui/material";
 import { VehicleReceipt } from "../../Models/VehicleReceipt";
 
+
+const CustomizedDatePicker = styled(DatePicker)`
+& .MuiInputBase-input {
+  font-size: 18px;
+  width: 445px;
+}
+.MuiInputLabel-root {
+  font-size: 20px;
+}
+`;
+
 function TaoPhieuThuPhuongtienPage() {
   const columnNames = [
     "Số thứ tự",
@@ -37,7 +48,7 @@ function TaoPhieuThuPhuongtienPage() {
   //const [vehicleID, setVehicleID] = useState('');
   const [vehicleList, setVehicleList] = useState([]);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
-  const [dateCreated, setDateCreated] = useState();
+  const [dateCreated, setDateCreated] = useState(null);
   const [payments, setPayments] = useState([]);
   const [fees, setFees] = useState([]);
   const [totalCost, setTotalCost] = useState(0);
@@ -46,15 +57,7 @@ function TaoPhieuThuPhuongtienPage() {
   const feeShrinkList = [];
   let isValid = true;
 
-  const CustomizedDatePicker = styled(DatePicker)`
-    & .MuiInputBase-input {
-      font-size: 18px;
-      width: 445px;
-    }
-    .MuiInputLabel-root {
-      font-size: 20px;
-    }
-  `;
+
 
   useEffect(() => {
     ClassApi.GetAllVehicles()
@@ -144,7 +147,7 @@ function TaoPhieuThuPhuongtienPage() {
     }
 
 
-    if (dateCreated === undefined || !dateCreated.isValid()) {
+    if (dateCreated === null || !dateCreated.isValid()) {
       toast.error("Ngày thu không hợp lệ!");
       return;
     }

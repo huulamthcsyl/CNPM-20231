@@ -12,6 +12,16 @@ import { NavLink } from "react-router-dom";
 import ClassApi from "../../Api/Api";
 import { toast } from "react-toastify";
 
+const CustomizedDatePicker = styled(DatePicker)`
+    & .MuiInputBase-input {
+      font-size: 18px;
+      width: 150px;
+    }
+    .MuiInputLabel-root {
+      font-size: 20px;
+    }
+  `;
+
 export default function ChiTietKhoanThu() {
   const searchParams = new URLSearchParams(window.location.search);
   const residenceFeeId = searchParams.get("residenceFeeId");
@@ -21,8 +31,8 @@ export default function ChiTietKhoanThu() {
     "/ChiTietPhieuThu/?residenceReceiptId=";
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
-  const [starttime, setStarttime] = useState();
-  const [endtime, setEndtime] = useState();
+  const [starttime, setStarttime] = useState(null);
+  const [endtime, setEndtime] = useState(null);
   const [fee, setFee] = useState({});
   const [residenceReceipts, setResidenceReceipts] = useState([]);
   const [page, setPage] = useState(0);
@@ -43,15 +53,7 @@ export default function ChiTietKhoanThu() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  const CustomizedDatePicker = styled(DatePicker)`
-    & .MuiInputBase-input {
-      font-size: 18px;
-      width: 150px;
-    }
-    .MuiInputLabel-root {
-      font-size: 20px;
-    }
-  `;
+  
 
   useEffect(() => {
     ClassApi.GetResidenceFee(residenceFeeId)
@@ -78,14 +80,14 @@ export default function ChiTietKhoanThu() {
     setPage(0);
     var startTime, endTime;
 
-    if (starttime === undefined || !starttime.isValid()) startTime = "";
+    if (starttime === null || !starttime.isValid()) startTime = "";
     else {
       startTime = new Date(starttime);
       startTime.setDate(startTime.getDate() + 1);
       startTime = JSON.stringify(startTime);
       startTime = startTime.slice(1, startTime.length - 1);
     }
-    if (endtime === undefined || !endtime.isValid()) endTime = "";
+    if (endtime === null || !endtime.isValid()) endTime = "";
     else {
       endTime = new Date(endtime);
       endTime.setDate(endTime.getDate() + 1);

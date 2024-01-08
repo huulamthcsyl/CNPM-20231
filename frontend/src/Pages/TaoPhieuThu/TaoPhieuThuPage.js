@@ -21,8 +21,7 @@ import { Autocomplete } from "@mui/material";
 import AutoComplete from "../../Layout/component/AutoCompleteSearch";
 import { ResidenceReceipt } from "../../Models/ResidenceReceipt";
 
-export default function TaoPhieuThu() {
-  const CustomizedDatePicker = styled(DatePicker)`
+const CustomizedDatePicker = styled(DatePicker)`
     & .MuiInputBase-input {
       font-size: 18px;
       width: 445px;
@@ -31,10 +30,13 @@ export default function TaoPhieuThu() {
       font-size: 20px;
     }
   `;
+
+export default function TaoPhieuThu() {
+  
   const columnNames = ["Số thứ tự", "Tên khoản thu", "Số tiền (đồng)", ""];
   const [fullName, setFullName] = useState("");
   const [address, setAddress] = useState("");
-  const [dateCreated, setDateCreated] = useState();
+  const [dateCreated, setDateCreated] = useState(null);
   const [description, setDescription] = useState("");
   const [personId, setPersonId] = useState("");
   const [payments, setPayments] = useState([]);
@@ -148,7 +150,7 @@ export default function TaoPhieuThu() {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (dateCreated === undefined || !dateCreated.isValid()) {
+    if (dateCreated === null || !dateCreated.isValid()) {
       toast.error("Ngày thu không hợp lệ!");
       return;
     }

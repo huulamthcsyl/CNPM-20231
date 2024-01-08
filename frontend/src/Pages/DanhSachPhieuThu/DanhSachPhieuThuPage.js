@@ -15,6 +15,18 @@ import ClassApi from "../../Api/Api";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
+import { da } from "date-fns/locale";
+
+
+const CustomizedDatePicker = styled(DatePicker)`
+    & .MuiInputBase-input {
+      font-size: 18px;
+      width: 150px;
+    }
+    .MuiInputLabel-root {
+      font-size: 20px;
+    }
+  `;
 
 export default function DanhSachPhieuThu() {
   const pathname = window.location.pathname;
@@ -24,8 +36,8 @@ export default function DanhSachPhieuThu() {
   const [residenceReceipts, setResidenceReceipts] = useState([]);
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
-  const [starttime, setStarttime] = useState();
-  const [endtime, setEndtime] = useState();
+  const [starttime, setStarttime] = useState(null);
+  const [endtime, setEndtime] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const tableHeadName = [
@@ -48,13 +60,13 @@ export default function DanhSachPhieuThu() {
     setPage(0);
     var startTime, endTime;
 
-    if (starttime === undefined || !starttime.isValid()) startTime = "";
+    if (starttime === null || starttime.isValid() == false) startTime = "";
     else {
       startTime = new Date(starttime);
       startTime.setDate(startTime.getDate() + 1);
       startTime = startTime.toISOString();
     }
-    if (endtime === undefined || !endtime.isValid()) endTime = "";
+    if (endtime === null || endtime.isValid() == false) endTime = "";
     else {
       endTime = new Date(endtime);
       endTime.setDate(endTime.getDate() + 1);
@@ -73,15 +85,7 @@ export default function DanhSachPhieuThu() {
       });
   };
 
-  const CustomizedDatePicker = styled(DatePicker)`
-    & .MuiInputBase-input {
-      font-size: 18px;
-      width: 150px;
-    }
-    .MuiInputLabel-root {
-      font-size: 20px;
-    }
-  `;
+  
   useEffect(() => {
     ClassApi.GetAllResidenceReceipt()
       .then((res) => {
@@ -144,6 +148,7 @@ export default function DanhSachPhieuThu() {
                 value={starttime}
                 onChange={(date) => {
                   setStarttime(date);
+                  console.log(date)
                 }}
                 format="DD-MM-YYYY"
               />
