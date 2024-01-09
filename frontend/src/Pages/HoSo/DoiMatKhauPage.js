@@ -120,7 +120,7 @@ function DoiMatKhauPage() {
         </Button>
       </Grid>
       <Grid item>
-        <NavLink to="/hosoadmin">
+        <NavLink to="/profile">
           <Button
             variant="contained"
             style={{ backgroundColor: "#f48888", margin: "30px 0px" }}

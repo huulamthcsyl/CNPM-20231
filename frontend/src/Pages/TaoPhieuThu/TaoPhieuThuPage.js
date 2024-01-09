@@ -417,7 +417,7 @@ export default function TaoPhieuThu() {
               >
                 Xác nhận
               </Button>
-              <NavLink to="/danhsachphieuthu">
+              <NavLink to="/residenceReceipt">
                 <Button
                   variant="contained"
                   style={{

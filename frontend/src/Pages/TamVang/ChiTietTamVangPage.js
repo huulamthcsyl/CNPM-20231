@@ -342,7 +342,7 @@ function ChiTietTamVangPage() {
                 title="Xác nhận"
                 border="none"
               ></ButtonSearch>
-              <NavLink to="/tamvang">
+              <NavLink to="/absentPerson">
                 <Button
                   variant="contained"
                   style={{

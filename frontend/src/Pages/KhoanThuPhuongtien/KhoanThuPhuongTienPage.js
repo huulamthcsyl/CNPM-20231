@@ -15,7 +15,7 @@ function KhoanThuPhuongTienPage() {
   const pathname = window.location.pathname;
   const nextPagePathName =
     pathname.substr(0, pathname.indexOf("/")) +
-    "/chitietkhoanthuphuongtien/?vehicleFeeId=";
+    "/vehicleFee/detail/?vehicleFeeId=";
 
   const tableHeadName = [
     { name: "Số thứ tự" },
@@ -70,7 +70,7 @@ function KhoanThuPhuongTienPage() {
       </Grid>
 
       <Grid item xs={12}>
-        <NavLink to="/taokhoanthuphuongtien">
+        <NavLink to="/vehicleFee/add">
           <Button
             variant="contained"
             style={{ backgroundColor: "#79C9FF", marginBottom: 30 }}

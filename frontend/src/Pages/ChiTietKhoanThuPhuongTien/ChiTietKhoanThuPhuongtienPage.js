@@ -33,7 +33,7 @@ function ChiTietKhoanThuPhuongtienPage() {
   const pathname = window.location.pathname;
   const nextPagePathname =
     pathname.substr(0, pathname.indexOf("/")) +
-    "/chitietphieuthuphuongtien/?vehicleReceiptId=";
+    "/vehicleReceipt/detail/?vehicleReceiptId=";
 
   const [fee, setFee] = useState({});
   const [page, setPage] = useState(0);
@@ -250,7 +250,7 @@ function ChiTietKhoanThuPhuongtienPage() {
                         ).toLocaleDateString("en-GB")}
                       </TableCell>
                       <TableCell>
-                        {/* <NavLink to="/chitietphieuthuphuongtien">
+                        {/* <NavLink to="/vehicleReceipt/detail">
                           <Typography style={{ fontSize: "18px" }}>Chi Tiết</Typography>
                         </NavLink> */}
                         <Link

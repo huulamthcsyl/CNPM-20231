@@ -370,7 +370,7 @@ function ThemCuDan() {
                 border="none"
                 onclick={addPerson}
               ></ButtonSearch>
-              <NavLink to="/nhankhau">
+              <NavLink to="/person">
                 <Button
                   variant="contained"
                   style={{

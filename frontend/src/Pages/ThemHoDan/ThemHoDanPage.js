@@ -267,7 +267,7 @@ function ThemHoDan() {
                     </Select>
                   </TableCell>
                   <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
-                    <NavLink to={'/chitietcudan/' + id} style={{ textDecoration: 'none' }}>
+                    <NavLink to={'/person/detail/' + id} style={{ textDecoration: 'none' }}>
                       <span style={{ color: "blue" }}>Chi tiết</span>
                     </NavLink>
                     <button
@@ -317,7 +317,7 @@ function ThemHoDan() {
                       </Select>
                     </TableCell>
                     <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
-                      <NavLink to={'/chitietcudan/' + item.personId} style={{ textDecoration: 'none' }}>
+                      <NavLink to={'/person/detail/' + item.personId} style={{ textDecoration: 'none' }}>
                         <span style={{ color: "blue" }}>Chi tiết</span>|
                       </NavLink>
                       <button
@@ -352,7 +352,7 @@ function ThemHoDan() {
               Xác nhận
             </Typography>
           </Button>
-          <NavLink to="/hokhau">
+          <NavLink to="/residence">
             <Button
               variant="contained"
               style={{

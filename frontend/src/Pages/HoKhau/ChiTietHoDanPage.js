@@ -232,7 +232,7 @@ function ChiTietHoDan({ Hodan }) {
                       </Select>
                     </TableCell>
                     <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
-                      <Link to={'/chitietcudan/' + idd}>
+                      <Link to={'/person/detail/' + idd}>
                         <Typography style={{ fontSize: "18px" }}>
                           Chi tiết
                         </Typography>
@@ -281,7 +281,7 @@ function ChiTietHoDan({ Hodan }) {
                         </Select>
                       </TableCell>
                       <TableCell>
-                        <Link to={'/chitietcudan/' + idd}>
+                        <Link to={'/person/detail/' + idd}>
                           <span style={{ fontSize: "18px", marginRight: 5 }}>
                             Chi tiết
                           </span>
@@ -327,7 +327,7 @@ function ChiTietHoDan({ Hodan }) {
                         </Select>
                       </TableCell>
                       <TableCell>
-                        <Link to={'/chitietcudan/' + idd}>
+                        <Link to={'/person/detail/' + idd}>
                           <span style={{ fontSize: "18px", marginRight: 5 }}>
                             Chi tiết
                           </span>
@@ -354,7 +354,7 @@ function ChiTietHoDan({ Hodan }) {
 
           </Grid>
           <Grid item xs={12}>
-            <NavLink to={"/lichsuthaydoi/" + id}>
+            <NavLink to={"/residence/history/" + id}>
               <button style={{ backgroundColor: "transparent", cursor: "pointer" }}>
                 <Typography  style={{ color: "blue", cursor: "pointer", fontSize: "20px" }}>
                   Lịch sử thay đổi nhân khẩu
@@ -372,7 +372,7 @@ function ChiTietHoDan({ Hodan }) {
                 Xác nhận
               </Typography>
             </Button>
-            <NavLink to="/hokhau">
+            <NavLink to="/residence">
               <Button
                 variant="contained"
                 style={{

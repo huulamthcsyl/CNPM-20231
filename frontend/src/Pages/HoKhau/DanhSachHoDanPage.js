@@ -60,7 +60,7 @@ function HoKhau() {
         </h1>
       </Grid>
       <Grid item xs={12} style={{marginBottom: 30}}>
-        <ButtonAdd to="/themhodan" title="Thêm hộ dân"></ButtonAdd>
+        <ButtonAdd to="/residence/add" title="Thêm hộ dân"></ButtonAdd>
       </Grid>
       <Grid item xs={12}>
         <TextField
@@ -127,7 +127,7 @@ function HoKhau() {
                         <TableCell style={{ fontSize: '18px', width: '300px' }}>{colume.address}</TableCell>
                         <TableCell style={{ fontSize: '18px' }}>{colume.memberNumber}</TableCell>
                         <TableCell>
-                          <Link to={"/chitiethodan/" + colume.residenceId}>
+                          <Link to={"/residence/detail/" + colume.residenceId}>
                           <Typography style={{ fontSize: "18px" }}>
                             Chi tiết
                           </Typography>

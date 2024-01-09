@@ -34,37 +34,57 @@ import ChiTietQTVPage from "../Pages/QTVHeThong/ChiTietQTVPage.js";
 import PhieuThuPhuongTienPage from "../Pages/PhieuThuPhuongTien/PhieuThuPhuongTienPage.js";
 const publicRoutes = [
   { path: "/", component: DangNhapPage, layout: NoneLayout },
-  { path: "/danhmucthu", component: DanhMucThu },
-  { path: "/danhsachphieuthu", component: DanhSachPhieuThu },
-  { path: "/hokhau", component: HoKhau },
-  { path: "/nhankhau", component: NhanKhau },
-  { path: "/taophieuthu", component: TaoPhieuThu },
-  { path: "/taokhoanthu", component: TaoKhoanThu },
-  { path: "/themhodan", component: ThemHoDan },
-  { path: "/themcudan", component: ThemCuDan },
-  { path: "/tamvang", component: TamVang },
   { path: "/home", component: Home },
-  { path: "/hosoadmin", component: HoSoPage },
-  { path: "/doimatkhau", component: DoiMatKhauPage },
-  { path: "/quanlyphuongtien", component: QuanLyPhuongTienPage },
-  { path: "/danhsachkhoanthuphuongtien", component: KhoanThuPhuongTienPage },
-  { path: "/taophuongtien", component: TaoPhuongTienPage },
-  { path: "/chitietphieuthu", component: ChiTietPhieuThu },
-  { path: "/chitietkhoanthu", component: ChiTietKhoanThu },
-  { path: "/chitiethodan/:id", component: ChiTietHoDan },
-  { path: "/lichsuthaydoi/:id", component: LichSuPage },
-  { path: '/chitiettamvang/:id', component: ChiTietTamVangPage },
-  { path: "/chitietphuongtien/:id", component: ChiTietPhuongTien },
-  { path: "/taokhoanthuphuongtien", component: TaoKhoanThuPhuongTienPage },
-  { path: "/chitietkhoanthuphuongtien", component: ChiTietKhoanThuPhuongtienPage },
-  { path: "/taophieuthuphuongtien", component: TaoPhieuThuPhuongtienPage },
-  { path: "/chitietcudan/:id", component: ChiTietCuDanPage },
-  { path: "/dangkytamvang", component: DangKyTamVangPage },
-  { path: "/chitietphieuthuphuongtien", component: ChiTietPhieuThuPhuongTienPage },
-  { path: "/danhsachphieuthuphuongtien", component: PhieuThuPhuongTienPage },
-  { path: '/quantrivien', component: QTVPage, layout: QTVLayout },
-  { path: '/themquantrivien', component: ThemQTVPage, layout: QTVLayout },
-  { path: '/chitietquantrivien/:id', component: ChiTietQTVPage, layout: QTVLayout }
+
+  // Residence Receipt
+  { path: "/residenceReceipt", component: DanhSachPhieuThu },
+  { path: "/residenceReceipt/add", component: TaoPhieuThu },
+  { path: "/residenceReceipt/detail", component: ChiTietPhieuThu },
+
+  // Residence Fee
+  { path: "/residenceFee", component: DanhMucThu },
+  { path: "/residenceFee/add", component: TaoKhoanThu },
+  { path: "/residenceFee/detail", component: ChiTietKhoanThu },
+
+  // Residence
+  { path: "/residence", component: HoKhau },
+  { path: "/residence/add", component: ThemHoDan },
+  { path: "/residence/detail/:id", component: ChiTietHoDan },
+  { path: "/residence/history/:id", component: LichSuPage },
+
+  // Person
+  { path: "/person", component: NhanKhau },
+  { path: "/person/add", component: ThemCuDan },
+  { path: "/person/detail/:id", component: ChiTietCuDanPage },
+
+  // Absent Person
+  { path: "/absentPerson", component: TamVang },
+  { path: "/absentPerson/add", component: DangKyTamVangPage },
+  { path: '/absentPerson/detail/:id', component: ChiTietTamVangPage },
+
+  // Vehicle
+  { path: "/vehicle", component: QuanLyPhuongTienPage },
+  { path: "/vehicle/add", component: TaoPhuongTienPage },
+  { path: "/vehicle/detail/:id", component: ChiTietPhuongTien },
+
+  // Vehicle Fee
+  { path: "/vehicleFee", component: KhoanThuPhuongTienPage },
+  { path: "/vehicleFee/add", component: TaoKhoanThuPhuongTienPage },
+  { path: "/vehicleFee/detail", component: ChiTietKhoanThuPhuongtienPage },
+
+  // Vehicle Receipt
+  { path: "/vehicleReceipt", component: PhieuThuPhuongTienPage },
+  { path: "/vehicleReceipt/add", component: TaoPhieuThuPhuongtienPage },
+  { path: "/vehicleReceipt/detail", component: ChiTietPhieuThuPhuongTienPage },
+
+  // Profile
+  { path: "/profile", component: HoSoPage },
+  { path: "/profile/resetPassword", component: DoiMatKhauPage },
+
+  // Admin
+  { path: '/admin', component: QTVPage, layout: QTVLayout },
+  { path: '/admin/add', component: ThemQTVPage, layout: QTVLayout },
+  { path: '/admin/detail/:id', component: ChiTietQTVPage, layout: QTVLayout }
 ];
 
 export { publicRoutes };  

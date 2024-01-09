@@ -118,7 +118,7 @@ function CustomRow({ index, listMember, setListMember, changeRelation, personId,
 
             </TableCell>
             <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
-                <NavLink to={'/chitietcudan/' + id}>
+                <NavLink to={'/person/detail/' + id}>
                     <span style={{ color: "blue" }}></span>
                 </NavLink>
                 <button

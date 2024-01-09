@@ -63,7 +63,7 @@ function DangNhapPage() {
 
         if(response.data.role == "user"){
           navigate("/home")
-        } else navigate("/quantrivien")
+        } else navigate("/admin")
 
       } else {
         setMessage(response.data.message)

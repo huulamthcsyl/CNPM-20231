@@ -50,7 +50,7 @@ function TamVangPage() {
         <ButtonAdd
           title="Đăng ký tạm vắng"
           icon={src}
-          to="/dangkytamvang"
+          to="/absentPerson/add"
         ></ButtonAdd>
       </Grid>
       <Grid item xs={12}>
@@ -104,7 +104,7 @@ function TamVangPage() {
                           <Typography fontSize={"18px"} style={{ width: '200px' }}>{peop.person ? peop.person.identityCardNumber : ''}</Typography>
                         </TableCell>
                         <TableCell>
-                          <Link to={"/chitiettamvang/" + peop.absent.absentPersonId}>
+                          <Link to={"/absentPerson/detail/" + peop.absent.absentPersonId}>
                             <Typography style={{ fontSize: "18px" }}>
                               Chi tiết
                             </Typography>

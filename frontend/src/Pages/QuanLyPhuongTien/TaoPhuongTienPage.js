@@ -144,7 +144,7 @@ function TaoPhuongTienPage() {
         </Button>
       </Grid>
       <Grid item>
-        <NavLink to="/quanlyphuongtien">
+        <NavLink to="/vehicle">
           <Button
             variant="contained"
             style={{ backgroundColor: "#FA7070", margin: "30px 0px" }}

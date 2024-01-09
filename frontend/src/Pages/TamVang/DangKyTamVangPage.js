@@ -372,7 +372,7 @@ function DangKyTamVangPage() {
           <Grid item xs={12}>
 
             <ButtonSearch onclick={handleAdd} title="Xác nhận" border="none"></ButtonSearch>
-            <NavLink to="/tamvang">
+            <NavLink to="/absentPerson">
               <Button
                 variant="contained"
                 style={{

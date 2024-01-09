@@ -92,7 +92,7 @@ export default function ThemQTVPage() {
           <Button
             variant="contained"
             style={{ backgroundColor: "#f48888", margin: "30px 0px" }}
-            href="/quantrivien"
+            href="/admin"
           >
             <Typography variant="h4" style={{ color: "black" }}>
               Quay lại

@@ -61,7 +61,7 @@ function QuanLyPhuongTienPage() {
         <h1 style={{ fontSize: "48px" }}> Quản lý Phương tiện </h1>
       </Grid>
       <Grid item xs={12}>
-        <NavLink to="/taophuongtien">
+        <NavLink to="/vehicle/add">
           <Button
             variant="contained"
             style={{ backgroundColor: "#79C9FF", marginBottom: 30 }}
@@ -166,7 +166,7 @@ function QuanLyPhuongTienPage() {
                     </TableCell>
                     <TableCell style={{ fontSize: "18px" }}>
 
-                      <NavLink to={"/chitietphuongtien/" + column.vehicleId}>
+                      <NavLink to={"/vehicle/detail/" + column.vehicleId}>
                         Chi tiết
                       </NavLink>
 

@@ -24,7 +24,7 @@ export default function ChiTietQTVPage() {
 
   const handleDeleteAccount = () => {
     ClassApi.deleteUser(userId)
-      .then((res) => navigate("/quantrivien"))
+      .then((res) => navigate("/admin"))
       .catch((err) => console.log(err));
   };
 

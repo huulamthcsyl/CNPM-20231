@@ -31,7 +31,7 @@ function Sidebar() {
         <div className={cx("menu")}>
           <ButtonMenu iconLeft={<ThuPhiIcon />} title="Thu phí" iconRight="">
             <NavLink
-              to="/danhsachphieuthu"
+              to="/residenceReceipt"
               className={(nav) => {
                 cx({ active: nav.isActive });
               }}
@@ -39,7 +39,7 @@ function Sidebar() {
               <Item title="Quản lý thu" />
             </NavLink>
             <NavLink
-              to="/danhmucthu"
+              to="/residenceFee"
               className={(nav) => {
                 cx({ active: nav.isActive });
               }}
@@ -54,7 +54,7 @@ function Sidebar() {
             iconRight=""
           >
             <NavLink
-              to="/hokhau"
+              to="/residence"
               className={(nav) => {
                 cx({ active: nav.isActive });
               }}
@@ -62,7 +62,7 @@ function Sidebar() {
               <Item title="Hộ khẩu" />
             </NavLink>
             <NavLink
-              to="/nhankhau"
+              to="/person"
               className={(nav) => {
                 cx({ active: nav.isActive });
               }}
@@ -70,7 +70,7 @@ function Sidebar() {
               <Item title="Nhân khẩu" />
             </NavLink>
             <NavLink
-              to="/tamvang"
+              to="/absentPerson"
               className={(nav) => {
                 cx({ active: nav.isActive });
               }}
@@ -85,7 +85,7 @@ function Sidebar() {
             iconRight=""
           >
             <NavLink
-              to="/quanlyphuongtien"
+              to="/vehicle"
               className={(nav) => {
                 cx({ active: nav.isActive });
               }}
@@ -93,7 +93,7 @@ function Sidebar() {
               <Item title="Quản lý" />
             </NavLink>
             <NavLink
-              to="/danhsachkhoanthuphuongtien"
+              to="/vehicleFee"
               className={(nav) => {
                 cx({ active: nav.isActive });
               }}
@@ -101,7 +101,7 @@ function Sidebar() {
               <Item title="Khoản thu" />
             </NavLink>
             <NavLink
-              to="/danhsachphieuthuphuongtien"
+              to="/vehicleReceipt"
               className={(nav) => {
                 cx({ active: nav.isActive });
               }}
@@ -112,7 +112,7 @@ function Sidebar() {
         </div>
         <div className={cx("hr")}></div>
         <div className={cx("user")}>
-          <NavLink to="/hosoadmin">
+          <NavLink to="/profile">
             <Button
               style={{
                 padding: "10px 0px",

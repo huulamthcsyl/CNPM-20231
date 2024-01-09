@@ -411,7 +411,7 @@ function TaoPhieuThuPhuongtienPage() {
               >
                 Xác nhận
               </Button>
-              <NavLink to="/danhsachphieuthuphuongtien">
+              <NavLink to="/vehicleReceipt">
                 <Button
                   variant="contained"
                   style={{

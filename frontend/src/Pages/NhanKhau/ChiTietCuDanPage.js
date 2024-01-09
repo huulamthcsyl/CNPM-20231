@@ -423,7 +423,7 @@ function ThemCuDan() {
             ></ButtonSearch>
           </Grid>
           <Grid item >
-            <NavLink to="/nhankhau">
+            <NavLink to="/person">
               <Button
                 variant="contained"
                 style={{

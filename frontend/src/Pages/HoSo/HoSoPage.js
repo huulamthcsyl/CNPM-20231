@@ -275,7 +275,7 @@ function HoSoPage() {
           </NavLink>
         </Grid>
         <Grid item>
-          <NavLink to="/doimatkhau">
+          <NavLink to="/profile/resetPassword">
             <Button
               variant="contained"
               style={{ backgroundColor: "#79C9FF", margin: "30px 30px" }}

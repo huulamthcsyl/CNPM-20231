@@ -295,7 +295,7 @@ export default function ChiTietKhoanThu() {
           </TableContainer>
         </Grid>
         <Grid item>
-          <NavLink to="/danhmucthu">
+          <NavLink to="/residenceFee">
             <Button
               variant="contained"
               style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}

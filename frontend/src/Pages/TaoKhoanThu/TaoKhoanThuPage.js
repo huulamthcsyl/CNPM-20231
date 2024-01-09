@@ -126,7 +126,7 @@ export default function TaoKhoanThu() {
             >
               Xác nhận
             </Button>
-            <NavLink to="/danhmucthu">
+            <NavLink to="/residenceFee">
               <Button
                 variant="contained"
                 style={{

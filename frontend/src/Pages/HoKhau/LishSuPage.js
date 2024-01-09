@@ -152,7 +152,7 @@ function LichSuPage() {
                 </Table>
             </TableContainer>
             <Grid item xs={12}>
-                <NavLink to={'/chitiethodan/' + id}>
+                <NavLink to={'/residence/detail/' + id}>
                     <Button
                         variant="contained"
                         style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}

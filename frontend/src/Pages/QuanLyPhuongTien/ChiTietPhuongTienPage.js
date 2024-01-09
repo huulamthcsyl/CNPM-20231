@@ -64,7 +64,7 @@ function ChiTietPhuongTien() {
       </Grid>
 
       <Grid item>
-        <NavLink to="/quanlyphuongtien">
+        <NavLink to="/vehicle">
           <Button
             variant="contained"
             style={{ backgroundColor: "#79C9FF", margin: "30px 0px" }}
@@ -77,7 +77,7 @@ function ChiTietPhuongTien() {
       </Grid>
 
       {/* <Grid item>
-        <NavLink to="/quanlyphuongtien">
+        <NavLink to="/vehicle">
           <Button
             variant="contained"
             style={{ backgroundColor: "#FA7070", margin: "30px 30px" }}

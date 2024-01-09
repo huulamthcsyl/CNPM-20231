@@ -65,7 +65,7 @@ function NhanKhau() {
         <h1 style={{ fontSize: "48px" }}> Danh sách cư dân </h1>
       </Grid>
       <Grid item xs={12} style={{marginBottom: 30}}>
-        <ButtonAdd to="/themcudan" title="Thêm cư dân"></ButtonAdd>
+        <ButtonAdd to="/person/add" title="Thêm cư dân"></ButtonAdd>
       </Grid>
       <Grid item xs={12}>
         <TextField
@@ -135,7 +135,7 @@ function NhanKhau() {
                         </TableCell>
                         <TableCell>
                           {
-                            <Link to={"/chitietcudan/" + peop.personId}
+                            <Link to={"/person/detail/" + peop.personId}
                                 style={{
                                   textDecoration: "underline",
                                   fontSize: 18

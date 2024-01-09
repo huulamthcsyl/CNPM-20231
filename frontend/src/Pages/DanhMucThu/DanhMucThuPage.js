@@ -23,7 +23,7 @@ export default function DanhMucThu() {
   const pathname = window.location.pathname;
   const nextPagePathName =
     pathname.substr(0, pathname.indexOf("/")) +
-    "/ChiTietKhoanThu/?residenceFeeId=";
+    "/residenceFee/detail/?residenceFeeId=";
   const tableHeadName = [
     { name: "Số thứ tự" },
     { name: "Tên khoản thu" },
@@ -76,7 +76,7 @@ export default function DanhMucThu() {
         <h1 style={{ fontSize: "48px" }}> Danh mục thu </h1>
       </Grid>
       <Grid item xs={6} style={{}}>
-        <NavLink to="/taokhoanthu">
+        <NavLink to="/residenceFee/add">
           <Button variant="contained" style={{ backgroundColor: "#79C9FF" }}>
             <Typography style={{ marginRight: "8px" }}>
               <img

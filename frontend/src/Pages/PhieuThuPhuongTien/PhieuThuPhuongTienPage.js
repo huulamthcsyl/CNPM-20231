@@ -31,7 +31,7 @@ function PhieuThuPhuongTienPage() {
   const pathname = window.location.pathname;
   const nextPagePathname =
     pathname.substr(0, pathname.indexOf("/")) +
-    "/chitietphieuthuphuongtien/?vehicleReceiptId=";
+    "/vehicleReceipt/detail/?vehicleReceiptId=";
 
   const [vehicleReceipts, setVehicleReceipts] = useState([]);
   const [lisensePlate, setLisensePlate] = useState("");
@@ -106,7 +106,7 @@ function PhieuThuPhuongTienPage() {
           <h1 style={{ fontSize: "48px" }}> Danh sách phiếu thu phương tiện </h1>
         </Grid>
         <Grid item xs={12}>
-          <NavLink to="/taophieuthuphuongtien">
+          <NavLink to="/vehicleReceipt/add">
             <Button
               variant="contained"
               style={{ backgroundColor: "#79C9FF", marginBottom: 30 }}

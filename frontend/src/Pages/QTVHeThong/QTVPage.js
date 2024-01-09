@@ -18,7 +18,7 @@ export default function QTVPage() {
   return (
     <Container style={{paddingTop: 30}}>
         <h1 style={{marginBottom: 20}}>Quản lý tài khoản quản trị viên</h1>
-        <ButtonAdd title="Tạo tài khoản" to={"/themquantrivien"}/>
+        <ButtonAdd title="Tạo tài khoản" to={"/admin/add"}/>
         <TableContainer style={{marginTop: 20}} component={Paper}>
           <Table>
             <TableHead>
@@ -34,7 +34,7 @@ export default function QTVPage() {
                 <TableRow>
                   <TableCell style={{fontSize: 18}}>{index + 1}</TableCell>
                   <TableCell style={{fontSize: 18}}>{data.userName}</TableCell>
-                  <TableCell style={{fontSize: 18}}><Link to={'/chitietquantrivien/' + data.userId}>Chi tiết</Link></TableCell>
+                  <TableCell style={{fontSize: 18}}><Link to={'/admin/detail/' + data.userId}>Chi tiết</Link></TableCell>
                 </TableRow>
               )}
             </TableBody>

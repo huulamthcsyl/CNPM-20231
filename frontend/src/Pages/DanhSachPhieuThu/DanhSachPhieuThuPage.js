@@ -32,7 +32,7 @@ export default function DanhSachPhieuThu() {
   const pathname = window.location.pathname;
   const nextPagePathname =
     pathname.substr(0, pathname.indexOf("/")) +
-    "/ChiTietPhieuThu/?residenceReceiptId=";
+    "/residenceReceipt/detail?residenceReceiptId=";
   const [residenceReceipts, setResidenceReceipts] = useState([]);
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -104,7 +104,7 @@ export default function DanhSachPhieuThu() {
           <h1 style={{ fontSize: "48px" }}> Danh sách phiếu thu </h1>
         </Grid>
         <Grid item xs={6}>
-          <NavLink to="/taophieuthu">
+          <NavLink to="/residenceReceipt/add">
             <Button
               variant="contained"
               style={{ backgroundColor: "#79C9FF", marginBottom: 30 }}
