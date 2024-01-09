@@ -141,6 +141,10 @@ function ThemCuDan() {
       toast.warn("Hãy chọn ngày sinh!");
       return;
     }
+    if (!birth.isValid()) {
+      toast.warn("Ngày sinh không hợp lệ!");
+      return;
+    }
     if (province == null || province == "" || provinces.length == 0) {
       toast.warn("Hãy chọn tỉnh thành!");
       return;

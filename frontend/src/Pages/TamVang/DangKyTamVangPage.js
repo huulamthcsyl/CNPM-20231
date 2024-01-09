@@ -42,8 +42,8 @@ const theme = createTheme({
     },
   },
 });
-function DangKyTamVangPage() {
-  const CustomizedDatePicker = styled(DatePicker)`
+
+const CustomizedDatePicker = styled(DatePicker)`
   & .MuiInputBase-input {
     font-size: 20px;
     width: 150px;
@@ -52,6 +52,9 @@ function DangKyTamVangPage() {
     font-size: 20px;
   }
 `;
+
+function DangKyTamVangPage() {
+  
   const [status, setStatus] = useState("");
 
   const handleChange = (event) => {
@@ -116,7 +119,11 @@ function DangKyTamVangPage() {
       return
     }
     if (timeFrom == null || timeTo == '' || timeTo == null || timeTo == '') {
-      toast.warn('Hãy nhập thời gian ')
+      toast.warn('Hãy nhập thời gian!')
+      return
+    }
+    if (!timeFrom.isValid() || !timeTo.isValid()) {
+      toast.warn('Thời gian không hợp lệ!')
       return
     }
     if (timeFrom.diff(timeTo, 'days') > 0) {

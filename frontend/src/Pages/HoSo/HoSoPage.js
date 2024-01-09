@@ -105,6 +105,18 @@ function HoSoPage() {
   //   setDate(e.target.value); // Cập nhật giá trị ngày khi người dùng chọn ngày mới
   // };
   const handleSend = () => {
+    if (name == null || name == "") {
+      toast.warn("Hãy nhập họ và tên!");
+      return;
+    }
+    if (date == null || date == "") {
+      toast.warn("Hãy chọn ngày sinh!");
+      return;
+    }
+    if (!date.isValid()) {
+      toast.warn("Ngày sinh không hợp lệ!");
+      return;
+    }
     ClassApi.PutHoSo(sessionStorage.getItem("user"), {
       userId: sessionStorage.getItem("user"),
       name: name,
@@ -118,7 +130,7 @@ function HoSoPage() {
         toast.success("Sửa thông tin thành công");
       })
       .catch(() => {
-        toast.error("lỗi");
+        toast.error("Sửa thông tin thất bại");
       });
   };
   return (
