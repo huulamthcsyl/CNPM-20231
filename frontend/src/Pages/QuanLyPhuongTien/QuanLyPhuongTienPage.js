@@ -177,7 +177,7 @@ function QuanLyPhuongTienPage() {
             <tfoot>
               <tr>
                 <TablePagination
-                  rowsPerPageOptions={[5, 8, 10, { label: "All", value: -1 }]}
+                  rowsPerPageOptions={[5, 8, 10, { label: "Tất cả", value: -1 }]}
                   colSpan={6}
                   count={allVehicle.length}
                   rowsPerPage={rowsPerPage}
@@ -191,6 +191,8 @@ function QuanLyPhuongTienPage() {
                       showLastButton: true,
                     },
                   }}
+                  labelDisplayedRows={(page) => { return `${page.from} - ${page.to} trên ${page.count}` }}
+                  labelRowsPerPage={"Dòng mỗi trang:"}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                   sx={{

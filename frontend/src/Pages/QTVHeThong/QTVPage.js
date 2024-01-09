@@ -2,6 +2,7 @@ import { Container, TableCell, TableHead, TableRow, Table, TableContainer, Paper
 import React, { useState, useEffect } from 'react'
 import ButtonAdd from '../../Layout/component/ButtonAdd'
 import ClassApi from '../../Api/Api'
+import { Link } from 'react-router-dom';
 
 export default function QTVPage() {
 
@@ -33,7 +34,7 @@ export default function QTVPage() {
                 <TableRow>
                   <TableCell style={{fontSize: 18}}>{index + 1}</TableCell>
                   <TableCell style={{fontSize: 18}}>{data.userName}</TableCell>
-                  <TableCell style={{fontSize: 18}}><a href={'/chitietquantrivien/' + data.userId}>Chi tiết</a></TableCell>
+                  <TableCell style={{fontSize: 18}}><Link to={'/chitietquantrivien/' + data.userId}>Chi tiết</Link></TableCell>
                 </TableRow>
               )}
             </TableBody>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Button, Typography } from "@mui/material";
+import { Grid, Button, Typography, TableFooter } from "@mui/material";
 import { FormControl, FormGroup, TextField } from "@mui/material";
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableRow, TableHead, TableContainer } from "@mui/material";
@@ -8,7 +8,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { styled } from "@mui/system";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import ClassApi from "../../Api/Api";
 import { toast } from "react-toastify";
 
@@ -37,6 +37,7 @@ export default function ChiTietKhoanThu() {
   const [residenceReceipts, setResidenceReceipts] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [totalFeeAmount, setTotalFeeAmount] = useState(0);
   const tableHeadName = [
     { name: "Số thứ tự" },
     { name: "Họ và tên" },
@@ -76,6 +77,11 @@ export default function ChiTietKhoanThu() {
       });
   }, [residenceFeeId]);
 
+  useEffect(() => {
+    setTotalFeeAmount(0);
+    residenceReceipts.forEach(data => setTotalFeeAmount(totalFeeAmount => totalFeeAmount + data.amount));
+  }, [residenceReceipts]);
+
   const handleSearch = (name, address, starttime, endtime, residenceFeeId) => {
     setPage(0);
     var startTime, endTime;
@@ -111,19 +117,21 @@ export default function ChiTietKhoanThu() {
       });
   };
   return (
+    residenceReceipts.length > 0 &&
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={2} style={{ padding: "50px" }}>
         <Grid item xs={12}>
           <div style={{ fontSize: "48px" }}> Chi tiết {fee.name} </div>
         </Grid>
         <Grid item xs={12}>
-          <div style={{ fontSize: "22px" }}>
-            Số người đã đóng: {fee.paidQuantity}
-          </div>
+          <span style={{ fontSize: "22px" }}><b>Số người đã đóng: </b></span>
+          <span style={{ fontSize: "22px" }}>
+            {fee.paidQuantity}
+          </span>
         </Grid>
         <Grid item xs={12}>
           <div style={{ fontSize: "22px" }}>
-            Tổng số tiền đã thu:{" "}
+            <span style={{ fontSize: "22px" }}><b>Tổng số tiền: </b></span>
             {fee.total &&
               fee.total.toLocaleString("en-US", { style: "decimal" })}{" "}
             đồng
@@ -131,7 +139,8 @@ export default function ChiTietKhoanThu() {
         </Grid>
         <Grid item xs={12}>
           <div style={{ fontSize: "22px" }}>
-            Bắt buộc: {fee.isObligatory === true ? "Có" : "Không"}
+            <span style={{ fontSize: "22px" }}><b>Bắt buộc: </b></span>
+            {fee.isObligatory === true ? "Có" : "Không"}
           </div>
         </Grid>
         <Grid item xs={12}>
@@ -235,20 +244,22 @@ export default function ChiTietKhoanThu() {
                         ).toLocaleDateString("en-GB")}
                       </TableCell>
                       <TableCell style={{ fontSize: "18px" }}>
-                        <a
-                          href={`${nextPagePathname}${residenceReceipt.residenceReceiptsId}`}
+                        <Link
+                          to={`${nextPagePathname}${residenceReceipt.residenceReceiptsId}`}
                           style={{ textDecoration: "underline" }}
                         >
                           Chi tiết
-                        </a>
+                        </Link>
                       </TableCell>
                     </TableRow>
                   ))}
               </TableBody>
-              <tfoot>
+              <TableFooter>
+                <TableCell colSpan={3} style={{fontSize: 18}}>Tổng</TableCell>
+                <TableCell colSpan={3} style={{fontSize: 18}}>{totalFeeAmount.toLocaleString("en-US", {style: "decimal",})} đồng</TableCell>
                 <tr>
                   <TablePagination
-                    rowsPerPageOptions={[5, 8, 10, { label: "All", value: -1 }]}
+                    rowsPerPageOptions={[5, 8, 10, { label: "Tất cả", value: -1 }]}
                     colSpan={6}
                     count={residenceReceipts.length}
                     rowsPerPage={rowsPerPage}
@@ -262,6 +273,8 @@ export default function ChiTietKhoanThu() {
                         showLastButton: true,
                       },
                     }}
+                    labelDisplayedRows={(page) => { return `${page.from} - ${page.to} trên ${page.count}` }}
+                    labelRowsPerPage={"Dòng mỗi trang:"}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                     sx={{
@@ -277,7 +290,7 @@ export default function ChiTietKhoanThu() {
                     }}
                   />
                 </tr>
-              </tfoot>
+              </TableFooter>
             </Table>
           </TableContainer>
         </Grid>

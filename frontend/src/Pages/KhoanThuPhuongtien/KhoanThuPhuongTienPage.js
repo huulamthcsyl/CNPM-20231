@@ -4,7 +4,7 @@ import { FormControl, TextField } from "@mui/material";
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableRow, TableHead, TableContainer, TableFooter, TablePagination } from "@mui/material";
 import { Paper } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import PlusCircle from "../../Icons/PlusCircle.png";
 import ThuPhi from "../../Icons/ThuPhi.png";
 import ClassApi from "../../Api/Api";
@@ -150,14 +150,14 @@ function KhoanThuPhuongTienPage() {
                     <TableCell style={{ fontSize: "18px" }}>
                       {payment.total.toLocaleString("en-US", {
                         style: "decimal",
-                      })}
+                      })} đồng
                     </TableCell>
                     <TableCell>
-                      <a href={`${nextPagePathName}${payment.vehicleFeeId}`}>
+                      <Link to={`${nextPagePathName}${payment.vehicleFeeId}`}>
                         <Typography style={{ fontSize: "18px" }}>
-                          Chi Tiết
+                          Chi tiết
                         </Typography>
-                      </a>
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -202,7 +202,7 @@ function KhoanThuPhuongTienPage() {
               </TableRow>
               <tr>
                 <TablePagination
-                  rowsPerPageOptions={[5, 8, 10, { label: "All", value: -1 }]}
+                  rowsPerPageOptions={[5, 8, 10, { label: "Tất cả", value: -1 }]}
                   colSpan={6}
                   count={payments.length}
                   rowsPerPage={rowsPerPage}
@@ -216,6 +216,8 @@ function KhoanThuPhuongTienPage() {
                       showLastButton: true,
                     },
                   }}
+                  labelDisplayedRows={(page) => { return `${page.from} - ${page.to} trên ${page.count}` }}
+                  labelRowsPerPage={"Dòng mỗi trang:"}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                   sx={{

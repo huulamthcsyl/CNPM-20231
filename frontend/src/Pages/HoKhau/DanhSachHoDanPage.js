@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import ButtonAdd from "../../Layout/component/ButtonAdd";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ClassAPi from '../../Api/Api'
 
@@ -127,23 +127,11 @@ function HoKhau() {
                         <TableCell style={{ fontSize: '18px', width: '300px' }}>{colume.address}</TableCell>
                         <TableCell style={{ fontSize: '18px' }}>{colume.memberNumber}</TableCell>
                         <TableCell>
-                          <NavLink to={"/chitiethodan/" + colume.residenceId}>
-                            <button
-                              style={{
-                                backgroundColor: "transparent",
-                                cursor: "pointer",
-                              }}
-                            >
-                              <Typography
-                                // variant="h5"
-                                style={{ fontWeight: "500", fontSize: "18px"}}
-                                padding={0}
-                                color="#3454FC"
-                              >
-                                Chi tiết
-                              </Typography>
-                            </button>
-                          </NavLink>
+                          <Link to={"/chitiethodan/" + colume.residenceId}>
+                          <Typography style={{ fontSize: "18px" }}>
+                            Chi tiết
+                          </Typography>
+                        </Link>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -151,7 +139,7 @@ function HoKhau() {
             <tfoot>
               <tr>
                 <TablePagination
-                  rowsPerPageOptions={[5, 8, 10, { label: "All", value: -1 }]}
+                  rowsPerPageOptions={[5, 8, 10, { label: "Tất cả", value: -1 }]}
                   colSpan={6}
                   count={info.length}
                   rowsPerPage={rowsPerPage}
@@ -165,6 +153,8 @@ function HoKhau() {
                       showLastButton: true,
                     },
                   }}
+                  labelDisplayedRows={(page) => { return `${page.from} - ${page.to} trên ${page.count}` }}
+                  labelRowsPerPage={"Dòng mỗi trang:"}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                   sx={{

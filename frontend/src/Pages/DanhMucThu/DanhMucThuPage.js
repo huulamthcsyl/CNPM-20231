@@ -14,7 +14,7 @@ import {
   TablePagination,
 } from "@mui/material";
 import { Paper } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import PlusCircle from "../../Icons/PlusCircle.png";
 import ClassApi from "../../Api/Api";
 import { toast } from "react-toastify";
@@ -146,14 +146,14 @@ export default function DanhMucThu() {
                     <TableCell style={{ fontSize: "18px" }}>
                       {payment.total.toLocaleString("en-US", {
                         style: "decimal",
-                      })}
+                      })} đồng
                     </TableCell>
                     <TableCell>
-                      <a href={`${nextPagePathName}${payment.residenceFeeId}`}>
+                      <Link to={`${nextPagePathName}${payment.residenceFeeId}`}>
                         <Typography style={{ fontSize: "18px" }}>
-                          Chi Tiết
+                          Chi tiết
                         </Typography>
-                      </a>
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -197,7 +197,7 @@ export default function DanhMucThu() {
               </TableRow>
               <tr>
                 <TablePagination
-                  rowsPerPageOptions={[5, 8, 10, { label: "All", value: -1 }]}
+                  rowsPerPageOptions={[5, 8, 10, { label: "Tất cả", value: -1 }]}
                   colSpan={6}
                   count={payments.length}
                   rowsPerPage={rowsPerPage}
@@ -211,6 +211,8 @@ export default function DanhMucThu() {
                       showLastButton: true,
                     },
                   }}
+                  labelDisplayedRows={(page) => { return `${page.from} - ${page.to} trên ${page.count}` }}
+                  labelRowsPerPage={"Dòng mỗi trang:"}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                   sx={{

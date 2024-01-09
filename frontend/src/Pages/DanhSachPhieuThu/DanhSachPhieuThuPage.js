@@ -9,7 +9,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { styled } from "@mui/system";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import PlusCircle from "../../Icons/PlusCircle.png";
 import ClassApi from "../../Api/Api";
 import { useState, useEffect } from "react";
@@ -213,7 +213,7 @@ export default function DanhSachPhieuThu() {
                             {residenceReceipt.amount.toLocaleString("en-US", {
                               style: "decimal",
                               minimumFractionDigits: 0,
-                            })}
+                            })} đồng
                           </TableCell>
                           <TableCell style={{ fontSize: "18px" }}>
                             {new Date(
@@ -221,12 +221,12 @@ export default function DanhSachPhieuThu() {
                             ).toLocaleDateString("en-GB")}
                           </TableCell>
                           <TableCell style={{ fontSize: "18px" }}>
-                            <a
-                              href={`${nextPagePathname}${residenceReceipt.residenceReceiptsId}`}
+                            <Link
+                              to={`${nextPagePathname}${residenceReceipt.residenceReceiptsId}`}
                               style={{ textDecoration: "underline" }}
                             >
                               Chi tiết
-                            </a>
+                            </Link>
                           </TableCell>
                         </TableRow>
                       )
@@ -235,7 +235,7 @@ export default function DanhSachPhieuThu() {
               <tfoot>
                 <tr>
                   <TablePagination
-                    rowsPerPageOptions={[5, 8, 10, { label: "All", value: -1 }]}
+                    rowsPerPageOptions={[5, 8, 10, { label: "Tất cả", value: -1 }]}
                     colSpan={6}
                     count={residenceReceipts.length}
                     rowsPerPage={rowsPerPage}
@@ -249,6 +249,8 @@ export default function DanhSachPhieuThu() {
                         showLastButton: true,
                       },
                     }}
+                    labelDisplayedRows={(page) => { return `${page.from} - ${page.to} trên ${page.count}` }}
+                    labelRowsPerPage={"Dòng mỗi trang:"}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                     sx={{

@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
 import ClassApi from '../../Api/Api'
-import { NavLink, useParams } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import CustomRow from "../ThemHoDan/Row";
 import { toast } from "react-toastify";
 const headers = [
@@ -232,18 +232,11 @@ function ChiTietHoDan({ Hodan }) {
                       </Select>
                     </TableCell>
                     <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
-                      <NavLink to={'/chitietcudan/' + idd} style={{ textDecoration: 'none' }}>
-                        <span style={{ color: "blue" }}>Chi tiết</span>
-                      </NavLink>
-                      <button
-                        style={{
-                          backgroundColor: "transparent",
-                          fontSize: "18px",
-                        }}
-
-                      >
-
-                      </button>
+                      <Link to={'/chitietcudan/' + idd}>
+                        <Typography style={{ fontSize: "18px" }}>
+                          Chi tiết
+                        </Typography>
+                      </Link>
                     </TableCell>
                   </TableRow>
                   {listMember.length > 0 && listMember.map((item, index) => (
@@ -287,10 +280,12 @@ function ChiTietHoDan({ Hodan }) {
                           <MenuItem value='Anh/chị/em'>Anh/chị/em</MenuItem>
                         </Select>
                       </TableCell>
-                      <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
-                        <NavLink style={{ textDecoration: 'none' }} to={'/chitietcudan/' + item.personId}>
-                          <span style={{ color: "blue" }}>Chi tiết</span>|
-                        </NavLink>
+                      <TableCell>
+                        <Link to={'/chitietcudan/' + idd}>
+                          <span style={{ fontSize: "18px", marginRight: 5 }}>
+                            Chi tiết
+                          </span>
+                        </Link>
                         <button style={{ color: "red", backgroundColor: 'transparent', fontSize: '18px' }} onClick={() => { handleDel(index) }}>Xóa</button>
                       </TableCell>
                     </TableRow>
@@ -331,10 +326,12 @@ function ChiTietHoDan({ Hodan }) {
                           <MenuItem value='Anh/chị/em'>Anh/chị/em</MenuItem>
                         </Select>
                       </TableCell>
-                      <TableCell style={{ fontSize: "18px", cursor: "pointer" }}>
-                        <NavLink to={'/chitietcudan/' + item.personId} style={{ textDecoration: 'none' }}>
-                          <span style={{ color: "blue" }}>Chi tiết</span>|
-                        </NavLink>
+                      <TableCell>
+                        <Link to={'/chitietcudan/' + idd}>
+                          <span style={{ fontSize: "18px", marginRight: 5 }}>
+                            Chi tiết
+                          </span>
+                        </Link>
                         <button
                           style={{
                             backgroundColor: "transparent",

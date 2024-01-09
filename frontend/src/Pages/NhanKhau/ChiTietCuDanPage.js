@@ -128,6 +128,11 @@ function ThemCuDan() {
       setLoading(false)
     });
   }, []);
+
+  function isNumeric(value) {
+    return /^-?\d+$/.test(value);
+  }
+
   const handleChangeInfo = () => {
     if (name == null || name == "") {
       toast.warn("Hãy nhập họ và tên!");
@@ -155,6 +160,14 @@ function ThemCuDan() {
     }
     if (village == null || village == "" || villages.length == 0) {
       toast.warn("Hãy chọn xã-phường!");
+      return;
+    }
+    if(!isNumeric(cccd)){
+      toast.warn("CCCD chỉ chứa các chữ số 0-9");
+      return;
+    }
+    if(!isNumeric(phoneNumber)){
+      toast.warn("Số điện thoại chỉ chứa các chữ số 0-9");
       return;
     }
     ClassApi.PutPerson({

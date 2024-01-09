@@ -62,6 +62,11 @@ const CustomizedDatePicker = styled(DatePicker)`
 `;
 function ThemCuDan() {
   const [birth, setBirth] = useState();
+
+  function isNumeric(value) {
+    return /^-?\d+$/.test(value);
+  }
+
   const addPerson = () => {
     var gender = true;
 
@@ -76,6 +81,7 @@ function ThemCuDan() {
     var namePerson = document.getElementById("name");
     var identityCardNumber = document.getElementById("cccd");
     var phoneNumber = document.getElementById("phoneNumber");
+    console.log(identityCardNumber)
     if (namePerson.value == null || namePerson.value == "") {
       toast.warn("Hãy nhập họ và tên!");
       return;
@@ -108,6 +114,14 @@ function ThemCuDan() {
       toast.warn("Hãy chọn xã-phường!");
       return;
     }
+    if(!isNumeric(identityCardNumber.value)){
+      toast.warn("CCCD chỉ chứa các chữ số 0-9");
+      return;
+    }
+    if(!isNumeric(phoneNumber.value)){
+      toast.warn("Số điện thoại chỉ chứa các chữ số 0-9");
+      return;
+    }
     // const updatedDate = dayjs(birth).add(7, 'hour');
     const person = {
       residenceId: null,
@@ -128,11 +142,11 @@ function ThemCuDan() {
     ClassApi.PostPerson(person)
       .then((response) => {
         console.log(person);
-        toast.success("thêm thành công");
+        toast.success("Thêm thành công");
         // console.log(response.data)
       })
       .catch((error) => {
-        toast.error("thêm thất bại");
+        toast.error("Thêm thất bại");
         console.error("Error fetching data:", error);
       });
   };

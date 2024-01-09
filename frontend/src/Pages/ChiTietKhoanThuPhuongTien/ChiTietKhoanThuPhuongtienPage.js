@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Button, Typography, collapseClasses } from "@mui/material";
+import { Grid, Button, Typography, collapseClasses, TableFooter } from "@mui/material";
 import { FormControl, FormGroup, TextField } from "@mui/material";
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableRow, TableHead, TableContainer } from "@mui/material";
@@ -9,7 +9,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { styled } from "@mui/system";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import PlusCircle from "../../Icons/PlusCircle.png";
 import ClassApi from "../../Api/Api";
 import { useState, useEffect } from "react";
@@ -43,23 +43,16 @@ function ChiTietKhoanThuPhuongtienPage() {
   const [name, setName] = useState("");
   const [starttime, setStarttime] = useState(null);
   const [endtime, setEndtime] = useState(null);
-
+  const [totalFeeAmount, setTotalFeeAmount] = useState(0);
   
   const fields = [{ label: "Biển kiểm soát" }];
   const columnNames = [
     "Số thứ tự",
     "Biển kiểm soát",
     "Chủ sở hữu",
-    "Số tiền đã đóng (đồng)",
+    "Tổng số tiền",
     "Ngày thu",
     "Ghi chú",
-  ];
-  const tableHeadName = [
-    { name: "Số thứ tự" },
-    { name: "Biển kiểm soát" },
-    { name: "Chủ sở hữu" },
-    { name: "Số tiền đã đóng" },
-    { name: "Ghi chú" },
   ];
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -90,6 +83,11 @@ function ChiTietKhoanThuPhuongtienPage() {
         console.log(err);
       });
   }, [vehicleFeeId]);
+
+  useEffect(() => {
+    setTotalFeeAmount(0);
+    vehicleReceipts.forEach(data => setTotalFeeAmount(totalFeeAmount => totalFeeAmount + data.amount));
+  }, [vehicleReceipts])
 
   const handleSearch = () => {
     console.log(starttime, endtime);
@@ -133,27 +131,26 @@ function ChiTietKhoanThuPhuongtienPage() {
   };
 
   return (
+    vehicleReceipts.length > 0 && 
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={2} padding={"50px"}>
         <Grid item xs={12}>
           <h1 style={{ fontSize: "40px" }}>Chi tiết {fee.name}</h1>
         </Grid>
-
-        <Grid item xs={6}>
-          <Typography style={{ fontSize: "24px", marginRight: "50px" }}>
-            Số phương tiện đã đóng: {fee.paidQuantity}
-          </Typography>
+        <Grid item xs={12}>
+          <span style={{ fontSize: "24px" }}><b>Số phương tiện đã đóng: </b></span>
+          <span style={{ fontSize: "24px", marginRight: "50px" }}>
+            {fee.paidQuantity}
+          </span>
         </Grid>
-
-        <Grid item xs={6}>
-          <Typography style={{ fontSize: "24px", marginRight: "50px" }}>
-            Tổng số tiền:{" "}
-            {fee.total &&
-              fee.total.toLocaleString("en-US", { style: "decimal" })}{" "}
-            đồng
-          </Typography>
+        <Grid item xs={12}>
+        <span style={{ fontSize: "24px" }}><b>Tổng số tiền: </b></span>
+        <span style={{ fontSize: "24px", marginRight: "50px" }}>
+          {fee.total &&
+            fee.total.toLocaleString("en-US", { style: "decimal" })}{" "}
+          đồng
+        </span>
         </Grid>
-
         <Grid item xs={12}>
           <FormControl>
             <FormGroup row>
@@ -245,7 +242,7 @@ function ChiTietKhoanThuPhuongtienPage() {
                       <TableCell style={{ fontSize: "18px" }}>
                         {vehicleReceipt.amount.toLocaleString("en-US", {
                           style: "decimal",
-                        })}{" "}
+                        })}{" "} đồng
                       </TableCell>
                       <TableCell style={{ fontSize: "18px" }}>
                         {new Date(
@@ -256,8 +253,8 @@ function ChiTietKhoanThuPhuongtienPage() {
                         {/* <NavLink to="/chitietphieuthuphuongtien">
                           <Typography style={{ fontSize: "18px" }}>Chi Tiết</Typography>
                         </NavLink> */}
-                        <a
-                          href={`${nextPagePathname}${vehicleReceipt.vehicleReceiptId}`}
+                        <Link
+                          to={`${nextPagePathname}${vehicleReceipt.vehicleReceiptId}`}
                         >
                           <Typography
                             style={{
@@ -265,17 +262,19 @@ function ChiTietKhoanThuPhuongtienPage() {
                               textDecoration: "underline",
                             }}
                           >
-                            Chi Tiết
+                            Chi tiết
                           </Typography>
-                        </a>
+                        </Link>
                       </TableCell>
                     </TableRow>
                   ))}
               </TableBody>
-              <tfoot>
+              <TableFooter>
+                <TableCell colSpan={3} style={{fontSize: 18}}>Tổng</TableCell>
+                <TableCell colSpan={3} style={{fontSize: 18}}>{totalFeeAmount.toLocaleString("en-US", {style: "decimal",})} đồng</TableCell>
                 <tr>
                   <TablePagination
-                    rowsPerPageOptions={[5, 8, 10, { label: "All", value: -1 }]}
+                    rowsPerPageOptions={[5, 8, 10, { label: "Tất cả", value: -1 }]}
                     colSpan={6}
                     count={vehicleReceipts.length}
                     rowsPerPage={rowsPerPage}
@@ -289,6 +288,8 @@ function ChiTietKhoanThuPhuongtienPage() {
                         showLastButton: true,
                       },
                     }}
+                    labelDisplayedRows={(page) => { return `${page.from} - ${page.to} trên ${page.count}` }}
+                    labelRowsPerPage={"Dòng mỗi trang:"}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                     sx={{
@@ -304,7 +305,7 @@ function ChiTietKhoanThuPhuongtienPage() {
                     }}
                   />
                 </tr>
-              </tfoot>
+              </TableFooter>
             </Table>
           </TableContainer>
         </Grid>

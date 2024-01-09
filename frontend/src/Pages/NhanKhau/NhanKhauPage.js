@@ -14,7 +14,7 @@ import {
 import ButtonAdd from "../../Layout/component/ButtonAdd";
 import { TablePagination } from "@mui/material";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ClassApi from "../../Api/Api";
@@ -135,18 +135,14 @@ function NhanKhau() {
                         </TableCell>
                         <TableCell>
                           {
-                            <NavLink to={"/chitietcudan/" + peop.personId}>
-                              <button
+                            <Link to={"/chitietcudan/" + peop.personId}
                                 style={{
-                                  backgroundColor: "transparent",
-                                  color: "blue",
                                   textDecoration: "underline",
-                                  fontSize: "18px"
+                                  fontSize: 18
                                 }}
                               >
                                 Chi tiết
-                              </button>
-                            </NavLink>
+                            </Link>
                           }
                         </TableCell>
                       </TableRow>
@@ -156,7 +152,7 @@ function NhanKhau() {
             <tfoot>
               <tr>
                 <TablePagination
-                  rowsPerPageOptions={[5, 8, 10, { label: "All", value: -1 }]}
+                  rowsPerPageOptions={[5, 8, 10, { label: "Tất cả", value: -1 }]}
                   colSpan={6}
                   count={allPeople.length}
                   rowsPerPage={rowsPerPage}
@@ -170,6 +166,8 @@ function NhanKhau() {
                       showLastButton: true,
                     },
                   }}
+                  labelDisplayedRows={(page) => { return `${page.from} - ${page.to} trên ${page.count}` }}
+                    labelRowsPerPage={"Dòng mỗi trang:"}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                   sx={{

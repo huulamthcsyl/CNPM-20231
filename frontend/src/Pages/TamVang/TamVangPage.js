@@ -2,7 +2,7 @@ import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TablePagi
 import ButtonAdd from "../../Layout/component/ButtonAdd";
 import src from "../../Icons/HoSo.png";
 import ButtonSearch from "../../Layout/component/ButtonSearch";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ClassApi from '../../Api/Api'
 const headTable = [
@@ -104,20 +104,11 @@ function TamVangPage() {
                           <Typography fontSize={"18px"} style={{ width: '200px' }}>{peop.person ? peop.person.identityCardNumber : ''}</Typography>
                         </TableCell>
                         <TableCell>
-                          {
-                            <NavLink to={"/chitiettamvang/" + peop.absent.absentPersonId}>
-                              <button
-                                style={{
-                                  backgroundColor: "transparent",
-                                  color: "blue",
-                                  textDecoration: "underline",
-                                  fontSize:"18px"
-                                }}
-                              >
-                                Chi tiết
-                              </button>
-                            </NavLink>
-                          }
+                          <Link to={"/chitiettamvang/" + peop.absent.absentPersonId}>
+                            <Typography style={{ fontSize: "18px" }}>
+                              Chi tiết
+                            </Typography>
+                          </Link>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -125,7 +116,7 @@ function TamVangPage() {
             <tfoot>
               <tr>
                 <TablePagination
-                  rowsPerPageOptions={[5, 8, 10, { label: "All", value: -1 }]}
+                  rowsPerPageOptions={[5, 8, 10, { label: "Tất cả", value: -1 }]}
                   colSpan={6}
                   count={people.length}
                   rowsPerPage={rowsPerPage}
@@ -139,6 +130,8 @@ function TamVangPage() {
                       showLastButton: true,
                     },
                   }}
+                  labelDisplayedRows={(page) => { return `${page.from} - ${page.to} trên ${page.count}` }}
+                  labelRowsPerPage={"Dòng mỗi trang:"}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                   sx={{
