@@ -113,11 +113,11 @@ function PersonAddPage() {
       toast.warn("Hãy chọn xã-phường!");
       return;
     }
-    if(!isNumeric(identityCardNumber.value)){
+    if(identityCardNumber.value != "" && !isNumeric(identityCardNumber.value)){
       toast.warn("CCCD chỉ chứa các chữ số 0-9");
       return;
     }
-    if(!isNumeric(phoneNumber.value)){
+    if(phoneNumber.value != "" && !isNumeric(phoneNumber.value)){
       toast.warn("Số điện thoại chỉ chứa các chữ số 0-9");
       return;
     }

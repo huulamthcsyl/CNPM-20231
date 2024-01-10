@@ -162,11 +162,11 @@ function PersonDetailPage() {
       toast.warn("Hãy chọn xã-phường!");
       return;
     }
-    if(!isNumeric(cccd)){
+    if(cccd.length > 0 && !isNumeric(cccd)){
       toast.warn("CCCD chỉ chứa các chữ số 0-9");
       return;
     }
-    if(!isNumeric(phoneNumber)){
+    if(phoneNumber.length > 0 && !isNumeric(phoneNumber)){
       toast.warn("Số điện thoại chỉ chứa các chữ số 0-9");
       return;
     }

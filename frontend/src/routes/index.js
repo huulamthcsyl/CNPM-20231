@@ -20,7 +20,7 @@ import ResidenceFeeDetailPage from "../Pages/ResidenceFee/ResidenceFeeDetailPage
 import ResidenceDetailPage from "../Pages/Residence/ResidenceDetailPage.js";
 import VehicleDetailPage from "../Pages/Vehicle/VehicleDetailPage.js";
 import VehicleFeeAddPage from "../Pages/VehicleFee/VehicleFeeAddPage.js";
-import ChiTietCuDanPage from "../Pages/Person/PersonDetailPage.js";
+import PersonDetailPage from "../Pages/Person/PersonDetailPage.js";
 import AbsentPersonAddPage from "../Pages/AbsentPerson/AbsentPersonAddPage.js";
 import VehicleReceiptDetailPage from "../Pages/VehicleReceipt/VehicleReceiptDetailPage.js";
 import VehicleFeeDetailPage from "../Pages/VehicleFee/VehicleFeeDetailPage.js";
@@ -55,7 +55,7 @@ const publicRoutes = [
   // Person
   { path: "/person", component: PersonPage },
   { path: "/person/add", component: PersonAddPage },
-  { path: "/person/detail/:id", component: ChiTietCuDanPage },
+  { path: "/person/detail/:id", component: PersonDetailPage },
 
   // Absent Person
   { path: "/absentPerson", component: AbsentPerson },
