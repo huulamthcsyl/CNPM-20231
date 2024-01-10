@@ -50,7 +50,6 @@ function ResidencePage() {
     ClassAPi.FindResidence(ownerName, address).then((response) => {
       setInfo(response.data)
     })
-
   }
   return (
     <Grid container spacing={2} style={{ padding: "50px" }}>
@@ -59,7 +58,7 @@ function ResidencePage() {
           Danh sách hộ dân
         </h1>
       </Grid>
-      <Grid item xs={12} style={{marginBottom: 30}}>
+      <Grid item xs={12} style={{ marginBottom: 30 }}>
         <ButtonAdd to="/residence/add" title="Thêm hộ dân"></ButtonAdd>
       </Grid>
       <Grid item xs={12}>
@@ -77,7 +76,7 @@ function ResidencePage() {
           style={{ marginRight: "35px" }}
           inputProps={{ style: { fontSize: "18px" } }}
           InputLabelProps={{ style: { fontSize: "20px" } }}
-          onChange={(e) => setOwnerName(e.target.value)}
+          onChange={(e) => setAddress(e.target.value)}
         />
       </Grid>
       <Grid item xs={12}>
@@ -128,10 +127,10 @@ function ResidencePage() {
                         <TableCell style={{ fontSize: '18px' }}>{colume.memberNumber}</TableCell>
                         <TableCell>
                           <Link to={"/residence/detail/" + colume.residenceId}>
-                          <Typography style={{ fontSize: "18px" }}>
-                            Chi tiết
-                          </Typography>
-                        </Link>
+                            <Typography style={{ fontSize: "18px" }}>
+                              Chi tiết
+                            </Typography>
+                          </Link>
                         </TableCell>
                       </TableRow>
                     ))}
