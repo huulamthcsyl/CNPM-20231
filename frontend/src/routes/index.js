@@ -23,7 +23,7 @@ import VehicleFeeAddPage from "../Pages/VehicleFee/VehicleFeeAddPage.js";
 import ChiTietCuDanPage from "../Pages/Person/PersonDetailPage.js";
 import AbsentPersonAddPage from "../Pages/AbsentPerson/AbsentPersonAddPage.js";
 import VehicleReceiptDetailPage from "../Pages/VehicleReceipt/VehicleReceiptDetailPage.js";
-import VehicleFeeDetailPage from "../Pages/VehicleFee/VehicleDetailDetailPage.js";
+import VehicleFeeDetailPage from "../Pages/VehicleFee/VehicleFeeDetailPage.js";
 import VehicleReceiptAddPage from "../Pages/VehicleReceipt/VehicleReceiptAddPage.js";
 import QTVLayout from "../Layout/QTVLayout.js";
 import AdminPage from "../Pages/Admin/AdminPage.js";
@@ -39,12 +39,12 @@ const publicRoutes = [
   // Residence Receipt
   { path: "/residenceReceipt", component: ResidenceReceiptPage },
   { path: "/residenceReceipt/add", component: ResidenceReceiptAddPage },
-  { path: "/residenceReceipt/detail", component: ResidenceReceiptDetailPage },
+  { path: "/residenceReceipt/detail/:id", component: ResidenceReceiptDetailPage },
 
   // Residence Fee
   { path: "/residenceFee", component: ResidenceFeePage },
   { path: "/residenceFee/add", component: ResidenceFeeAddPage },
-  { path: "/residenceFee/detail", component: ResidenceFeeDetailPage },
+  { path: "/residenceFee/detail/:id", component: ResidenceFeeDetailPage },
 
   // Residence
   { path: "/residence", component: ResidencePage },
@@ -70,12 +70,12 @@ const publicRoutes = [
   // Vehicle Fee
   { path: "/vehicleFee", component: VehicleFeePage },
   { path: "/vehicleFee/add", component: VehicleFeeAddPage },
-  { path: "/vehicleFee/detail", component: VehicleFeeDetailPage },
+  { path: "/vehicleFee/detail/:id", component: VehicleFeeDetailPage },
 
   // Vehicle Receipt
   { path: "/vehicleReceipt", component: VehicleReceiptPage },
   { path: "/vehicleReceipt/add", component: VehicleReceiptAddPage },
-  { path: "/vehicleReceipt/detail", component: VehicleReceiptDetailPage },
+  { path: "/vehicleReceipt/detail/:id", component: VehicleReceiptDetailPage },
 
   // Profile
   { path: "/profile", component: ProfilePage },

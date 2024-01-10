@@ -5,15 +5,15 @@ import { Table, TableBody, TableCell, TablePagination } from "@mui/material";
 import { TableRow, TableHead, TableContainer } from "@mui/material";
 import { Paper } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import { Select, MenuItem } from '@mui/material';
+import { Select, MenuItem } from "@mui/material";
 import { useState, useEffect } from "react";
 import PlusCircle from "../../Icons/PlusCircle.png";
-import ClassApi from "../../Api/Api"
+import ClassApi from "../../Api/Api";
 import { all } from "axios";
-
+import { useNavigate } from "react-router-dom";
 
 function VehiclePage() {
-
+  const navigate = useNavigate();
   const tableHeadName = [
     { name: "Số thứ tự" },
     { name: "Biển kiểm soát" },
@@ -22,10 +22,10 @@ function VehiclePage() {
     { name: "Ghi chú" },
   ];
 
-  const [allVehicle, setAllVehicles] = useState([])
-  const [licensePlate, setLicensePlate] = useState('')
-  const [ownerName, setOwnerName] = useState('')
-  const [category, setCategory] = useState('')
+  const [allVehicle, setAllVehicles] = useState([]);
+  const [licensePlate, setLicensePlate] = useState("");
+  const [ownerName, setOwnerName] = useState("");
+  const [category, setCategory] = useState("");
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -41,19 +41,20 @@ function VehiclePage() {
   const search = () => {
     setPage(0);
     ClassApi.FindVehicle(licensePlate, ownerName, category).then((respone) => {
-      setAllVehicles(respone.data)
+      setAllVehicles(respone.data);
     });
-    console.log('clicked')
-  }
+    console.log("clicked");
+  };
 
   useEffect(() => {
-    ClassApi.GetAllVehicles().then((response) => {
-      setAllVehicles(response.data);
-    }).catch((error) => {
-      console.error('Error fetching data:', error);
-    });
-  }, [])
-
+    ClassApi.GetAllVehicles()
+      .then((response) => {
+        setAllVehicles(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
   return (
     <Grid container spacing={2} style={{ padding: "50px" }}>
@@ -90,13 +91,17 @@ function VehiclePage() {
           onChange={(e) => setLicensePlate(e.target.value)}
         />
         <FormControl style={{ marginRight: "35px" }}>
-          <InputLabel style={{fontSize: 18}} id="type">Loại xe</InputLabel>
+          <InputLabel style={{ fontSize: 18 }} id="type">
+            Loại xe
+          </InputLabel>
           <Select
             labelId="type"
             label="Loại xe"
             style={{ width: "250px", fontSize: "18px" }}
             value={category}
-            onChange={(e) => { setCategory(e.target.value) }}
+            onChange={(e) => {
+              setCategory(e.target.value);
+            }}
           >
             <MenuItem value="" disabled>
               Chọn loại xe
@@ -142,13 +147,12 @@ function VehiclePage() {
               </TableRow>
             </TableHead>
             <TableBody>
-
               {allVehicle &&
                 (rowsPerPage > 0
                   ? allVehicle.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
                   : allVehicle
                 ).map((column, index) => (
                   <TableRow key={index}>
@@ -156,20 +160,25 @@ function VehiclePage() {
                       {page * rowsPerPage + index + 1}
                     </TableCell>
                     <TableCell style={{ fontSize: "18px" }}>
-                      {column.licensePlate ? column.licensePlate : ''}
+                      {column.licensePlate ? column.licensePlate : ""}
                     </TableCell>
                     <TableCell style={{ fontSize: "18px" }}>
-                      {column.category ? column.category : ''}
+                      {column.category ? column.category : ""}
                     </TableCell>
                     <TableCell style={{ fontSize: "18px" }}>
-                      {column.ownerName ? column.ownerName : ''}
+                      {column.ownerName ? column.ownerName : ""}
                     </TableCell>
-                    <TableCell style={{ fontSize: "18px" }}>
-
-                      <NavLink to={"/vehicle/detail/" + column.vehicleId}>
-                        Chi tiết
-                      </NavLink>
-
+                    <TableCell>
+                      <Button
+                        onClick={() =>
+                          navigate(`/vehicle/detail/${column.vehicleId}`)
+                        }
+                        style={{
+                          fontSize: "18px",
+                          color: "#0000EE",
+                          textTransform: "none",
+                        }}
+                      >Chi tiết</Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -177,7 +186,12 @@ function VehiclePage() {
             <tfoot>
               <tr>
                 <TablePagination
-                  rowsPerPageOptions={[5, 8, 10, { label: "Tất cả", value: -1 }]}
+                  rowsPerPageOptions={[
+                    5,
+                    8,
+                    10,
+                    { label: "Tất cả", value: -1 },
+                  ]}
                   colSpan={6}
                   count={allVehicle.length}
                   rowsPerPage={rowsPerPage}
@@ -191,7 +205,9 @@ function VehiclePage() {
                       showLastButton: true,
                     },
                   }}
-                  labelDisplayedRows={(page) => { return `${page.from} - ${page.to} trên ${page.count}` }}
+                  labelDisplayedRows={(page) => {
+                    return `${page.from} - ${page.to} trên ${page.count}`;
+                  }}
                   labelRowsPerPage={"Dòng mỗi trang:"}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
@@ -212,7 +228,6 @@ function VehiclePage() {
           </Table>
         </TableContainer>
       </Grid>
-
     </Grid>
   );
 }

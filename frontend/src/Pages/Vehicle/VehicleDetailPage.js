@@ -11,9 +11,9 @@ function VehicleDetailPage() {
   //   "ownerName": "Phùng Thanh Đăng"
   // })
   const [PhuongTien, setPhuongTien] = useState(null);
-  const param = useParams()
+  const param = useParams().id;
   useEffect(() => {
-    ClassApi.GetVehicleById(param.id).then((response) => {
+    ClassApi.GetVehicleById(param).then((response) => {
       setPhuongTien(response.data)
     })
   }, [])
@@ -75,19 +75,6 @@ function VehicleDetailPage() {
           </Button>
         </NavLink>
       </Grid>
-
-      {/* <Grid item>
-        <NavLink to="/vehicle">
-          <Button
-            variant="contained"
-            style={{ backgroundColor: "#FA7070", margin: "30px 30px" }}
-          >
-            <Typography variant="h4" style={{ color: "black" }}>
-              Xóa
-            </Typography>
-          </Button>
-        </NavLink>
-      </Grid> */}
     </Grid >
   )
 }

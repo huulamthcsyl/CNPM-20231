@@ -18,12 +18,9 @@ import { Link, NavLink } from "react-router-dom";
 import PlusCircle from "../../Icons/PlusCircle.png";
 import ClassApi from "../../Api/Api";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function ResidenceFeePage() {
-  const pathname = window.location.pathname;
-  const nextPagePathName =
-    pathname.substr(0, pathname.indexOf("/")) +
-    "/residenceFee/detail/?residenceFeeId=";
   const tableHeadName = [
     { name: "Số thứ tự" },
     { name: "Tên khoản thu" },
@@ -35,6 +32,8 @@ export default function ResidenceFeePage() {
   const [name, setName] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const navigate = useNavigate();
+
   const handleSearchName = () => {
     setPage(0);
     ClassApi.GetResidenceFeeByName(name)
@@ -149,11 +148,9 @@ export default function ResidenceFeePage() {
                       })} đồng
                     </TableCell>
                     <TableCell>
-                      <Link to={`${nextPagePathName}${payment.residenceFeeId}`}>
-                        <Typography style={{ fontSize: "18px" }}>
-                          Chi tiết
-                        </Typography>
-                      </Link>
+                    <Button style={{fontSize: "18px", color: "#0000EE", textTransform: "none"}} onClick={() => navigate(`/residenceFee/detail/${payment.residenceFeeId}`)}>
+                        Chi tiết
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}

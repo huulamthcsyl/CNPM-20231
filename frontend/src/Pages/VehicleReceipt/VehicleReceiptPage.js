@@ -18,20 +18,17 @@ import { format } from "date-fns";
 import ThuPhi from "../../Icons/ThuPhi.png";
 
 const CustomizedDatePicker = styled(DatePicker)`
-    & .MuiInputBase-input {
-      font-size: 18px;
-      width: 150px;
-    }
-    .MuiInputLabel-root {
-      font-size: 20px;
-    }
-  `;
+  & .MuiInputBase-input {
+    font-size: 18px;
+    width: 150px;
+  }
+  .MuiInputLabel-root {
+    font-size: 20px;
+  }
+`;
 
 function VehicleReceiptPage() {
-  const pathname = window.location.pathname;
-  const nextPagePathname =
-    pathname.substr(0, pathname.indexOf("/")) +
-    "/vehicleReceipt/detail/?vehicleReceiptId=";
+  const navigate = useNavigate();
 
   const [vehicleReceipts, setVehicleReceipts] = useState([]);
   const [lisensePlate, setLisensePlate] = useState("");
@@ -103,7 +100,10 @@ function VehicleReceiptPage() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={2} style={{ padding: "50px" }}>
         <Grid item xs={12}>
-          <h1 style={{ fontSize: "48px" }}> Danh sách phiếu thu phương tiện </h1>
+          <h1 style={{ fontSize: "48px" }}>
+            {" "}
+            Danh sách phiếu thu phương tiện{" "}
+          </h1>
         </Grid>
         <Grid item xs={12}>
           <NavLink to="/vehicleReceipt/add">
@@ -184,7 +184,10 @@ function VehicleReceiptPage() {
                 <TableRow>
                   {tableHeadName.map((column, index) => (
                     // <TableCell key={index}>
-                    <TableCell key={index} style={index === 0 ? { width: "10%" } : undefined}>
+                    <TableCell
+                      key={index}
+                      style={index === 0 ? { width: "10%" } : undefined}
+                    >
                       <Typography variant="h4" style={{ fontWeight: "bold" }}>
                         {column.name}
                       </Typography>
@@ -196,9 +199,9 @@ function VehicleReceiptPage() {
                 {vehicleReceipts &&
                   (rowsPerPage > 0
                     ? vehicleReceipts.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
                     : vehicleReceipts
                   ).map(
                     (vehicleReceipt, index) =>
@@ -218,7 +221,8 @@ function VehicleReceiptPage() {
                             {vehicleReceipt.amount.toLocaleString("en-US", {
                               style: "decimal",
                               minimumFractionDigits: 0,
-                            })} đồng
+                            })}{" "}
+                            đồng
                           </TableCell>
                           <TableCell style={{ fontSize: "18px" }}>
                             {new Date(
@@ -226,12 +230,18 @@ function VehicleReceiptPage() {
                             ).toLocaleDateString("en-GB")}
                           </TableCell>
                           <TableCell style={{ fontSize: "18px" }}>
-                            <Link
-                              to={`${nextPagePathname}${vehicleReceipt.vehicleReceiptId}`}
-                              style={{ textDecoration: "underline" }}
-                            >
-                              Chi tiết
-                            </Link>
+                            <Button
+                              style={{
+                                fontSize: "18px",
+                                color: "#0000EE",
+                                textTransform: "none",
+                              }}
+                              onClick={() =>
+                                navigate(
+                                  `/vehicleReceipt/detail/${vehicleReceipt.vehicleReceiptId}`
+                                )
+                              }
+                            >Chi tiết</Button>
                           </TableCell>
                         </TableRow>
                       )
@@ -240,7 +250,12 @@ function VehicleReceiptPage() {
               <tfoot>
                 <tr>
                   <TablePagination
-                    rowsPerPageOptions={[5, 8, 10, { label: "Tất cả", value: -1 }]}
+                    rowsPerPageOptions={[
+                      5,
+                      8,
+                      10,
+                      { label: "Tất cả", value: -1 },
+                    ]}
                     colSpan={6}
                     count={vehicleReceipts.length}
                     rowsPerPage={rowsPerPage}
@@ -254,7 +269,9 @@ function VehicleReceiptPage() {
                         showLastButton: true,
                       },
                     }}
-                    labelDisplayedRows={(page) => { return `${page.from} - ${page.to} trên ${page.count}` }}
+                    labelDisplayedRows={(page) => {
+                      return `${page.from} - ${page.to} trên ${page.count}`;
+                    }}
                     labelRowsPerPage={"Dòng mỗi trang:"}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
@@ -276,7 +293,7 @@ function VehicleReceiptPage() {
           </TableContainer>
         </Grid>
       </Grid>
-    </LocalizationProvider >
-  )
+    </LocalizationProvider>
+  );
 }
 export default VehicleReceiptPage;

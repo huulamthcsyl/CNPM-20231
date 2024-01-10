@@ -2,7 +2,13 @@ import React from "react";
 import { Grid, Button, Typography } from "@mui/material";
 import { FormControl, TextField } from "@mui/material";
 import { Table, TableBody, TableCell } from "@mui/material";
-import { TableRow, TableHead, TableContainer, TableFooter, TablePagination } from "@mui/material";
+import {
+  TableRow,
+  TableHead,
+  TableContainer,
+  TableFooter,
+  TablePagination,
+} from "@mui/material";
 import { Paper } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
 import PlusCircle from "../../Icons/PlusCircle.png";
@@ -10,13 +16,10 @@ import ThuPhi from "../../Icons/ThuPhi.png";
 import ClassApi from "../../Api/Api";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function VehicleFeePage() {
-  const pathname = window.location.pathname;
-  const nextPagePathName =
-    pathname.substr(0, pathname.indexOf("/")) +
-    "/vehicleFee/detail/?vehicleFeeId=";
-
+  const navigate = useNavigate();
   const tableHeadName = [
     { name: "Số thứ tự" },
     { name: "Tên khoản thu" },
@@ -90,7 +93,7 @@ function VehicleFeePage() {
       </Grid>
 
       <Grid item xs={12}>
-      <TextField
+        <TextField
           label="Tên khoản thu"
           variant="filled"
           style={{ marginRight: "35px" }}
@@ -127,14 +130,13 @@ function VehicleFeePage() {
               </TableRow>
             </TableHead>
 
-
             <TableBody>
               {payments &&
                 (rowsPerPage > 0
                   ? payments.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
                   : payments
                 ).map((payment, index) => (
                   <TableRow>
@@ -150,14 +152,22 @@ function VehicleFeePage() {
                     <TableCell style={{ fontSize: "18px" }}>
                       {payment.total.toLocaleString("en-US", {
                         style: "decimal",
-                      })} đồng
+                      })}{" "}
+                      đồng
                     </TableCell>
                     <TableCell>
-                      <Link to={`${nextPagePathName}${payment.vehicleFeeId}`}>
-                        <Typography style={{ fontSize: "18px" }}>
-                          Chi tiết
-                        </Typography>
-                      </Link>
+                      <Button
+                        onClick={() =>
+                          navigate(`/vehicleFee/detail/${payment.vehicleFeeId}`)
+                        }
+                        style={{
+                          fontSize: "18px",
+                          color: "#0000EE",
+                          textTransform: "none",
+                        }}
+                      >
+                        Chi tiết
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -202,7 +212,12 @@ function VehicleFeePage() {
               </TableRow>
               <tr>
                 <TablePagination
-                  rowsPerPageOptions={[5, 8, 10, { label: "Tất cả", value: -1 }]}
+                  rowsPerPageOptions={[
+                    5,
+                    8,
+                    10,
+                    { label: "Tất cả", value: -1 },
+                  ]}
                   colSpan={6}
                   count={payments.length}
                   rowsPerPage={rowsPerPage}
@@ -216,7 +231,9 @@ function VehicleFeePage() {
                       showLastButton: true,
                     },
                   }}
-                  labelDisplayedRows={(page) => { return `${page.from} - ${page.to} trên ${page.count}` }}
+                  labelDisplayedRows={(page) => {
+                    return `${page.from} - ${page.to} trên ${page.count}`;
+                  }}
                   labelRowsPerPage={"Dòng mỗi trang:"}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
@@ -234,12 +251,10 @@ function VehicleFeePage() {
                 />
               </tr>
             </TableFooter>
-
           </Table>
         </TableContainer>
       </Grid>
-
-    </Grid >
+    </Grid>
   );
 }
 

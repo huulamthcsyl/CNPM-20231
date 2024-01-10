@@ -4,7 +4,7 @@ import { TextField, Box } from "@mui/material";
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableRow, TableHead, TableContainer } from "@mui/material";
 import { Paper } from "@mui/material";
-import { Link, NavLink } from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ClassApi from "../../Api/Api";
 import { toast } from "react-toastify";
@@ -12,8 +12,7 @@ import { Autocomplete } from "@mui/material";
 import { VehicleReceiptPut } from "../../Models/VehicleReceiptPut"
 
 export default function VehicleReceiptDetailPage() {
-  const searchParams = new URLSearchParams(window.location.search);
-  const vehicleReceiptId = searchParams.get("vehicleReceiptId");
+  const vehicleReceiptId = useParams().id;
   const [vehicleReceipt, setVehicleReceipt] = useState({});
   const [payments, setPayments] = useState([]);
   const [dateCreated, setDateCreated] = useState("");
@@ -206,6 +205,16 @@ export default function VehicleReceiptDetailPage() {
         </Grid>
 
         <Grid item container direction="row" alignItems="center" sx={{ mt: 2 }}>
+          <Typography style={{ fontSize: "24px", marginRight: "62px" }}>
+            Chủ sở hữu
+          </Typography>
+          <TextField
+            style={{ width: "500px" }}
+            value={vehicleReceipt.personName}
+            inputProps={{ style: { fontSize: "18px" } }}
+          ></TextField>
+        </Grid>
+        <Grid item container direction="row" alignItems="center" sx={{ mt: 2 }}>
           <Typography style={{ fontSize: "24px", marginRight: "25px" }}>
             Biển kiểm soát
           </Typography>
@@ -353,7 +362,7 @@ export default function VehicleReceiptDetailPage() {
               Sửa phiếu thu
             </Typography>
           </Button>
-          <NavLink to="/" onClick={() => window.history.back()}>
+          <NavLink onClick={() => window.history.back()}>
             <Button
               variant="contained"
               style={{ backgroundColor: "#FA7070", marginLeft: "30px" }}

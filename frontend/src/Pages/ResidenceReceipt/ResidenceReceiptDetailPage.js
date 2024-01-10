@@ -8,10 +8,10 @@ import ClassApi from "../../Api/Api";
 import { Autocomplete, Box } from "@mui/material";
 import { toast } from "react-toastify";
 import { ResidenceReceipt } from "../../Models/ResidenceReceipt";
+import { useParams } from "react-router-dom";
 
 export default function ResidenceReceiptDetailPage() {
-  const searchParams = new URLSearchParams(window.location.search);
-  const residenceReceiptId = searchParams.get("residenceReceiptId");
+  const residenceReceiptId = useParams().id;
   const [residenceReceipt, setResidenceReceipt] = useState({});
   const [payments, setPayments] = useState([]);
   const [totalCost, setTotalCost] = useState(0);

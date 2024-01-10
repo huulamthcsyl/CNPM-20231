@@ -9,30 +9,24 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { styled } from "@mui/system";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import PlusCircle from "../../Icons/PlusCircle.png";
 import ClassApi from "../../Api/Api";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { format } from "date-fns";
-import { da } from "date-fns/locale";
-
 
 const CustomizedDatePicker = styled(DatePicker)`
-    & .MuiInputBase-input {
-      font-size: 18px;
-      width: 150px;
-    }
-    .MuiInputLabel-root {
-      font-size: 20px;
-    }
-  `;
+  & .MuiInputBase-input {
+    font-size: 18px;
+    width: 150px;
+  }
+  .MuiInputLabel-root {
+    font-size: 20px;
+  }
+`;
 
 export default function ResidenceReceiptPage() {
-  const pathname = window.location.pathname;
-  const nextPagePathname =
-    pathname.substr(0, pathname.indexOf("/")) +
-    "/residenceReceipt/detail?residenceReceiptId=";
+  const navigate = useNavigate();
   const [residenceReceipts, setResidenceReceipts] = useState([]);
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -85,7 +79,6 @@ export default function ResidenceReceiptPage() {
       });
   };
 
-  
   useEffect(() => {
     ClassApi.GetAllResidenceReceipt()
       .then((res) => {
@@ -148,7 +141,7 @@ export default function ResidenceReceiptPage() {
                 value={starttime}
                 onChange={(date) => {
                   setStarttime(date);
-                  console.log(date)
+                  console.log(date);
                 }}
                 format="DD-MM-YYYY"
               />
@@ -213,7 +206,8 @@ export default function ResidenceReceiptPage() {
                             {residenceReceipt.amount.toLocaleString("en-US", {
                               style: "decimal",
                               minimumFractionDigits: 0,
-                            })} đồng
+                            })}{" "}
+                            đồng
                           </TableCell>
                           <TableCell style={{ fontSize: "18px" }}>
                             {new Date(
@@ -221,12 +215,20 @@ export default function ResidenceReceiptPage() {
                             ).toLocaleDateString("en-GB")}
                           </TableCell>
                           <TableCell style={{ fontSize: "18px" }}>
-                            <Link
-                              to={`${nextPagePathname}${residenceReceipt.residenceReceiptsId}`}
-                              style={{ textDecoration: "underline" }}
+                            <Button
+                              style={{
+                                fontSize: "18px",
+                                color: "#0000EE",
+                                textTransform: "none",
+                              }}
+                              onClick={() =>
+                                navigate(
+                                  `/residenceReceipt/detail/${residenceReceipt.residenceReceiptsId}`
+                                )
+                              }
                             >
                               Chi tiết
-                            </Link>
+                            </Button>
                           </TableCell>
                         </TableRow>
                       )
@@ -235,7 +237,12 @@ export default function ResidenceReceiptPage() {
               <tfoot>
                 <tr>
                   <TablePagination
-                    rowsPerPageOptions={[5, 8, 10, { label: "Tất cả", value: -1 }]}
+                    rowsPerPageOptions={[
+                      5,
+                      8,
+                      10,
+                      { label: "Tất cả", value: -1 },
+                    ]}
                     colSpan={6}
                     count={residenceReceipts.length}
                     rowsPerPage={rowsPerPage}
@@ -249,7 +256,9 @@ export default function ResidenceReceiptPage() {
                         showLastButton: true,
                       },
                     }}
-                    labelDisplayedRows={(page) => { return `${page.from} - ${page.to} trên ${page.count}` }}
+                    labelDisplayedRows={(page) => {
+                      return `${page.from} - ${page.to} trên ${page.count}`;
+                    }}
                     labelRowsPerPage={"Dòng mỗi trang:"}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
