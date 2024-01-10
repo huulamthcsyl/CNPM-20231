@@ -49,6 +49,7 @@ function VehicleFeeDetailPage() {
   const [starttime, setStarttime] = useState(null);
   const [endtime, setEndtime] = useState(null);
   const [totalFeeAmount, setTotalFeeAmount] = useState(0);
+  const [loading, setLoading] = useState(true)
 
   const fields = [{ label: "Biển kiểm soát" }];
   const columnNames = [
@@ -73,6 +74,7 @@ function VehicleFeeDetailPage() {
       .then((res) => {
         setFee(res.data);
         // console.log(res.data);
+        setLoading(false)
       })
       .catch((err) => {
         toast.error(err.response.data);
@@ -82,6 +84,7 @@ function VehicleFeeDetailPage() {
       .then((res) => {
         setVehicleReceipts(res.data);
         // console.log(res.data);
+        setLoading(false)
       })
       .catch((err) => {
         toast.error(err.response.data);
@@ -95,7 +98,11 @@ function VehicleFeeDetailPage() {
       setTotalFeeAmount((totalFeeAmount) => totalFeeAmount + data.amount)
     );
   }, [vehicleReceipts]);
-
+  
+  if (loading) {
+    return null;
+  }
+  
   const handleSearch = () => {
     console.log(starttime, endtime);
     setPage(0);

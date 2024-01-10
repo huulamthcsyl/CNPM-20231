@@ -8,7 +8,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { styled } from "@mui/system";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useAsyncError } from "react-router-dom";
 import ClassApi from "../../Api/Api";
 import { toast } from "react-toastify";
 import { useParams, useNavigate } from "react-router-dom";
@@ -36,6 +36,7 @@ export default function ResidenceFeeDetailPage() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [totalFeeAmount, setTotalFeeAmount] = useState(0);
+  const [loading, setLoading] = useState(true);
   const tableHeadName = [
     { name: "Số thứ tự" },
     { name: "Họ và tên" },
@@ -57,6 +58,7 @@ export default function ResidenceFeeDetailPage() {
     ClassApi.GetResidenceFee(residenceFeeId)
       .then((res) => {
         setFee(res.data);
+        setLoading(false)
         // console.log(res.data);
       })
       .catch((err) => {
@@ -66,6 +68,7 @@ export default function ResidenceFeeDetailPage() {
     ClassApi.FindResidenceReceiptByFeeId("", "", "", "", residenceFeeId)
       .then((res) => {
         setResidenceReceipts(res.data);
+        setLoading(false)
         // console.log(res.data);
       })
       .catch((err) => {
@@ -80,7 +83,9 @@ export default function ResidenceFeeDetailPage() {
       setTotalFeeAmount((totalFeeAmount) => totalFeeAmount + data.amount)
     );
   }, [residenceReceipts]);
-
+  if (loading) {
+    return null;
+  }
   const handleSearch = (name, address, starttime, endtime, residenceFeeId) => {
     setPage(0);
     var startTime, endTime;
